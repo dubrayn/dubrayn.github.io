@@ -1,0 +1,56 @@
+div.cinescript, .reveal div.cinescript {
+  position: relative;
+  font-size: 1em;
+  display: inline-block;
+}
+div.cinescript pre, .reveal div.cinescript pre {
+  padding: 0;
+  margin: 0;
+}
+div.cinescript:hover, .reveal div.cinescript:hover {
+}
+div.cinescript .overlay, .reveal div.cinescript .overlay {
+  display: none;
+  z-index: 100;
+  background-color: none;
+}
+
+div.cinescript:hover .overlay, .reveal div.cinescript:hover .overlay {
+  display: block;
+  opacity: 0.5;
+}
+.overlay span {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.overlay i {
+  height: 1em;
+  width: 2em;
+  font-size: 3em;
+  padding: 0.5em; 
+  margin-left: 0.5em;
+}
+.overlay i:hover {
+  color: white;
+}
+
+.cine-fast-backward {
+  background: url('../javascript/emojis/rewind.png') no-repeat;
+  background-size: 1em;
+}
+
+.cine-play {
+  background: url('../javascript/emojis/arrow_forward.png') no-repeat;
+  background-size: 1em;
+}
+
+.cine-pause {
+  background: url('../javascript/emojis/zero.png') no-repeat;
+  background-size: 1em;
+}
+
+.cine-fast-forward {
+  background: url('../javascript/emojis/fast_forward.png') no-repeat;
+  background-size: 1em;
+}
