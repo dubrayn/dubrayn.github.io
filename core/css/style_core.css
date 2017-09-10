@@ -358,7 +358,7 @@ em {
 }
 
 div.remark-code-line:empty:before {
-    content: "\200b"; // unicode zero width space character
+    content: "\200b";
 }
 
 .remark-code {
@@ -370,7 +370,7 @@ div.remark-code-line:empty:before {
 }
 
 .reset     {color: white;}
-.bg-reset  {background-color: none;}
+.bg-reset  {}
 .dimgray   {color: rgba( 80,  80,  80, 1);}
 .red       {color: rgba(255,  65,  65, 1);}
 .green     {color: rgba(  0, 170,   0, 1);}
@@ -393,7 +393,7 @@ div.remark-code-line:empty:before {
 
 
 @page {
-  size: 908px 681px;
+/* size: 908px 681px; */
   margin: 0;
 }
 

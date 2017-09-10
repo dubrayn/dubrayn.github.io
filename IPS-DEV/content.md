@@ -2,7 +2,7 @@ class: titlepage leftm
 
 .title[Introduction to Scientific Programming]
 
-.subtitle[N. Dubray - ENSIIE - 2017]
+.subtitle[IPS-DEV - N. Dubray - ENSIIE - 2017]
 
 `$$\int_{-\infty}^\infty f(x)e^{-x^2} dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
 
@@ -10,7 +10,7 @@ class: titlepage leftm
 layout: true
 class: middle animated fadeIn
 
-.footnote[Introduction to Scientific Programming - N. Dubray - ENSIIE - 2017]
+.footnote[IPS-DEV - N. Dubray - ENSIIE - 2017]
 
 ---
 # Lecturer

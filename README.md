@@ -1,3 +1,1 @@
-# Presentations template
-
-Author: N. Dubray
+File left empty on purpose

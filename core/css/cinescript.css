@@ -12,7 +12,6 @@ div.cinescript:hover, .reveal div.cinescript:hover {
 div.cinescript .overlay, .reveal div.cinescript .overlay {
   display: none;
   z-index: 100;
-  background-color: none;
 }
 
 div.cinescript:hover .overlay, .reveal div.cinescript:hover .overlay {

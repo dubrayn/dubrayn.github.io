@@ -27,7 +27,7 @@
 }
 .cluster rect {
   fill: #cdffb2 !important;
-  rx: 4  !important;
+/*  rx: 4  !important; */
   stroke: #6eaa49 !important;
   stroke-width: 1px !important;
 }
@@ -47,13 +47,13 @@ text.actor {
 }
 .messageLine0 {
   stroke-width: 1.5;
-  stroke-dasharray: "2 2";
-  marker-end: "url(#arrowhead)";
+/*  stroke-dasharray: "2 2"; */
+/*  marker-end: "url(#arrowhead)"; */
   stroke: #333;
 }
 .messageLine1 {
   stroke-width: 1.5;
-  stroke-dasharray: "2 2";
+/*  stroke-dasharray: "2 2"; */
   stroke: #333;
 }
 #arrowhead {
@@ -81,8 +81,8 @@ text.actor {
 }
 .loopLine {
   stroke-width: 2;
-  stroke-dasharray: "2 2";
-  marker-end: "url(#arrowhead)";
+/*  stroke-dasharray: "2 2"; */
+/*  marker-end: "url(#arrowhead)"; */
   stroke: #326932;
 }
 .note {
@@ -126,7 +126,7 @@ text.actor {
 .sectionTitle {
   text-anchor: start;
   font-size: 11px;
-  text-height: 14px;
+/*  text-height: 14px; */
 }
 /* Grid and axis */
 .grid .tick {
