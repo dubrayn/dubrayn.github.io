@@ -1,0 +1,197 @@
+Script started on Sat 24 Jun 2017 12:22:46 AM CEST
+[0;38;5;231;48;5;31;1m dubrayn [0;38;5;31;48;5;240;22m [0;38;5;252;48;5;240;1m~ [0;38;5;240;49;22m [0mcd workspace/hf[K[Kboulot/hfb3/
+[0;38;5;231;48;5;31;1m dubrayn [0;38;5;31;48;5;240;22m [0;38;5;250;48;5;240m~ [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mworkspace [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mboulot [0;38;5;245;48;5;240;22m [0;38;5;252;48;5;240;1mhfb3 [0;38;5;240;49;22m [0mcd legacy/berger2ct/hfb2ct_1.9_21062014/
+[0;38;5;231;48;5;31;1m dubrayn [0;38;5;31;48;5;240;22m [0;38;5;250;48;5;240m⋯ [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mlegacy [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mberger2ct [0;38;5;245;48;5;240;22m [0;38;5;252;48;5;240;1mhfb2ct_1.9_21062014 [0;38;5;240;49;22m [0mvim hfbcs.f 
+[?1000h[?1049h[?1h=[2;1H▽[6n[2;1H  [1;1H]11;?[1;32r[?12;25h[?12l[?25h[27m[23m[m[H[2J[?25l[32;1H"hfbcs.f" 24698L, 783098C[>c[27m[23m[m[H[2J[1;1H[96m!=======================================================================
+!============================= HFB2CT v1.8 =============================
+!=======================================================================
+!
+!                         :=,    ..
+!                           +vi,   <i.
+!                            {vvi,  {v=.
+!                   .... .   -vvvv=.:vvv;
+!               ._%vvvvvvvsi==vvvvvi_vvvv>
+!        _.   .=vnvvvvvvvvvvvnvvvvvvvvvvvv;
+!        -vi==vvvvvvvvvvvIvvvvvvvvvvvvvvvvi
+!        .<vvnvvvvvIIllvIvIvvvvvvvvvvvvvvIi
+!     _|ivvvvvvvvvvi%XooouavIllivIvlIvvIvI+
+!      -~+ivvvvvIIilli?#ZZZZZZqqoooaavi++-
+!         %vvvvvvviISua3ZZZZZZZZZ#ZZZXq,.
+!        =nvvvIvvvvviSZXZZZZZXZZZXXZZZZZz.
+!        vvvvvvvvIvvI>3ZZXZZZZZZXXvXXXZXZXc
+!        vvvvIvvvvvvvv>#232SSXr{X2X>Xwonc<o;       ____________________
+!        =lvvvvvIIIIIvi]#>SoouowSooi%nXZmXX`      |                    |
+!         -+vIvv%vunoi1)#odXZZUXZZhdZpn211=       |    NOT SURE IF     |
+!           -~+i<Zinoq>]#XZZZZZZZZZZXZXqqqmc      | UGLIEST CODE EVER  |
+!               -3ooXXXZZZZZZZZZXZZZZZX2221`     /  OR F77 MASTERPIECE |
+!                 ~"{dZZZZZZZZZXZZZZXZZXXXXs.   /______________________|
+!                    3ZZZZXZZXZZZZZXZZZZZZZZw,.
+!                    )ZZZZZZZZZZZZXZZZZXXXXXXX(
+!                    =ZZZXZZZZZZZXoooooz--- -
+!                  .;<ZZZZZZZXZZXZUZZY^-
+!                 :+;)#XZZZZZZZZZZZ2`
+!                :++=]ZZZZZZXZZZZZe:;.
+!            ._===+=+=XSXXXZZZZZZ2==+=[m
+[1m[7mhfbcs.f                                                                                 1,1            Top[m[32;1H"hfbcs.f" 24698L, 783098C[1;1H]2;hfbcs.f (~/workspace/boulot/hfb3/legacy/berger2ct/hfb2ct_1.9_21062014) - VIM]1;hfbcs.f[?12l[?25h[?1000l[?1006h[?1002h[?1006l[?1002l[?1006h[?1002hP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[?25l[31;89H[1m[7m2,[2;1H[?12l[?25h[?25l[31;89H3,[3;1H[?12l[?25h[?25l[31;89H4,[4;1H[?12l[?25h[?25l[31;89H5,[5;1H[?12l[?25h[?25l[31;89H6,[6;1H[?12l[?25h[?25l[31;89H7,[7;1H[?12l[?25h[?25l[31;89H8,[8;1H[?12l[?25h[?25l[31;89H9,[9;1H[?12l[?25h[?25l[31;89H10,1[10;1H[?12l[?25h[?25l[31;90H1,[11;1H[?12l[?25h[?25l[31;90H2,[12;1H[?12l[?25h[?25l[31;90H3,[13;1H[?12l[?25h[?25l[31;90H4,[14;1H[?12l[?25h[?25l[31;90H5,[15;1H[?12l[?25h[?25l[31;90H6,[16;1H[?12l[?25h[?25l[31;90H7,[17;1H[?12l[?25h[?25l[31;90H8,[18;1H[?12l[?25h[?25l[31;90H9,[19;1H[?12l[?25h[?25l[31;89H20,[20;1H[?12l[?25h[?25l[31;90H1,[21;1H[?12l[?25h[?25l[31;90H2,[22;1H[?12l[?25h[?25l[31;90H3,[23;1H[?12l[?25h[?25l[31;90H4,[24;1H[?12l[?25h[?25l[31;90H5,[25;1H[?12l[?25h[?25l[31;90H6,[26;1H[?12l[?25h[?25l[31;90H7,[27;1H[?12l[?25h[?25l[31;90H8,[28;1H[?12l[?25h[?25l[31;90H9,[29;1H[?12l[?25h[?25l[31;89H30,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;1H[96m!          :==++:=++=;]QwwwXS2S2Xqk:++=.[m[32;1H[K[31;90H[1m[7m1,[12C 0%[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;1H[96m!       .:+=++=+:+=+=+;4QQQQQWQQWWW;=+=;;.[m[31;90H[1m[7m2,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;1H[96m!     .==+++=+++;=+=+++:4QWWWWBWWWWc:+=+;=.[m[31;90H[1m[7m3,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;1H[96m!=======================================================================[m[31;90H[1m[7m4,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;1H[96m![m[31;90H[1m[7m5,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;1H[96m! Authors: J.-F. Berger, N. Dubray[m[31;90H[1m[7m6,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;1H[96m![m[31;90H[1m[7m7,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;1H[96m! CEA, DAM, DIF[m[31;90H[1m[7m8,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;1H[96m! F-91297 Arpajon[m[31;90H[1m[7m9,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;1H[96m! France[m[31;89H[1m[7m40,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;1H[96m![m[31;90H[1m[7m1,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;1H[96m!=======================================================================[m[31;90H[1m[7m2,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;7H[38;5;81mmodule[m dynam_tables[31;90H[1m[7m3,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;9H[38;5;121minteger[m n[31;90H[1m[7m4,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;9H[38;5;121minteger[m njdx[31;90H[1m[7m5,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;9H[38;5;121minteger[m njx12[31;90H[1m[7m6,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;9H[38;5;121minteger[m ndelv[31;90H[1m[7m7,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;9H[38;5;121minteger[m ndm01[31;90H[1m[7m8,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;9H[38;5;121minteger[m ndm02[31;90H[1m[7m9,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;9H[38;5;121minteger[m ndm03[31;89H[1m[7m50,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;9H[38;5;121minteger[m ndm04[31;90H[1m[7m1,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;9H[38;5;121minteger[m ndm05[31;90H[1m[7m2,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;9H[38;5;121minteger[m ndm06[31;90H[1m[7m3,[30;1H[?12l[?25h[?25l[27m[23m[m[H[2J[1;9H[38;5;121minteger[m ndm05[2;9H[38;5;121minteger[m ndm06[3;9H[38;5;121minteger[m ndm07[4;9H[38;5;121minteger[m ndm08[5;9H[38;5;121minteger[m ndm09[6;9H[38;5;121minteger[m ndm10[7;9H[38;5;121minteger[m ndtot
+[38;5;121m        real[m, [38;5;121mdimension[m (:), [38;5;121mallocatable[m :: TABLE01
+[38;5;121m        real[m, [38;5;121mdimension[m (:), [38;5;121mallocatable[m :: TABLE02
+[38;5;121m        real[m, [38;5;121mdimension[m (:), [38;5;121mallocatable[m :: TABLE03
+[38;5;121m        real[m, [38;5;121mdimension[m (:), [38;5;121mallocatable[m :: TABLE04
+[38;5;121m        real[m, [38;5;121mdimension[m (:), [38;5;121mallocatable[m :: TABLE05
+[38;5;121m        real[m, [38;5;121mdimension[m (:), [38;5;121mallocatable[m :: TABLE06
+[38;5;121m        real[m, [38;5;121mdimension[m (:), [38;5;121mallocatable[m :: TABLE07
+[38;5;121m        real[m, [38;5;121mdimension[m (:), [38;5;121mallocatable[m :: TABLE08
+[38;5;121m        real[m, [38;5;121mdimension[m (:), [38;5;121mallocatable[m :: TABLE09
+[38;5;121m        real[m, [38;5;121mdimension[m (:), [38;5;121mallocatable[m :: TABLE10[18;9H[38;5;121minteger[m, [38;5;121mdimension[m (:), [38;5;121mallocatable[m :: k[19;7H[38;5;81mend module[m
+[96m! ======================================================================[m[21;7H[38;5;81mmodule[m dynam_tables2
+[96m!        integer ndtot
+!        integer, dimension (:), allocatable :: k[m
+[38;5;121m        real[m, [38;5;121mdimension[m (:,:,:), [38;5;121mallocatable[m :: rro
+[38;5;121m        real[m, [38;5;121mdimension[m (:,:,:), [38;5;121mallocatable[m :: exar
+[38;5;121m        real[m, [38;5;121mdimension[m (:), [38;5;121mallocatable[m :: elvz
+[38;5;121m        real[m, [38;5;121mdimension[m (:,:,:), [38;5;121mallocatable[m :: rso[28;7H[38;5;81mend module[m
+[96m! ======================================================================[m[30;7H[38;5;81msubroutine[m hfbasym
+[1m[7mhfbcs.f                                                                                 52,9            0%[1;9H[?12l[?25h[?25l[27m[23m[m[H[2J[1;1H[96m! ======================================================================[m[2;7H[38;5;81msubroutine[m hfbasym[3;7H[38;5;81muse[m dynam_tables[4;7H[38;5;81muse[m dynam_tables2[5;7H[38;5;121mimplicit[m [38;5;121mdouble precision[m(a[93m-[mh,o[93m-[mu,w[93m-[mz),[1m[96mlogical[m(v)
+[96m! ======================================================================
+! ======================================================================[m[8;7H[38;5;121mcharacter[m motcle[93m*[m[95m5[m
+[96m!      dimension k(ndtot),e(1),x(1)
+!      equivalence (e(1),x(1)),(e(1),k(1))   ! << HAAAAAAAAAAAAAA !!![m[11;7H[38;5;121mcommon[m[93m/[midisc[93m/[mmdisc([95m4[m,[95m10[m),vpdisc([95m10[m),nmots([95m10[m),nenr([95m10[m),nlog([95m10[m)[12;7H[38;5;121mcommon[m[93m/[mdimpar[93m/[mntotp,jdxp,jx12p,nelvp, nm01p,nm02p,nm03p,[13;6H[38;5;224m*[m[14Cnm04p,nm05p,nm06p,nm07p,nm08p,nm09p,nm10p[14;7H[38;5;121mcommon[m[93m/[mmod_sizes[93m/[m is1,is2,is3,is4,is5,is6,is7,is8,is9,is10,[15;6H[38;5;224m*[m[18Cindm01,indm02,indm03,indm04,indm05,[16;6H[38;5;224m*[m[18Cindm06,indm07,indm08,indm09,indm10,[17;6H[38;5;224m*[m[18Cindtot,injdx,injx12,indelv
+[96m! --- nenrm(1-10)=     220       1       1       2       1
+!                       40       1       1       1      51
+!      COMMON /NOEL01/ TABLE01(1:    8192* 220)
+!      COMMON /NOEL02/ TABLE02(1:   89476*   1)
+!      COMMON /NOEL03/ TABLE03(1:   57040*   1)
+!      COMMON /NOEL04/ TABLE04(1:   86490*   2)
+!      COMMON /NOEL05/ TABLE05(1:   18432*   1)
+!      COMMON /NOEL06/ TABLE06(1:   49410*  40)
+!      COMMON /NOEL07/ TABLE07(1:   15284*   1)
+!      COMMON /NOEL08/ TABLE08(1:    7744*   1)
+!      COMMON /NOEL09/ TABLE09(1:  115586*   1)
+!      COMMON /NOEL10/ TABLE10(1:   84008*  51)[m[30;7H[38;5;121mcommon[m[93m/[mdimmax[93m/[milmax([95m10[m)
+[1m[7mhfbcs.f                                                                                 80,1            0%[1;1H[?12l[?25h[?25l[32;1H[m:[?12l[?25hq[?25l[?12l[?25h[?25l[?1006l[?1002l]2;Terminal]1;Terminal[32;1H[K[32;1H[?1l>[?12l[?25h[?1049l[0;38;5;231;48;5;31;1m dubrayn [0;38;5;31;48;5;240;22m [0;38;5;250;48;5;240m⋯ [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mlegacy [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mberger2ct [0;38;5;245;48;5;240;22m [0;38;5;252;48;5;240;1mhfb2ct_1.9_21062014 [0;38;5;240;49;22m [0mcd ..
+[0;38;5;231;48;5;31;1m dubrayn [0;38;5;31;48;5;240;22m [0;38;5;250;48;5;240m⋯ [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mhfb3 [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mlegacy [0;38;5;245;48;5;240;22m [0;38;5;252;48;5;240;1mberger2ct [0;38;5;240;49;22m [0mcd ..
+[0;38;5;231;48;5;31;1m dubrayn [0;38;5;31;48;5;240;22m [0;38;5;250;48;5;240m⋯ [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mboulot [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mhfb3 [0;38;5;245;48;5;240;22m [0;38;5;252;48;5;240;1mlegacy [0;38;5;240;49;22m [0mcd ..
+[0;38;5;231;48;5;31;1m dubrayn [0;38;5;31;48;5;240;22m [0;38;5;250;48;5;240m~ [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mworkspace [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mboulot [0;38;5;245;48;5;240;22m [0;38;5;252;48;5;240;1mhfb3 [0;38;5;240;49;22m [0mcd srcc
+bash: cd: srcc: No such file or directory
+[0;38;5;231;48;5;31;1m dubrayn [0;38;5;31;48;5;240;22m [0;38;5;250;48;5;240m~ [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mworkspace [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mboulot [0;38;5;245;48;5;240;22m [0;38;5;252;48;5;240;1mhfb3 [0;38;5;240;49;22m [0mcd srcc
+bash: cd: srcc: No such file or directory
+[0;38;5;231;48;5;31;1m dubrayn [0;38;5;31;48;5;240;22m [0;38;5;250;48;5;240m~ [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mworkspace [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mboulot [0;38;5;245;48;5;240;22m [0;38;5;252;48;5;240;1mhfb3 [0;38;5;240;49;22m [0ms[Kcd srcc[K[K[K[K[K[K[Kcd src
+[0;38;5;231;48;5;31;1m dubrayn [0;38;5;31;48;5;240;22m [0;38;5;250;48;5;240m⋯ [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mboulot [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mhfb3 [0;38;5;245;48;5;240;22m [0;38;5;252;48;5;240;1msrc [0;38;5;240;49;22m [0mvim main.cpp 
+[?1000h[?1049h[?1h=[2;1H▽[6n[2;1H  [1;1H]11;?[1;32r[?12;25h[?12l[?25h[27m[23m[m[H[2J[?25l[32;1H"main.cpp" 232L, 5811C[>c[27m[23m[m[H[2J[1;1H[38;5;81m#include [m[95m<iostream>[m
+
+[38;5;81m#include [m[95m"hfb3.h"[m
+
+[96m/** \file
+ *  \brief Main program.
+ */
+
+/*
+ *     +---+   +---+-----------+-------+       +-----------+
+ *    /   /|  /   /           /       /+---+  /           /|
+ *   /   / | /   /           /       //   /| /           / |
+ *  +---+  ++---+-----------+-------+/   / |+-----------+  |
+ *  |   | / |   |           |       +---+  ||           |  |
+ *  |   |/  |   |           |           |  ||           |  |
+ *  |   +---+   |   ----+---+   -----   |  |+---+---    |  |
+ *  |           |       | / |           |  |  / |       |  |
+ *  |           |       |/  |           |  + /  |       |  |
+ *  |   +---+   |   +---+   |   -----   | / +---+---    |  +
+ *  |   | / |   |   | /     |           |/  |           | /
+ *  |   |/  |   |   |/      |       +---+   |           |/
+ *  +---+   +---+---+       +-------+       +-----------+
+ *
+ */
+
+/** \brief The main routine.
+ *
+ *
+ *  Let's go.
+ */[m
+[1m[7mmain.cpp                                                                                1,1            Top[m[32;1H"main.cpp" 232L, 5811C[1;1H]2;main.cpp (~/workspace/boulot/hfb3/src) - VIM]1;main.cpp[?12l[?25h[?1000l[?1006h[?1002h[?1006l[?1002l[?1006h[?1002hP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[?25l[31;89H[1m[7m2,0-1[2;1H[?12l[?25h[?25l[31;89H3,1   [3;1H[?12l[?25h[?25l[31;89H4,0-1[4;1H[?12l[?25h[?25l[31;89H5,1   [5;1H[?12l[?25h[?25l[31;89H6,[6;1H[?12l[?25h[?25l[31;89H7,[7;1H[?12l[?25h[?25l[31;89H8,0-1[8;1H[?12l[?25h[?25l[31;89H9,1   [9;1H[?12l[?25h[?25l[31;89H10,1[10;1H[?12l[?25h[?25l[31;90H1,[11;1H[?12l[?25h[?25l[31;90H2,[12;1H[?12l[?25h[?25l[31;90H3,[13;1H[?12l[?25h[?25l[31;90H4,[14;1H[?12l[?25h[?25l[31;90H5,[15;1H[?12l[?25h[?25l[31;90H6,[16;1H[?12l[?25h[?25l[31;90H7,[17;1H[?12l[?25h[?25l[31;90H8,[18;1H[?12l[?25h[?25l[31;90H9,[19;1H[?12l[?25h[?25l[31;89H20,[20;1H[?12l[?25h[?25l[31;90H1,[21;1H[?12l[?25h[?25l[31;90H2,[22;1H[?12l[?25h[?25l[31;90H3,[23;1H[?12l[?25h[?25l[31;90H4,[24;1H[?12l[?25h[?25l[31;90H5,0-1[25;1H[?12l[?25h[?25l[31;90H6,1   [26;1H[?12l[?25h[?25l[31;90H7,[27;1H[?12l[?25h[?25l[31;90H8,[28;1H[?12l[?25h[?25l[31;90H9,[29;1H[?12l[?25h[?25l[31;89H30,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[32;1H[K[31;90H[1m[7m1,0-1[9C 0%[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;1H[38;5;121mint[m main([38;5;121mint[m argc, [38;5;121mchar[m **argv)[31;90H[1m[7m2,1   [30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;1H{[31;90H[1m[7m3,[13C1%[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;3HConfig config(argc, argv);[31;90H[1m[7m4,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[31;90H[1m[7m5,0-1[10C2%[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;3H[93mif[m (verbose) Tools::timer(__PRETTY_FUNCTION__);[31;90H[1m[7m6,1   [30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[31;90H[1m[7m7,0-1[10C3%[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;3H[38;5;121mint[m action = config.action;[31;90H[1m[7m8,1   [30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;3H[93mif[m (action == Config::ACTION_QUIT)[31;90H[1m[7m9,[13C4%[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;3H{[31;89H[1m[7m40,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;5HTools::end();[31;90H[1m[7m1,[13C5%[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;3H}[31;90H[1m[7m2,[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[31;90H[1m[7m3,0-1[10C6%[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;3H[96m//===== Load a DataTree =====[m[31;90H[1m[7m4,1   [30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;3HDataTree dataTree;[31;90H[1m[7m5,[13C7%[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[31;90H[1m[7m6,0-1[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;3H[93mtry[m[31;90H[1m[7m7,1   [9C8%[30;1H[?12l[?25h[?25l[1;30r[m[30;1H
+[1;32r[30;3H{[31;90H[1m[7m8,[30;1H[?12l[?25h[?25l[27m[23m[m[H[2J[1;3H[93mtry[m
+  {
+    std::string content;
+    [93mif[m (config.loadFilename == [95m"-"[m)
+    {[6;7Hcontent = Tools::readCin();
+    }
+    [93melse[m
+    {[10;7Hcontent = Tools::readFile(config.loadFilename);
+    }[13;5HdataTree = DataTree().load(content);
+  }
+  [93mcatch[m (std::string msg)
+  {
+    Tools::error(msg);
+  }
+
+  [96m//===== Update the DataTree with CLI options =====[m
+  config.updateDataTree(dataTree);
+
+  [93mtry[m
+  {
+    Hfb hfb(dataTree);[27;5H[96m//===== Operations on the solution =====[m
+    [93mfor[m ([38;5;121munsigned[m [38;5;121mint[m iop=[95m0[m; iop < config.operations.size(); iop++)
+    {[30;7H[38;5;121mchar[m op = config.operations[iop];
+[1m[7mmain.cpp                                                                                47,3           22%[1;3H[?12l[?25h[?25l[m  [46m{[m
+      [38;5;121mchar[m op = config.operations[iop];
+      [93mswitch[m (op)[3;18H[K[4;5H  {[4;8H[K[5;5H    [93mcase[m [95m'P'[m: [96m// parity[m[6;7H  {[6;10H[K[7;5H      hfb.solution.calcParity();
+          [93mbreak[m;
+        }[10;7H}[10;8H[K[11;5H[46m}[m
+    hfb.solution.updateDataTree(dataTree);
+    [93mif[m (config.operations.size() != [95m0[m)[13;39H[K[14;3H  {
+      [96m// berger/jobname berger/parent[m
+      std::string parent = dataTree.getString([95m"berger/jobname"[m);
+      dataTree.set([95m"berger/parent"[m, parent);
+      std::string jobname = parent + [95m':'[m;[19;7H[93mfor[m ([38;5;121munsigned[m [38;5;121mint[m iop=[95m0[m; iop < config.operations.size(); iop++)
+      {[20;8H[K[21;3H      jobname += config.operations[iop];[22;7H}
+      dataTree.set([95m"berger/jobname"[m, jobname);
+    }[25;5H[K[26;5H[93mif[m (config.newname != [95m""[m)
+    {[27;6H[K[28;5H  dataTree.set([95m"berger/jobname"[m, config.newname);[28;54H[K[29;5H}[30;7H[K[31;89H[1m[7m75,5 [10C36%[1;5H[?12l[?25h[?25l[1;30r[m[1;1H[L[1;32r[1;5H[93mfor[m ([38;5;121munsigned[m [38;5;121mint[m iop=[95m0[m; iop < config.operations.size(); iop++)
+    {[12;5H}[31;90H[1m[7m4,[1;5H[?12l[?25h[?25l[m
+    [46m{[12;5H}[m[31;90H[1m[7m5,[2;5H[?12l[?25h[?25l[m{[12;5H}[31;90H[1m[7m6,[3;5H[?12l[?25h[?25l[31;90H7,[4;5H[?12l[?25h[?25l[31;90H8,[5;5H[?12l[?25h[?25l[31;90H9,[6;5H[?12l[?25h[?25l[31;89H80,[7;5H[?12l[?25h[?25l[31;90H1,[8;5H[?12l[?25h[?25l[31;90H2,[9;5H[?12l[?25h[?25l[32;1H[m/[?12l[?25hi[?25l[?12l[?25hf[?25l[?12l[?25h[?25l[31;90H[1m[7m7,[14;5H[?12l[?25h[?25l[27m[23m[m[H[2J[1;7HdataTree.set([95m"berger/jobname"[m, config.newname);
+    }[4;5H[96m//===== Save DataTree to Msgpack[m
+    [93mif[m (config.saveFilename != [95m""[m)
+    {[7;7HdataTree.save(config.saveFilename);
+    }[10;5H[96m//===== test =====[m
+    [93mif[m (action == Config::ACTION_TEST)
+    {[13;7Harma::mat &rhon = hfb.solution.rhon;[14;7Harma::mat &rhop = hfb.solution.rhop;[15;7Harma::mat rhot = rhon + rhop;[16;7Harma::mat &kappan = hfb.solution.kappan;[17;7Harma::mat &kappap = hfb.solution.kappap;[19;7HSolution solution = hfb.solution;[21;7HFields fields(hfb.solution.basis, Inter(), Fields::CALC_INDIVIDUAL);[22;7Hfields.calcKineticField(hfb.solution.nNeut + hfb.solution.nProt);[23;7Hfields.calcCentralField(rhon, rhop, kappan, kappap);[24;7Hfields.calcDensCentralField(rhon, rhop);[25;7Hfields.calcEnergies(rhon, rhop, kappan, kappap);[27;7Harma::vec bergerEnergiesNeut = dataTree.getVec([95m"berger/energiesNeut"[m);[28;7Harma::vec bergerEnergiesProt = dataTree.getVec([95m"berger/energiesProt"[m);[30;7Hstd::cout << fields.printEnergies(bergerEnergiesNeut, bergerEnergiesProt);
+[1m[7mmain.cpp                                                                                102,7          50%[1;7H[?12l[?25h[?25l[m[32;1H/if[31;91H[1m[7m6,5 [5;5H[?12l[?25h[?25l[32;1H[31;90H12,[11;5H[?12l[?25h[?25l[m[32;1H[K[32;1H:[?12l[?25hq[?25l[?12l[?25h[?25l[?1006l[?1002l]2;Terminal]1;Terminal[32;1H[K[32;1H[?1l>[?12l[?25h[?1049l[0;38;5;231;48;5;31;1m dubrayn [0;38;5;31;48;5;240;22m [0;38;5;250;48;5;240m⋯ [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mboulot [0;38;5;245;48;5;240;22m [0;38;5;250;48;5;240mhfb3 [0;38;5;245;48;5;240;22m [0;38;5;252;48;5;240;1msrc [0;38;5;240;49;22m [0mexit

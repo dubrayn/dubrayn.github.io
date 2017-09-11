@@ -35,8 +35,7 @@ class: middle animated fadeIn
 * *PSA.???:* TBA
 
 ## Evaluation
-* project report
-* project presentation
+* project presentation [~15min] + questions [~10min]
 
 ## TPs timeline
 <div class="mermaid">
@@ -50,51 +49,6 @@ class: middle animated fadeIn
     style F fill:#f9f
 </div>
 
----
-# IPS.DEV - Project timeline
-
-## Week #1 - Initialization
- * initialize a `git` project
- * prepare the compilation chain
- * prepare the documentation generation
- * prepare the unit tests
- * write an empty prog which only parses the CLI flags
-
-## Weeks #2, #3, #4 ( :warning: overly optimistic schedule :warning: )
- * calculate HO cylindrical solutions
- * check `\(H|i\rangle=E_i|i\rangle\)`
- * numerically check `\(\langle i|j\rangle = \delta_{ij}\)`
- * calculate a cylindrical local density
- * calculate the Gauss-Hermite coefs.
- * calculate the Gauss-Laguerre coefs.
- * calculate some cylindrical multipole moments `\(\langle\psi|\hat{Q}_{\lambda 0}|\psi\rangle\)`
-
-## Week #5
- * prepare report
- * prepare presentation
-
----
-# Project rules
-
-## Mandatory rules:
-* the source must be in `C++11` and/or `Python`
-* the source must be documented with `Doxygen`
-* the compilation chain must be using `make`
-* some unit tests will be imposed
-* the project must be clean at each commit
-* branches are OK but only master will be checked
-* `phyton` bindings can be used, but are not mandatory
-* presentation must be in the repository
-* report must be in the repository
-
-## :moneybag: Bonuses:
-* no warning at {compilation, bindings, tests, doc}
-* project is implementing other methods
-* source code is easy to read
-* commits are small and explicit
-* unit tests pass
-* report is written in `markdown` (cf. `pandoc`)
-* presentation is written in `markdown` (cf. `remark.js`)
 ---
 # Scientific method
 
