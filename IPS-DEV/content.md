@@ -552,13 +552,14 @@ $ git tag v0.3.0
         Local repo-->>-Remote: git push
 </div>
 
-## Declare a remote repo
+## Create a bare repo
 ```shell
-$ git remote add farAway http://some.domain.com/path/to/repo.git
+$ git init --bare
 ```
 
-## Sync from remote repo
+## Declare and sync from a remote repo
 ```shell
+$ git remote add farAway http://some.domain.com/path/to/repo.git
 $ git fetch farAway && git merge
 $ git pull farAway
 ```
