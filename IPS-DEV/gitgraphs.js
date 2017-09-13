@@ -295,4 +295,14 @@ dev.merge();
 g.tag("v0.4.0");
 // ===== END =====
 
+// ===== test00 =====
+cfg = configLarge;
+cfg.elementId = 'test00';
+var g = new GitGraph(cfg);
+var master = g.branch("master");
+master.commit("Commit A");
+g.tag("v0.1.0");
+master.commit("Commit B");
+// ===== END =====
+
 
