@@ -21,7 +21,7 @@ function CineScript(typescript, timing, options, container) {
     cols = +cols;
     rows = +rows;
 
-    console.log("speed: " + speed);
+    //console.log("speed: " + speed);
     var FAST = 1000;
 
     var terminal = new Terminal({cols: cols, rows: rows, screenKeys: false});
@@ -55,7 +55,7 @@ function CineScript(typescript, timing, options, container) {
                 fontsize = new_size + "px";
             }
         }
-        console.log("setting font-size to " + fontsize);
+        //console.log("setting font-size to " + fontsize);
         $(container).css("font-size", fontsize);
 
         if (typeof orig_speed !== 'undefined') {
@@ -77,7 +77,6 @@ function CineScript(typescript, timing, options, container) {
             while (typescript[where - 1] != '\n') {
                 where = where + 1;
             };
-            console.debug("DEBUG start = " + where);
             for (var i=where; i< typescript.length - 1;i++) {
 		var c = typescript[i];
 		if (c == '\n') {
@@ -230,7 +229,7 @@ function CineScript(typescript, timing, options, container) {
           fontsize = new_size + "px";
         }
       }
-      console.log("setting font-size to " + fontsize);
+      //console.log("setting font-size to " + fontsize);
       $(container).css("font-size", fontsize);
     }
 
@@ -256,7 +255,6 @@ init_cinescripts = function() {
                 var cols = parseInt(line[1]);
 		options['rows'] = rows;
 		options['cols'] = cols;
-	        console.debug('DEBUG dims ' + rows + 'x' + cols);
             }
         }, "text");
 

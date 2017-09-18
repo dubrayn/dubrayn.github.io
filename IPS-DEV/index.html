@@ -13,19 +13,21 @@
   </head>
   <body>
     <textarea id="source" readonly>
-class: titlepage leftm
+class: titlepage
 
-.title[Introduction to Scientific Programming]
+## Introduction to Scientific Programming
 
-.subtitle[IPS-DEV - N. Dubray - ENSIIE - 2017]
+### IPS-DEV - N. Dubray - ENSIIE - 2017
 
 `$$\int_{-\infty}^\infty f(x)e^{-x^2} dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
 
 ---
 layout: true
-class: middle animated fadeIn
+class: animated fadeIn middle
 
-.footnote[IPS-DEV - N. Dubray - ENSIIE - 2017]
+.footnote[
+IPS-DEV - N. Dubray - ENSIIE - 2017
+]
 
 ---
 # Lecturer
@@ -39,6 +41,7 @@ class: middle animated fadeIn
 .center.shadow.w50[![](images/density.png)]
 
 ---
+
 # Modules
 
 ## :arrow_right: IPS: Introduction to Scientific Programming (S3)
@@ -65,9 +68,13 @@ class: middle animated fadeIn
 </div>
 
 ---
+
 # Scientific method
 
-.right-column.w20[![](images/wikipedia_logo.png)]
+
+.rightf.w20[
+ ![](images/wikipedia_logo.png)
+]
 
 ## Usual scheme
 1. Define a question
@@ -82,6 +89,7 @@ class: middle animated fadeIn
 :arrow_right: The scientific code must be shared with **HPC staff and other scientists**.
 
 ---
+
 # Good development practices
 
 ## Make the code **easy to use**
@@ -101,6 +109,7 @@ class: middle animated fadeIn
  * Versioning
 
 ---
+
 # Good development practices
 
 ## Make the code **easy to use**
@@ -120,6 +129,7 @@ class: middle animated fadeIn
  * Versioning - *version control system*
 
 ---
+
 class: top
 
 # Development tools
@@ -167,15 +177,15 @@ class: top
   * will be presented in PSA (S4)
 
 ---
+
 # Version control system: `git`
 
-.center.w20[![](images/git_logo.png)]
+.center.w15[![](images/git_logo.png)]
 
 ## History
  * distributed version control system
  * created by **Linus Torvalds** in 2005 as free software (GPL v2)
- * initial goal: become the main VCS (Version Control System) of the **Linux kernel**
- * today: **#1 VCS** :v:
+ * initial goal: become the main VCS (Version Control System) of the **Linux kernel**, today: **#1 VCS** :v:
 
 ## Characteristics
  * strong support for non-linear development
@@ -189,6 +199,7 @@ class: top
  * periodic explicit object packing
 
 ---
+
 # `git` workflow
 
 <div class="mermaid">
@@ -206,6 +217,7 @@ class: top
 </div>
 
 ---
+
 # Creation of a `git` repo from scratch
 
 .center[
@@ -213,6 +225,7 @@ class: top
 ]
 
 ---
+
 # Main `git` commands
 
 ## Configure `git` (should be done once)
@@ -236,8 +249,11 @@ $ git clone http://some.domain.com/path/to/repo.git
 $ # Example: documentation for command 'git clone'
 $ man git-clone
 ```
+
 ---
+
 class: top
+
 # Typical `git` workflow
 
 ## 1. clone or create repo
@@ -273,7 +289,9 @@ $ git status
 $ git commit  # will open an editor to enter the commit message
 $ git commit -m "Commit message"
 ```
+
 ---
+
 # `git` history
 
 ## View project history (CLI)
@@ -282,30 +300,20 @@ $ git log
 $ git log --draw --oneline --color
 ```
 
-.center[
 <div data-dir='scripts/toto5' class='cinescript'></div>
-]
 
-## View project history (GUI)
-```shell
-$ gitk
-$ gitg
-```
 ---
+
 # GUI tool `gitk`
 
-.shadow.center[
-![](images/gitk_00.png)
-]
+.shadow[![](images/gitk_00.png)]
 
 ---
+
 # `git` branches
 
-.right-column.w55[
- <canvas id='gitExample0'></canvas>
-]
-
-.left-column.w40[
+.row[
+.column.w45[
 ## List branches
 ```shell
 $ git branch
@@ -338,9 +346,13 @@ $ git merge dev
 $ git branch -d dev
 ```
 ]
+.column[
+ <canvas id='gitExample0'></canvas>
+]
+]
 
 ---
-class: top
+
 # How to use `git` branches
 
 .right-column.w50[
@@ -353,7 +365,7 @@ class: top
 ]
 
 ---
-class: top
+
 # How to use `git` branches
 
 .right-column.w50[
@@ -374,7 +386,7 @@ $ git commit -m "Commit F"
 ]
 
 ---
-class: top
+
 # How to use `git` branches
 
 .right-column.w50[
@@ -397,7 +409,7 @@ $ git commit -m "Commit F"
 ]
 
 ---
-class: top
+
 # How to use `git` branches
 
 .right-column.w50[
@@ -429,7 +441,7 @@ $ git commit -m "Fixed issue #627"
 ]
 
 ---
-class: top
+
 # How to use `git` branches
 
 .right-column.w50[
@@ -462,7 +474,7 @@ $ git commit -m "Fixed issue #627"
 ]
 
 ---
-class: top
+
 # How to use `git` branches
 
 .right-column.w50[
@@ -500,7 +512,7 @@ $ git tag v0.2.1 # lightweight tag
 ]
 
 ---
-class: top
+
 # How to use `git` branches
 
 .right-column.w50[
@@ -513,7 +525,7 @@ class: top
 ]
 
 ---
-class: top
+
 # How to use `git` branches
 
 .right-column.w50[
@@ -532,7 +544,7 @@ $ git commit -m "Commit J"
 ]
 
 ---
-class: top
+
 # How to use `git` branches
 
 .right-column.w50[
@@ -556,6 +568,7 @@ $ git tag v0.3.0
 ]
 
 ---
+
 # Remote repositories
 
 <div class="mermaid">
@@ -581,6 +594,7 @@ $ git pull farAway
 ```
 
 ---
+
 # Conclusions on `git`
 
 .right-column.w55[
@@ -602,7 +616,6 @@ $ git pull farAway
 ]
 
 ---
-class: top
 
 # Development tools
 
@@ -625,6 +638,7 @@ class: top
   * will be presented in PSA (S4)
 
 ---
+
 # Build system: `GNU Make`
 
 .center.w20[![](images/gnu_logo.png)]
@@ -641,6 +655,7 @@ class: top
 * required for building the **Linux kernel**, Apache OpenOffice and LibreOffice, Mozilla Firefox...
 
 ---
+
 # `GNU Make` workflow
 
 ## as a user
@@ -658,7 +673,9 @@ $ make tests
 $ make debug
 ...
 ```
+
 ---
+
 # Using `GNU Make`
 
 ## Makefile
@@ -689,6 +706,7 @@ main: main.c main.h
 ```
 
 ---
+
 # Writing clean Makefiles 
 
 ## Try to...
@@ -746,6 +764,7 @@ $
 ]
 
 ---
+
 # Makefile wizardry
 
 .left-column.w35[
@@ -786,6 +805,7 @@ clean:
 ]
 
 ---
+
 # Armadillo
 
 .center[![](images/armadillo_logo.png)]
@@ -805,26 +825,29 @@ Conrad Sanderson and Ryan Curtin.
 *Journal of Open Source Software, Vol. 1, pp. 26, 2016.*]
 
 ---
+
 # Armadillo example
 
-.left-column.w45.leftm[`$$a = \left[1,2,3,4\right]$$`]
-.right-column.w45[
+.group.w60[
+`$$a = \left[\begin{array}{cccc}1&2&3&4\end{array}\right]$$`
 ```C++
 arma::vec a = {1, 2, 3, 4};
-```]
+```
+]
 
-.left-column.w45.leftm[`$$a = \left[1,2,3,4\right]$$`]
-.right-column.w45[
+.group[
+`$$a = \left[\begin{array}{cc}1&2\\3&4\end{array}\right]$$`
 ```C++
-arma::vec a = {1, 2, 3, 4};
-```]
-
-
+arma::mat A = { {1, 2},
+                {3, 4} };
+```
+]
 
 
 
 
 ---
+
 # Remaining tools
 
 

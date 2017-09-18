@@ -51233,7 +51233,8 @@ exports.draw = function (text, id, isDot) {
         svg.attr('width', conf.width);
         //svg.attr('viewBox', svgb.getBBox().x + ' 0 '+ g.graph().width+' '+ g.graph().height);
         svg.attr('viewBox', '0 0 ' + (g.graph().width + 20) + ' ' + (g.graph().height + 20));
-        svg.attr('style', 'max-width:' + (g.graph().width + 20) + 'px;');
+//        svg.attr('style', 'max-width:' + (g.graph().width + 20) + 'px;');
+        svg.attr('style', 'max-width: 100%;');
     } else {
         // Center the graph
         svg.attr('height', g.graph().height);
@@ -57790,7 +57791,8 @@ module.exports.draw = function (text, id) {
     if (conf.useMaxWidth) {
         diagram.attr('height', '100%');
         diagram.attr('width', '100%');
-        diagram.attr('style', 'max-width:' + width + 'px;');
+//        diagram.attr('style', 'max-width:' + width + 'px;');
+        diagram.attr('style', 'max-width:100%;');
     } else {
         diagram.attr('height', height);
         diagram.attr('width', width);

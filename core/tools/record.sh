@@ -11,5 +11,5 @@ mkdir $path
 echo "Files will be saved in $path"
 
 echo $(tput lines) $(tput cols) > $path/dims
-script -q -t$path/timeline $path/typescript
+script -q -t $path/typescript 2> $path/timeline
 
