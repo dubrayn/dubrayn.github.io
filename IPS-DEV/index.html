@@ -19,7 +19,9 @@ class: titlepage
 
 ### IPS-DEV - N. Dubray - ENSIIE - 2017
 
+.row[
 `$$\int_{-\infty}^\infty f(x)e^{-x^2} dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
+]
 
 ---
 layout: true
@@ -71,7 +73,7 @@ IPS-DEV - N. Dubray - ENSIIE - 2017
 
 # Scientific method
 
-
+.noflex[
 .rightf.w20[
  ![](images/wikipedia_logo.png)
 ]
@@ -87,6 +89,7 @@ IPS-DEV - N. Dubray - ENSIIE - 2017
 8. Retest (frequently done **by other scientists**)
 
 :arrow_right: The scientific code must be shared with **HPC staff and other scientists**.
+]
 
 ---
 
@@ -353,26 +356,29 @@ $ git branch -d dev
 
 ---
 
+class: top
+
 # How to use `git` branches
 
-.right-column.w50[
- <canvas id='branchHowto0'></canvas>
-]
-
-.left-column.w45[
+.row[
+.column.w45[
 * SuperProg :copyright: is in state **v0.2.0**
 * you start working on a new functionnality by creating a branch and commiting on it
 ]
 
+.column[
+ <canvas id='branchHowto0'></canvas>
+]
+]
+
 ---
+
+class: top
 
 # How to use `git` branches
 
-.right-column.w50[
- <canvas id='branchHowto1'></canvas>
-]
-
-.left-column.w45[
+.row[
+.column.w45[
 * SuperProg :copyright: is in state **v0.2.0**
 * you start working on a new functionnality by creating a branch and commiting on it
 ```shell
@@ -385,15 +391,19 @@ $ git commit -m "Commit F"
 ```
 ]
 
+.column[
+ <canvas id='branchHowto1'></canvas>
+]
+]
+
 ---
+
+class: top
 
 # How to use `git` branches
 
-.right-column.w50[
- <canvas id='branchHowto2'></canvas>
-]
-
-.left-column.w45[
+.row[
+.column.w45[
 * SuperProg :copyright: is in state **v0.2.0**
 * you start working on a new functionnality by creating a branch and commiting on it
 ```shell
@@ -408,15 +418,19 @@ $ git commit -m "Commit F"
 * you create a branch to fix the issue
 ]
 
+.column[
+ <canvas id='branchHowto2'></canvas>
+]
+]
+
 ---
+
+class: top
 
 # How to use `git` branches
 
-.right-column.w50[
- <canvas id='branchHowto3'></canvas>
-]
-
-.left-column.w45[
+.row[
+.column.w45[
 * SuperProg :copyright: is in state **v0.2.0**
 * you start working on a new functionnality by creating a branch and commiting on it
 ```shell
@@ -440,15 +454,19 @@ $ git commit -m "Fixed issue #627"
 ```
 ]
 
+.column[
+ <canvas id='branchHowto3'></canvas>
+]
+]
+
 ---
+
+class: top
 
 # How to use `git` branches
 
-.right-column.w50[
- <canvas id='branchHowto4'></canvas>
-]
-
-.left-column.w45[
+.row[
+.column.w45[
 * SuperProg :copyright: is in state **v0.2.0**
 * you start working on a new functionnality by creating a branch and commiting on it
 ```shell
@@ -473,15 +491,19 @@ $ git commit -m "Fixed issue #627"
 * you merge your fix in `master`
 ]
 
+.column[
+ <canvas id='branchHowto4'></canvas>
+]
+]
+
 ---
+
+class: top
 
 # How to use `git` branches
 
-.right-column.w50[
- <canvas id='branchHowto5'></canvas>
-]
-
-.left-column.w45[
+.row[
+.column.w45[
 * SuperProg :copyright: is in state **v0.2.0**
 * you start working on a new functionnality by creating a branch and commiting on it
 ```shell
@@ -511,28 +533,36 @@ $ git tag v0.2.1 # lightweight tag
 ```
 ]
 
+.column[
+ <canvas id='branchHowto5'></canvas>
+]
+]
+
 ---
+
+class: top
 
 # How to use `git` branches
 
-.right-column.w50[
- <canvas id='branchHowto6'></canvas>
-]
-
-.left-column.w45[
+.row[
+.column.w45[
 * SuperProg :copyright: is in state **v0.2.1**
 * you can resume working on the new functionnality
 ]
 
+.column[
+ <canvas id='branchHowto6'></canvas>
+]
+]
+
 ---
+
+class: top
 
 # How to use `git` branches
 
-.right-column.w50[
- <canvas id='branchHowto7'></canvas>
-]
-
-.left-column.w45[
+.row[
+.column.w45[
 * SuperProg :copyright: is in state **v0.2.1**
 * you can resume working on the new functionnality
 ```shell
@@ -543,15 +573,19 @@ $ git commit -m "Commit J"
 * when you are ready, merge the new functionnality in the `master` branch
 ]
 
+.column[
+ <canvas id='branchHowto7'></canvas>
+]
+]
+
 ---
+
+class: top
 
 # How to use `git` branches
 
-.right-column.w50[
- <canvas id='branchHowto8'></canvas>
-]
-
-.left-column.w45[
+.row[
+.column.w45[
 * SuperProg :copyright: is in state **v0.2.1**
 * you can resume working on the new functionnality
 ```shell
@@ -567,11 +601,16 @@ $ git tag v0.3.0
 ```
 ]
 
+.column[
+ <canvas id='branchHowto8'></canvas>
+]
+]
+
 ---
 
 # Remote repositories
 
-<div class="mermaid">
+<div class="mermaid w70 center">
     sequenceDiagram
         Remote-->>+Local repo: git clone/pull
         Local repo->>Files: git checkout
@@ -597,11 +636,8 @@ $ git pull farAway
 
 # Conclusions on `git`
 
-.right-column.w55[
- <canvas id='gitExample1'></canvas>
-]
-
-.left-column.w40[
+.row[
+.column.w40.middle[
 ## To sum up...
 * very powerful tool, can be complex sometimes
 * **can work offline !**
@@ -610,10 +646,15 @@ $ git pull farAway
 * several source forges are using it (`github`, `bitbucket`, `gitlab`, etc...)
 * learn a few commands and start using it !
 * several ways to use it, *follow the guidelines*
-* the de-facto standard CVS
+* **the de-facto standard CVS**
 
 .center.w50[![](images/git_logo.png)]
 ]
+.column.w55[
+<canvas id='gitExample1'></canvas>
+]
+]
+
 
 ---
 
@@ -691,7 +732,7 @@ target0: dep0 dep1 dep2
 * if a target **does not exist or is older than some of its dependencies**, `GNU Make` tries to update it
 
 ## Example
-<div class="mermaid">
+<div class="mermaid w70 center">
     graph TD
     A[main.c]
     B[test.c]
@@ -714,7 +755,8 @@ main: main.c main.h
 * use standard target names (`all`, `install`, `clean`...)
 * use generic rules (wildcards)
 
-.left-column.w45[
+.row[
+.column.w45[
 ## .center[Makefile]
 ```Makefile
 CC = gcc
@@ -738,7 +780,7 @@ clean:
 ```
 ]
 
-.right-column.w45[
+.column.w45[
 
 ## .center[Shell session]
 ```shell
@@ -762,13 +804,15 @@ main.c  main.h  Makefile
 $
 ```
 ]
+]
 
 ---
 
 # Makefile wizardry
 
-.left-column.w35[
-## .center[Makefile]
+.row[
+.column.w35[
+## Makefile
 ```Makefile
 CC = gcc
 CFLAGS = -Wall
@@ -791,8 +835,8 @@ clean:
 ```
 ]
 
-.right-column.w60[
-## .center[Magic spell]
+.column.w60[
+## Magic spell
 * replace by internal variable: `$(VAR)`
 * replace by env. variable: `${VAR}`
 * replace by target: `$@`
@@ -800,8 +844,8 @@ clean:
 * replace by all dependencies: `$?`
 * target must always be updated: `.PHONY: target`
 * launch `GNU Make` in a given directory: `make -C dir`
-
 .center.w50[![](images/wizard.png)]
+]
 ]
 
 ---
@@ -826,38 +870,57 @@ Conrad Sanderson and Ryan Curtin.
 
 ---
 
-# Armadillo example
+# Armadillo examples
 
-.group.w60[
-`$$a = \left[\begin{array}{cccc}1&2&3&4\end{array}\right]$$`
+.row[
+.column.w50.middle[
+`$$A = \left[\begin{array}{cccc}1&2&3&4\end{array}\right]$$`
+]
+.column.w45.middle[
 ```C++
-arma::vec a = {1, 2, 3, 4};
+arma::vec A = {1, 2, 3, 4};
 ```
 ]
+]
 
-.group[
-`$$a = \left[\begin{array}{cc}1&2\\3&4\end{array}\right]$$`
+.row[
+.column.w50.middle[
+`$$B = \left[\begin{array}{cc}1&2\\3&4\end{array}\right]$$`
+]
+.column.w45.middle[
 ```C++
-arma::mat A = { {1, 2},
+arma::mat B = { {1, 2},
                 {3, 4} };
 ```
 ]
+]
+
+.row[
+.column.w50.middle[
+`$$C = B^{-1}$$`
+]
+.column.w45.middle[
+```C++
+arma::mat C = B.inv();
+```
+]
+]
 
 
-
+.row[
+.column.w50.middle[
+`$$D = \left(B C^t\right)^{-1}$$`
+]
+.column.w45.middle[
+```C++
+arma::mat D = (B * C.t()).inv();
+```
+]
+]
 
 ---
 
-# Remaining tools
-
-
-
-
-
-
-
-
-
+# Remaining tools (1)
 
  * doxygen
  * LaTeX
@@ -875,6 +938,11 @@ arma::mat A = { {1, 2},
    * test the code 2 (scalability, benchmarks...)
   * queues
   * restart mechanism
+
+---
+
+# Remaining tools (2)
+
 * scientific libraries
  * lapack
  * MKL
@@ -890,6 +958,11 @@ arma::mat A = { {1, 2},
  * gdb
  * valgrind
  * DIY timers
+
+---
+
+# Remaining tools (3)
+
 * data storage
  * mongoDB
  * MPI-IO
@@ -901,7 +974,9 @@ arma::mat A = { {1, 2},
  * blender
  * POVRay
 
-==== PSA ====
+---
+
+# ==== PSA ====
 
 * IPS summary
 * development tools
@@ -922,7 +997,9 @@ arma::mat A = { {1, 2},
  * paraview plugin
  * blender plugin
 
-IPS project goals:
+---
+
+# IPS project goals:
 
 * initialize project (hierarchy of files, of classes, doxygen, Makefile, clean, git, cxxtest, data, bindings, README, LICENSE)
 * derivate cylindrical HO solutions (LaTeX in doxygen), implement them, check H|p>=E|p>
@@ -938,7 +1015,9 @@ IPS project goals:
 * write monitor server
 * write monitor client
 
-PSA project goals:
+---
+
+# PSA project goals:
 
 * initialize project (hierarchy of files, of classes, doxygen, Makefile, clean, git, cxxtest, data, bindings, README, LICENSE)
 * derivate cylindrical HO solutions (LaTeX in doxygen), implement them, check H|p>=E|p>
@@ -953,10 +1032,8 @@ PSA project goals:
 * implement a transparent restart mechanism in the python script
 * make a scalability benchmark, identify IO and CPU times
 
-project rules:
-
-
 ---
+
 # mermaid test
 
 .center[
@@ -967,6 +1044,7 @@ project rules:
 ]
 
 ---
+
 # cinescript test
 
 .center[
@@ -974,6 +1052,7 @@ project rules:
 ]
 
 ---
+
 # gitgraph test
 
 .center[

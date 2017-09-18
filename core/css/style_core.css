@@ -21,10 +21,17 @@ img {
   color: rgba(20,20,40,1.0);
   display: flex;
   flex-flow: column nowrap;
-  height: 566px;
+  height: 550px;
 }
 
 .remark-slide-content p {
+}
+
+.noflex {
+}
+
+.rightf {
+  float: right;
 }
 
 .remark-slide-scaler {
@@ -245,6 +252,8 @@ h1 {
 
 span .center {
   text-align: center;
+  margin: auto;
+  align-items: center;
 }
 
 .center table {
@@ -395,7 +404,7 @@ div.remark-code-line:empty:before {
 }
 
 .titlepage {
-  align-content: center;
+  align-content: flex-start;
   justify-content: center;
   font-weight: bold;
   font-size: 1.0em;
@@ -406,15 +415,13 @@ div.remark-code-line:empty:before {
 .titlepage h2 {
   font-size: 220% !important;
   margin-bottom: 1em;
-  margin-left: auto;
   margin-right: auto;
 }
 
 .titlepage h3 {
   font-size: 130% !important;
   margin-top: 0;
-  margin-bottom: 1em;
-  margin-left: auto;
+  margin-bottom: 0;
   margin-right: auto;
 }
 
