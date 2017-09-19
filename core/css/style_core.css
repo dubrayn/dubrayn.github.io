@@ -24,14 +24,27 @@ img {
   height: 550px;
 }
 
+.remark-slide-content ul, .remark-slide-content ol {
+  margin: 0.5em 0 0.5em 0;
+}
+
 .remark-slide-content p {
+  margin: 0.2em 0 0.2em 0;
 }
 
 .noflex {
 }
 
+.leftf {
+  float: left;
+  margin-right: 10px;
+  margin-left: 0;
+}
+
 .rightf {
   float: right;
+  margin-left: 5px;
+  margin-right: 0;
 }
 
 .remark-slide-scaler {
@@ -171,7 +184,7 @@ video {
 }
 
 .MathJax_Display { 
-  margin: 0em;
+  margin: 0.2em 0 0.2em 0 !important;
   display: flex;
 }
 
@@ -252,16 +265,19 @@ h1 {
 
 span .center {
   text-align: center;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   align-items: center;
 }
 
 .center table {
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 div .center {
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 div .center * {
@@ -349,10 +365,6 @@ em {
 .w95 { width: 95%; }
 .w100 { width: 100%; }
 
-.titlepage .remark-slide-number {
-  display: none;
-}
-
 .footnote p {
   margin: 0 0 0 0;
 }
@@ -403,26 +415,36 @@ div.remark-code-line:empty:before {
   padding: 0.3em;
 }
 
+.titlepage .remark-slide-number {
+  display: none;
+}
+
 .titlepage {
   align-content: flex-start;
   justify-content: center;
-  font-weight: bold;
   font-size: 1.0em;
   display: flex;
   flex-direction: column;
+
 }
 
-.titlepage h2 {
-  font-size: 220% !important;
-  margin-bottom: 1em;
-  margin-right: auto;
+.titlepage p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
-.titlepage h3 {
-  font-size: 130% !important;
-  margin-top: 0;
-  margin-bottom: 0;
+.title {
+  font-size: 220%;
   margin-right: auto;
+  font-weight: bold;
+  flex: 0 0 auto;
+}
+
+.subtitle {
+  font-size: 130%;
+  margin-right: auto;
+  font-weight: bold;
+  flex: 0 0 auto;
 }
 
 

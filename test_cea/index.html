@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>No title</title>
+    <title>Presentation template</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
@@ -12,15 +12,23 @@
   </head>
   <body>
     <textarea id="source" readonly>
-class: titlepage leftm
+class: titlepage
 
-.title[Exemple de présentation]
+.title[
+Presentation template
+]
 
-.subtitle[N. Dubray - CEA, DAM - 2017]
+.subtitle[
+N. Dubray - CEA - 2017
+]
 
+.row[
 `$$\int_{-\infty}^\infty f(x)e^{-x^2} dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
+]
 
 ???
+
+[back to TOC](../toc/index.html)
 
 Some slide notes.
 
@@ -35,12 +43,15 @@ Some items:
 
 ---
 layout: true
-class: middle animated fadeIn
+class: animated fadeIn middle
 
-.footnote[Exemple de présentation - N. Dubray - CEA, DAM - 2017]
+.footnote[
+Presentation template - N. Dubray - CEA - 2017
+]
 
 ---
-class: toc
+
+class: toc top
 # Table of content with bullets/numbers
 
 1. First section
@@ -53,7 +64,8 @@ class: toc
 * .animated.flash[*Fourth section*]
 
 ---
-class: toc
+
+class: toc top
 # Table of content with bullets/numbers
 
 1. First section
@@ -67,7 +79,8 @@ class: toc
   * .animated.flash[*First subsection*]
 
 ---
-class: toc
+
+class: toc top
 # Table of content with bullets/numbers
 
 1. First section
@@ -82,6 +95,7 @@ class: toc
   * .animated.flash[*Second subsection*]
 
 ---
+
 # :clipboard: Poll
 
 .center[
@@ -98,6 +112,7 @@ class: toc
 `$$\int_0^\infty f(x)e^{-x} dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
 
 ---
+
 # remark.js ??? WTF ?
 
 * *remark.js* is a simple HTML5 + javascript presentation tool.
@@ -119,6 +134,7 @@ class: toc
 * some extensions allow to include code, `\(\LaTeX\)`, tables, diagrams, emojis...
 
 ---
+
 # How to include code ?
 
 * Use `<pre>`:
@@ -152,6 +168,7 @@ print("Hello !")
     print("ECHO")
 
 ---
+
 class: middle
 # Example #1 of a cinescript capture
 
@@ -160,6 +177,7 @@ class: middle
 ]
 
 ---
+
 class: middle
 # Example #2 of a cinescript capture
 
@@ -168,14 +186,7 @@ class: middle
 ]
 
 ---
-class: middle
-# Example #3 of a cinescript capture
 
-.center[
-<div data-dir='scripts/toto3' class='cinescript'></div>
-]
-
----
 # Want to include some emojis ? :joy:
 
 **Yes you can** :exclamation: :smile: :grinning: :trollface:
@@ -184,27 +195,21 @@ class: middle
 
 Try not to over-use it :blue_heart: :star2: :musical_note: :v: :panda_face: :cool: !
 
-
-
 ---
+
 # Want to include some math ? (`\(a=\frac{\sqrt{b^2}}{c}\)`)
 
 You can include some **inline math** like **`\(\sum_aw_a=4\)`**, or centered equations like
-
 `$$\sum_k\frac{1}{k^2}=\frac{\pi^2}{6}.$$`
-
 Let us suppose that
-
 `$$M\equiv\left[\begin{array}{ccc}1&0&0\\0&0&1\\0&1&0\end{array}\right],$$`
-
 one can check that
-
 `$$M \neq M^tM.$$`
-
 Final expression for `\(a(x)\)`:
 `$$a(x) = \frac{A_0}{1 + x^2}+O\left(x^{-3}\right).$$`
 
 ---
+
 class: top
 # Want some item lists ?
 
@@ -214,7 +219,7 @@ A simple item list :
 * third element
 * last element
 
-A simple *enumerated* list (with pauses between items) :
+A simple *enumerated* list (with pauses between items):
 1. :melon: melon
 --
 
@@ -241,8 +246,8 @@ Take a look at the markdown source to see that an exact numbering is not needed 
 
 ```
 
-
 ---
+
 # Some tables / blocks ?
 
 .center[
@@ -253,18 +258,13 @@ Take a look at the markdown source to see that an exact numbering is not needed 
 | *2*. I use it.          |       |           |  :+:  |          |  :+:  |       |              |          |
 | *3*. I love it !        |  :+:  |    :+:    |       |   :+:    |       |  :+:  |      :+:     |    :+:   |
 ]
-
 .center[This is a serious table.]
-
-.block[Some text in a box, with some math:
-`$$a=b$$`]
-
+.block[ Some text in a box, with some math: `$$a=b$$` ]
 some text
-
-.alert[Some important text in a box, with some math:
-`$$\pi \simeq 3.1415926535$$`]
+.alert[ Some important text in a box, with some math: `$$\pi \simeq 3.1415926535$$` ]
 
 ---
+
 class: center, middle
 # A chart with mermaid.js
 
@@ -283,13 +283,15 @@ class: center, middle
 </div>
 
 ---
-class: middle
+
 # Highlight some text / include images
 
-.right-column.w20[![](images/wikipedia_logo.png)]
+.noflex[
+.rightf.w20[
+ ![](images/wikipedia_logo.png)
+]
+
 ## Scientific method
-
-
 1. Define a question
 2. Gather information and resources (observe)
 3. Form an explanatory hypothesis
@@ -298,32 +300,35 @@ class: middle
 6. Interpret the data and draw conclusions that serve as a starting point for new hypothesis
 7. **Publish results**
 8. Retest (frequently done **by other scientists**)
+]
 
 ---
+
 # How can I insert images ?
 
+.noflex[
 Use **`![](image.png)`**
-.w05[![](images/wikipedia_logo.png)]
-or **`<img src='image.png'/>`** <img src='images/wikipedia_logo.png' width='5%'/>.
 
 ## Some justified text wrapping around a floating image:
 
 Lorem ipsum morbi taciti id adipiscing sed magna integer arcu eros nibh tortor interdum ultricies senectus accumsan, lacus suscipit a cursus pretium pellentesque est arcu blandit duis vivamus condimentum rhoncus molestie.
 
-.block.right-column.w20.animated.fadeInRight.wait1s[![](images/wikipedia_logo.png).center[Wikipedia logo]]
-Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.</div>
- 
-.block.left-column.w30.animated.fadeInLeft.wait1s[
- Some text in a floating box... `$$\sum_i \hat{\pi}\left[u_i^2\right]=1$$`
+.block.rightf.w20.animated.fadeInRight.wait1s[ ![](images/wikipedia_logo.png).center[Wikipedia logo] ]
+
+Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.
+
+.block.leftf.w30.animated.fadeInLeft.wait1s[
+Some text in a floating box... `$$\sum_i \hat{\pi}\left[u_i^2\right]=1$$`
 ]
 
 `$$a=1+2+3+4+5+6+\ldots$$`
-Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.</div>
-Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.</div>
-Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.</div>
-
+Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.
+Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.
+Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.
+]
 
 ---
+
 class: middle
 # Animate ?
 
@@ -344,6 +349,7 @@ Yes, you can animate things.
 .center.block.animated.wait4s.fadeInUp[Some final text with some math :panda_face: !!! `$$a=b$$`]
 
 ---
+
 class: center, middle
 # Include a video
 
@@ -352,6 +358,7 @@ class: center, middle
 </video>
 
 ---
+
 class: center, middle
 # Conclusion
 
@@ -415,7 +422,6 @@ Holy :cow: !!! I can put notes on my slides !?!
     MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
     MathJax.Hub.Configured();
 
-    console.debug("PIPO");
     // === Emojify.js initialization ===
     emojify.run();
 

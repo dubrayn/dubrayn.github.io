@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Introduction to Scientific Programming</title>
+    <title>IPS-DEV</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
@@ -15,15 +15,24 @@
     <textarea id="source" readonly>
 class: titlepage
 
-## Introduction to Scientific Programming
+.title[
+Introduction to Scientific Programming
+]
 
-### IPS-DEV - N. Dubray - ENSIIE - 2017
+.subtitle[
+IPS-DEV - N. Dubray - ENSIIE - 2017
+]
 
 .row[
 `$$\int_{-\infty}^\infty f(x)e^{-x^2} dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
 ]
 
+???
+
+[back to TOC](../toc/index.html)
+
 ---
+
 layout: true
 class: animated fadeIn middle
 
@@ -32,6 +41,7 @@ IPS-DEV - N. Dubray - ENSIIE - 2017
 ]
 
 ---
+
 # Lecturer
 
 ## N. Dubray - `noel.dubray@cea.fr`
@@ -901,7 +911,7 @@ arma::mat B = { {1, 2},
 ]
 .column.w45.middle[
 ```C++
-arma::mat C = B.inv();
+arma::mat C = B.i();
 ```
 ]
 ]
@@ -913,7 +923,7 @@ arma::mat C = B.inv();
 ]
 .column.w45.middle[
 ```C++
-arma::mat D = (B * C.t()).inv();
+arma::mat D = (B * C.t()).i();
 ```
 ]
 ]
@@ -1076,7 +1086,8 @@ arma::mat D = (B * C.t()).inv();
     var slideshow = remark.create({
       highlightStyle: 'monokai',
       countIncrementalSlides: false,
-      highlightLines: false
+      highlightLines: false,
+      highlightInlineCode: false
     });
 
     // === Mermaid.js initialization ===
