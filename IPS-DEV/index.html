@@ -65,7 +65,7 @@ IPS-DEV - N. Dubray - ENSIIE - 2017
 * *PSA.???:* TBA
 
 ## Evaluation
-* project presentation [~15min] + questions [~10min]
+* project presentation [~10min] + questions [~5min]
 
 ## TPs timeline
 .mermaid[
@@ -127,7 +127,7 @@ $ vim file      # edit a file
 # Scientific method
 
 .noflex[
-.rightf.w20[
+.rightf.animated.fadeInRight.wait1s.w20[
  ![](images/wikipedia_logo.png)
 ]
 
@@ -361,14 +361,20 @@ $ git log --draw --oneline --color
 
 # GUI tool `gitk`
 
-.shadow[![](images/gitk_00.png)]
+.center.shadow[![](images/gitk_00.png)]
+
+---
+
+# GUI tool `gitg`
+
+.center.w90.shadow[![](images/gitg.png)]
 
 ---
 
 # `git` branches
 
 .row[
-.column.w45[
+.column.middle.w45[
 ## List branches
 ```shell
 $ git branch
@@ -946,10 +952,10 @@ Conrad Sanderson and Ryan Curtin.
 # Armadillo examples
 
 .row[
-.column.w50.middle[
+.column.w45.middle[
 `$$A = \left[\begin{array}{cccc}1&2&3&4\end{array}\right]$$`
 ]
-.column.w45.middle[
+.column.w50.middle[
 ```C++
 arma::vec A = {1, 2, 3, 4}; // C++11
 ```
@@ -957,10 +963,10 @@ arma::vec A = {1, 2, 3, 4}; // C++11
 ]
 
 .row[
-.column.w50.middle[
+.column.w45.middle[
 `$$B = \left[\begin{array}{cc}1&2\\3&4\end{array}\right]$$`
 ]
-.column.w45.middle[
+.column.w50.middle[
 ```C++
 arma::mat B = { {1, 2}, {3, 4} }; // C++11
 ```
@@ -968,10 +974,10 @@ arma::mat B = { {1, 2}, {3, 4} }; // C++11
 ]
 
 .row[
-.column.w50.middle[
+.column.w45.middle[
 `$$C = B^{-1}$$`
 ]
-.column.w45.middle[
+.column.w50.middle[
 ```C++
 arma::mat C = B.i();
 ```
@@ -980,10 +986,10 @@ arma::mat C = B.i();
 
 
 .row[
-.column.w50.middle[
+.column.w45.middle[
 `$$D = \left(B C^t\right)^{-1}$$`
 ]
-.column.w45.middle[
+.column.w50.middle[
 ```C++
 arma::mat D = (B * C.t()).i();
 ```
@@ -993,10 +999,10 @@ arma::mat D = (B * C.t()).i();
 ----
 
 .row[
-.column.w50.middle[
+.column.w45.middle[
 Full code to compute `\(\left[\begin{array}{cc}1&2\\3&4\end{array}\right]*\left[\begin{array}{cc}5&6\\7&8\end{array}\right]^t\)`:
 ]
-.column.w45.middle[
+.column.w50.middle[
  ```C++
 #include <armadillo>
 
@@ -1014,10 +1020,10 @@ int main()
 ]
 
 .row[
-.column.w50.middle[
+.column.w45.middle[
 Result:
 ]
-.column.w45.middle[
+.column.w50.middle[
 ```shell
 $ g++ -std=c++11 arma_test.cpp -o arma_test -larmadillo
 $ ./arma_test
