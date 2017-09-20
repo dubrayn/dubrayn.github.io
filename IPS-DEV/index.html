@@ -784,7 +784,7 @@ target0: dep0 dep1 dep2
 * if a target **does not exist or is older than some of its dependencies**, `GNU Make` tries to update it
 
 ## Example
-.mermaid.w70[
+.mermaid.center.w70[
     graph TD
     A[main.c]
     B[test.c]
@@ -863,7 +863,7 @@ $
 
 .row[
 .column.w35[
-## Makefile
+## .center[Makefile]
 ```Makefile
 CC = gcc
 CFLAGS = -Wall
@@ -887,7 +887,7 @@ clean:
 ]
 
 .column.w60[
-## Magic spell
+## .center[Magic spell]
 * replace by internal variable: `$(VAR)`
 * replace by env. variable: `${VAR}`
 * replace by target: `$@`
@@ -951,7 +951,7 @@ Conrad Sanderson and Ryan Curtin.
 ]
 .column.w45.middle[
 ```C++
-arma::vec A = {1, 2, 3, 4};
+arma::vec A = {1, 2, 3, 4}; // C++11
 ```
 ]
 ]
@@ -962,8 +962,7 @@ arma::vec A = {1, 2, 3, 4};
 ]
 .column.w45.middle[
 ```C++
-arma::mat B = { {1, 2},
-                {3, 4} };
+arma::mat B = { {1, 2}, {3, 4} }; // C++11
 ```
 ]
 ]
@@ -987,6 +986,44 @@ arma::mat C = B.i();
 .column.w45.middle[
 ```C++
 arma::mat D = (B * C.t()).i();
+```
+]
+]
+
+----
+
+.row[
+.column.w50.middle[
+Full code to compute `\(\left[\begin{array}{cc}1&2\\3&4\end{array}\right]*\left[\begin{array}{cc}5&6\\7&8\end{array}\right]^t\)`:
+]
+.column.w45.middle[
+ ```C++
+#include <armadillo>
+
+int main()
+{
+  arma::mat A = {{1, 2}, {3, 4}}; // C++11
+  arma::mat B = {{5, 6}, {7, 8}}; // C++11
+       
+  ( A * B.t() ).print("result");
+            
+  return 0;
+}
+```
+]
+]
+
+.row[
+.column.w50.middle[
+Result:
+]
+.column.w45.middle[
+```shell
+$ g++ -std=c++11 arma_test.cpp -o arma_test -larmadillo
+$ ./arma_test
+result
+   17.0000   23.0000
+   39.0000   53.0000
 ```
 ]
 ]

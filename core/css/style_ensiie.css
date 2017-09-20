@@ -27,5 +27,16 @@ th {
 
 }
 
+hr {
+  width: 100%;
+  border: 0;
+  height: 5px;
+  background-image: linear-gradient(to right, rgba(0, 136, 192, 0.5), rgba(0, 136, 192, 1), rgba(0, 136, 192, 0.5));
+}
+
+h1 > code.remark-inline-code {
+  color: rgba(210, 210, 255, 1.0);
+}
+
 
 

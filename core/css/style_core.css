@@ -9,6 +9,13 @@ img {
   max-width: 100%;
 }
 
+hr {
+  width: 100%;
+  border: 0;
+  height: 5px;
+  background-image: linear-gradient(to right, rgba(182, 38, 52, 0.5), rgba(182, 38, 52, 1), rgba(182, 38, 52, 0.5));
+}
+
 .remark-slide {
   position: initial;
 }
@@ -24,7 +31,7 @@ img {
   height: 550px;
 }
 
-.remark-slide-content ul, .remark-slide-content ol {
+.remark-slide-content ul, .remark-slide-content ol, .remark-slide-content pre {
   margin: 0.4em 0 0.4em 0;
 }
 
@@ -128,7 +135,7 @@ img {
 }
 
 
-#terminal, code, .remark-code, video, table, .block, .alert, .cinescript, .shadow {
+#terminal, code, .remark-code, video, table, .block, .alert, .cinescript, .shadow, hr {
   box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.5);
 }
 
@@ -223,7 +230,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  color: rgba(255, 255, 255,1.0); 
+  color: rgba(255, 255, 255, 1.0); 
   position: absolute;
   top: 0%;
   left: 2%;
@@ -233,6 +240,15 @@ h1 {
   text-shadow:  2px  2px 4px rgba(0, 0, 0, 0.7);
   line-height: 2.7em;
 }
+
+h1 > code.remark-inline-code {
+  color: rgba(255, 210, 210, 1.0);
+}
+
+h1 > code.remark-inline-code.has-jax {
+  color: rgba(255, 255, 255, 1.0);
+}
+
 
 /* uncomment for h2 subtitles
 h2 {
