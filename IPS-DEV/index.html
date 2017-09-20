@@ -81,6 +81,49 @@ IPS-DEV - N. Dubray - ENSIIE - 2017
 
 ---
 
+# GNU/Linux quick howto
+
+## Navigate the filesystem
+
+```shell
+$ pwd # get current directory
+/tmp
+$ mkdir toto      # create directory
+$ cd /tmp/toto    # change current directory (absolute path)
+$ mkdir tutu
+$ cd ..           # change to parent directory (relative path)
+$ cd toto/tutu/.. # change with a relative path
+$ rmdir tutu      # remove empty directory
+```
+
+## Manipulate files
+
+```shell
+$ cd /tmp/toto
+$ touch example_file # create empty file OR change file modification time
+$ ls                 # list files in current directory
+example_file
+$ cat example_file   # dump file content
+$ ls > example_file  # put the result of command ls into file example_file
+$ cat example_file   # dump file content
+example_file
+$ rm example_file            # remove file
+$ cp example_file other_file # copy file
+```
+
+## Other
+
+```shell
+$ ssh user@host # connect to an SSH server
+$ man prog      # check the man page for prog
+$ which prog    # show the location of prog using PATH env variable
+$ ps ux         # list user processes
+$ kill PID      # kill a process
+$ vim file      # edit a file
+```
+
+---
+
 # Scientific method
 
 .noflex[
