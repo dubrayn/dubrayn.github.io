@@ -19934,10 +19934,17 @@ function lex (src, regex, tokens) {
         src = src.substring(text.length + 1);
 
         if (cap[0][0] !== '\\') {
+          classes = cap[CONTENT].substring(1).split('.');
+
+          lblock = text.indexOf('\n') !== -1;
+          if (classes.indexOf("mermaid") >= 0) {
+            lblock = false;
+          }
+
           tokens.push({
             type: 'content_start',
             classes: cap[CONTENT].substring(1).split('.'),
-            block: text.indexOf('\n') !== -1
+            block: lblock
           });
           lex(text, inline, tokens);
           tokens.push({
@@ -20707,6 +20714,7 @@ function createSlide () {
 }
 
 function createContentClass (token) {
+
   return {
     class: token.classes.join(' '),
     block: token.block,
@@ -20890,6 +20898,7 @@ exports.toggleClass = function (element, className) {
   }
 
   element.className = classes.join(' ');
+
 };
 
 exports.getClasses = function (element) {

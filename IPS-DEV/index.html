@@ -68,7 +68,7 @@ IPS-DEV - N. Dubray - ENSIIE - 2017
 * project presentation [~15min] + questions [~10min]
 
 ## TPs timeline
-<div class="mermaid">
+.mermaid[
     graph LR
     A["Week #1<br/>Initialization"] --> B
     B["Week #2<br/>Project"] --> C
@@ -77,7 +77,7 @@ IPS-DEV - N. Dubray - ENSIIE - 2017
     E["Week #5<br/>Project"] --> F["Week #6<br/>Presentation"]
     style A fill:#9f9
     style F fill:#f9f
-</div>
+]
 
 ---
 
@@ -215,7 +215,7 @@ class: top
 
 # `git` workflow
 
-<div class="mermaid">
+.mermaid[
     sequenceDiagram
         Remote-->>+Local repo: git clone/pull
         Note over Staged: Empty
@@ -227,7 +227,7 @@ class: top
         Files->>+Staged: git add/rm
         Staged->>-Local repo: git commit
         Local repo-->>-Remote: git push
-</div>
+]
 
 ---
 
