@@ -1,6 +1,11 @@
 /* Flowchart variables */
 /* Sequence Diagram variables */
 /* Gantt chart variables */
+
+.mermaid {
+  display: block;
+}
+
 .mermaid .label {
   font-family: 'trebuchet ms', verdana, arial;
   color: #333;

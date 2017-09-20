@@ -233,9 +233,7 @@ class: top
 
 # Creation of a `git` repo from scratch
 
-.center[
 <div data-dir='scripts/toto4' class='cinescript'></div>
-]
 
 ---
 
@@ -620,7 +618,7 @@ $ git tag v0.3.0
 
 # Remote repositories
 
-<div class="mermaid w70 center">
+.mermaid.w70.center[
     sequenceDiagram
         Remote-->>+Local repo: git clone/pull
         Local repo->>Files: git checkout
@@ -628,7 +626,7 @@ $ git tag v0.3.0
         Files->>+Staged: git add/rm
         Staged->>-Local repo: git commit
         Local repo-->>-Remote: git push
-</div>
+]
 
 ## Create a bare repo
 ```shell
@@ -742,13 +740,13 @@ target0: dep0 dep1 dep2
 * if a target **does not exist or is older than some of its dependencies**, `GNU Make` tries to update it
 
 ## Example
-<div class="mermaid w70 center">
+.mermaid.w70[
     graph TD
     A[main.c]
     B[test.c]
     C[test.h]
     D[Makefile]
-</div>
+]
 
 ## Makefile
 ```makefile
@@ -791,7 +789,6 @@ clean:
 ]
 
 .column.w45[
-
 ## .center[Shell session]
 ```shell
 $ make
@@ -857,6 +854,28 @@ clean:
 .center.w50[![](images/wizard.png)]
 ]
 ]
+
+---
+
+# Development tools
+
+## Tools presented in this course
+* version control system
+  * `subversion`, `mercurial`, `CVS`, `SVN`, `Bazaar`, **`git`** :+:
+* build system
+  * `Distutils`, `CMake`, `Autotools`, `qmake`, **`GNU Make`** :+:
+* documentation generator
+  * `Sphinx`, `Docutils`, **`Doxygen`**
+* unit testing framework
+  * `*test*`, **`CxxTest`**
+* code formatting tool
+  * **`astyle`**, **`indent`**
+* commenting conventions
+  * various guidelines
+* performance analysis tools
+  * will be presented in PSA (S4)
+* binding generator
+  * will be presented in PSA (S4)
 
 ---
 
@@ -1046,11 +1065,9 @@ arma::mat D = (B * C.t()).i();
 
 # mermaid test
 
-.center[
-<div class="mermaid">
+.mermaid[
     graph LR
     A[mermaid.js] --> B[OK]
-</div>
 ]
 
 ---
