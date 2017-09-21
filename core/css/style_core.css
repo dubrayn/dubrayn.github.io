@@ -130,6 +130,11 @@ hr {
   display: inline-block;
 }
 
+.grow {
+  flex-grow: 1;
+}
+
+
 .mermaid rect {
              filter: drop-shadow( 4px 4px 3px rgba(0, 0, 0, 0.5) );
 }
@@ -198,7 +203,7 @@ video {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 .row {
