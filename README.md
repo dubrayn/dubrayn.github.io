@@ -14,7 +14,7 @@ The presentations use original or slightly modified versions of the following op
 * [gitgraph.js](http://gitgraphjs.com)
 * [mathjax](https://mathjax.org)
 * [emojify.js](https://github.com/emojione/emojify.js)
-* [term.js](https://github.com/emojione/emojify.js)
+* [term.js](https://github.com/chjj/term.js)
 
 # How to use
 
