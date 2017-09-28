@@ -1118,6 +1118,70 @@ arma::colvec E = A.col(2);
 ```
 ]]
 
+---
+
+# Element-wise functions
+
+
+.row[
+.column.w50[
+.row[
+`$$A\equiv\left[\begin{array}{ccc}a_{00}&a_{01}&a_{02}\\a_{10}&a_{11}&a_{12}\\a_{20}&a_{21}&a_{22}\end{array}\right]
+=\left[\begin{array}{ccc}1&2&3\\4&5&6\\7&8&9\end{array}\right]$$`
+]]
+.column.w45.middle[
+```C++
+arma::mat A = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}; // C++11
+```
+]]
+
+----
+
+.row[
+.column.w50[
+.row[
+`$$
+B=\left[\begin{array}{ccc}e^{a_{00}}&e^{a_{01}}&e^{a_{02}}\\e^{a_{10}}&e^{a_{11}}&e^{a_{12}}\\e^{a_{20}}&e^{a_{21}}&e^{a_{22}}\end{array}\right]
+$$`
+]
+]
+.column.w45.middle[
+```C++
+arma::mat B = arma::exp(A);
+```
+]]
+
+----
+
+.row[
+.column.w50[
+.row[
+`$$
+C=\left[\begin{array}{ccc}a_{00}^3&a_{01}^3&a_{02}^3\\a_{10}^3&a_{11}^3&a_{12}^3\\a_{20}^3&a_{21}^3&a_{22}^3\end{array}\right]
+$$`
+]
+]
+.column.w45.middle[
+```C++
+arma::mat C = arma::pow(A, 3);
+```
+]]
+
+----
+
+.row[
+.column.w50[
+.row[
+`$$
+D=\left[\begin{array}{ccc}a_{00}b_{00}&a_{01}b_{01}&a_{02}b_{02}\\a_{10}b_{10}&a_{11}b_{11}&a_{12}b_{12}\\a_{20}b_{20}&a_{21}b_{21}&a_{22}b_{22}\end{array}\right]
+$$`
+]
+]
+.column.w45.middle[
+```C++
+arma::mat D = A % B;
+```
+]]
 
     </textarea>
     <script src="core/javascript/remark.js"></script>
