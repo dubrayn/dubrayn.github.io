@@ -952,48 +952,53 @@ Conrad Sanderson and Ryan Curtin.
 
 .row[
 .column.w45.middle[
+.row[
 `$$A = \left[\begin{array}{cccc}1&2&3&4\end{array}\right]$$`
-]
+]]
 .column.w50.middle[
 ```C++
 arma::vec A = {1, 2, 3, 4}; // C++11
 ```
-]
-]
+]]
+
+----
 
 .row[
 .column.w45.middle[
+.row[
 `$$B = \left[\begin{array}{cc}1&2\\3&4\end{array}\right]$$`
-]
+]]
 .column.w50.middle[
 ```C++
 arma::mat B = { {1, 2}, {3, 4} }; // C++11
 ```
-]
-]
+]]
+
+----
 
 .row[
 .column.w45.middle[
+ .row[
 `$$C = B^{-1}$$`
-]
+]]
 .column.w50.middle[
 ```C++
 arma::mat C = B.i();
 ```
-]
-]
+]]
 
+----
 
 .row[
 .column.w45.middle[
+.row[
 `$$D = \left(B C^t\right)^{-1}$$`
-]
+]]
 .column.w50.middle[
 ```C++
 arma::mat D = (B * C.t()).i();
 ```
-]
-]
+]]
 
 ----
 
@@ -1015,8 +1020,7 @@ int main()
   return 0;
 }
 ```
-]
-]
+]]
 
 .row[
 .column.w45.middle[
@@ -1049,6 +1053,8 @@ arma::mat A = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}; // C++11
 ```
 ]]
 
+----
+
 .row[
 .column.w50[
 .row[
@@ -1065,47 +1071,55 @@ B.col(2) = A.col(0);
 ```
 ]]
 
-.row[
-.column.w50[
-.row[
-`$$
-B=\left[\begin{array}{cccc}a_{00}&a_{01}&a_{02}&10\\a_{10}&a_{11}&a_{12}&11\\a_{20}&a_{21}&a_{22}&12\end{array}\right]
-$$`
-]]
-.column.w45.middle[
-```C++
-arma::mat B = A;
-B.insert_cols(3, arma::colvec({10, 11, 12}));
-```
-]]
+----
 
 .row[
 .column.w50[
 .row[
 `$$
-B=\left[\begin{array}{ccc}a_{10}&a_{11}&a_{12}\end{array}\right]
+C=\left[\begin{array}{cccc}a_{00}&a_{01}&a_{02}&10\\a_{10}&a_{11}&a_{12}&11\\a_{20}&a_{21}&a_{22}&12\end{array}\right]
 $$`
 ]]
 .column.w45.middle[
 ```C++
-arma::row B = A.row(1);
+arma::mat C = A;
+C.insert_cols(3, arma::colvec({10, 11, 12}));
 ```
 ]]
+
+----
 
 .row[
 .column.w50[
 .row[
 `$$
-B=\left[\begin{array}{c}a_{20}\\a_{21}\\a_{22}\end{array}\right]
+D=\left[\begin{array}{ccc}a_{10}&a_{11}&a_{12}\end{array}\right]
+$$`
+]]
+.column.w45.middle[
+```C++
+arma::row D = A.row(1);
+```
+]]
+
+----
+
+.row[
+.column.w50[
+.row[
+`$$
+E=\left[\begin{array}{c}a_{20}\\a_{21}\\a_{22}\end{array}\right]
 $$`
 ]
 ]
 .column.w45.middle[
 ```C++
-arma::colvec B = A.col(2);
+arma::colvec E = A.col(2);
 ```
-]]    </textarea>
+]]
 
+
+    </textarea>
     <script src="core/javascript/remark.js"></script>
     <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
     <script src="core/javascript/emojify.js" type="text/javascript"></script>
