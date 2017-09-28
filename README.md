@@ -3,7 +3,7 @@
 This repository contains some lectures given at the ENSIIE french school.
 Two presentation templates are also provided (one for the CEA and one for the ENSIIE).
 The presentations can be viewed online at [https://dubrayn.github.io](https://dubrayn.github.io).
-The official git repository can be found at [https://github.com/dubrayn/dubrayn.bitbucket.io](https://github.com/dubrayn/dubrayn.bitbucket.io).
+The official git repository can be found at [https://github.com/dubrayn/dubrayn.github.io](https://github.com/dubrayn/dubrayn.github.io).
 
 # Technologies used
 
