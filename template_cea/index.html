@@ -73,6 +73,23 @@ Presentation template - N. Dubray - CEA - 2017
 
 ---
 
+# :warning: important remark for firefox users
+
+Browsing a **local** `remark.js` presentation ?
+
+1. go to *`about:config`*,
+
+2. search for the *`origin_policy`* pattern,
+
+3. set the property *`security.fileuri.strict_origin_policy`* to *`false`*.
+
+.center.w80.animated.fadeInUp.wait1s[
+![](images/firefox_config.png)
+]
+
+
+---
+
 class: toc top
 # Example of a table of content
 
@@ -123,7 +140,8 @@ total 48
 -rw-r----- 1 dubrayn dubrayn  505 Mar  7 15:56 Makefile                                       
 drwxr-x--- 4 dubrayn dubrayn 4096 Mar  3 16:41 </span><span class="reset bg-reset bold "></span><span class="blue bg-reset bold ">bindings</span><span class="reset "></span><span class="reset bg-reset ">                                       
 -rw-r----- 1 dubrayn dubrayn  807 Mar  3 16:40 README                                         
-
+</pre>
+<pre id="terminal">
 ## vim example:
 <span class="bold "></span><span class="yellow bold "></span><span class="yellow bg-black bold ">   1 </span><span class="blue bg-black bold ">#include </span><span class="purple bg-black bold ">&quot;fields.h&quot;</span><span class="white "></span><span class="white bg-black ">                                                                       
 </span><span class="white bg-black bold "></span><span class="yellow bg-black bold ">   2 </span><span class="blue bg-black bold ">#include </span><span class="purple bg-black bold ">&quot;hfb.h&quot;</span><span class="white "></span><span class="white bg-black ">                                                                          
@@ -131,7 +149,7 @@ drwxr-x--- 4 dubrayn dubrayn 4096 Mar  3 16:41 </span><span class="reset bg-rese
 </span><span class="white bg-black bold "></span><span class="yellow bg-black bold ">   4 </span><span class="yellow "></span><span class="yellow bg-black ">/** \</span><span class="yellow bg-black bold "></span><span class="purple bg-black bold ">file</span><span class="white "></span><span class="white bg-black ">                                                                                 
 </pre>
 
-* or use quotes (**preferred way**):
+* or use quotes (this is the **preferred way**, thanks to the syntax highlighting):
 
 ```python
 import sys
@@ -139,7 +157,7 @@ import sys
 print("Hello !")
 ```
 
-* or use spaces:
+* or use spaces (no syntax highlighting):
 
 
     > make clean
@@ -255,8 +273,8 @@ class: center, middle
         Bob-->>-Alice: cloning
         Carol->>+Bob: git clone
         Bob-->>-Carol: cloning
-				Note over Alice: commit(s)
-				Note over Carol: commit(s)
+				Note over Alice: commits
+				Note over Carol: commits
 				Alice->>+Bob: git push
         Bob-->>-Alice: new HEAD
 				Carol->>+Bob: git push
