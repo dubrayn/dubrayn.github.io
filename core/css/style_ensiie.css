@@ -24,7 +24,6 @@ th {
   background: rgba(0, 136, 192, 1.0);
   color: rgb(255, 255, 255);
   text-shadow:  1px  1px 2px rgba(0, 0, 0, 0.7);
-
 }
 
 hr {
@@ -37,6 +36,3 @@ hr {
 h1 > code.remark-inline-code {
   color: rgba(210, 210, 255, 1.0);
 }
-
-
-
