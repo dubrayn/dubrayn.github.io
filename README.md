@@ -25,7 +25,7 @@ You can also view the [list of presentations](toc/index.html).
 
 If you are browsing a *local* version of a presentation, be sure to set the property
 `security.fileuri.strict_origin_policy` to `false` in the `about:config` page. This will allow
-firefox to access files from different directories whithout encoutering cross-site problems.
+firefox to access files from different directories whithout encountering cross-site problems.
 See [this page](https://developer.mozilla.org/en-US/docs/Same-origin_policy_for_file:_URIs)
 for more information.
 
