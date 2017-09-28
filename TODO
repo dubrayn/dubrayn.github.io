@@ -1,0 +1,93 @@
+ * doxygen
+ * LaTeX
+ * unit tests
+* HPC project
+ * overview (from idea to results)
+ * applying
+  * identify target supercomp
+  * dimension the project
+  * test the code 1 (scalability, benchmarks...)
+  * example of an application
+ * porting the code
+  * supercomp overview (file system, modules, libs, compilers...)
+  * preparatory access
+   * test the code 2 (scalability, benchmarks...)
+  * queues
+  * restart mechanism
+* scientific libraries
+ * lapack
+ * MKL
+ * armadillo
+* programming techniques
+ * mix languages
+ * python as a glue
+  * bindings
+ * quadratures
+ * vectorization
+ * loops optimization
+* debug / profiling
+ * gdb
+ * valgrind
+ * DIY timers
+* data storage
+ * mongoDB
+ * MPI-IO
+* post-processing
+ * python + mongoDB
+* data visualization
+ * matplotlib
+ * paraview
+ * blender
+ * POVRay
+
+# ==== PSA ====
+
+* IPS summary
+* development tools
+* scientific libraries
+ * scalapack
+ * magma
+ * eigen
+* programming techniques
+ * errors / exceptions
+ * OpenMP
+ * MPI master / slaves
+ * threads
+ * live monitoring
+  * API
+	* JSON
+* data visualization
+ * VTK
+ * paraview plugin
+ * blender plugin
+
+# IPS project goals:
+
+* initialize project (hierarchy of files, of classes, doxygen, Makefile, clean, git, cxxtest, data, bindings, README, LICENSE)
+* derivate cylindrical HO solutions (LaTeX in doxygen), implement them, check H|p>=E|p>
+* write C++ msgpack importer
+* calculate the local density from a msgpack
+* monitor the code performances with at least a simple timer
+* num. calculate some <Q0m> values
+* ana. calculate some <Q0m> values
+* visualize local density in paraview, blender, povray, etc...
+* use bindings in a MPI4py python script to calculate from mongoDB to ana. and num. <Q0m> values
+* implement a transparent restart mechanism in the python script
+* make a scalability benchmark, identify IO and CPU times
+* write monitor server
+* write monitor client
+
+# PSA project goals:
+
+* initialize project (hierarchy of files, of classes, doxygen, Makefile, clean, git, cxxtest, data, bindings, README, LICENSE)
+* derivate cylindrical HO solutions (LaTeX in doxygen), implement them, check H|p>=E|p>
+* write C++ msgpack importer
+* calculate the local density from a msgpack
+* monitor the code performances with at least a simple timer
+* calculate the local density from a msgpack
+* num. calculate some <Q0m> values
+* ana. calculate some <Q0m> values
+* visualize local density in paraview, blender, povray, etc...
+* use bindings in a MPI4py python script to calculate from mongoDB to ana. and num. <Q0m> values
+* implement a transparent restart mechanism in the python script
+* make a scalability benchmark, identify IO and CPU times

@@ -1035,142 +1035,76 @@ result
 
 ---
 
-# Remaining tools (1)
+# Manipulate rows/columns
 
- * doxygen
- * LaTeX
- * unit tests
-* HPC project
- * overview (from idea to results)
- * applying
-  * identify target supercomp
-  * dimension the project
-  * test the code 1 (scalability, benchmarks...)
-  * example of an application
- * porting the code
-  * supercomp overview (file system, modules, libs, compilers...)
-  * preparatory access
-   * test the code 2 (scalability, benchmarks...)
-  * queues
-  * restart mechanism
+.row[
+.column.w50[
+.row[
+`$$A\equiv\left[\begin{array}{ccc}a_{00}&a_{01}&a_{02}\\a_{10}&a_{11}&a_{12}\\a_{20}&a_{21}&a_{22}\end{array}\right]
+=\left[\begin{array}{ccc}1&2&3\\4&5&6\\7&8&9\end{array}\right]$$`
+]]
+.column.w45.middle[
+```C++
+arma::mat A = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}; // C++11
+```
+]]
 
----
+.row[
+.column.w50[
+.row[
+`$$
+B=\left[\begin{array}{ccc}a_{02}&a_{01}&a_{00}\\a_{12}&a_{11}&a_{10}\\a_{22}&a_{21}&a_{20}\end{array}\right]
+$$`
+]]
+.column.w45.middle[
+```C++
+arma::mat B = A;
+B.col(0) = A.col(2);
+B.col(1) = A.col(1);
+B.col(2) = A.col(0);
+```
+]]
 
-# Remaining tools (2)
+.row[
+.column.w50[
+.row[
+`$$
+B=\left[\begin{array}{cccc}a_{00}&a_{01}&a_{02}&10\\a_{10}&a_{11}&a_{12}&11\\a_{20}&a_{21}&a_{22}&12\end{array}\right]
+$$`
+]]
+.column.w45.middle[
+```C++
+arma::mat B = A;
+B.insert_cols(3, arma::colvec({10, 11, 12}));
+```
+]]
 
-* scientific libraries
- * lapack
- * MKL
- * armadillo
-* programming techniques
- * mix languages
- * python as a glue
-  * bindings
- * quadratures
- * vectorization
- * loops optimization
-* debug / profiling
- * gdb
- * valgrind
- * DIY timers
+.row[
+.column.w50[
+.row[
+`$$
+B=\left[\begin{array}{ccc}a_{10}&a_{11}&a_{12}\end{array}\right]
+$$`
+]]
+.column.w45.middle[
+```C++
+arma::row B = A.row(1);
+```
+]]
 
----
-
-# Remaining tools (3)
-
-* data storage
- * mongoDB
- * MPI-IO
-* post-processing
- * python + mongoDB
-* data visualization
- * matplotlib
- * paraview
- * blender
- * POVRay
-
----
-
-# ==== PSA ====
-
-* IPS summary
-* development tools
-* scientific libraries
- * scalapack
- * magma
- * eigen
-* programming techniques
- * errors / exceptions
- * OpenMP
- * MPI master / slaves
- * threads
- * live monitoring
-  * API
-	* JSON
-* data visualization
- * VTK
- * paraview plugin
- * blender plugin
-
----
-
-# IPS project goals:
-
-* initialize project (hierarchy of files, of classes, doxygen, Makefile, clean, git, cxxtest, data, bindings, README, LICENSE)
-* derivate cylindrical HO solutions (LaTeX in doxygen), implement them, check H|p>=E|p>
-* write C++ msgpack importer
-* calculate the local density from a msgpack
-* monitor the code performances with at least a simple timer
-* num. calculate some <Q0m> values
-* ana. calculate some <Q0m> values
-* visualize local density in paraview, blender, povray, etc...
-* use bindings in a MPI4py python script to calculate from mongoDB to ana. and num. <Q0m> values
-* implement a transparent restart mechanism in the python script
-* make a scalability benchmark, identify IO and CPU times
-* write monitor server
-* write monitor client
-
----
-
-# PSA project goals:
-
-* initialize project (hierarchy of files, of classes, doxygen, Makefile, clean, git, cxxtest, data, bindings, README, LICENSE)
-* derivate cylindrical HO solutions (LaTeX in doxygen), implement them, check H|p>=E|p>
-* write C++ msgpack importer
-* calculate the local density from a msgpack
-* monitor the code performances with at least a simple timer
-* calculate the local density from a msgpack
-* num. calculate some <Q0m> values
-* ana. calculate some <Q0m> values
-* visualize local density in paraview, blender, povray, etc...
-* use bindings in a MPI4py python script to calculate from mongoDB to ana. and num. <Q0m> values
-* implement a transparent restart mechanism in the python script
-* make a scalability benchmark, identify IO and CPU times
-
----
-
-# mermaid test
-
-.mermaid[
-    graph LR
-    A( mermaid.js ) --> B[OK]
+.row[
+.column.w50[
+.row[
+`$$
+B=\left[\begin{array}{c}a_{20}\\a_{21}\\a_{22}\end{array}\right]
+$$`
 ]
-
----
-
-# cinescript test
-
-<div data-dir='scripts/toto4' class='cinescript'></div>
-
----
-
-# gitgraph test
-
-.center[
- <canvas id='test00'></canvas>
 ]
-
-    </textarea>
+.column.w45.middle[
+```C++
+arma::colvec B = A.col(2);
+```
+]]    </textarea>
 
     <script src="core/javascript/remark.js"></script>
     <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
