@@ -800,7 +800,7 @@ target0: dep0 dep1 dep2
 ## Makefile
 ```makefile
 main: main.c main.h
-    gcc -o main main.c
+	gcc -o main main.c
 ```
 
 ---
@@ -824,7 +824,7 @@ OBJS = main.o
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $? -o $@
+	$(CC) $(CFLAGS) $^ -o $@
 
 %.o: %.c %.h
 	$(CC) $(CFLAGS) $< -c -o $@
@@ -878,7 +878,7 @@ OBJS = main.o
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(LDFLAGS) $? -o $@
+	$(CC) $(LDFLAGS) $^ -o $@
 
 %.o: %.c %.h
 	$(CC) $(CFLAGS) $< -c -o $@
@@ -896,7 +896,8 @@ clean:
 * replace by env. variable: `${VAR}`
 * replace by target: `$@`
 * replace by first dependency: `$<`
-* replace by all dependencies: `$?`
+* replace by dependencies more recent than target: `$<`
+* replace by all dependencies: `$^`
 * target must always be updated: `.PHONY: target`
 * launch `GNU Make` in a given directory: `make -C dir`
 .center.w50[![](images/wizard.png)]
@@ -912,7 +913,7 @@ clean:
 ## .center[Initial Makefile]
 ```Makefile
 main: main.c main.h
-    gcc -o main main.c
+	gcc -o main main.c
 ```
 ]
 .column.w45[
@@ -932,7 +933,7 @@ main: main.c main.h
 ## .center[Initial Makefile]
 ```Makefile
 main: main.c main.h
-    gcc -o main main.c
+	gcc -o main main.c
 ```
 ]
 .column.w5[:arrow_right:]
@@ -1005,7 +1006,7 @@ TARGET = main
 *OBJS = main.o
 
 *$(TARGET): $(OBJS)
-*	gcc -o $@ $?
+*	gcc -o $@ $^
 
 *%.o: %.cpp %.h
 *	gcc -c $<
@@ -1029,7 +1030,7 @@ TARGET = main
 OBJS = main.o
 
 $(TARGET): $(OBJS)
-	gcc -o $@ $?
+	gcc -o $@ $^
 
 %.o: %.c %.h
 	gcc -c $<
@@ -1053,7 +1054,7 @@ OBJS = main.o
 *all: $(TARGET)
 
 $(TARGET): $(OBJS)
-*	$(CC) $(LDFLAGS) $? -o $@
+*	$(CC) $(LDFLAGS) $^ -o $@
 
 %.o: %.c %.h
 *	$(CC) $(CFLAGS) $< -c -o $@
@@ -1175,9 +1176,9 @@ int main()
 {
   arma::mat A = {{1, 2}, {3, 4}}; // C++11
   arma::mat B = {{5, 6}, {7, 8}}; // C++11
-       
+
   ( A * B.t() ).print("result");
-            
+
   return 0;
 }
 ```
