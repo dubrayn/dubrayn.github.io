@@ -31,6 +31,10 @@ hr {
   height: 550px;
 }
 
+.remark-code-line-highlighted {
+  background-color: rgba(113, 0, 116, 1);
+}
+
 .remark-slide-content ul, .remark-slide-content ol, .remark-slide-content pre {
   margin: 0.4em 0 0.4em 0;
 }

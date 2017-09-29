@@ -377,8 +377,8 @@ $ git log --draw --oneline --color
 ## List branches
 ```shell
 $ git branch
-  dev
-* main
+   dev
+ * main
 ```
 
 ## Create a branch
@@ -824,13 +824,12 @@ OBJS = main.o
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $? -o $@
 
 %.o: %.c %.h
 	$(CC) $(CFLAGS) $< -c -o $@
 
 .PHONY: clean
-
 clean:
 	rm -f $(OBJS)
 	rm -f $(TARGET)
@@ -871,20 +870,20 @@ $
 ## .center[Makefile]
 ```Makefile
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -O3
+LDFLAGS =
 TARGET = main
 OBJS = main.o
 
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(LDFLAGS) $? -o $@
 
 %.o: %.c %.h
 	$(CC) $(CFLAGS) $< -c -o $@
 
 .PHONY: clean
-
 clean:
 	rm -f $(OBJS)
 	rm -f $(TARGET)
@@ -903,6 +902,168 @@ clean:
 .center.w50[![](images/wizard.png)]
 ]
 ]
+
+---
+
+# Makefile transformation
+
+.row[
+.column.w45[
+## .center[Initial Makefile]
+```Makefile
+main: main.c main.h
+    gcc -o main main.c
+```
+]
+.column.w45[
+* not easily extendable
+* will almost always rebuild everything
+* has no standard target names
+* not easily tweakable
+* etc...
+]]
+
+---
+
+# Makefile transformation
+
+.row[
+.column.w45[
+## .center[Initial Makefile]
+```Makefile
+main: main.c main.h
+    gcc -o main main.c
+```
+]
+.column.w5[:arrow_right:]
+.column.w45[
+## .center[Add a `clean` target]
+```Makefile
+main: main.c main.h
+	gcc -o main main.c
+
+*.PHONY: clean
+*clean:
+*	rm -f main
+```
+]]
+
+---
+
+# Makefile transformation
+
+.row[
+.column.w45[
+## .center[Add a `clean` target]
+```Makefile
+main: main.c main.h
+	gcc -o main main.c
+
+.PHONY: clean
+clean:
+	rm -f main
+```
+]
+.column.w5[:arrow_right:]
+.column.w45[
+## .center[Use variables]
+```Makefile
+*TARGET = main
+
+*$(TARGET): main.c main.h
+*	gcc -o $@ main.c
+
+.PHONY: clean
+clean:
+*	rm -f $(TARGET)
+```
+]]
+
+---
+
+# Makefile transformation
+
+.row[
+.column.w45[
+## .center[Use variables]
+```Makefile
+TARGET = main
+
+$(TARGET): main.c main.h
+	gcc -o $@ main.c
+
+.PHONY: clean
+clean:
+	rm -f $(TARGET)
+```
+]
+.column.w5[:arrow_right:]
+.column.w45[
+## .center[Use intermediate objects]
+```Makefile
+TARGET = main
+*OBJS = main.o
+
+*$(TARGET): $(OBJS)
+*	gcc -o $@ $?
+
+*%.o: %.cpp %.h
+*	gcc -c $<
+
+.PHONY: clean
+clean:
+*	rm -f $(OBJS)
+	rm -f $(TARGET)
+```
+]]
+
+---
+
+# Makefile transformation
+
+.row[
+.column.w45[
+## .center[Use intermediate objects]
+```Makefile
+TARGET = main
+OBJS = main.o
+
+$(TARGET): $(OBJS)
+	gcc -o $@ $?
+
+%.o: %.c %.h
+	gcc -c $<
+
+.PHONY: clean
+clean:
+	rm -f $(OBJS)
+	rm -f $(TARGET)
+```
+]
+.column.w5[:arrow_right:]
+.column.w45[
+## .center[Add standard variables/targets]
+```Makefile
+*CC = gcc
+*CFLAGS = -Wall -O3
+*LDFLAGS =
+TARGET = main
+OBJS = main.o
+
+*all: $(TARGET)
+
+$(TARGET): $(OBJS)
+*	$(CC) $(LDFLAGS) $? -o $@
+
+%.o: %.c %.h
+*	$(CC) $(CFLAGS) $< -c -o $@
+
+.PHONY: clean
+clean:
+	rm -f $(OBJS)
+	rm -f $(TARGET)
+```
+]]
 
 ---
 
@@ -1199,7 +1360,7 @@ arma::mat D = A % B;
     var slideshow = remark.create({
       highlightStyle: 'monokai',
       countIncrementalSlides: false,
-      highlightLines: false,
+      highlightLines: true,
       highlightInlineCode: false
     });
 
