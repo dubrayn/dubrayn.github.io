@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/jstree.css"> 
   </head>
   <body>
     <textarea id="source" readonly>
@@ -896,7 +897,7 @@ clean:
 * replace by env. variable: `${VAR}`
 * replace by target: `$@`
 * replace by first dependency: `$<`
-* replace by dependencies more recent than target: `$<`
+* replace by dependencies more recent than target: `$?`
 * replace by all dependencies: `$^`
 * target must always be updated: `.PHONY: target`
 * launch `GNU Make` in a given directory: `make -C dir`
@@ -1065,6 +1066,22 @@ clean:
 	rm -f $(TARGET)
 ```
 ]]
+
+---
+
+# Recursive Makefiles
+
+<div id="jstree">
+ <ul>
+  <li>000
+   <ul>
+    <li>001</li>
+    <li>002</li>
+   </ul>
+  </li>
+  <li>003</li>
+ </ul>
+</div>  
 
 ---
 
@@ -1379,8 +1396,6 @@ arma::eig_gen(E, X, A);
 ```
 ]]
 
-
-
 ---
 
 # Object initialisation
@@ -1473,6 +1488,7 @@ Mandatory bookmark in your browser:
     <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
     <script src="core/javascript/cinescript.js" type="text/javascript"></script>
     <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script src="core/javascript/jstree.js" type="text/javascript"></script>
     <script>
 
     // === Remark.js initialization ===
@@ -1504,6 +1520,10 @@ Mandatory bookmark in your browser:
           mermaid.init(undefined, diagrams[i]);
         }
       }
+
+      $(function () {
+        $('#jstree').jstree();
+      });
     }
 
     slideshow.on('afterShowSlide', initMermaid);
