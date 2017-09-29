@@ -1110,59 +1110,7 @@ Conrad Sanderson and Ryan Curtin.
 
 ---
 
-# Armadillo examples
-
-.row[
-.column.w45.middle[
-.row[
-`$$A = \left[\begin{array}{cccc}1&2&3&4\end{array}\right]$$`
-]]
-.column.w50.middle[
-```C++
-arma::vec A = {1, 2, 3, 4}; // C++11
-```
-]]
-
-----
-
-.row[
-.column.w45.middle[
-.row[
-`$$B = \left[\begin{array}{cc}1&2\\3&4\end{array}\right]$$`
-]]
-.column.w50.middle[
-```C++
-arma::mat B = { {1, 2}, {3, 4} }; // C++11
-```
-]]
-
-----
-
-.row[
-.column.w45.middle[
- .row[
-`$$C = B^{-1}$$`
-]]
-.column.w50.middle[
-```C++
-arma::mat C = B.i();
-```
-]]
-
-----
-
-.row[
-.column.w45.middle[
-.row[
-`$$D = \left(B C^t\right)^{-1}$$`
-]]
-.column.w50.middle[
-```C++
-arma::mat D = (B * C.t()).i();
-```
-]]
-
-----
+# Armadillo example
 
 .row[
 .column.w45.middle[
@@ -1284,7 +1232,6 @@ arma::colvec E = A.col(2);
 
 # Element-wise functions
 
-
 .row[
 .column.w50[
 .row[
@@ -1344,6 +1291,177 @@ $$`
 arma::mat D = A % B;
 ```
 ]]
+
+---
+
+# Standard linear algebra operations
+
+.row[
+.column.w50[
+.row[
+`$$A\equiv\left[\begin{array}{ccc}a_{00}&a_{01}&a_{02}\\a_{10}&a_{11}&a_{12}\\a_{20}&a_{21}&a_{22}\end{array}\right]
+=\left[\begin{array}{ccc}1&2&3\\4&5&6\\7&8&9\end{array}\right]$$`
+]]
+.column.w45.middle[
+```C++
+arma::mat A = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}; // C++11
+```
+]]
+
+----
+
+.row[
+.column.w50[
+.row[
+`$$
+B=A^{-1}
+$$`
+]
+]
+.column.w45.middle[
+```C++
+arma::mat B = A.i();
+```
+]]
+
+----
+
+.row[
+.column.w50.middle[
+ .row[
+`$$C = B^t$$`
+]]
+.column.w45.middle[
+```C++
+arma::mat C = B.t();
+```
+]]
+
+----
+
+.row[
+.column.w50.middle[
+.row[
+`$$D = \left(B C^t\right)^{-1}$$`
+]]
+.column.w45.middle[
+```C++
+arma::mat D = (B * C.t()).i();
+```
+]]
+
+----
+
+.row[
+.column.w50.middle[
+.row[
+`$$d_A = \textrm{det}(A)$$`
+]]
+.column.w45.middle[
+```C++
+double d_A = arma::det(A);
+```
+]]
+
+----
+
+.row[
+.column.w50.middle[
+.row[
+Solve `$$AX= EX$$`
+]]
+.column.w45.middle[
+```C++
+arma::cx_vec E;
+arma::cx_mat X;
+
+arma::eig_gen(E, X, A);
+```
+]]
+
+
+
+---
+
+# Object initialisation
+
+.row[
+.column.w50.middle[
+.row[
+`$$A \equiv \left[\begin{array}{ccc}a_0&a_1&a_2\end{array}\right]
+= \left[\begin{array}{cccc}1&2&3\end{array}\right]$$`
+]]
+.column.w45.middle[
+```C++
+arma::rowvec A  = {1, 2, 3}; // C++11
+```
+]]
+
+----
+
+.row[
+.column.w50.middle[
+.row[
+`$$B \equiv \left[\begin{array}{c}b_0\\b_1\\b_2\end{array}\right]
+= \left[\begin{array}{c}1\\2\\3\end{array}\right]$$`
+]]
+.column.w45.middle[
+```C++
+arma::colvec B = {1, 2, 3, 4}; // C++11
+```
+]]
+
+----
+
+.row[
+.column.w50.middle[
+.row[
+`$$C = \left[\begin{array}{cc}1&2\\3&4\end{array}\right]$$`
+]]
+.column.w45.middle[
+```C++
+arma::mat C = { {1, 2}, {3, 4} }; // C++11
+```
+]]
+
+----
+
+.row[
+.column.w50.middle[
+.row[
+`$$D = \left[\begin{array}{ccc}a_0&0&0\\0&a_1&0\\0&0&a_2\end{array}\right]$$`
+]]
+.column.w45.middle[
+```C++
+arma::mat D = arma::diagmat(A);
+```
+]]
+
+----
+
+.row[
+.column.w50.middle[
+.row[
+`$$E = \left[\begin{array}{ccc}b_{0}&0&0\\0&b_{1}&0\\0&0&b_{2}\end{array}\right]$$`
+]]
+.column.w45.middle[
+```C++
+arma::mat E = arma::diagmat(B);
+```
+]]
+
+
+
+---
+
+# `Armadillo` documentation
+
+:arrow_right: We have only scratched the surface of what `Armadillo` can do.
+
+Mandatory bookmark in your browser:
+
+[http://arma.sourceforge.net/docs.html](http://arma.sourceforge.net/docs.html)
+
 
     </textarea>
     <script src="core/javascript/remark.js"></script>
