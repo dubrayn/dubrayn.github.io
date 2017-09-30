@@ -10,7 +10,6 @@
     <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/jstree.css"> 
   </head>
   <body>
     <textarea id="source" readonly>
@@ -1071,7 +1070,7 @@ clean:
 
 # Recursive Makefiles
 
-<div id="jstree">
+<div id="tree">
  <ul>
   <li>000
    <ul>
@@ -1488,7 +1487,6 @@ Mandatory bookmark in your browser:
     <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
     <script src="core/javascript/cinescript.js" type="text/javascript"></script>
     <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
-    <script src="core/javascript/jstree.js" type="text/javascript"></script>
     <script>
 
     // === Remark.js initialization ===
@@ -1520,10 +1518,6 @@ Mandatory bookmark in your browser:
           mermaid.init(undefined, diagrams[i]);
         }
       }
-
-      $(function () {
-        $('#jstree').jstree();
-      });
     }
 
     slideshow.on('afterShowSlide', initMermaid);
