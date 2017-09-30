@@ -82,7 +82,7 @@ Browsing a **local** `remark.js` presentation ?
 
 3. set the property *`security.fileuri.strict_origin_policy`* to *`false`*.
 
-.center.w80.animated.fadeInUp.wait1s[
+.hcenter.w80.animated.fadeInUp.wait1s[
 ![](images/firefox_config.png)
 ]
 
@@ -113,7 +113,7 @@ class: toc top
 # :clipboard: Example of table
 
 ## A table
-.center[
+.hcenter[
 | Points                  | `git` | `doxygen` | `VTK` | `python` | `gdb` | `MPI` | `\(\LaTeX\)` | `LAPACK` |
 |:------------------------|:-----:|:---------:|:-----:|:--------:|:-----:|:-----:|:------------:|:--------:|
 | *0*. What ?             |       |           |       |          |       |       |              |          |
@@ -122,7 +122,7 @@ class: toc top
 | *3*. I love it !        |  :+:  |    :+:    |       |   :+:    |       |  :+:  |      :+:     |    :+:   |
 ]
 
-.center[Centered caption]
+.hcenter[Centered caption]
 
 ## Some math
 `$$\int_0^\infty f(x)e^{-x} dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
@@ -167,7 +167,7 @@ print("Hello !")
 class: middle
 # Example #1 of a cinescript capture
 
-.center[
+.hcenter[
 <div data-dir='scripts/toto' class='cinescript'></div>
 ]
 
@@ -176,7 +176,7 @@ class: middle
 class: middle
 # Example #2 of a cinescript capture
 
-.center[
+.hcenter[
 <div data-dir='scripts/toto2' class='cinescript'></div>
 ]
 
@@ -248,7 +248,7 @@ Take a look at the markdown source to see that an exact numbering is not needed 
 
 # Some tables / blocks ?
 
-.center[
+.hcenter[
 | Example table           | `git` | `doxygen` | `VTK` | `python` | `gdb` | `MPI` | `\(\LaTeX\)` | `LAPACK` |
 |:------------------------|:-----:|:---------:|:-----:|:--------:|:-----:|:-----:|:------------:|:--------:|
 | *0*. What ?             |       |           |       |          |       |       |              |          |
@@ -256,14 +256,14 @@ Take a look at the markdown source to see that an exact numbering is not needed 
 | *2*. I use it.          |       |           |  :+:  |          |  :+:  |       |              |          |
 | *3*. I love it !        |  :+:  |    :+:    |       |   :+:    |       |  :+:  |      :+:     |    :+:   |
 ]
-.center[This is a serious table.]
+.hcenter[This is a serious table.]
 .block[ Some text in a box, with some math: `$$a=b$$` ]
 some text
 .alert[ Some important text in a box, with some math: `$$\pi \simeq 3.1415926535$$` ]
 
 ---
 
-class: center, middle
+class: hcenter, middle
 # A chart with `mermaid.js`
 
 .mermaid[
@@ -311,7 +311,7 @@ Use **`![](image.png)`**
 
 Lorem ipsum morbi taciti id adipiscing sed magna integer arcu eros nibh tortor interdum ultricies senectus accumsan, lacus suscipit a cursus pretium pellentesque est arcu blandit duis vivamus condimentum rhoncus molestie.
 
-.block.rightf.w20.animated.fadeInRight.wait1s[ ![](images/wikipedia_logo.png).center[Wikipedia logo] ]
+.block.rightf.w20.animated.fadeInRight.wait1s[ ![](images/wikipedia_logo.png).hcenter[Wikipedia logo] ]
 
 Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.
 
@@ -344,11 +344,11 @@ Yes, you can animate things.
 
 .animated.wait3s.fadeIn[and...]
 
-.center.block.animated.wait4s.fadeInUp[Some final text with some math :panda_face: !!! `$$a=b$$`]
+.hcenter.block.animated.wait4s.fadeInUp[Some final text with some math :panda_face: !!! `$$a=b$$`]
 
 ---
 
-class: center, middle
+class: hcenter, middle
 # Include a video
 
 <video controls="yes" preload="auto" width="100%" height="auto" data-setup="{}" loop>
@@ -357,7 +357,21 @@ class: center, middle
 
 ---
 
-class: center, middle
+# Include a tree
+
+A tree ? really ?
+.alert.tree.hcenter[
+This
+* is a
+    * **tree**
+* like
+    * no
+        * other
+]
+
+---
+
+class: hcenter, middle
 # Conclusion
 
 **That's all folks !**
