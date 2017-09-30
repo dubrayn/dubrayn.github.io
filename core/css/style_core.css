@@ -139,32 +139,37 @@ h1 {
   vertical-align: top !important;
 }
 
-.center {
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  align-items: center;
-}
-
-span .center {
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  align-items: center;
-}
-
-.center table {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-div .center {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-div .center * {
+div .hcenter {
   text-align: left;
+}
+
+span.hcenter {
+  display: block;
+  text-align: center;
+}
+
+.hcenter {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+}
+
+span .hcenter {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+}
+
+.hcenter table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div .hcenter {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 h2 { width: 100%; font-size: 130% !important; }
@@ -352,8 +357,13 @@ div.remark-code-line:empty:before {
 /* ======== images ======== */
 /* ======================== */
 
+p span {
+  display: block;
+}
+
 img {
   max-width: 100%;
+  display: block;
 }
 
 .shadow img {
@@ -440,7 +450,6 @@ hr {
 
 .shadow {
   margin-bottom: 0.8em;
-  display: inline-block;
 }
 
 /* ======================== */
