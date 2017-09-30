@@ -1497,6 +1497,19 @@ arma::eig_gen(E, X, A);
 ```
 ]]
 
+----
+
+.row[
+.column.w50.middle[
+.row[
+`$$s = \sum_{ij} a_{ij}$$`
+]]
+.column.w45.middle[
+```C++
+double s = arma::accu(A);
+```
+]]
+
 ---
 
 # Object initialisation
@@ -1565,8 +1578,6 @@ arma::mat D = arma::diagmat(A);
 arma::mat E = arma::diagmat(B);
 ```
 ]]
-
-
 
 ---
 
