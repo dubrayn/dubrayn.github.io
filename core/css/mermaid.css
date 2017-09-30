@@ -4,6 +4,8 @@
 
 .mermaid {
   display: block;
+  text-align: center;
+  font-size: 1.0em;
 }
 
 .mermaid .label {

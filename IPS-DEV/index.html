@@ -788,20 +788,26 @@ target0: dep0 dep1 dep2
 * for a given target to be updated, `GNU Make` checks which of its dependencies must be updated by checking their modification time
 * if a target **does not exist or is older than some of its dependencies**, `GNU Make` tries to update it
 
-## Example
-.mermaid.center.w70[
-    graph TD
-    A(main.c)
-    B(test.c)
-    C(test.h)
-    D(Makefile)
-]
+----
 
-## Makefile
+## Example
+
+.row[
+.column.w40[
+.tree.center[
+project
+* main.c
+* test.c
+* test.h
+* **Makefile**
+]]
+.column.w55.middle[
+## .center[Makefile]
 ```makefile
 main: main.c main.h
-	gcc -o main main.c
+    gcc -o main main.c
 ```
+]]
 
 ---
 
@@ -824,15 +830,15 @@ OBJS = main.o
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@
+    $(CC) $(CFLAGS) $^ -o $@
 
 %.o: %.c %.h
-	$(CC) $(CFLAGS) $< -c -o $@
+    $(CC) $(CFLAGS) $< -c -o $@
 
 .PHONY: clean
 clean:
-	rm -f $(OBJS)
-	rm -f $(TARGET)
+    rm -f $(OBJS)
+    rm -f $(TARGET)
 ```
 ]
 
@@ -856,7 +862,6 @@ rm -f main.o
 rm -f main
 $ ls
 main.c  main.h  Makefile
-$
 ```
 ]
 ]
@@ -878,15 +883,15 @@ OBJS = main.o
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(LDFLAGS) $^ -o $@
+    $(CC) $(LDFLAGS) $^ -o $@
 
 %.o: %.c %.h
-	$(CC) $(CFLAGS) $< -c -o $@
+    $(CC) $(CFLAGS) $< -c -o $@
 
 .PHONY: clean
 clean:
-	rm -f $(OBJS)
-	rm -f $(TARGET)
+    rm -f $(OBJS)
+    rm -f $(TARGET)
 ```
 ]
 
@@ -913,7 +918,7 @@ clean:
 ## .center[Initial Makefile]
 ```Makefile
 main: main.c main.h
-	gcc -o main main.c
+    gcc -o main main.c
 ```
 ]
 .column.w45[
@@ -933,7 +938,7 @@ main: main.c main.h
 ## .center[Initial Makefile]
 ```Makefile
 main: main.c main.h
-	gcc -o main main.c
+    gcc -o main main.c
 ```
 ]
 .column.w5[:arrow_right:]
@@ -941,11 +946,11 @@ main: main.c main.h
 ## .center[Add a `clean` target]
 ```Makefile
 main: main.c main.h
-	gcc -o main main.c
+    gcc -o main main.c
 
 *.PHONY: clean
 *clean:
-*	rm -f main
+*   rm -f main
 ```
 ]]
 
@@ -958,11 +963,11 @@ main: main.c main.h
 ## .center[Add a `clean` target]
 ```Makefile
 main: main.c main.h
-	gcc -o main main.c
+    gcc -o main main.c
 
 .PHONY: clean
 clean:
-	rm -f main
+    rm -f main
 ```
 ]
 .column.w5[:arrow_right:]
@@ -972,11 +977,11 @@ clean:
 *TARGET = main
 
 *$(TARGET): main.c main.h
-*	gcc -o $@ main.c
+*   gcc -o $@ main.c
 
 .PHONY: clean
 clean:
-*	rm -f $(TARGET)
+*   rm -f $(TARGET)
 ```
 ]]
 
@@ -991,11 +996,11 @@ clean:
 TARGET = main
 
 $(TARGET): main.c main.h
-	gcc -o $@ main.c
+    gcc -o $@ main.c
 
 .PHONY: clean
 clean:
-	rm -f $(TARGET)
+    rm -f $(TARGET)
 ```
 ]
 .column.w5[:arrow_right:]
@@ -1006,15 +1011,15 @@ TARGET = main
 *OBJS = main.o
 
 *$(TARGET): $(OBJS)
-*	gcc -o $@ $^
+*   gcc -o $@ $^
 
 *%.o: %.cpp %.h
-*	gcc -c $<
+*   gcc -c $<
 
 .PHONY: clean
 clean:
-*	rm -f $(OBJS)
-	rm -f $(TARGET)
+*   rm -f $(OBJS)
+    rm -f $(TARGET)
 ```
 ]]
 
@@ -1030,15 +1035,15 @@ TARGET = main
 OBJS = main.o
 
 $(TARGET): $(OBJS)
-	gcc -o $@ $^
+    gcc -o $@ $^
 
 %.o: %.c %.h
-	gcc -c $<
+    gcc -c $<
 
 .PHONY: clean
 clean:
-	rm -f $(OBJS)
-	rm -f $(TARGET)
+    rm -f $(OBJS)
+    rm -f $(TARGET)
 ```
 ]
 .column.w5[:arrow_right:]
@@ -1054,17 +1059,99 @@ OBJS = main.o
 *all: $(TARGET)
 
 $(TARGET): $(OBJS)
-*	$(CC) $(LDFLAGS) $^ -o $@
+*   $(CC) $(LDFLAGS) $^ -o $@
 
 %.o: %.c %.h
-*	$(CC) $(CFLAGS) $< -c -o $@
+*   $(CC) $(CFLAGS) $< -c -o $@
 
 .PHONY: clean
 clean:
-	rm -f $(OBJS)
-	rm -f $(TARGET)
+    rm -f $(OBJS)
+    rm -f $(TARGET)
 ```
 ]]
+
+---
+
+# Recursive Makefiles
+
+.row[
+.column.w45[
+.tree[
+project
+* src
+    * ...
+    * Makefile
+* doc
+    * ...
+    * Makefile
+* **Makefile**
+]]
+.column.w45[
+## .center[Makefile]
+```Makefile
+*CC = gcc
+*CFLAGS = -Wall -O3
+*LDFLAGS =
+TARGET = main
+OBJS = main.o
+
+*all: $(TARGET)
+
+$(TARGET): $(OBJS)
+*   $(CC) $(LDFLAGS) $^ -o $@
+
+%.o: %.c %.h
+*   $(CC) $(CFLAGS) $< -c -o $@
+
+.PHONY: clean
+clean:
+    rm -f $(OBJS)
+    rm -f $(TARGET)
+```
+]]
+
+---
+
+# Recursive Makefiles
+
+.row[
+.column.w40.middle[
+.tree.center[
+project
+* src
+    * ...
+    * **Makefile**
+* doc
+    * ...
+    * Makefile
+* Makefile
+]]
+.column.w55[
+## .center[Makefile]
+```Makefile
+CC = gcc
+CFLAGS = -Wall -O3
+LDFLAGS =
+TARGET = main
+OBJS = main.o
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+    $(CC) $(LDFLAGS) $^ -o $@
+
+%.o: %.c %.h
+    $(CC) $(CFLAGS) $< -c -o $@
+
+.PHONY: clean
+clean:
+    rm -f $(OBJS)
+    rm -f $(TARGET)
+```
+]]
+
+
 
 ---
 
@@ -1159,7 +1246,9 @@ result
 ]]
 .column.w45.middle[
 ```C++
-arma::mat A = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}; // C++11
+arma::mat A = { {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9} }; // C++11
 ```
 ]]
 
@@ -1240,7 +1329,9 @@ arma::colvec E = A.col(2);
 ]]
 .column.w45.middle[
 ```C++
-arma::mat A = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}; // C++11
+arma::mat A = { {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9} }; // C++11
 ```
 ]]
 
@@ -1304,7 +1395,9 @@ arma::mat D = A % B;
 ]]
 .column.w45.middle[
 ```C++
-arma::mat A = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}; // C++11
+arma::mat A = { {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9} }; // C++11
 ```
 ]]
 
@@ -1460,6 +1553,36 @@ Mandatory bookmark in your browser:
 
 [http://arma.sourceforge.net/docs.html](http://arma.sourceforge.net/docs.html)
 
+---
+
+# Tree test
+
+.tree[
+level0
+* level1
+    * level2
+        * level3
+            * level4
+                * plop
+        * other file 3
+    * other file 2
+        * other file 3
+* other file 1
+]
+
+---
+
+# Code test
+
+```shell
+$ ls -la
+0 2345678 10 345678 20 345678 30 345678 40 345678 50 345678 60 345678 70 345678 80 345678 90 345678 100 45678 110 45678 120 4567
+```
+
+```shell
+$ ls -la
+0 2345678 10 345678 20 345678 30 345678 40 345678 50 345678 60 345678 70 345678 80 345678 90 345678 100 45678 110 45678 120 4567
+```
 
     </textarea>
     <script src="core/javascript/remark.js"></script>

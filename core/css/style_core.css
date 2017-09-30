@@ -1,3 +1,7 @@
+/* ========================= */
+/* ======== general ======== */
+/* ========================= */
+
 body {
   font-family: 'Helvetica';
   font-weight: normal;
@@ -5,57 +9,71 @@ body {
   text-align: justify;
 }
 
-img {
-  max-width: 100%;
+/* ============================ */
+/* ======== title page ======== */
+/* ============================ */
+
+.titlepage {
+  align-content: flex-start;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
 }
 
-hr {
-  width: 100%;
-  border: 0;
-  height: 5px;
-  background-image: linear-gradient(to right, rgba(182, 38, 52, 0.5), rgba(182, 38, 52, 1), rgba(182, 38, 52, 0.5));
+.titlepage {
+  font-size: 0.7em;
 }
+
+.titlepage .remark-slide-number {
+  display: none;
+}
+
+.titlepage p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.title {
+  font-size: 190%;
+  margin-right: auto;
+  font-weight: bold;
+  flex: 0 0 auto;
+}
+
+.subtitle {
+  font-size: 110%;
+  margin-right: auto;
+  font-weight: bold;
+  flex: 0 0 auto;
+}
+
+/* =========================== */
+/* ======== remark.js ======== */
+/* =========================== */
 
 .remark-slide {
   position: initial;
 }
+
 .remark-slide-content {
+  font-size: 1.3em;
   background-size: 908px 681px;
   background-position: 50% 0px;
   background-image: url('images/background_cea.png');
-  font-size: 1.3em;
   padding: 10% 4% 6% 4%;
+
   color: rgba(20,20,40,1.0);
   display: flex;
   flex-flow: column nowrap;
   height: 550px;
 }
 
-.remark-code-line-highlighted {
-  background-color: rgba(113, 0, 116, 1);
-}
-
-.remark-slide-content ul:not(.jstree-container-ul), .remark-slide-content ol, .remark-slide-content pre {
+.remark-slide-content ul, .remark-slide-content ol, .remark-slide-content pre {
   margin: 0.4em 0 0.4em 0;
 }
 
 .remark-slide-content p {
   margin: 0.2em 0 0.2em 0;
-}
-
-.noflex {
-}
-
-.leftf {
-  float: left;
-  margin-right: 10px;
-  margin-left: 0;
-}
-
-.rightf {
-  float: right;
-  margin-left: 5px;
-  margin-right: 0;
 }
 
 .remark-slide-scaler {
@@ -68,139 +86,6 @@ hr {
 
 .remark-slide-content * {
   flex: 0 0 auto;
-}
-
-.toc .remark-slide-number {
-  display: none;
-}
-
-.toc {
-  vertical-align: top;
-}
-
-.toc ol {
-  list-style-type: Upper-roman;
-}
-
-.toc ol, .toc ul {
-  margin: 0 0 0 1em;
-}
-
-.toc li {
-  margin: 0 0 1em 0;
-}
-
-.toc ul {
-  list-style-type: disc;
-}
-
-.toc ul ul {
-  list-style-type: square;
-}
-
-.toc ol ul {
-  list-style-type: square;
-}
-
-.toc li {
-  font-size: 150%;
-}
-
-.toc li li {
-  font-size: 80%;
-  margin: 0 0 0 0;
-}
-
-.toc strong {
-  color: rgba(182, 38, 52, 1.0);
-  font-weight: bold;
-}
-
-.toc em {
-  color: rgba(182, 38, 52, 1.0);
-  font-weight: normal;
-}
-
-.remark-inline-code {
-  box-shadow: none;
-}
-
-.shadow img {
-   vertical-align: top;
-}
-
-.shadow {
-  margin-bottom: 0.8em;
-  display: inline-block;
-}
-
-.grow {
-  flex-grow: 1;
-}
-
-
-.mermaid rect {
-  filter: drop-shadow( 4px 4px 3px rgba(0, 0, 0, 0.5) );
-}
-
-
-#terminal, code, .remark-code, video, table, .block, .alert, .cinescript, .shadow, hr {
-  box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.5);
-}
-
-.alert, .block {
-  padding: 0.2em;
-}
-
-.block {
-  border: 0.15em solid rgba(150,150,255,0.3);
-  background: rgba(150,150,255,0.2);
-}
-
-.alert {
-  border: 0.15em solid rgba(255,150,150,0.3);
-  background: rgba(255,150,150,0.2);
-}
-
-video {
-  font-size: 0.1em;
-}
-
-.f9, #terminal, .remark-code, .hljs.remark-code, .cinescript {
-  color: #FFFFFF;
-  font-family: mymono;
-  font-size: 0.7em;
-  line-height: 110%;
-}
-
-#terminal, .remark-code, .hljs.remark-code, .cinescript {
-  background-color: rgba(0,0,0,0.9);
-}
-
-
-.alert, .block, #terminal, code, .remark-code, .cinescript {
-  border-radius: 0.2em;
-}
-
-#terminal, code, .remark-code, .cinescript {
-  overflow: hidden;
-  word-break: break-all;
-  padding: 0.3em;
-}
-
-.remark-inline-code {
-  font-size: 1.0em;
-  padding: 0em;
-}
-
-.mermaid {
-  text-align: center;
-  font-size: 1.0em;
-}
-
-.MathJax_Display { 
-  margin: 0.2em 0 0.2em 0 !important;
-  display: flex;
 }
 
 .column {
@@ -250,39 +135,6 @@ h1 {
   line-height: 2.7em;
 }
 
-h1 > code.remark-inline-code {
-  color: rgba(255, 210, 210, 1.0);
-}
-
-h1 > code.remark-inline-code.has-jax {
-  color: rgba(255, 255, 255, 1.0);
-}
-
-
-/* uncomment for h2 subtitles
-h2 {
-  color: rgba(255, 255, 255,1.0); 
-  position: absolute;
-  top: 0;
-  left: 2%;
-  font-size: 90% !important;
-  line-height: 2.2em;
-  margin: 0;
-  padding: 0;
-  font-weight: normal;
-}
-
-h2 em {
- font-weight: bold;
- color: rgba(255, 255, 255, 1);
-}
-
-h1 {
-  line-height: 3.4em;
-}
-*/
-
-
 .top {
   vertical-align: top !important;
 }
@@ -313,29 +165,6 @@ div .center {
 
 div .center * {
   text-align: left;
-}
-
-table
-{
-  border-collapse: collapse;
-  font-size: 1.0em;
-  border: none;
-/*  border: 0.15em solid rgba(185,201,255,1.0); */
-}
-
-th
-{
-  font-weight: normal;
-  padding: 0.2em;
-  background: rgba(195,221,255,1.0);
-  border: 0.15em solid rgba(195,221,255,1.0);
-}
-
-td
-{
-  padding: 0.2em;
-  border: 0.15em solid rgba(195,221,255,1.0);
-  border-top: none;
 }
 
 h2 { width: 100%; font-size: 130% !important; }
@@ -398,16 +227,6 @@ em {
   bottom: 0.05em;
   opacity: 1;
   color: rgba(255, 255, 255, 1.0);
-/*
-  text-shadow:  2px  2px 4px rgba(180, 200, 255, 1),
-                2px -2px 4px rgba(180, 200, 255, 1),
-               -2px  2px 4px rgba(180, 200, 255, 1),
-               -2px -2px 4px rgba(180, 200, 255, 1),
-                2px  0px 4px rgba(180, 200, 255, 1),
-               -2px  0px 4px rgba(180, 200, 255, 1),
-                0px  2px 4px rgba(180, 200, 255, 1),
-                0px -2px 4px rgba(180, 200, 255, 1);
-                */
 }
 
 .remark-slide-number {
@@ -418,12 +237,69 @@ em {
   left: 1em;
 }
 
-.emoji {
-  width: 1.2em;
-  height: 1.2em;
-  display: inline-block;
-  margin-bottom: 0.1em;
-  background-size: contain;
+/* ====================== */
+/* ======== misc ======== */
+/* ====================== */
+
+.grow {
+  flex-grow: 1;
+}
+
+.noflex {
+}
+
+.leftf {
+  float: left;
+  margin-right: 10px;
+  margin-left: 0;
+}
+
+.rightf {
+  float: right;
+  margin-left: 5px;
+  margin-right: 0;
+}
+
+/* ====================== */
+/* ======== code ======== */
+/* ====================== */
+
+.remark-inline-code {
+  box-shadow: none;
+}
+
+.remark-code-line-highlighted {
+  background-color: rgba(113, 0, 116, 1);
+}
+
+.f9, #terminal, .remark-code, .hljs.remark-code, .cinescript {
+  color: #FFFFFF;
+  font-family: mymono;
+  font-size: 0.7em;
+  line-height: 110%;
+}
+
+#terminal, .remark-code, .hljs.remark-code, .cinescript {
+  background-color: rgba(0,0,0,0.9);
+}
+
+#terminal, code, .remark-code, .cinescript, .hljs.remark-code {
+  overflow: hidden;
+  word-break: break-all;
+  padding: 0.3em;
+}
+
+.remark-inline-code {
+  font-size: 1.0em;
+  padding: 0em;
+}
+
+h1 > code.remark-inline-code {
+  color: rgba(255, 210, 210, 1.0);
+}
+
+h1 > code.remark-inline-code.has-jax {
+  color: rgba(255, 255, 255, 1.0);
 }
 
 div.remark-code-line:empty:before {
@@ -438,38 +314,9 @@ div.remark-code-line:empty:before {
   padding: 0.3em;
 }
 
-.titlepage .remark-slide-number {
-  display: none;
-}
-
-.titlepage {
-  align-content: flex-start;
-  justify-content: center;
-  font-size: 1.0em;
-  display: flex;
-  flex-direction: column;
-
-}
-
-.titlepage p {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-}
-
-.title {
-  font-size: 220%;
-  margin-right: auto;
-  font-weight: bold;
-  flex: 0 0 auto;
-}
-
-.subtitle {
-  font-size: 130%;
-  margin-right: auto;
-  font-weight: bold;
-  flex: 0 0 auto;
-}
-
+/* ================================= */
+/* ======== terminal colors ======== */
+/* ================================= */
 
 .reset     {color: white;}
 .bg-reset  {}
@@ -493,6 +340,231 @@ div.remark-code-line:empty:before {
 .bold      {font-weight: bold;}
 .blink     {text-decoration: blink;}
 
+/* ========================= */
+/* ======== corners ======== */
+/* ========================= */
+
+.alert, .block, #terminal, code, .remark-code, .cinescript {
+  border-radius: 0.2em;
+}
+
+/* ======================== */
+/* ======== images ======== */
+/* ======================== */
+
+img {
+  max-width: 100%;
+}
+
+.shadow img {
+   vertical-align: top;
+}
+
+/* ================================= */
+/* ======== separation line ======== */
+/* ================================= */
+
+hr {
+  width: 100%;
+  border: 0;
+  height: 5px;
+  background-image: linear-gradient(to right, rgba(182, 38, 52, 0.5), rgba(182, 38, 52, 1), rgba(182, 38, 52, 0.5));
+}
+
+/* ================================== */
+/* ======== table of content ======== */
+/* ================================== */
+
+.toc .remark-slide-number {
+  display: none;
+}
+
+.toc {
+  vertical-align: top;
+}
+
+.toc ol {
+  list-style-type: Upper-roman;
+}
+
+.toc ol, .toc ul {
+  margin: 0 0 0 1em;
+}
+
+.toc li {
+  margin: 0 0 1em 0;
+}
+
+.toc ul {
+  list-style-type: disc;
+}
+
+.toc ul ul {
+  list-style-type: square;
+}
+
+.toc ol ul {
+  list-style-type: square;
+}
+
+.toc li {
+  font-size: 150%;
+}
+
+.toc li li {
+  font-size: 80%;
+  margin: 0 0 0 0;
+}
+
+.toc strong {
+  color: rgba(182, 38, 52, 1.0);
+  font-weight: bold;
+}
+
+.toc em {
+  color: rgba(182, 38, 52, 1.0);
+  font-weight: normal;
+}
+
+/* ======================== */
+/* ======== shadow ======== */
+/* ======================== */
+
+.mermaid rect {
+  filter: drop-shadow( 4px 4px 3px rgba(0, 0, 0, 0.5) );
+}
+
+#terminal, code, .remark-code, video, table, .block, .alert, .cinescript, .shadow, hr {
+  box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.5);
+}
+
+.shadow {
+  margin-bottom: 0.8em;
+  display: inline-block;
+}
+
+/* ======================== */
+/* ======== blocks ======== */
+/* ======================== */
+
+.alert, .block {
+  padding: 0.2em;
+}
+
+.block {
+  border: 0.15em solid rgba(150,150,255,0.3);
+  background: rgba(150,150,255,0.2);
+}
+
+.alert {
+  border: 0.15em solid rgba(255,150,150,0.3);
+  background: rgba(255,150,150,0.2);
+}
+
+/* ======================== */
+/* ======== videos ======== */
+/* ======================== */
+
+video {
+  font-size: 0.1em;
+}
+
+/* ========================= */
+/* ======== mathjax ======== */
+/* ========================= */
+
+.MathJax_Display { 
+  margin: 0.2em 0 0.2em 0 !important;
+  display: flex;
+}
+
+/* ======================== */
+/* ======== tables ======== */
+/* ======================== */
+
+table
+{
+  border-collapse: collapse;
+  font-size: 1.0em;
+  border: none;
+/*  border: 0.15em solid rgba(185,201,255,1.0); */
+}
+
+th
+{
+  font-weight: normal;
+  padding: 0.2em;
+  background: rgba(195,221,255,1.0);
+  border: 0.15em solid rgba(195,221,255,1.0);
+}
+
+td
+{
+  padding: 0.2em;
+  border: 0.15em solid rgba(195,221,255,1.0);
+  border-top: none;
+}
+
+/* ======================== */
+/* ======== emojis ======== */
+/* ======================== */
+
+.emoji {
+  width: 1.2em;
+  height: 1.2em;
+  display: inline-block;
+  margin-bottom: 0.1em;
+  background-size: contain;
+}
+
+/* ====================== */
+/* ======== tree ======== */
+/* ====================== */
+
+.tree {
+  font-family: mymono;
+}
+
+.tree ul {
+  margin: 0px 0px 0px 20px;
+  list-style: none;
+  line-height: 1.5em;
+  padding: 0;
+}
+
+.tree ul li {
+  position: relative;
+}
+
+.tree ul li:before {
+  position: absolute;
+  left: -15px;
+  top: 0px;
+  content: '';
+  display: block;
+  border-left: 2px solid #000;
+  height: 0.8em;
+  border-bottom: 2px solid #000;
+  width: 10px;
+}
+
+.tree ul li:after {
+  position: absolute;
+  left: -15px;
+  bottom: -7px;
+  content: '';
+  display: block;
+  border-left: 2px solid #000;
+  height: 100%;
+}
+
+.tree ul li:last-child:after {
+  display: none;
+}
+
+/* ============================ */
+/* ======== print hack ======== */
+/* ============================ */
 
 @page {
 /* size: 908px 681px; */
