@@ -50,7 +50,7 @@ IPS-DEV - N. Dubray - ENSIIE - 2017
 * *research subject:* microscopic description of the fission process
 * *skills:* scientist / developer / HPC user / sysadmin
 
-.center.shadow.w50[![](images/density.png)]
+.hcenter.shadow.w50[![](images/density.png)]
 
 ---
 
@@ -235,7 +235,7 @@ class: top
 
 # Version control system: `git`
 
-.center.w15[![](images/git_logo.png)]
+.hcenter.w15[![](images/git_logo.png)]
 
 ## History
  * distributed version control system
@@ -360,13 +360,13 @@ $ git log --draw --oneline --color
 
 # GUI tool `gitk`
 
-.center.shadow[![](images/gitk_00.png)]
+.hcenter.shadow[![](images/gitk_00.png)]
 
 ---
 
 # GUI tool `gitg`
 
-.center.w90.shadow[![](images/gitg.png)]
+.hcenter.w90.shadow[![](images/gitg.png)]
 
 ---
 
@@ -667,7 +667,7 @@ $ git tag v0.3.0
 
 # Remote repositories
 
-.mermaid.w70.center[
+.mermaid.w70.hcenter[
     sequenceDiagram
         Remote-->>+Local repo: git clone/pull
         Local repo->>Files: git checkout
@@ -705,7 +705,7 @@ $ git pull farAway
 * several ways to use it, *follow the guidelines*
 * **the de-facto standard CVS**
 
-.center.w50[![](images/git_logo.png)]
+.hcenter.w50[![](images/git_logo.png)]
 ]
 .column.w55[
 <canvas id='gitExample1'></canvas>
@@ -739,7 +739,7 @@ $ git pull farAway
 
 # Build system: `GNU Make`
 
-.center.w20[![](images/gnu_logo.png)]
+.hcenter.w20[![](images/gnu_logo.png)]
 
 ## Key facts
 * originally created by *Stuart Feldman* in April 1976 at Bell Labs
@@ -792,17 +792,17 @@ target0: dep0 dep1 dep2
 
 ## Example
 
-.row[
-.column.w40[
-.tree.center[
+.row.hcenter.w50[
+.column.w30[
+.tree.hcenter[
 project
 * main.c
 * test.c
 * test.h
 * **Makefile**
 ]]
-.column.w55.middle[
-## .center[Makefile]
+.column.w65.middle[
+## .hcenter[Makefile]
 ```makefile
 main: main.c main.h
     gcc -o main main.c
@@ -820,7 +820,7 @@ main: main.c main.h
 
 .row[
 .column.w45[
-## .center[Makefile]
+## .hcenter[Makefile]
 ```Makefile
 CC = gcc
 CFLAGS = -Wall
@@ -843,7 +843,7 @@ clean:
 ]
 
 .column.w45[
-## .center[Shell session]
+## .hcenter[Shell session]
 ```shell
 $ make
 gcc -Wall main.c -c -o main.o
@@ -872,7 +872,7 @@ main.c  main.h  Makefile
 
 .row[
 .column.w35[
-## .center[Makefile]
+## .hcenter[Makefile]
 ```Makefile
 CC = gcc
 CFLAGS = -Wall -O3
@@ -896,7 +896,7 @@ clean:
 ]
 
 .column.w60[
-## .center[Magic spell]
+## .hcenter[Magic spell]
 * replace by internal variable: `$(VAR)`
 * replace by env. variable: `${VAR}`
 * replace by target: `$@`
@@ -905,7 +905,7 @@ clean:
 * replace by all dependencies: `$^`
 * target must always be updated: `.PHONY: target`
 * launch `GNU Make` in a given directory: `make -C dir`
-.center.w50[![](images/wizard.png)]
+.hcenter.w50[![](images/wizard.png)]
 ]
 ]
 
@@ -915,7 +915,7 @@ clean:
 
 .row[
 .column.w45[
-## .center[Initial Makefile]
+## .hcenter[Initial Makefile]
 ```Makefile
 main: main.c main.h
     gcc -o main main.c
@@ -935,7 +935,7 @@ main: main.c main.h
 
 .row[
 .column.w45[
-## .center[Initial Makefile]
+## .hcenter[Initial Makefile]
 ```Makefile
 main: main.c main.h
     gcc -o main main.c
@@ -943,7 +943,7 @@ main: main.c main.h
 ]
 .column.w5[:arrow_right:]
 .column.w45[
-## .center[Add a `clean` target]
+## .hcenter[Add a `clean` target]
 ```Makefile
 main: main.c main.h
     gcc -o main main.c
@@ -960,7 +960,7 @@ main: main.c main.h
 
 .row[
 .column.w45[
-## .center[Add a `clean` target]
+## .hcenter[Add a `clean` target]
 ```Makefile
 main: main.c main.h
     gcc -o main main.c
@@ -972,7 +972,7 @@ clean:
 ]
 .column.w5[:arrow_right:]
 .column.w45[
-## .center[Use variables]
+## .hcenter[Use variables]
 ```Makefile
 *TARGET = main
 
@@ -991,7 +991,7 @@ clean:
 
 .row[
 .column.w45[
-## .center[Use variables]
+## .hcenter[Use variables]
 ```Makefile
 TARGET = main
 
@@ -1005,7 +1005,7 @@ clean:
 ]
 .column.w5[:arrow_right:]
 .column.w45[
-## .center[Use intermediate objects]
+## .hcenter[Use intermediate objects]
 ```Makefile
 TARGET = main
 *OBJS = main.o
@@ -1029,7 +1029,7 @@ clean:
 
 .row[
 .column.w45[
-## .center[Use intermediate objects]
+## .hcenter[Use intermediate objects]
 ```Makefile
 TARGET = main
 OBJS = main.o
@@ -1048,7 +1048,7 @@ clean:
 ]
 .column.w5[:arrow_right:]
 .column.w45[
-## .center[Add standard variables/targets]
+## .hcenter[Add standard variables/targets]
 ```Makefile
 *CC = gcc
 *CFLAGS = -Wall -O3
@@ -1068,6 +1068,88 @@ $(TARGET): $(OBJS)
 clean:
     rm -f $(OBJS)
     rm -f $(TARGET)
+```
+]]
+
+---
+
+# Recursive Makefiles
+
+.row.hcenter.w70[
+.column.w25[
+.tree[
+project
+* src
+    * ...
+    * **Makefile**
+* doc
+    * ...
+    * Makefile
+* Makefile
+]]
+.column.w70[
+## .hcenter[Makefile]
+```Makefile
+CC = gcc
+CFLAGS = -Wall -O3
+LDFLAGS =
+TARGET = main
+OBJS = main.o
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+    $(CC) $(LDFLAGS) $^ -o $@
+
+%.o: %.c %.h
+    $(CC) $(CFLAGS) $< -c -o $@
+
+.PHONY: clean
+clean:
+    rm -f $(OBJS)
+    rm -f $(TARGET)
+```
+]]
+
+---
+
+# Recursive Makefiles
+
+.row.hcenter.w70[
+.column.w25[
+.tree[
+project
+* src
+    * ...
+    * Makefile
+* doc
+    * ...
+    * Makefile
+* **Makefile**
+]]
+.column.w70[
+## .hcenter[Makefile]
+```Makefile
+SUBDIRS := doc/. src/.
+TARGETS := all clean
+
+# foo/.all bar/.all foo/.clean bar/.clean
+SUBDIRS_TARGETS := \
+    $(foreach t,$(TARGETS),$(addsuffix $t,$(SUBDIRS)))
+
+.PHONY : $(TARGETS) $(SUBDIRS_TARGETS)
+
+# static pattern rule, expands into:
+# all clean : % : foo/.% bar/.%
+$(TARGETS) : % : $(addsuffix %,$(SUBDIRS))
+    @echo 'Done "$*" target'
+
+# here, for foo/.all:
+#   $(@D) is foo
+#   $(@F) is .all, with leading period
+#   $(@F:.%=%) is just all
+$(SUBDIRS_TARGETS) :
+    $(MAKE) -C $(@D) $(@F:.%=%)
 ```
 ]]
 
@@ -1097,7 +1179,7 @@ clean:
 
 # Armadillo
 
-.center[![](images/armadillo_logo.png)]
+.hcenter[![](images/armadillo_logo.png)]
 
 ## In a nutshell
 * [http://arma.sourceforge.net](http://arma.sourceforge.net)
