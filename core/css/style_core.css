@@ -363,7 +363,6 @@ p span {
 
 img {
   max-width: 100%;
-  display: block;
 }
 
 .shadow img {
@@ -379,6 +378,8 @@ hr {
   border: 0;
   height: 5px;
   background-image: linear-gradient(to right, rgba(182, 38, 52, 0.5), rgba(182, 38, 52, 1), rgba(182, 38, 52, 0.5));
+  margin-top: 3px;
+  margin-bottom: 3px;
 }
 
 /* ================================== */
