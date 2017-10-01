@@ -1190,9 +1190,236 @@ $(SUBDIRS_TARGETS) :
 
 ---
 
+# Doxygen
+
+.hcenter.w30[![](images/doxygen_logo.png)]
+
+## Key points
+
+* documentation generator
+* supports `C++` (originally), `C`, `C#`, `Objective C`, `Fortran`, `PHP`, `Python`, etc...
+* interprets special comments in the source code **and the source code itself**
+* generates documentation pages in `HTML`, `\(\LaTeX\)`, `PDF`, etc...
+
+## Main ideas
+
+1. The documentation is **in the code**, so it is easier to keep the code and the documentation **in sync**.
+2. Developers are encouraged to document their code in a standardized format **when they write it**.
+
+---
+
+# Example of a documented code
+
+## .hcenter[`test.cpp`]
+
+.hcenter[
+```C++
+/**
+ * @file test.cpp
+ */
+
+/**
+ * A global variable.
+ */
+int global = 0;
+
+/**
+ * A very simple test function.
+ *
+ * This function is for test purposes only.
+ * The returned value should not be used for anything serious.
+ * 
+ * If you have any remark concerning this function, please append it to the file /dev/null.
+ *
+ * @param arg0 This is the first argument. It should be ignored.
+ * @param arg1 This is the second argument. It should also be ignored.
+ * @return The returned value can be used as a neutral element for the addition operation.
+ */
+double testFunc(int arg0, int arg1)
+{
+  return 0.0; // Not very useful...
+}
+
+```
+]
+
+---
+
+# Generate the documentation
+
+<div data-dir='scripts/toto6' class='cinescript'></div>
+
+---
+
+# Browse the documentation
+
+.shadow.hcenter.w90[![](images/doxygen_example.png)]
+
+.hcenter[
+[`HTML` documentation pages](test_doxygen/doc/html/index.html)
+]
+
+---
+
+# Configure `Doxygen`
+
+## Tweak the generic configuration file
+
+```shell
+$ doxygen -g Doxyfile
+
+
+Configuration file `Doxyfile' created.
+
+Now edit the configuration file and enter
+
+  doxygen Doxyfile
+
+  to generate the documentation for your project
+*$ vim Doxyfile # tweak !!!
+$ doxygen
+[...]
+```
+
+## .hcenter[`Doxyfile` (sample)]
+
+```text
+[...]
+# This tag specifies the encoding used for all characters in the config file
+# that follow. The default is UTF-8 which is also the encoding used for all text
+# before the first occurrence of this tag. Doxygen uses libiconv (or the iconv
+# built into libc) for the transcoding. See http://www.gnu.org/software/libiconv
+# for the list of possible encodings.
+# The default value is: UTF-8.
+
+*DOXYFILE_ENCODING      = UTF-8
+
+# The PROJECT_NAME tag is a single word (or a sequence of words surrounded by
+# double-quotes, unless you are using Doxywizard) that should identify the
+# project for which the documentation is generated. This name is used in the
+# title of most generated pages and in a few other places.
+# The default value is: My Project.
+
+*PROJECT_NAME           = "My Project"
+[...]
+```
+
+---
+
+# Configure `Doxygen`
+
+## Use a GUI
+
+```shell
+$ doxywizard
+```
+
+.shadow.hcenter.w100[![](images/doxywizard.png)]
+
+---
+
+# `Doxygen` output
+
+## .hcenter[`test.cpp`]
+
+```C++
+/**
+ * @file test.cpp
+ */
+
+/**
+ * A global variable.
+ */
+int global = 0;
+
+/**
+ * A very simple test function.
+ * 
+ * This function is for test purposes only.
+ * The returned value should not be used for anything serious.
+ *  
+ * If you have any remark concerning this function, please append it to the file /dev/null.
+ * 
+ * @param arg0 This is the first argument. It should be ignored.
+ * @param arg1 This is the second argument. It should also be ignored.
+ * @return The returned value can be used as a neutral element for the addition operation.
+ */
+double testFunc(int arg0, int arg1)
+{
+  return 0.0; // Not very useful...
+}
+
+*void undocumentedFunc(void)
+*{
+*  printf("This function is not documented !\n");
+*}
+```
+---
+
+# `Doxygen` output
+
+## Generate documentation
+
+```shell
+$ doxygen
+[...]
+Generating style sheet...
+Generating search indices...
+Generating example documentation...
+Generating file sources...
+Generating file documentation...
+Generating docs for file test.cpp...
+*/home/dubrayn/temp/dubrayn.github.io/IPS-DEV/test_doxygen/test.cpp:27: warning: Member undocumentedFunc(void)
+*(function) of file test.cpp is not documented.
+Generating page documentation...
+Generating group documentation...
+Generating class documentation...
+Generating namespace index...
+Generating graph info page...
+Generating directory documentation...
+Generating index page...
+Generating page index...
+Generating module index...
+Generating namespace index...
+Generating namespace member index...
+Generating annotated compound index...
+Generating alphabetical compound index...
+Generating hierarchical class index...
+Generating graphical class hierarchy...
+Generating member index...
+Generating file index...
+Generating file member index...
+Generating example index...
+[...]
+```
+
+---
+
+# Development tools
+
+## Tools presented in this course
+* version control system
+  * `subversion`, `mercurial`, `CVS`, `SVN`, `Bazaar`, **`git`** :+:
+* build system
+  * `Distutils`, `CMake`, `Autotools`, `qmake`, **`GNU Make`** :+:
+* documentation generator
+  * `Sphinx`, `Docutils`, **`Doxygen`** :+:
+* unit testing framework
+  * `*test*`, **`CxxTest`**
+* code formatting tool
+  * **`astyle`**, **`indent`**
+* commenting conventions
+  * various guidelines
+* performance analysis tools
+  * will be presented in PSA (S4)
+* binding generator
+  * will be presented in PSA (S4)
+
+---
+
 # Armadillo
 
-.hcenter.width40[![](images/armadillo_logo.png)]
+.hcenter.w30[![](images/armadillo_logo.png)]
 
 ## In a nutshell
 * [http://arma.sourceforge.net](http://arma.sourceforge.net)
@@ -1553,8 +1780,6 @@ arma::mat D = arma::diagmat(A);
 arma::mat E = arma::diagmat(B);
 ```
 ]]
-
-
 
 ---
 
