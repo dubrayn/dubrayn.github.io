@@ -1322,6 +1322,7 @@ $ doxywizard
 
 ## .hcenter[`test.cpp`]
 
+.hcenter[
 ```C++
 /**
  * @file test.cpp
@@ -1353,13 +1354,15 @@ double testFunc(int arg0, int arg1)
 *{
 *  printf("This function is not documented !\n");
 *}
-```
+```]
+
 ---
 
 # `Doxygen` output
 
-## Generate documentation
 
+.hcenter[
+## Generate documentation
 ```shell
 $ doxygen
 [...]
@@ -1391,7 +1394,83 @@ Generating file index...
 Generating file member index...
 Generating example index...
 [...]
-```
+```]
+
+---
+
+# `Doxygen` syntax
+
+## Special comment blocks
+.row[.w48[
+```text
+/**
+ * ... text ...
+ */
+```]
+.w48[
+```text
+/*!
+ ... text ...
+ */
+```]]
+
+.row[.w48[
+```text
+///
+///... text ...
+///
+```]
+.w48[
+```text
+//!
+//!... text ...
+//!
+```]]
+
+.row[.w48[
+```text
+/********************************************//**
+ *  ... text ...
+ ***********************************************/
+```]
+.w48[
+```text
+/////////////////////////////////////////////////
+/// ... text ...
+/////////////////////////////////////////////////
+```]]
+
+## Brief description
+
+.row[.w48[
+```text
+/// Brief description.
+/** Detailed description. */
+```]
+.w48[
+```text
+//! Brief description.
+
+//! Detailed description 
+//! starts here.
+```]]
+
+## Documentation after declaration
+
+.row[.w48[
+```C++
+int var; /*!< Detailed description after the member */
+```]
+.w48[
+```C++
+int var; ///< Brief description after the member
+```]]
+
+---
+
+# `Doxygen` commands
+
+TODO
 
 ---
 
