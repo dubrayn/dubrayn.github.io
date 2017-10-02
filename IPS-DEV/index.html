@@ -34,7 +34,7 @@ IPS-DEV - N. Dubray - ENSIIE - 2017
 ---
 
 layout: true
-class: animated fadeIn middle
+class: middle
 
 .footnote[
 IPS-DEV - N. Dubray - ENSIIE - 2017
@@ -1200,6 +1200,7 @@ $(SUBDIRS_TARGETS) :
 * supports `C++` (originally), `C`, `C#`, `Objective C`, `Fortran`, `PHP`, `Python`, etc...
 * interprets special comments in the source code **and the source code itself**
 * generates documentation pages in `HTML`, `\(\LaTeX\)`, `PDF`, etc...
+* understands `Markdown` syntax and numerous specific commands
 
 ## Main ideas
 
@@ -1212,7 +1213,6 @@ $(SUBDIRS_TARGETS) :
 
 ## .hcenter[`test.cpp`]
 
-.hcenter[
 ```C++
 /**
  * @file test.cpp
@@ -1241,7 +1241,6 @@ double testFunc(int arg0, int arg1)
 }
 
 ```
-]
 
 ---
 
@@ -1322,7 +1321,6 @@ $ doxywizard
 
 ## .hcenter[`test.cpp`]
 
-.hcenter[
 ```C++
 /**
  * @file test.cpp
@@ -1354,14 +1352,13 @@ double testFunc(int arg0, int arg1)
 *{
 *  printf("This function is not documented !\n");
 *}
-```]
+```
 
 ---
 
 # `Doxygen` output
 
 
-.hcenter[
 ## Generate documentation
 ```shell
 $ doxygen
@@ -1372,8 +1369,8 @@ Generating example documentation...
 Generating file sources...
 Generating file documentation...
 Generating docs for file test.cpp...
-*/home/dubrayn/temp/dubrayn.github.io/IPS-DEV/test_doxygen/test.cpp:27: warning: Member undocumentedFunc(void)
-*(function) of file test.cpp is not documented.
+*/home/dubrayn/temp/dubrayn.github.io/IPS-DEV/test_doxygen/test.cpp:27: warning: Member undocumentedFunc(void) (function) of file test.cpp
+* is not documented.
 Generating page documentation...
 Generating group documentation...
 Generating class documentation...
@@ -1394,7 +1391,7 @@ Generating file index...
 Generating file member index...
 Generating example index...
 [...]
-```]
+```
 
 ---
 
@@ -1468,9 +1465,51 @@ int var; ///< Brief description after the member
 
 ---
 
-# `Doxygen` commands
+# Some `Doxygen` commands
 
-TODO
+## File description
+
+```C++
+/*! \file file.h
+ * A brief file description.
+ * A more elaborated file description.
+ */
+```
+
+## Class / method / enum / etc... properties
+
+```C++
+/*! 
+ *  \brief     A trully random class.
+ *  \details   This class is used to demonstrate a number of section commands.
+ *  \author    John Doe
+ *  \author    Jan Doe
+ *  \version   3.14a
+ *  \date      2015-2017
+ *  \pre       First initialize the system.
+ *  \bug       Not all memory is freed when deleting an object of this class.
+ *  \warning   Improper use can crash your application
+ *  \copyright GNU Public License.
+ */
+class SomeRandomClass {};
+```
+
+## Main page
+
+```C++
+/*! \mainpage My Personal Index Page
+ *
+ * \section intro_sec Introduction
+ *
+ * This is the introduction.
+ *
+ * \section install_sec Installation
+ *
+ * \subsection step1 Step 1: Opening the box
+ *
+ * etc...
+ */
+```
 
 ---
 
