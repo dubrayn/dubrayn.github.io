@@ -385,7 +385,7 @@ $ git log --draw --oneline --color
 
 # GUI tool `gitk`
 
-.hcenter.shadow[![](images/gitk_00.png)]
+.hcenter.w90.shadow[![](images/gitk_00.png)]
 
 ---
 
@@ -766,7 +766,8 @@ $ git pull farAway
 
 .hcenter.w20[![](images/gnu_logo.png)]
 
-## Key facts
+## Key points
+
 * originally created by *Stuart Feldman* in April 1976 at Bell Labs
 * part of the `GNU Autotools`
 * allows to recompile **only the necessary files**
@@ -1547,11 +1548,167 @@ class SomeRandomClass {};
 
 ---
 
+# Unit tests
+
+.hcenter.shadow.w50[![](images/unit_tests_excuses.png)]
+
+---
+
+# `CxxTest`
+
+## Key points
+
+* unit testing framework for `C++`
+* very flexible
+* semi-automatic test discovery
+
+## .hcenter[`MyTestSuite.h`]
+```C++
+#include <cxxtest/TestSuite.h>
+
+class MyTestSuite : public CxxTest::TestSuite 
+{
+  public:
+  void testAddition( void )
+  {
+    TS_ASSERT( 1 + 1 > 1 );
+    TS_ASSERT_EQUALS( 1 + 1, 2 );
+  }
+};
+```
+
+```shell
+$ cxxtestgen --error-printer -o tests.cpp MyTestSuite.h
+$ g++ -o tests tests.cpp
+$ ./tests
+Running cxxtest tests (1 test).OK!
+```
+
+---
+
+# Example of a failed test
+
+## .hcenter[`MyTestSuite2.h`]
+```C++
+#include <cxxtest/TestSuite.h>
+
+class MyTestSuite2 : public CxxTest::TestSuite
+{
+public:
+    void testAddition(void)
+    {
+        TS_ASSERT(1 + 1 > 1);
+        TS_ASSERT_EQUALS(1 + 1, 2);
+    }
+
+    void testMultiplication(void)
+    {
+        TS_TRACE("Starting multiplication test");
+        TS_ASSERT_EQUALS(2 * 2, 5);
+        TS_TRACE("Finishing multiplication test");
+    }
+};
+```
+
+```shell
+$ cxxtestgen --error-printer -o tests.cpp MyTestSuite.h
+$ g++ -o tests tests.cpp
+$ ./tests
+Running cxxtest tests (2 tests).
+In MyTestSuite2::testMultiplication:
+/Users/wehart/home/mac/src/cxxtest/doc/examples/MyTestSuite2.h:16: Error: Expected (2 * 2 == 5), found (4 != 5)
+Failed 1 and Skipped 0 of 2 tests
+Success rate: 50%
+```
+
+---
+
+# Main assertions
+
+.hcenter[
+| Macro                             | Description                  |
+| --------------------------------- | ---------------------------- |
+| `TS_ASSERT(expr)`                 | Verify that expr is true     | 
+| `TS_ASSERT_DELTA(x,y,d)`          | Verify that abs(x-y) < d     |
+| `TS_ASSERT_DIFFERS(x,y)`          | Verify that x != y           |
+| `TS_ASSERT_EQUALS(x,y)`           | Verify that x == y           |
+| `TS_ASSERT_IS_NAN(x)`             | Verify that x is NaN         |
+| `TS_ASSERT_IS_INFINITE(x)`        | Verify that x is infinite    |
+| `TS_ASSERT_LESS_THAN(x,y)`        | Verify that x < y            |
+| `TS_ASSERT_LESS_THAN_EQUALS(x,y)` | Verify that x ⇐ y            |
+| `TS_ASSERT_PREDICATE(P,x)`        | Verify P(x)                  |
+| `TS_ASSERT_RELATION(x,R,y)`       | Verify x R y                 |
+| `TS_ASSERT_SAME_DATA(x,y,size)`   | Verify two buffers are equal |
+]
+
+---
+
+# Exception-related assertions
+
+.hcenter[
+| Macro                                         | Description                                          |
+| --------------------------------------------- | ---------------------------------------------------- |
+| `TS_ASSERT_THROWS(expr,type)`                 | Verify that expr throws the specified exception type |
+| `TS_ASSERT_THROWS_ANYTHING(expr)`             | Verify that expr throws an exception                 |
+| `TS_ASSERT_THROWS_ASSERT(expr,arg,assertion)` | Verify type and value of what expr throws            |
+| `TS_ASSERT_THROWS_EQUALS(expr,arg,x,y)`       | Verify type and value of what expr throws            |
+| `TS_ASSERT_THROWS_IS_NAN(expr,arg,x)`         | Verify type and value of what expr throws            |
+| `TS_ASSERT_THROWS_IS_INFINITE(expr,arg,x)`    | Verify type and value of what expr throws            |
+| `TS_ASSERT_THROWS_NOTHING(expr)`              | Verify that expr doesn’t throw anything              |
+]
+
+---
+
+# Special assertions
+
+.hcenter[
+| Macro               | Description                               |
+| ------------------- | ----------------------------------------- |
+| `TS_FAIL(message)`  | Fail unconditionally                      |
+| `TS_SKIP(message)`  | Skip this test                            |
+| `TS_TRACE(message)` | Print message as an informational message |
+| `TS_WARN(message)`  | Print message as a warning                |
+]
+
+---
+
+# Mock functions
+
+.block.hcenter[
+Testing a code using external functions **without calling these functions**.
+]
+
+
+---
+
+# Development tools
+
+## Tools presented in this course
+* version control system
+  * `subversion`, `mercurial`, `CVS`, `SVN`, `Bazaar`, **`git`** :+:
+* build system
+  * `Distutils`, `CMake`, `Autotools`, `qmake`, **`GNU Make`** :+:
+* documentation generator
+  * `Sphinx`, `Docutils`, **`Doxygen`** :+:
+* unit testing framework
+  * `*test*`, **`CxxTest`** :+:
+* code formatting tool
+  * **`astyle`**, **`indent`**
+* commenting conventions
+  * various guidelines
+* performance analysis tools
+  * will be presented in PSA (S4)
+* binding generator
+  * will be presented in PSA (S4)
+
+---
+
 # Armadillo
 
 .hcenter.w30[![](images/armadillo_logo.png)]
 
-## In a nutshell
+## Key points
+
 * [http://arma.sourceforge.net](http://arma.sourceforge.net)
 * `C++` linear algebra library
 * possible partial front-end for `LAPACK`, `Intel MKL` or `OpenBLAS`
