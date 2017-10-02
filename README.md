@@ -22,7 +22,7 @@ The presentations use original or slightly modified versions of the following op
 # How to use
 
 Simply read the lectures/templates or tweak their source code to make your own presentation.
-You can also view the [list of presentations](https://dubrayn.github.com/toc/index.html).
+You can also view the [list of presentations](https://dubrayn.github.io/toc/index.html).
 
 # Important remark for firefox users
 
