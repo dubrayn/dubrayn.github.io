@@ -1,53 +1,55 @@
 BUG: terminal size is not fixed
 TODO: add a concluding slide for Doxygen
 
-remaining lecture content:
+Lecture content:
 
-0       * Development tools
-0         * git
-0         * GNU Make
- 1        * Doxygen
- 1        * CxxTest
-          * MarkDown
-          * LaTeX
-         * HPC project
-          * overview (from idea to results)
-          * applying
-           * identify target supercomp
-           * dimension the project
-           * test the code 1 (scalability, benchmarks...)
-           * example of an application
-          * porting the code
-           * supercomp overview (file system, modules, libs, compilers...)
-           * preparatory access
-            * test the code 2 (scalability, benchmarks...)
-           * queues
-           * restart mechanism
-         * scientific libraries
-          * lapack
-          * MKL
-01        * armadillo
-         * programming techniques
-          * mix languages
-          * python as a glue
-           * bindings
-          * quadratures
-          * vectorization
-          * loops optimization
-         * debug / profiling
-          * gdb
-          * valgrind
-          * DIY timers
-         * data storage
-          * mongoDB
-          * MPI-IO
-         * post-processing
-          * python + mongoDB
-         * data visualization
-          * matplotlib
-          * paraview
-          * blender
-          * POVRay
+01234P01234P
+
+0             * Development tools
+0               * git
+0               * GNU Make
+ 1              * Doxygen
+ 1              * CxxTest
+                * MarkDown
+                * LaTeX
+               * HPC project
+                * overview (from idea to results)
+                * applying
+                 * identify target supercomp
+                 * dimension the project
+                 * test the code 1 (scalability, benchmarks...)
+                 * example of an application
+                * porting the code
+                 * supercomp overview (file system, modules, libs, compilers...)
+                 * preparatory access
+                  * test the code 2 (scalability, benchmarks...)
+                 * queues
+                 * restart mechanism
+               * scientific libraries
+                * lapack
+                * MKL
+01              * armadillo
+               * programming techniques
+                * mix languages
+                * python as a glue
+                 * bindings
+                * quadratures
+                * vectorization
+                * loops optimization
+               * debug / profiling
+                * gdb
+                * valgrind
+                * DIY timers
+               * data storage
+                * mongoDB
+                * MPI-IO
+               * post-processing
+                * python + mongoDB
+               * data visualization
+                * matplotlib
+                * paraview
+                * blender
+                * POVRay
 
 # ==== PSA ====
 
