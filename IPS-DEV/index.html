@@ -790,7 +790,7 @@ $ make install
 
 ## as a dev
 ```shell
-$ # tweak the Makefile...
+$ # tweak the `Makefile`...
 $ make clean
 $ make docs
 $ make tests
@@ -802,7 +802,8 @@ $ make debug
 
 # Using `GNU Make`
 
-## Makefile
+## .hcenter[`[Makefile]`]
+
 ```Makefile
 target0: dep0 dep1 dep2
     command0
@@ -818,7 +819,7 @@ target0: dep0 dep1 dep2
 
 ## Example
 
-.row.hcenter.w50[
+.row.hcenter.w60[
 .column.w30[
 .tree.hcenter[
 project
@@ -828,7 +829,7 @@ project
 * **Makefile**
 ]]
 .column.w65.middle[
-## .hcenter[Makefile]
+## .hcenter[`[Makefile]`]
 ```makefile
 main: main.c main.h
     gcc -o main main.c
@@ -846,7 +847,7 @@ main: main.c main.h
 
 .row[
 .column.w48[
-## .hcenter[Makefile]
+## .hcenter[`[Makefile]`]
 ```Makefile
 CC = gcc
 CFLAGS = -Wall
@@ -894,11 +895,11 @@ main.c  main.h  Makefile
 
 ---
 
-# Makefile wizardry
+# `Makefile` wizardry
 
 .row[
 .column.w35[
-## .hcenter[Makefile]
+## .hcenter[`[Makefile]`]
 ```Makefile
 CC = gcc
 CFLAGS = -Wall -O3
@@ -937,11 +938,11 @@ clean:
 
 ---
 
-# Makefile transformation
+# `Makefile` transformation
 
 .row[
 .column.w45[
-## .hcenter[Initial Makefile]
+## .hcenter[`[Makefile]`]
 ```Makefile
 main: main.c main.h
     gcc -o main main.c
@@ -957,11 +958,15 @@ main: main.c main.h
 
 ---
 
-# Makefile transformation
+# `Makefile` transformation
 
+.hcenter.block[
+Add a `clean` target
+]
+.vspace[]
 .row[
 .column.w45[
-## .hcenter[Initial Makefile]
+## .hcenter[`[Makefile]`]
 ```Makefile
 main: main.c main.h
     gcc -o main main.c
@@ -969,7 +974,7 @@ main: main.c main.h
 ]
 .column.w5[:arrow_right:]
 .column.w45[
-## .hcenter[Add a `clean` target]
+## .hcenter[`[Makefile]`]
 ```Makefile
 main: main.c main.h
     gcc -o main main.c
@@ -984,9 +989,13 @@ main: main.c main.h
 
 # Makefile transformation
 
+.hcenter.block[
+Use variables
+]
+.vspace[]
 .row[
 .column.w45[
-## .hcenter[Add a `clean` target]
+## .hcenter[`[Makefile]`]
 ```Makefile
 main: main.c main.h
     gcc -o main main.c
@@ -998,7 +1007,7 @@ clean:
 ]
 .column.w5[:arrow_right:]
 .column.w45[
-## .hcenter[Use variables]
+## .hcenter[`[Makefile]`]
 ```Makefile
 *TARGET = main
 
@@ -1015,9 +1024,13 @@ clean:
 
 # Makefile transformation
 
+.hcenter.block[
+Use intermediate objects
+]
+.vspace[]
 .row[
 .column.w45[
-## .hcenter[Use variables]
+## .hcenter[`[Makefile]`]
 ```Makefile
 TARGET = main
 
@@ -1031,7 +1044,7 @@ clean:
 ]
 .column.w5[:arrow_right:]
 .column.w45[
-## .hcenter[Use intermediate objects]
+## .hcenter[`[Makefile]`]
 ```Makefile
 TARGET = main
 *OBJS = main.o
@@ -1053,9 +1066,13 @@ clean:
 
 # Makefile transformation
 
+.hcenter.block[
+Add standard variables/targets
+]
+.vspace[]
 .row[
 .column.w45[
-## .hcenter[Use intermediate objects]
+## .hcenter[`[Makefile]`]
 ```Makefile
 TARGET = main
 OBJS = main.o
@@ -1074,7 +1091,7 @@ clean:
 ]
 .column.w5[:arrow_right:]
 .column.w45[
-## .hcenter[Add standard variables/targets]
+## .hcenter[`[Makefile]`]
 ```Makefile
 *CC = gcc
 *CFLAGS = -Wall -O3
@@ -1102,7 +1119,7 @@ clean:
 # Recursive Makefiles
 
 .row.hcenter.w70[
-.column.w25[
+.column.w20.middle[
 .tree[
 project
 * src
@@ -1114,7 +1131,7 @@ project
 * Makefile
 ]]
 .column.w70[
-## .hcenter[Makefile]
+## .hcenter[`[Makefile]`]
 ```Makefile
 CC = gcc
 CFLAGS = -Wall -O3
@@ -1142,7 +1159,7 @@ clean:
 # Recursive Makefiles
 
 .row.hcenter.w70[
-.column.w25[
+.column.w20.middle[
 .tree[
 project
 * src
@@ -1154,7 +1171,41 @@ project
 * **Makefile**
 ]]
 .column.w70[
-## .hcenter[Makefile]
+## .hcenter[`[Makefile]`]
+```Makefile
+all: src doc
+
+src:
+    $(MAKE) -C src
+
+doc:
+    $(MAKE) -C doc
+
+.PHONY: clean src doc
+clean:
+    $(MAKE) -C src clean
+    $(MAKE) -C doc clean
+```
+]]
+
+---
+
+# Recursive Makefiles
+
+.row.hcenter.w70[
+.column.w20.middle[
+.tree[
+project
+* src
+    * ...
+    * Makefile
+* doc
+    * ...
+    * Makefile
+* **Makefile**
+]]
+.column.w70[
+## .hcenter[`[Makefile]`]
 ```Makefile
 SUBDIRS := doc/. src/.
 TARGETS := all clean
@@ -1382,8 +1433,8 @@ Generating example documentation...
 Generating file sources...
 Generating file documentation...
 Generating docs for file test.cpp...
-*/home/dubrayn/temp/dubrayn.github.io/IPS-DEV/test_doxygen/test.cpp:27: warning: Member undocumentedFunc(void) (function) of file test.cpp
-* is not documented.
+*/home/dubrayn/temp/dubrayn.github.io/IPS-DEV/test_doxygen/test.cpp:27: warning: Member undocumentedFunc(void)
+* (function) of file test.cpp is not documented.
 Generating page documentation...
 Generating group documentation...
 Generating class documentation...
@@ -1556,32 +1607,71 @@ class SomeRandomClass {};
 
 # What is unit testing ?
 
-TODO
+## Wikipedia
 
-* Extreme Programming (XP)
-* Test Driven Development (TDD)
+.hcenter.block[
+  Unit tests are **short code fragments** created by programmers or occasionally by white box testers during the development process. It forms the basis for component testing.
+]
+
+## A unit test
+
+* should be independent from other unit tests
+* should test only one class (otherwise it is an **integration test**)
+* takes no parameter
+* **validates the implementation of a feature**
+* can use **mock objects**
+
+## Unit tests
+
+* can be automated
+* can be built / launched in a framework
+* used in Extreme Programming (XP)
+* used in Test Driven Development (TDD)
 
 ---
 
 # Why write unit tests ?
 
 .row[
-.column.w55.middle[
+.column.w60.middle[
 * :+: to reduce bugs while coding
-* :+: to avoid regressions
+* :+: to **avoid regressions**
 * :+: to have code examples
-* :+: to ease the development of code extension
+* :+: to ease the development of code extensions
 * :+: to improve the design of the code
 * :+: to focus on features before code design
-* :+: to prevent other programmers to break your fixes
-* :+: to know when to stop working on a feature
+* :+: to prevent other programmers from breaking anything
+* :+: to **know when to stop working on a feature**
 * :+: to allow easy debugging
 * :+: to sleep well
 * :+: to watch all these nice green lights
 ]
-.column.w40.middle[
-![](images/unit_tests_cartoon.png)
-]]
+.column.w35.middle[
+.shadow[![](images/unit_tests_cartoon.png)]
+]
+]
+
+---
+
+# Why *not* write unit tests ?
+
+.row.hcenter.w80[
+.column.w45.middle[
+
+## Frequent answers
+
+* "it takes too much time"
+* "not my job"
+* "my code is perfect"
+* "I work alone"
+* "it is useless"
+* "unit what ?"
+* "unit testing is a **forever returning short-lived hype**"
+]
+.column.w50.middle[
+.shadow[![](images/dog.png)]
+]
+]
 
 ---
 
@@ -1593,7 +1683,7 @@ TODO
 * very flexible
 * semi-automatic test discovery
 
-## .hcenter[`MyTestSuite.h`]
+## .hcenter[`[MyTestSuite.h]`]
 ```C++
 #include <cxxtest/TestSuite.h>
 
@@ -1619,7 +1709,7 @@ Running cxxtest tests (1 test).OK!
 
 # Example of a failed test
 
-## .hcenter[`MyTestSuite2.h`]
+## .hcenter[`[MyTestSuite2.h]`]
 ```C++
 #include <cxxtest/TestSuite.h>
 
@@ -1703,12 +1793,11 @@ Success rate: 50%
 
 ---
 
-# Mock functions
+# Conclusion on unit testing
 
-.block.hcenter[
-Testing a code using external functions **without calling these functions**.
+.w45.hcenter.middle[
+.shadow[![](images/xkcd_derivative.png)]
 ]
-
 
 ---
 

@@ -7,7 +7,7 @@ Lecture content:
 
 0             * Development tools
 0               * git
-0               * GNU Make
+01              * GNU Make
  1              * Doxygen
  1              * CxxTest
                 * MarkDown
