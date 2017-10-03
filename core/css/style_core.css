@@ -135,6 +135,12 @@ h1 {
   line-height: 2.7em;
 }
 
+h1 em {
+  color: rgba(192,   0,   0, 1.0);
+  font-weight: bold;
+  font-style: normal;
+}
+
 .top {
   vertical-align: top !important;
 }
@@ -221,6 +227,11 @@ em {
 .w90 { width: 90%; }
 .w95 { width: 95%; }
 .w100 { width: 100%; }
+
+.vspace {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
 
 .footnote p {
   margin: 0 0 0 0;
@@ -450,6 +461,7 @@ hr {
 }
 
 .shadow {
+  margin-top: 0.8em;
   margin-bottom: 0.8em;
 }
 
@@ -459,6 +471,8 @@ hr {
 
 .alert, .block {
   padding: 0.2em;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 .block {
