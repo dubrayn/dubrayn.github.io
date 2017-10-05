@@ -1052,7 +1052,7 @@ TARGET = main
 *$(TARGET): $(OBJS)
 *   gcc -o $@ $^
 
-*%.o: %.cpp %.h
+*%.o: %.c %.h
 *   gcc -c $<
 
 .PHONY: clean
