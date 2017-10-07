@@ -42,15 +42,29 @@ IPS-DEV - N. Dubray - ENSIIE - 2017
 
 ---
 
+# These slides
+
+.hcenter.w20[![](images/github-octocat.png)]
+
+.block.hcenter[
+* You can **freely** download, modify and use these slides.
+* Do not hesitate to make some **pull requests** if you want to share your modifications.
+* Repository: [https://www.github.com/dubrayn/dubrayn.github.io](https://www.github.com/dubrayn/dubrayn.github.io).
+* Online slides: [https://dubrayn.github.io](https://dubrayn.github.io).
+]
+
+---
+
 # Lecturer
 
-## N. Dubray - `noel.dubray@gmail.com`
+## N. Dubray - [`noel.dubray@gmail.com`](mailto:noel.dubray@gmail.com)
 * *job:* researcher at the CEA (french nuclear agency)
 * *field:* theoretical nuclear physics
 * *research subject:* microscopic description of the fission process
 * *skills:* scientist / developer / HPC user / sysadmin
 
 .hcenter.shadow.w50[![](images/density.png)]
+.hcenter[Example of a calculated fissioning nucleus]
 
 ---
 
@@ -80,25 +94,12 @@ IPS-DEV - N. Dubray - ENSIIE - 2017
 
 ---
 
-# These slides
-
-.hcenter.w20[![](images/github-octocat.png)]
-
-.block.hcenter[
-* You can **freely** download, modify and use these slides.
-* Do not hesitate to make some **pull requests** if you want to share your modifications.
-* Here is the [github repository](http://www.github.com/dubrayn/dubrayn.github.io).
-* These slides (and others) can also be [viewed online](http://dubrayn.github.io).
-]
-
----
-
 # GNU/Linux quick howto
 
 ## Navigate the filesystem
 
 ```shell
-$ pwd # get current directory
+$ pwd             # print current directory
 /tmp
 $ mkdir toto      # create directory
 $ cd /tmp/toto    # change current directory (absolute path)
@@ -153,7 +154,7 @@ $ vim file      # edit a file
 7. **Publish results**
 8. Retest (frequently done **by other scientists**)
 
-:arrow_right: The scientific code must be shared with **HPC staff and other scientists**.
+:arrow_right: Scientific code must be shared with **HPC staff and other scientists**.
 ]
 
 ---
@@ -242,7 +243,7 @@ class: top
 * code formatting tool
 
 --
-  * **`astyle`**, **`indent`**
+  * **`astyle`**
 
 --
 * commenting conventions
@@ -263,21 +264,23 @@ class: top
 .hcenter.w15[![](images/git_logo.png)]
 
 ## History
- * distributed version control system
- * created by **Linus Torvalds** in 2005 as free software (GPL v2)
- * initial goal: become the main VCS (Version Control System) of the **Linux kernel**
- * today: **#1 VCS** :v:
+* distributed version control system
+* created by **Linus Torvalds** in 2005 as free software (GPL v2)
+* initial goal: become the main VCS (Version Control System) of the **Linux kernel**
+* today: **#1 VCS** :v:
 
 ## Characteristics
- * strong support for non-linear development
- * distributed development
- * compatibility with existant systems and protocols
- * efficient handling of large projects
- * cryptographic authentication of history
- * toolkit-based design
- * pluggable merge strategies
- * garbage accumulates until collected
- * periodic explicit object packing
+* strong support for non-linear development
+* distributed development
+* compatibility with existant systems and protocols
+* efficient handling of large projects
+* cryptographic authentication of history
+
+.block[
+* Repository: [https://github.com/git/git](https://github.com/git/git)
+* Website: [https://git-scm.com](https://git-scm.com)
+* License: `LGPL-2.1`
+]
 
 ---
 
@@ -752,7 +755,7 @@ $ git pull farAway
 * unit testing framework
   * `*test*`, **`CxxTest`**
 * code formatting tool
-  * **`astyle`**, **`indent`**
+  * **`astyle`**
 * commenting conventions
   * various guidelines
 * performance analysis tools
@@ -775,8 +778,13 @@ $ git pull farAway
 * allows a user to build a package **without knowing how it should be done**
 * not limited to any particular language
 * not limited to building packages
-* required for compiling `gcc` since version 3.4.
-* required for building the **Linux kernel**, Apache OpenOffice and LibreOffice, Mozilla Firefox...
+* required for building the **Linux kernel**, Apache OpenOffice and LibreOffice, Mozilla Firefox, `gcc`...
+
+.block[
+* Repository: [https://savannah.gnu.org/projects/make](https://savannah.gnu.org/projects/make)
+* Website: [https://www.gnu.org/software/make](https://www.gnu.org/software/make)
+* License: `GPLv3`
+]
 
 ---
 
@@ -1244,7 +1252,7 @@ $(SUBDIRS_TARGETS) :
 * unit testing framework
   * `*test*`, **`CxxTest`**
 * code formatting tool
-  * **`astyle`**, **`indent`**
+  * **`astyle`**
 * commenting conventions
   * various guidelines
 * performance analysis tools
@@ -1271,11 +1279,18 @@ $(SUBDIRS_TARGETS) :
 1. The documentation is **in the code**, so it is easier to keep the code and the documentation **in sync**.
 2. Developers are encouraged to document their code in a standardized format **when they write it**.
 
+.block[
+* Repository: [https://github.com/doxygen/doxygen](https://github.com/doxygen/doxygen)
+* Website: [http://www.doxygen.org](http://www.doxygen.org)
+* License: `GPL`
+]
+
+
 ---
 
 # Example of a documented code
 
-## .hcenter[`test.cpp`]
+## .hcenter[`[test.cpp]`]
 
 ```C++
 /**
@@ -1329,7 +1344,7 @@ double testFunc(int arg0, int arg1)
 ## Tweak the generic configuration file
 
 ```shell
-$ doxygen -g Doxyfile
+*$ doxygen -g Doxyfile
 
 
 Configuration file `Doxyfile' created.
@@ -1344,7 +1359,7 @@ $ doxygen
 [...]
 ```
 
-## .hcenter[`Doxyfile` (sample)]
+## .hcenter[`[Doxyfile]` (sample)]
 
 ```text
 [...]
@@ -1381,9 +1396,9 @@ $ doxywizard
 
 ---
 
-# `Doxygen` output
+# Undocumented function
 
-## .hcenter[`test.cpp`]
+## .hcenter[`[test.cpp]`]
 
 ```C++
 /**
@@ -1421,7 +1436,6 @@ double testFunc(int arg0, int arg1)
 ---
 
 # `Doxygen` output
-
 
 ## Generate documentation
 ```shell
@@ -1577,6 +1591,26 @@ class SomeRandomClass {};
 
 ---
 
+# Conclusion on `Doxygen`
+
+## In **your** code
+* write the special comment blocks **while** you code
+* use `Doxygen` commands
+* stick to the documentation guidelines
+* use `Doxygen` output to check for undocumented objects
+* use `Doxygen`'s mainpage to add general documentation
+
+## In **other** code using `Doxygen`
+* generate the documentation if needed
+* **browse the generated documentation**
+* use the generated documentation as a source for
+ * API / class reference
+ * examples
+ * use cases
+ * etc...
+
+---
+
 # Development tools
 
 ## Tools presented in this course
@@ -1589,7 +1623,7 @@ class SomeRandomClass {};
 * unit testing framework
   * `*test*`, **`CxxTest`**
 * code formatting tool
-  * **`astyle`**, **`indent`**
+  * **`astyle`**
 * commenting conventions
   * various guidelines
 * performance analysis tools
@@ -1677,11 +1711,20 @@ class SomeRandomClass {};
 
 # `CxxTest`
 
+.row[
+.column.w45[
 ## Key points
 
 * unit testing framework for `C++`
 * very flexible
 * semi-automatic test discovery
+]
+.column.w45.block[
+* Repository: [https://github.com/CxxTest](https://github.com/CxxTest)
+* Website: [http://cxxtest.com](http://cxxtest.com)
+* License: `LGPL`
+]
+]
 
 ## .hcenter[`[MyTestSuite.h]`]
 ```C++
@@ -1698,6 +1741,7 @@ class MyTestSuite : public CxxTest::TestSuite
 };
 ```
 
+## .hcenter[Shell session]
 ```shell
 $ cxxtestgen --error-printer -o tests.cpp MyTestSuite.h
 $ g++ -o tests tests.cpp
@@ -1725,19 +1769,20 @@ public:
     void testMultiplication(void)
     {
         TS_TRACE("Starting multiplication test");
-        TS_ASSERT_EQUALS(2 * 2, 5);
+*       TS_ASSERT_EQUALS(2 * 2, 5);
         TS_TRACE("Finishing multiplication test");
     }
 };
 ```
 
+## .hcenter[Shell session]
 ```shell
 $ cxxtestgen --error-printer -o tests.cpp MyTestSuite.h
 $ g++ -o tests tests.cpp
 $ ./tests
 Running cxxtest tests (2 tests).
-In MyTestSuite2::testMultiplication:
-/Users/wehart/home/mac/src/cxxtest/doc/examples/MyTestSuite2.h:16: Error: Expected (2 * 2 == 5), found (4 != 5)
+*In MyTestSuite2::testMultiplication:
+*/Users/wehart/home/mac/src/cxxtest/doc/examples/MyTestSuite2.h:16: Error: Expected (2 * 2 == 5), found (4 != 5)
 Failed 1 and Skipped 0 of 2 tests
 Success rate: 50%
 ```
@@ -1747,19 +1792,19 @@ Success rate: 50%
 # Main assertions
 
 .hcenter[
-| Macro                             | Description                  |
-| --------------------------------- | ---------------------------- |
-| `TS_ASSERT(expr)`                 | Verify that expr is true     | 
-| `TS_ASSERT_DELTA(x,y,d)`          | Verify that abs(x-y) < d     |
-| `TS_ASSERT_DIFFERS(x,y)`          | Verify that x != y           |
-| `TS_ASSERT_EQUALS(x,y)`           | Verify that x == y           |
-| `TS_ASSERT_IS_NAN(x)`             | Verify that x is NaN         |
-| `TS_ASSERT_IS_INFINITE(x)`        | Verify that x is infinite    |
-| `TS_ASSERT_LESS_THAN(x,y)`        | Verify that x < y            |
-| `TS_ASSERT_LESS_THAN_EQUALS(x,y)` | Verify that x ⇐ y            |
-| `TS_ASSERT_PREDICATE(P,x)`        | Verify P(x)                  |
-| `TS_ASSERT_RELATION(x,R,y)`       | Verify x R y                 |
-| `TS_ASSERT_SAME_DATA(x,y,size)`   | Verify two buffers are equal |
+| Macro                             | Description           |
+| --------------------------------- | --------------------- |
+| `TS_ASSERT(expr)`                 | `expr` is `true`      | 
+| `TS_ASSERT_DELTA(x,y,d)`          | `abs(x-y) < d`        |
+| `TS_ASSERT_DIFFERS(x,y)`          | `x != y`              |
+| `TS_ASSERT_EQUALS(x,y)`           | `x == y`              |
+| `TS_ASSERT_IS_NAN(x)`             | `x` is `NaN`          |
+| `TS_ASSERT_IS_INFINITE(x)`        | `x` is `infinite`     |
+| `TS_ASSERT_LESS_THAN(x,y)`        | `x < y`               |
+| `TS_ASSERT_LESS_THAN_EQUALS(x,y)` | `x ≤ y`               |
+| `TS_ASSERT_PREDICATE(P,x)`        | `P(x)`                |
+| `TS_ASSERT_RELATION(x,R,y)`       | `x R y`               |
+| `TS_ASSERT_SAME_DATA(x,y,size)`   | two buffers are equal |
 ]
 
 ---
@@ -1767,28 +1812,42 @@ Success rate: 50%
 # Exception-related assertions
 
 .hcenter[
-| Macro                                         | Description                                          |
-| --------------------------------------------- | ---------------------------------------------------- |
-| `TS_ASSERT_THROWS(expr,type)`                 | Verify that expr throws the specified exception type |
-| `TS_ASSERT_THROWS_ANYTHING(expr)`             | Verify that expr throws an exception                 |
-| `TS_ASSERT_THROWS_ASSERT(expr,arg,assertion)` | Verify type and value of what expr throws            |
-| `TS_ASSERT_THROWS_EQUALS(expr,arg,x,y)`       | Verify type and value of what expr throws            |
-| `TS_ASSERT_THROWS_IS_NAN(expr,arg,x)`         | Verify type and value of what expr throws            |
-| `TS_ASSERT_THROWS_IS_INFINITE(expr,arg,x)`    | Verify type and value of what expr throws            |
-| `TS_ASSERT_THROWS_NOTHING(expr)`              | Verify that expr doesn’t throw anything              |
+| Macro                                         | Description                                |
+| --------------------------------------------- | ------------------------------------------ |
+| `TS_ASSERT_THROWS(expr,type)`                 | `expr` throws an exception with a type     |
+| `TS_ASSERT_THROWS_ANYTHING(expr)`             | `expr` throws an exception                 |
+| `TS_ASSERT_THROWS_ASSERT(expr,arg,assertion)` | `expr` throws an exception with a property |
+| `TS_ASSERT_THROWS_EQUALS(expr,arg,x,y)`       | `expr` throws an exception with a property |
+| `TS_ASSERT_THROWS_IS_NAN(expr,arg,x)`         | `expr` throws an exception with a property |
+| `TS_ASSERT_THROWS_IS_INFINITE(expr,arg,x)`    | `expr` throws an exception with a property |
+| `TS_ASSERT_THROWS_NOTHING(expr)`              | `expr` doesn’t throw anything              |
 ]
+
+## Example for `TS_ASSERT_THROWS_ASSERT()`
+```C++
+void throws_value(void)
+{
+    raise 1;
+}
+
+void test_assert_throws_assert(void)
+{
+    TS_ASSERT_THROWS_ASSERT(self.throws_value(), const Error & e, TS_ASSERT_EQUALS(e, 1));
+}
+```
+
 
 ---
 
 # Special assertions
 
 .hcenter[
-| Macro               | Description                               |
-| ------------------- | ----------------------------------------- |
-| `TS_FAIL(message)`  | Fail unconditionally                      |
-| `TS_SKIP(message)`  | Skip this test                            |
-| `TS_TRACE(message)` | Print message as an informational message |
-| `TS_WARN(message)`  | Print message as a warning                |
+| Macro               | Description                                 |
+| ------------------- | ------------------------------------------- |
+| `TS_FAIL(message)`  | Fail unconditionally                        |
+| `TS_SKIP(message)`  | Skip this test                              |
+| `TS_TRACE(message)` | Print `message` as an informational message |
+| `TS_WARN(message)`  | Print `message` as a warning                |
 ]
 
 ---
@@ -1813,7 +1872,79 @@ Success rate: 50%
 * unit testing framework
   * `*test*`, **`CxxTest`** :+:
 * code formatting tool
-  * **`astyle`**, **`indent`**
+  * **`astyle`**
+* commenting conventions
+  * various guidelines
+* performance analysis tools
+  * will be presented in PSA (S4)
+* binding generator
+  * will be presented in PSA (S4)
+
+---
+
+# Artistic Style (`astyle`)
+
+## Key points
+
+* project page: [http://astyle.sourceforge.net](http://astyle.sourceforge.net/)
+* source code indenter, formatter, and beautifier
+* works with `C`, `C++`, `Objective-C`, `C#`, and `Java` source files
+* cross-platform
+
+.row[
+.column.w47.middle[
+```C++
+    #include "stdio.h"
+
+  #define PREDEFINED_VALUE 3;
+
+  int global_var = PREDEFINED_VALUE; 
+
+   int main(int argc,char ** argv) {
+ printf("Hello world, value = %d\n",global_var); return 0; }
+```
+]
+.column.w5.middle[
+:arrow_right:
+]
+.column.w47.middle[
+```C++
+#include "stdio.h"
+
+#define PREDEFINED_VALUE 3;
+
+int global_var = PREDEFINED_VALUE;
+
+int main(int argc, char **argv)
+{
+  printf("Hello world, value = %d\n", global_var);
+  return 0;
+}
+```
+]
+]
+
+.block[
+* Repository: [https://sourceforge.net/projects/astyle](https://sourceforge.net/projects/astyle)
+* Website: [http://astyle.sourceforge.net](http://astyle.sourceforge.net)
+* License: `MIT`
+]
+
+---
+
+# Development tools
+
+## Tools presented in this course
+* version control system
+  * `subversion`, `mercurial`, `CVS`, `SVN`, `Bazaar`, **`git`** :+:
+* build system
+  * `Distutils`, `CMake`, `Autotools`, `qmake`, **`GNU Make`** :+:
+* documentation generator
+  * `Sphinx`, `Docutils`, **`Doxygen`** :+:
+* unit testing framework
+  * `*test*`, **`CxxTest`** :+:
+* code formatting tool
+  * **`astyle`** :+:
 * commenting conventions
   * various guidelines
 * performance analysis tools
@@ -1836,11 +1967,18 @@ Success rate: 50%
 * vector, matrix, cube objects
 * makes your linear algebra routines **clean and efficient**
 
-.block[
 ## Cite as
-Conrad Sanderson and Ryan Curtin.  
-[Armadillo: a template-based C++ library for linear algebra.](http://arma.sourceforge.net/armadillo_joss_2016.pdf)  
-*Journal of Open Source Software, Vol. 1, pp. 26, 2016.*]
+
+> Conrad Sanderson and Ryan Curtin.  
+> [Armadillo: a template-based C++ library for linear algebra.](http://arma.sourceforge.net/armadillo_joss_2016.pdf)  
+> *Journal of Open Source Software, Vol. 1, pp. 26, 2016.*
+
+.block[
+* Repository: [https://github.com/conradsnicta/armadillo-code](https://github.com/conradsnicta/armadillo-code)
+* Website: [http://arma.sourceforge.net](http://arma.sourceforge.net)
+* License: `Apache License 2.0`
+]
+
 
 ---
 

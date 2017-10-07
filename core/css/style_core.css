@@ -511,6 +511,8 @@ table
   border-collapse: collapse;
   font-size: 1.0em;
   border: none;
+  margin-top: 1em;
+  margin-bottom: 1em;
 /*  border: 0.15em solid rgba(185,201,255,1.0); */
 }
 
