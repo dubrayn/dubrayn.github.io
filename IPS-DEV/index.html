@@ -2255,6 +2255,80 @@ int Foo(bool isBar)
 
 ---
 
+# Tab options
+
+.row[
+.column.w48[
+```C++
+// default indent
+
+void Foo() {
+....if (isBar1
+............&& isBar2)
+........bar();
+}
+```]
+.column.w48[
+```C++
+//--indent=spaces=3 / -S3 [default 4]
+
+void Foo() {
+...if (isBar1
+.........&& isBar2)
+......bar();
+}
+
+```]
+]
+
+.row[
+.column.w48[
+```C++
+//--indent=tab=4 / -t4 [default 4]
+
+void Foo() {
+>   if (isBar1
+>   ........&& isBar2)
+>   >   bar();
+}
+```]
+.column.w48[
+```C++
+// --style=linux --indent=tab=8
+void Foo()
+{
+>       if (isBar1
+>       ....&& isBar2)
+>       >       bar();
+}
+```]
+]
+
+.row[
+.column.w48[
+```C++
+//--indent=force-tab=4 / -T4 [default 4]
+
+void Foo() {
+>   if (isBar1
+>   >   >   && isBar2)
+>   >   bar();
+}
+```]
+.column.w48[
+```C++
+//--indent=force-tab-x=8 / -xT8 [default 8]
+
+void Foo() {
+....if (isBar1
+>       ....&& isBar2)
+>       bar();
+}
+```]
+]
+
+---
+
 # Development tools
 
 ## Tools presented in this course
