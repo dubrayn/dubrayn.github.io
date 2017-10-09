@@ -1,62 +1,114 @@
-BUG: terminal size is not fixed
++---------+
+| IPS-DEV |
++---------+
 
-Lecture content:
+Project:
+* calculate and manipulate 1D-HO solutions (C++ / armadillo)
+* use git, doxygen, make, cxxtest, matplotlib, remark.js
 
-01234P01234P
+0 * introduction
+0  * lecturer
+0  * modules
+0  * GNU/Linux quick howto
+0  * scientific method
+0  * good development practices
+0 * development tools
+0  * git
+0  * GNU Make
+0 TP0
 
-0              * development tools
-0               * git
-01              * GNU Make
- 1              * Doxygen
- 1              * CxxTest
-  2             * astyle / indent
-               * results presentation
-  2             * MarkDown
-  2             * LaTeX
-               * HPC project
-                * overview (from idea to results)
-                * applying
-                 * identify target supercomp
-                 * dimension the project
-                 * test the code 1 (scalability, benchmarks...)
-                 * example of an application
-                * porting the code
-                 * supercomp overview (file system, modules, libs, compilers...)
-                 * preparatory access
-                  * test the code 2 (scalability, benchmarks...)
-                 * queues
-                 * restart mechanism
-               * scientific libraries
-                * lapack
-                * MKL
-01              * armadillo
-               * programming techniques
-                * mix languages
-                * python as a glue
-                 * bindings
-                * quadratures
-                * vectorization
-                * loops optimization
-               * debug / profiling
-                * gdb
-                * valgrind
-                * DIY timers
-               * data storage
-                * mongoDB
-                * MPI-IO
-               * post-processing
-                * python + mongoDB
-               * data visualization
-  2             * matplotlib
-                * paraview
-                * blender
-                * POVRay
+1  * Doxygen
+1  * CxxTest
+1 * C++ scientific libraries
+1  * armadillo
+1 Project presentation
+1 TP1
 
-# ==== PSA ====
+2 * development tools (continued)
+2  * astyle / indent
+2 * results presentation
+2  * LaTeX
+2  * MarkDown
+2  * remark.js
+2 TP2
 
-* IPS summary
-* development tools
+3 * python
+3  * standard types
+3  * branching
+3  * indentation
+3  * iteration and loops
+3  * containers
+3 TP3
+
+4  * python as a glue
+4  * bindings
+4  * matplotlib
+4 TP4
+
+5 Project presentation
+
++----------+
+| IPS-PROD |
++----------+
+
+Project:
+* calculate and manipulate nuclear local densities (C++ / armadillo)
+* profile the resulting code
+* use git, doxygen, make, cxxtest, matplotlib, remark.js, povray
+
+0 * numerical techniques
+0  * eigenvalue problems
+0  * quadratures
+0 TP0
+
+1  * bases
+1   * HO solutions
+1   * FEM
+1 * data visualization
+1  * POVray
+1 TP1
+
+2 * optimizations
+2  * vectorization
+2  * loops / sums / pre-sums
+2 TP2
+
+3 * debug / profiling
+3  * gdb
+3  * valgrind
+3  * DIY timers
+3 TP3
+
+4 * data storage
+4  * mongoDB
+4  * MPI-IO
+4 TP4
+
+5 Project presentation
+
+                
+
+* HPC project
+ * overview (from idea to results)
+ * applying
+  * identify target supercomp
+  * dimension the project
+  * test the code 1 (scalability, benchmarks...)
+  * example of an application
+ * porting the code
+  * supercomp overview (file system, modules, libs, compilers...)
+  * preparatory access
+   * test the code 2 (scalability, benchmarks...)
+  * queues
+  * restart mechanism
+* post-processing
+ * python + mongoDB
+* data visualization
+ * paraview
+ * blender
 * scientific libraries
+ * lapack
+ * MKL
  * scalapack
  * magma
  * eigen
@@ -66,8 +118,11 @@ Lecture content:
  * MPI master / slaves
  * threads
  * live monitoring
-  * API
-	* JSON
+  * socket + API
+* post-processing
+ * JSON
+ * python + mongoDB
+ * python + MPI-IO
 * data visualization
  * VTK
  * paraview plugin
@@ -103,3 +158,6 @@ Lecture content:
 * use bindings in a MPI4py python script to calculate from mongoDB to ana. and num. <Q0m> values
 * implement a transparent restart mechanism in the python script
 * make a scalability benchmark, identify IO and CPU times
+
+BUG: terminal size is not fixed
+

@@ -846,7 +846,7 @@ main: main.c main.h
 
 ---
 
-# Writing clean Makefiles 
+# Writing clean `Makefiles`
 
 ## Try to...
 * use standard variable names (`CC`, `CFLAGS`, `LDFLAGS`, `PREFIX`, `TARGET`...)
@@ -995,7 +995,7 @@ main: main.c main.h
 
 ---
 
-# Makefile transformation
+# `Makefile` transformation
 
 .hcenter.block[
 Use variables
@@ -1030,7 +1030,7 @@ clean:
 
 ---
 
-# Makefile transformation
+# `Makefile` transformation
 
 .hcenter.block[
 Use intermediate objects
@@ -1072,7 +1072,7 @@ clean:
 
 ---
 
-# Makefile transformation
+# `Makefile` transformation
 
 .hcenter.block[
 Add standard variables/targets
@@ -1124,7 +1124,7 @@ clean:
 
 ---
 
-# Recursive Makefiles
+# Recursive `Makefiles`
 
 .row.hcenter.w70[
 .column.w20.middle[
@@ -1164,7 +1164,7 @@ clean:
 
 ---
 
-# Recursive Makefiles
+# Recursive `Makefiles`
 
 .row.hcenter.w70[
 .column.w20.middle[
@@ -1198,7 +1198,7 @@ clean:
 
 ---
 
-# Recursive Makefiles
+# Recursive `Makefiles`
 
 .row.hcenter.w70[
 .column.w20.middle[
@@ -1882,472 +1882,22 @@ void test_assert_throws_assert(void)
 
 ---
 
-# Artistic Style (`astyle`)
-
-## Key points
-
-* source code indenter, formatter, and beautifier
-* works with `C`, `C++`, `Objective-C`, `C#`, and `Java` source files
-* cross-platform
-
-.row[
-.column.w47.middle[
-```C++
-    #include "stdio.h"
-
-  #define PREDEFINED_VALUE 3;
-
-  int global_var = PREDEFINED_VALUE; 
-
-   int main(int argc,char ** argv) {
- printf("Hello world, value = %d\n",global_var); return 0; }
-```
-]
-.column.w5.middle[
-:arrow_right:
-]
-.column.w47.middle[
-```C++
-#include "stdio.h"
-
-#define PREDEFINED_VALUE 3;
-
-int global_var = PREDEFINED_VALUE;
-
-int main(int argc, char **argv)
-{
-  printf("Hello world, value = %d\n", global_var);
-  return 0;
-}
-```
-]
-]
-
-.block[
-* Repository: [https://sourceforge.net/projects/astyle](https://sourceforge.net/projects/astyle)
-* Website: [http://astyle.sourceforge.net](http://astyle.sourceforge.net)
-* License: `MIT`
-]
-
----
-
-# `astyle` usage
-
-* the file type is determined from the file extension
-* when a file is formatted, a copy of the original file is kept with the `.orig` extension
-* general usage:
-
-```shell
-$ astyle [OPTIONS] SourceFile1 SourceFile2 SourceFile3 [...]
-```
-
-* example of a recursive usage for all `.cpp` and `.h` files:
-
-```shell
-$ astyle --style=allman --recursive *.cpp *.h
-```
-* example of a usage with redirections:
-
-```shell
-$ astyle --style=allman < source.cpp > destination.cpp
-```
-
-* example of a usage to check the formatting without updating the source file:
-
-```shell
-$ astyle --style=allman < source.cpp | less
-```
-
----
-
-# Usage with a default options file
-
-* example of a usage with a default options file:
-
-```shell
-$ astyle --options=astyle.conf
-```
-
-## .hcenter[`[astyle.conf]`]
-```shell
-# this line is a comment
---style=allman      # this is a line-end comment
-# long options can be written without the preceding '--'
-indent-switches     # cannot do this on the command line
-# short options must have the preceding '-'
--t -p
-# short options can be concatenated together
--M60Ucv
-```
-
-* file is looked for at locations (in order)
- 1. `--options=file`
- 2. `ARTISTIC_STYLE_OPTIONS`
- 3. `$HOME/.astylerc`
- 4. `$USERPROFILE/astylerc`
-* `options=none` will disable the default options file lookup
-* command line options have precedence
-
----
-
-# Disable formatting
-
-## Disable the formatting of a block of code
-
-```C++
-// *INDENT-OFF*
-#define FOO_DECLARE_int32_(name) \
-        FOO_API_ extern ::Int32 FOO_FLAG(name)
-// *INDENT-ON*
-```
-
-## Disable the formatting of a line of code
-
-```C++
-size_t foo = (unsigned int) -1;  // *NOPAD*
-```
-
----
-
-# Brace styles
-
-.row[
-.column.w48[
-```C++
-//--style=allman / --style=bsd / --style=break / -A1
-int Foo(bool isBar)
-{
-    if (isBar)
-    {
-        bar();
-        return 1;
-    }
-    else
-        return 0;
-}
-```]
-.column.w48[
-```C++
-//--style=java / --style=attach / -A2
-
-
-
-int Foo(bool isBar) {
-    if (isBar) {
-        bar();
-        return 1;
-    } else
-        return 0;
-}
-```]
-]
-
-.row[
-.column.w48[
-```C++
-//--style=kr / --style=k&r / --style=k/r / -A3
-
-
-int Foo(bool isBar)
-{
-    if (isBar) {
-        bar();
-        return 1;
-    } else
-        return 0;
-}
-```]
-.column.w48[
-```C++
-//--style=stroustrup / -A4
-
-int Foo(bool isBar)
-{
-    if (isBar) {
-        bar();
-        return 1;
-    }
-    else
-        return 0;
-}
-```]
-]
-
-.row[
-.column.w48[
-```C++
-//--style=whitesmith / -A5
-int Foo(bool isBar)
-    {
-    if (isBar)
-        {
-        bar();
-        return 1;
-        }
-    else
-        return 0;
-    }
-```]
-.column.w48[
-```C++
-//--style=banner / -A6
-
-
-int Foo(bool isBar) {
-    if (isBar) {
-        bar();
-        return 1;
-        }
-    else
-        return 0;
-    }
-```]
-]
-
----
-
-# Brace styles (continued)
-
-.row[
-.column.w48[
-```C++
-//--style=gnu / -A7
-int Foo(bool isBar)
-{
-    if (isBar)
-        {
-            bar();
-            return 1;
-        }
-    else
-        return 0;
-}
-```]
-.column.w48[
-```C++
-//--style=linux / --style=knf / -A8
-
-
-int Foo(bool isBar)
-{
-        if (isFoo) {
-                bar();
-                return 1;
-        } else
-                return 0;
-}
-```]
-]
-
-.row[
-.column.w48[
-```C++
-//--style=horstmann / --style=run-in / -A9
-
-
-int Foo(bool isBar)
-{   if (isBar)
-    {   bar();
-        return 1;
-    }
-    else
-        return 0;
-}
-```]
-.column.w48[
-```C++
-//--style=1tbs / --style=otbs / -A10
-
-int Foo(bool isBar)
-{
-    if (isFoo) {
-        bar();
-        return 1;
-    } else {
-        return 0;
-    }
-}
-```]
-]
-
-.row[
-.column.w48[
-```C++
-//--style=pico / -A11
-
-
-
-
-int Foo(bool isBar)
-{   if (isBar)
-    {   bar();
-        return 1; }
-    else
-        return 0; }
-```]
-.column.w48[
-```C++
-//--style=lisp / --style=python / -A12
-
-
-
-
-int Foo(bool isBar) {
-    if (isBar) {
-        bar()
-        return 1; }
-    else
-        return 0; }
-```]
-]
-
----
-
-# Brace styles (continued)
-
-.row[
-.column.w48[
-```C++
-//--style=google / -A14
-
-
-
-int Foo(bool isBar) {
-    if (isBar) {
-        bar();
-        return 1;
-    } else
-        return 0;
-}
-```]
-.column.w48[
-```C++
-//--style=vtk / -A15
-int Foo(bool isBar)
-{
-    if (isBar)
-        {
-        bar();
-        return 1;
-        }
-    else
-        return 0;
-}
-```]
-]
-
-.row[
-.column.w48[
-```C++
-//--style=mozilla / -A16
-
-
-int Foo(bool isBar)
-{
-    if (isBar) {
-        bar();
-        return 1;
-    } else
-        return 0;
-}
-```]
-]
-
----
-
-# Tab options
-
-.row[
-.column.w48[
-```C++
-// default indent
-
-void Foo() {
-....if (isBar1
-............&& isBar2)
-........bar();
-}
-```]
-.column.w48[
-```C++
-//--indent=spaces=3 / -S3 [default 4]
-
-void Foo() {
-...if (isBar1
-.........&& isBar2)
-......bar();
-}
-
-```]
-]
-
-.row[
-.column.w48[
-```C++
-//--indent=tab=4 / -t4 [default 4]
-
-void Foo() {
->   if (isBar1
->   ........&& isBar2)
->   >   bar();
-}
-```]
-.column.w48[
-```C++
-// --style=linux --indent=tab=8
-void Foo()
-{
->       if (isBar1
->       ....&& isBar2)
->       >       bar();
-}
-```]
-]
-
-.row[
-.column.w48[
-```C++
-//--indent=force-tab=4 / -T4 [default 4]
-
-void Foo() {
->   if (isBar1
->   >   >   && isBar2)
->   >   bar();
-}
-```]
-.column.w48[
-```C++
-//--indent=force-tab-x=8 / -xT8 [default 8]
-
-void Foo() {
-....if (isBar1
->       ....&& isBar2)
->       bar();
-}
-```]
-]
-
----
-
-# Development tools
-
-## Tools presented in this course
-* version control system
- * `subversion`, `mercurial`, `CVS`, `SVN`, `Bazaar`, **`git`** :+:
-* build system
- * `Distutils`, `CMake`, `Autotools`, `qmake`, **`GNU Make`** :+:
-* documentation generator
- * `Sphinx`, `Docutils`, **`Doxygen`** :+:
-* unit testing framework
- * `*test*`, **`CxxTest`** :+:
-* code formatting tool
- * **`astyle`** :+:
-* commenting conventions
- * various guidelines
-* performance analysis tools
- * will be presented in PSA (S4)
-* binding generator
- * will be presented in PSA (S4)
+# Let your code do some linear algebra
+
+## Low-level linear algebra libraries
+* `BLAS`: basic linear algebra operations, comes from `ATLAS`, `Goto`, `Netlib`...
+* `LAPACK`: writen in `FORTRAN`, **fastest ever**, **used to rank supercomputers**, depends on `BLAS`
+* `MKL`: set of routines including `LAPACK` and `BLAS` ones, optimized for Intel processors, :warning: **not free**
+
+## Most known linear algebra `C++` libraries
+* `GSL`: widely used, reliable, not only for matrices
+* `Boost`: medium-level, verbose, average efficiency
+* `Eigen`: high-level, recent, fast, small
+* **`Armadillo`**: high-level, recent, **very fast**, small, **elegant**
+
+## Most known linear algebra python modules
+* `NumPy`: manipulate vectors and matrices, uses `LAPACK` and `BLAS`
+* `SciPy`: includes `NumPy` and other **very useful modules**
 
 ---
 
@@ -2745,6 +2295,529 @@ arma::mat E = arma::diagmat(B);
 Mandatory bookmark in your browser:
 
 [http://arma.sourceforge.net/docs.html](http://arma.sourceforge.net/docs.html)
+
+---
+
+# Development tools
+
+## Tools presented in this course
+* version control system
+ * `subversion`, `mercurial`, `CVS`, `SVN`, `Bazaar`, **`git`** :+:
+* build system
+ * `Distutils`, `CMake`, `Autotools`, `qmake`, **`GNU Make`** :+:
+* documentation generator
+ * `Sphinx`, `Docutils`, **`Doxygen`** :+:
+* unit testing framework
+ * `*test*`, **`CxxTest`** :+:
+* code formatting tool
+ * **`astyle`**
+* commenting conventions
+ * various guidelines
+* performance analysis tools
+ * will be presented in PSA (S4)
+* binding generator
+ * will be presented in PSA (S4)
+
+---
+
+# Artistic Style (`astyle`)
+
+## Key points
+
+* source code indenter, formatter, and beautifier
+* works with `C`, `C++`, `Objective-C`, `C#`, and `Java` source files
+* cross-platform
+
+.row[
+.column.w47.middle[
+```C++
+    #include "stdio.h"
+
+  #define PREDEFINED_VALUE 3;
+
+  int global_var = PREDEFINED_VALUE; 
+
+   int main(int argc,char ** argv) {
+ printf("Hello world, value = %d\n",global_var); return 0; }
+```
+]
+.column.w5.middle[
+:arrow_right:
+]
+.column.w47.middle[
+```C++
+#include "stdio.h"
+
+#define PREDEFINED_VALUE 3;
+
+int global_var = PREDEFINED_VALUE;
+
+int main(int argc, char **argv)
+{
+  printf("Hello world, value = %d\n", global_var);
+  return 0;
+}
+```
+]
+]
+
+.block[
+* Repository: [https://sourceforge.net/projects/astyle](https://sourceforge.net/projects/astyle)
+* Website: [http://astyle.sourceforge.net](http://astyle.sourceforge.net)
+* License: `MIT`
+]
+
+---
+
+# `astyle` usage
+
+* the file type is determined from the file extension
+* when a file is formatted, a copy of the original file is kept with the `.orig` extension
+* general usage:
+
+```shell
+$ astyle [OPTIONS] SourceFile1 SourceFile2 SourceFile3 [...]
+```
+
+* example of a recursive usage for all `.cpp` and `.h` files:
+
+```shell
+$ astyle --style=allman --recursive *.cpp *.h
+```
+* example of a usage with redirections:
+
+```shell
+$ astyle --style=allman < source.cpp > destination.cpp
+```
+
+* example of a usage to check the formatting without updating the source file:
+
+```shell
+$ astyle --style=allman < source.cpp | less
+```
+
+---
+
+# Usage with a default options file
+
+* example of a usage with a default options file:
+
+```shell
+$ astyle --options=astyle.conf
+```
+
+## .hcenter[`[astyle.conf]`]
+```shell
+# this line is a comment
+--style=allman      # this is a line-end comment
+# long options can be written without the preceding '--'
+indent-switches     # cannot do this on the command line
+# short options must have the preceding '-'
+-t -p
+# short options can be concatenated together
+-M60Ucv
+```
+
+* file is looked for at locations (in order)
+ 1. `--options=file`
+ 2. `ARTISTIC_STYLE_OPTIONS`
+ 3. `$HOME/.astylerc`
+ 4. `$USERPROFILE/astylerc`
+* `options=none` will disable the default options file lookup
+* command line options have precedence
+
+---
+
+# Disable formatting
+
+## Disable the formatting of a block of code
+
+```C++
+// *INDENT-OFF*
+#define FOO_DECLARE_int32_(name) \
+        FOO_API_ extern ::Int32 FOO_FLAG(name)
+// *INDENT-ON*
+```
+
+## Disable the formatting of a line of code
+
+```C++
+size_t foo = (unsigned int) -1;  // *NOPAD*
+```
+
+---
+
+# Brace styles
+
+.row[
+.column.w48[
+```C++
+//--style=allman / --style=bsd / --style=break / -A1
+int Foo(bool isBar)
+{
+    if (isBar)
+    {
+        bar();
+        return 1;
+    }
+    else
+        return 0;
+}
+```]
+.column.w48[
+```C++
+//--style=java / --style=attach / -A2
+
+
+
+int Foo(bool isBar) {
+    if (isBar) {
+        bar();
+        return 1;
+    } else
+        return 0;
+}
+```]
+]
+
+.row[
+.column.w48[
+```C++
+//--style=kr / --style=k&r / --style=k/r / -A3
+
+
+int Foo(bool isBar)
+{
+    if (isBar) {
+        bar();
+        return 1;
+    } else
+        return 0;
+}
+```]
+.column.w48[
+```C++
+//--style=stroustrup / -A4
+
+int Foo(bool isBar)
+{
+    if (isBar) {
+        bar();
+        return 1;
+    }
+    else
+        return 0;
+}
+```]
+]
+
+.row[
+.column.w48[
+```C++
+//--style=whitesmith / -A5
+int Foo(bool isBar)
+    {
+    if (isBar)
+        {
+        bar();
+        return 1;
+        }
+    else
+        return 0;
+    }
+```]
+.column.w48[
+```C++
+//--style=banner / -A6
+
+
+int Foo(bool isBar) {
+    if (isBar) {
+        bar();
+        return 1;
+        }
+    else
+        return 0;
+    }
+```]
+]
+
+---
+
+# Brace styles (continued)
+
+.row[
+.column.w48[
+```C++
+//--style=gnu / -A7
+int Foo(bool isBar)
+{
+    if (isBar)
+        {
+            bar();
+            return 1;
+        }
+    else
+        return 0;
+}
+```]
+.column.w48[
+```C++
+//--style=linux / --style=knf / -A8
+
+
+int Foo(bool isBar)
+{
+        if (isFoo) {
+                bar();
+                return 1;
+        } else
+                return 0;
+}
+```]
+]
+
+.row[
+.column.w48[
+```C++
+//--style=horstmann / --style=run-in / -A9
+
+
+int Foo(bool isBar)
+{   if (isBar)
+    {   bar();
+        return 1;
+    }
+    else
+        return 0;
+}
+```]
+.column.w48[
+```C++
+//--style=1tbs / --style=otbs / -A10
+
+int Foo(bool isBar)
+{
+    if (isFoo) {
+        bar();
+        return 1;
+    } else {
+        return 0;
+    }
+}
+```]
+]
+
+.row[
+.column.w48[
+```C++
+//--style=pico / -A11
+
+
+
+
+int Foo(bool isBar)
+{   if (isBar)
+    {   bar();
+        return 1; }
+    else
+        return 0; }
+```]
+.column.w48[
+```C++
+//--style=lisp / --style=python / -A12
+
+
+
+
+int Foo(bool isBar) {
+    if (isBar) {
+        bar()
+        return 1; }
+    else
+        return 0; }
+```]
+]
+
+---
+
+# Brace styles (continued)
+
+.row[
+.column.w48[
+```C++
+//--style=google / -A14
+
+
+
+int Foo(bool isBar) {
+    if (isBar) {
+        bar();
+        return 1;
+    } else
+        return 0;
+}
+```]
+.column.w48[
+```C++
+//--style=vtk / -A15
+int Foo(bool isBar)
+{
+    if (isBar)
+        {
+        bar();
+        return 1;
+        }
+    else
+        return 0;
+}
+```]
+]
+
+.row[
+.column.hcenter.w48[
+```C++
+//--style=mozilla / -A16
+
+
+int Foo(bool isBar)
+{
+    if (isBar) {
+        bar();
+        return 1;
+    } else
+        return 0;
+}
+```]
+]
+
+---
+
+# Tab options
+
+.row[
+.column.w48[
+```C++
+// default indent
+
+void Foo() {
+....if (isBar1
+............&& isBar2)
+........bar();
+}
+```]
+.column.w48[
+```C++
+//--indent=spaces=3 / -S3 [default 4]
+
+void Foo() {
+...if (isBar1
+.........&& isBar2)
+......bar();
+}
+
+```]
+]
+
+.row[
+.column.w48[
+```C++
+//--indent=tab=4 / -t4 [default 4]
+
+void Foo() {
+>   if (isBar1
+>   ........&& isBar2)
+>   >   bar();
+}
+```]
+.column.w48[
+```C++
+// --style=linux --indent=tab=8
+void Foo()
+{
+>       if (isBar1
+>       ....&& isBar2)
+>       >       bar();
+}
+```]
+]
+
+.row[
+.column.w48[
+```C++
+//--indent=force-tab=4 / -T4 [default 4]
+
+void Foo() {
+>   if (isBar1
+>   >   >   && isBar2)
+>   >   bar();
+}
+```]
+.column.w48[
+```C++
+//--indent=force-tab-x=8 / -xT8 [default 8]
+
+void Foo() {
+....if (isBar1
+>       ....&& isBar2)
+>       bar();
+}
+```]
+]
+
+---
+
+# Development tools
+
+## Tools presented in this course
+* version control system
+ * `subversion`, `mercurial`, `CVS`, `SVN`, `Bazaar`, **`git`** :+:
+* build system
+ * `Distutils`, `CMake`, `Autotools`, `qmake`, **`GNU Make`** :+:
+* documentation generator
+ * `Sphinx`, `Docutils`, **`Doxygen`** :+:
+* unit testing framework
+ * `*test*`, **`CxxTest`** :+:
+* code formatting tool
+ * **`astyle`** :+:
+* commenting conventions
+ * various guidelines
+* performance analysis tools
+ * will be presented in PSA (S4)
+* binding generator
+ * will be presented in PSA (S4)
+
+---
+
+# Results presentation
+
+## Write the **most beautiful math ever**
+* :arrow_right: `\(\LaTeX\)`
+
+## **Structure** your documentation
+* :arrow_right: `MarkDown`
+
+## Make **fancy presentations**
+* :arrow_right: `remark.js`
+
+---
+
+# `\(\LaTeX\)`
+
+.hcenter.w20[![](images/leslie_lamport.png)]
+
+## Key points
+
+* created by Leslie Lamport (winner of the 2013 Turing Award) in the 80s
+* used to communicate and publish scientific documents in **all scientific fields**
+* markup language
+* writen in the `TeX` macro language
+
+.block[
+* Repository: [https://www.latex-project.org//svnroot/experimental/trunk](https://www.latex-project.org//svnroot/experimental/trunk)
+* Website: [https://www.latex-project.org](https://www.latex-project.org)
+* License: `LPPL` (Latex Project Public License)
+]
 
     </textarea>
     <script src="core/javascript/remark.js"></script>
