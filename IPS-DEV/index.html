@@ -1886,7 +1886,7 @@ void test_assert_throws_assert(void)
 
 ## Low-level linear algebra libraries
 * `BLAS`: basic linear algebra operations, comes from `ATLAS`, `Goto`, `Netlib`...
-* `LAPACK`: writen in `FORTRAN`, **fastest ever**, **used to rank supercomputers**, depends on `BLAS`
+* `LAPACK`: written in `FORTRAN`, **fastest ever**, **used to rank supercomputers**, depends on `BLAS`
 * `MKL`: set of routines including `LAPACK` and `BLAS` ones, optimized for Intel processors, :warning: **not free**
 
 ## Most known linear algebra `C++` libraries
@@ -2795,7 +2795,7 @@ void Foo() {
 * :arrow_right: .latex[L<sup>a</sup>T<sub>e</sub>X]
 
 ## **Structure** your documentation
-* :arrow_right: `MarkDown`
+* :arrow_right: `Markdown`
 
 ## Make **fancy presentations**
 * :arrow_right: `remark.js`
@@ -2811,7 +2811,7 @@ void Foo() {
 * created by Leslie Lamport (winner of the 2013 Turing Award) in the 80s
 * used to communicate and publish scientific documents in **all scientific fields**
 * markup language
-* writen in the `TeX` macro language
+* written in the `TeX` macro language
 
 .block[
 * Repository: [https://www.latex-project.org//svnroot/experimental/trunk](https://www.latex-project.org//svnroot/experimental/trunk)
@@ -2823,8 +2823,8 @@ void Foo() {
 
 # The usual .latex[L<sup>a</sup>T<sub>e</sub>X] workflow
 
-.mermaid[
-    graph TD
+.hcenter.w80.mermaid[
+    graph LR
     A("1. Write / modify<br/>the source file") --> B
     B("2. Generate<br/>with pdflatex") --> C
     C("3. Check the result<br/>with a pdf viewer") --> A
@@ -2893,7 +2893,7 @@ Transcript written on example.log.
 
 # .latex[L<sup>a</sup>T<sub>e</sub>X] example
 
-## 3. Check the result with a pdf viewer
+## 3. Check the result with a `.pdf` viewer
 .hcenter.border.shadow.w70[![](images/latex_example.png)]
 
 ---
@@ -2915,6 +2915,408 @@ Transcript written on example.log.
 
 :arrow_right: **My advice**: for scientific presentations, documentations, web pages...
 
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] math syntax
+
+.row[.column.middle.w50[```TeX
+S_i = 1 + 2 + 3 + \ldots + i
+```]
+.column.hcenter.middle.w48[
+`$$
+S_i = 1 + 2 + 3 + \ldots + i
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+S_{ i } =1+2
++
+    3    +\ldots   + i
+```]
+.column.hcenter.middle.w48[
+`$$
+S_{ i } =1+2
++
+    3    +\ldots   + i
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+a_i^j = b_{i + 1}^{-1} + \frac{c^2 + d}
+{ \sqrt{e + f + 0.4} }
+```]
+.column.hcenter.middle.w48[
+`$$
+a_i^j = b_{i + 1}^{-1} + \frac{c^2 + d}{\sqrt{e + f + 0.4}}
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+S \equiv \sum_{k = 1}^\infty \frac{1}{k^2}
+= \frac{\pi^2}{6}
+```]
+.column.hcenter.middle.w48[
+`$$
+S \equiv \sum_{k = 1}^\infty \frac{1}{k^2} = \frac{\pi^2}{6}
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\hat{\mathcal{H}}|\psi\rangle = E_i|\psi\rangle
+```]
+.column.hcenter.middle.w48[
+`$$
+\hat{\mathcal{H}}|\psi_i\rangle = E_i|\psi_i\rangle
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\left(\frac{1}{2} + \frac{3}{4}\right) =1 +  \frac{1}{4}
+```]
+.column.hcenter.middle.w48[
+`$$
+\left(\frac{1}{2} + \frac{3}{4}\right) =1 +  \frac{1}{4}
+$$`
+]]
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] math syntax
+
+.row[.column.middle.w50[```TeX
+D = \left|\begin{array}{ccc}
+a & b & c\\
+d & e & f\\
+g & h & i
+\end{array}\right|
+```]
+.column.hcenter.middle.w48[
+`$$
+D = \left|\begin{array}{ccc}
+a & b & c\\
+d & e & f\\
+g & h & i
+\end{array}\right|
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\Psi = \int_{-\infty}^{\infty} %
+\exp \left( \sqrt{\alpha} \, x^2\right) d x
+```]
+.column.hcenter.middle.w48[
+`$$
+\Psi = \int_{-\infty}^{\infty} %
+\exp \left( \sqrt{\alpha} \, x^2\right) d x
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+I_{\sigma} =
+\int_{z=-\infty}^{\infty}
+\int_{\theta=0}^{2\pi}
+\int_{r_\perp = 0}^{\infty}
+e^{-\frac{r_\perp^2+z^2}{\sigma^2}}
+r_\perp dr_\perp d\theta dz
+```]
+.column.hcenter.middle.w48[
+`$$
+I_{\sigma} =
+\int_{z=-\infty}^{\infty}
+\int_{\theta=0}^{2\pi}
+\int_{r_\perp = 0}^{\infty}
+e^{-\frac{r_\perp^2+z^2}{\sigma^2}}
+r_\perp dr_\perp d\theta dz
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\begin{array}{cccccccc}
+\alpha&\theta&o&\tau&\beta&\vartheta&\pi&\upsilon\\
+\gamma&\gamma&\varpi&\phi&\delta&\kappa&\rho&\varphi\\
+\epsilon&\lambda&\varrho&\chi&\varepsilon&\mu&\sigma&\psi\\
+\zeta&\nu&\varsigma&\omega&\eta&\xi\\
+\Gamma&\Lambda&\Sigma&\Psi&\Delta&\Xi&\Upsilon&\Omega\\
+\Theta&\Pi&\Phi\\
+\end{array}
+```]
+.column.hcenter.middle.w48[
+`$$
+\begin{array}{cccccccc}
+\alpha&\theta&o&\tau&\beta&\vartheta&\pi&\upsilon\\
+\gamma&\gamma&\varpi&\phi&\delta&\kappa&\rho&\varphi\\
+\epsilon&\lambda&\varrho&\chi&\varepsilon&\mu&\sigma&\psi\\
+\zeta&\nu&\varsigma&\omega&\eta&\xi\\
+\Gamma&\Lambda&\Sigma&\Psi&\Delta&\Xi&\Upsilon&\Omega\\
+\Theta&\Pi&\Phi\\
+\end{array}
+$$`
+]]
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] math syntax
+
+## Some math symbols
+
+.row[.column.middle.w50[```TeX
+\odot \iiint \oint \smile \fallingdotseq \simeq \subset
+```]
+.column.hcenter.middle.w48[
+`$$
+\odot \iiint \oint \smile \fallingdotseq \simeq \subset
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\sin(\theta) \cos(\theta) \tan(\theta)
+```]
+.column.hcenter.middle.w48[
+`$$
+\sin(\theta) \cos(\theta) \tan(\theta)
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\sinh(x) \cosh (x) \tanh(x)
+```]
+.column.hcenter.middle.w48[
+`$$
+\sinh(x) \cosh (x) \tanh(x)
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\exp(z) \det(M)
+```]
+.column.hcenter.middle.w48[
+`$$
+\exp(z) \det(M)
+$$`
+]]
+
+.vspace[]
+
+## List of math symbols
+* [http://tug.ctan.org/info/symbols/comprehensive/symbols-a4.pdf](http://tug.ctan.org/info/symbols/comprehensive/symbols-a4.pdf) (338 pages !)
+* [http://oeis.org/wiki/List_of_LaTeX_mathematical_symbols](http://oeis.org/wiki/List_of_LaTeX_mathematical_symbols)
+
+---
+
+# `Markdown`
+
+.hcenter.w20[![](images/markdown_logo.png)]
+
+## Key points
+
+* created by *John Gruber* and *Aaron Swartz* in 2004
+* text-to-HTML conversion tool + plain text formatting syntax
+* **easy to read and easy to write**
+* generates valid `XHTML`
+* no standard implementation
+* variants used by GitHub, Bitbucket, Reddit, Diaspora, Stack Exchange, OpenStreetMap, SourceForge, **`remark.js`**...
+
+.block[
+* Website: [https://daringfireball.net/projects/markdown](https://daringfireball.net/projects/markdown)
+* License: `BSD`
+]
+
+---
+
+# `Markdown` example
+
+.row[
+.column.w48.middle[
+## .hcenter[`[example.md]`]
+
+```markdown
+A second level header
+---------------------
+
+## Another second level header
+
+The first level header is reserved for the title of the
+slides. The quick brown fox jumped over the lazy dog.
+
+### Header 3
+
+> This is a blockquote.
+> 
+> This is the second paragraph in the blockquote.
+>
+> ## This is an H2 in a blockquote
+
+| Here is a table   |   easy ! |
+| ----------------- | -------- |
+| some regular text | **bold** |
+```
+]
+
+.column.w48.middle.border.shadow[
+A second level header
+---------------------
+
+## Another second level header
+
+The first level header is reserved for the title of the
+slides. The quick brown fox jumped over the lazy dog.
+
+### Header 3
+
+> This is a blockquote.
+> 
+> This is the second paragraph in the blockquote.
+>
+> ## This is an H2 in a blockquote
+
+| Here is a table   |   easy ! |
+| ----------------- | -------- |
+| some regular text | **bold** |
+]]
+
+---
+
+# `Markdown` example
+
+.row[
+.column.w48.middle[
+```markdown
+Some `\(\LaTeX\)` thanks to **`MathJax`**:
+$$ \pi \simeq 3.1415926535 \ldots $$
+``` ]
+.column.w48.middle.border.shadow[
+Some `\(\LaTeX\)` thanks to **`MathJax`**:
+$$ \pi \simeq 3.1415926535 \ldots $$
+]]
+
+----
+
+.row[
+.column.w48.middle[
+```markdown
+## Item list
+ * first item
+ * second item
+ * third item
+
+## Enumerated list
+1. first item
+2. second item
+3. third item
+``` ]
+.column.w48.middle.border.shadow[
+## Item list
+ * first item
+ * second item
+ * third item
+
+## Enumerated list
+1. first item
+2. second item
+3. third item
+]]
+
+----
+
+.row[
+.column.w48.middle[
+<pre> <code>Include some code:
+```C++
+double calcSquare(double a)
+{
+  double result = a + a;
+  return result;
+}
+```</code></pre>
+]
+.column.w48.middle.border.shadow[
+Include some code:
+```C++
+double calcSquare(double a)
+{
+  double result = a + a;
+  return result;
+}
+```
+]]
+
+---
+
+# These slides use `remark.js`
+
+:warning: Important concept in `remark.js`:
+
+.row[
+.column.w47.middle[
+```markdown
+.class0.class1.class2[
+some text
+]
+```
+]
+.column.w5.middle[
+:arrow_right:
+]
+.column.w47.middle[
+```HTML
+<div class="class0 class1 class2">
+<p>some text</p>
+</div>
+```]]
+
+.row[
+.column.w47.middle[
+```markdown
+.class0.class1.class2[ some text ]
+```
+]
+.column.w5.middle[
+:arrow_right:
+]
+.column.w47.middle[
+```HTML
+<span class="class0 class1 class2">some text</span>
+```]]
+
+.vspace[]
+
+----
+
+.vspace[]
+
+:arrow_right: These slides use original or slightly modified versions of the following **opensource** projects:
+
+* [remark.js](https://remarkjs.com): `Markdown` slides generator and presentation tool.
+* [mermaid.js](https://mermaidjs.github.io): Generate diagrams with a Markdown-like syntax.
+* [cinescript.js](https://github.com/arnehilmann/cinescript): Replay terminal capture.
+* [highlight.js](https://highlightjs.org): Highlight source code.
+* [gitgraph.js](http://gitgraphjs.com): Make nice `git` graphs.
+* [mathjax](https://mathjax.org): Use .latex[L<sup>a</sup>T<sub>e</sub>X] math blocks.
+* [emojify.js](https://github.com/emojione/emojify.js): Use emoticons in your `Markdown` source :-)
+* [term.js](https://github.com/chjj/term.js): Display a terminal emulator in javascript.
+* [animate.css](https://daneden.github.io/animate.css): Pure `CSS` animations.
 
 
     </textarea>

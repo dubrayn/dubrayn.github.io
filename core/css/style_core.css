@@ -405,7 +405,7 @@ img {
    vertical-align: top;
 }
 
-.border img {
+.border {
    border: black solid 1px;
 }
 
