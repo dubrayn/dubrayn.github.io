@@ -1271,7 +1271,7 @@ $(SUBDIRS_TARGETS) :
 * documentation generator
 * supports `C++` (originally), `C`, `C#`, `Objective C`, `Fortran`, `PHP`, `Python`, etc...
 * interprets special comments in the source code **and the source code itself**
-* generates documentation pages in `HTML`, `\(\LaTeX\)`, `PDF`, etc...
+* generates documentation pages in `HTML`, .latex[L<sup>a</sup>T<sub>e</sub>X], `PDF`, etc...
 * understands `Markdown` syntax and numerous specific commands
 
 ## Main ideas
@@ -1635,7 +1635,7 @@ class SomeRandomClass {};
 
 # Unit tests
 
-.hcenter.shadow.w50[![](images/unit_tests_excuses.png)]
+.hcenter.border.shadow.w50[![](images/unit_tests_excuses.png)]
 
 ---
 
@@ -2792,7 +2792,7 @@ void Foo() {
 # Results presentation
 
 ## Write the **most beautiful math ever**
-* :arrow_right: `\(\LaTeX\)`
+* :arrow_right: .latex[L<sup>a</sup>T<sub>e</sub>X]
 
 ## **Structure** your documentation
 * :arrow_right: `MarkDown`
@@ -2802,9 +2802,9 @@ void Foo() {
 
 ---
 
-# `\(\LaTeX\)`
+# .latex[L<sup>a</sup>T<sub>e</sub>X]
 
-.hcenter.w20[![](images/leslie_lamport.png)]
+.hcenter.shadow.w20[![](images/leslie_lamport.png)]
 
 ## Key points
 
@@ -2818,6 +2818,83 @@ void Foo() {
 * Website: [https://www.latex-project.org](https://www.latex-project.org)
 * License: `LPPL` (LaTeX Project Public License, not `GPL`-compatible)
 ]
+
+---
+
+# The usual .latex[L<sup>a</sup>T<sub>e</sub>X] workflow
+
+.mermaid[
+    graph TD
+    A("1. Write / modify<br/>the source file") --> B
+    B("2. Generate<br/>with pdflatex") --> C
+    C("3. Check the result<br/>with a pdf viewer") --> A
+    style B fill:#090
+]
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] example
+
+## 1. Write / modify the source file
+
+Use your favorite **text editor**, not a WYSIWYG one.
+
+## .hcenter[`[example.tex]`]
+```TeX
+\documentclass[12pt]{article}
+\begin{document}
+\section{My very first \LaTeX\ example}
+\subsection{Excerpt from wikipedia}
+\LaTeX follows the design philosophy of separating presentation from content, so that authors can focus on the content
+of what they are writing without attending simultaneously to its visual appearance. In preparing a \LaTeX docu\-ment,
+the author specifies the logical structure using simple, familiar concepts such as chapter, section, table, figure,
+etc., and lets the \LaTeX system worry about the formatting and layout of these structures. It therefore encourages
+the separation of layout from content while still allowing manual typesetting adjustments where needed. This concept
+is similar to the mechanism by which many word processors allow styles to be defined globally for an entire document
+or the use of Cascading Style Sheets to style HTML. The \LaTeX system is a markup language that also handles
+typesetting and rendering.
+\subsection{Some math ?}
+Yes, \LaTeX can do some math, either inline like $f(x)\equiv x^2e^{\sqrt{x + 1}}$, or in a math block like
+\begin{equation}
+A.B = \frac{-1}{\sqrt{2}} E.B^{-1}
+\end{equation}
+\end{document}
+```
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] example
+
+## 2. Generate with `pdflatex`
+```shell
+*$ pdflatex example.tex
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./example.tex
+LaTeX2e <2017/01/01> patch level 3
+Babel <3.9r> and hyphenation patterns for 3 language(s) loaded.
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo)) (./example.aux)
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./example.aux) )</usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmsy8.pfb>
+Output written on example.pdf (1 page, 70040 bytes).
+Transcript written on example.log.
+```
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] example
+
+## 3. Check the result with a pdf viewer
+.hcenter.border.shadow.w70[![](images/latex_example.png)]
 
     </textarea>
     <script src="core/javascript/remark.js"></script>
