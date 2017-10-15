@@ -2342,7 +2342,7 @@ Mandatory bookmark in your browser:
   int global_var = PREDEFINED_VALUE; 
 
    int main(int argc,char ** argv) {
- printf("Hello, v = %d\n",global_var); return 0; }
+printf("Hello, v = %d\n",global_var); return 0; }
 
 
  
@@ -2868,14 +2868,14 @@ Use your favorite **text editor**, not a WYSIWYG one.
 \begin{document}
 \section{My very first \LaTeX\ example}
 \subsection{Excerpt from wikipedia}
-\LaTeX follows the design philosophy of separating presentation from content, so that authors can focus on the content
-of what they are writing without attending simultaneously to its visual appearance. In preparing a \LaTeX docu\-ment,
-the author specifies the logical structure using simple, familiar concepts such as chapter, section, table, figure,
-etc., and lets the \LaTeX system worry about the formatting and layout of these structures. It therefore encourages
-the separation of layout from content while still allowing manual typesetting adjustments where needed. This concept
-is similar to the mechanism by which many word processors allow styles to be defined globally for an entire document
-or the use of Cascading Style Sheets to style HTML. The \LaTeX system is a markup language that also handles
-typesetting and rendering.
+\LaTeX follows the design philosophy of separating presentation from content, so that authors can focus on the
+content of what they are writing without attending simultaneously to its visual appearance. In preparing a \LaTeX
+docu\-ment, the author specifies the logical structure using simple, familiar concepts such as chapter, section,
+table, figure, etc., and lets the \LaTeX system worry about the formatting and layout of these structures. It
+therefore encourages the separation of layout from content while still allowing manual typesetting adjustments
+where needed. This concept is similar to the mechanism by which many word processors allow styles to be defined
+globally for an entire document or the use of Cascading Style Sheets to style HTML. The \LaTeX system is a markup
+language that also handles typesetting and rendering.
 \subsection{Some math ?}
 Yes, \LaTeX can do some math, either inline like $f(x)\equiv x^2e^{\sqrt{x + 1}}$, or in a math block like
 \begin{equation}
@@ -3073,7 +3073,8 @@ $$`
 \begin{array}{cccccccc}
 \alpha&\theta&o&\tau&\beta&\vartheta&\pi&\upsilon\\
 \gamma&\gamma&\varpi&\phi&\delta&\kappa&\rho&\varphi\\
-\epsilon&\lambda&\varrho&\chi&\varepsilon&\mu&\sigma&\psi\\
+\epsilon&\lambda&\varrho&\chi&\varepsilon&\mu&
+\sigma&\psi\\
 \zeta&\nu&\varsigma&\omega&\eta&\xi\\
 \Gamma&\Lambda&\Sigma&\Psi&\Delta&\Xi&\Upsilon&\Omega\\
 \Theta&\Pi&\Phi\\
@@ -3084,7 +3085,8 @@ $$`
 \begin{array}{cccccccc}
 \alpha&\theta&o&\tau&\beta&\vartheta&\pi&\upsilon\\
 \gamma&\gamma&\varpi&\phi&\delta&\kappa&\rho&\varphi\\
-\epsilon&\lambda&\varrho&\chi&\varepsilon&\mu&\sigma&\psi\\
+\epsilon&\lambda&\varrho&\chi&\varepsilon&\mu&
+\sigma&\psi\\
 \zeta&\nu&\varsigma&\omega&\eta&\xi\\
 \Gamma&\Lambda&\Sigma&\Psi&\Delta&\Xi&\Upsilon&\Omega\\
 \Theta&\Pi&\Phi\\
@@ -3150,7 +3152,17 @@ $$`
 
 # `Markdown`
 
-.hcenter.w20[![](images/markdown_logo.png)]
+.row.hcenter.w60[
+.column.shadow.w30.animated.fadeInLeft.wait1s[
+![](images/john_gruber.png)
+]
+.column.w30[
+![](images/markdown_logo.png)
+]
+.column.shadow.w30.animated.fadeInRight.wait1s[
+![](images/aaron_swartz.png)
+]
+]
 
 ## Key points
 
@@ -3514,7 +3526,6 @@ if True:
     print("Never")
 ```]
 ]
-
 ]
 
 

@@ -346,7 +346,7 @@ div.remark-code-line:empty:before {
   line-height: 110%;
   margin-left: 0px;
   margin-right: 0px;
-  width: 100%;
+/*  width: 100%; */
 }
 
 #terminal, .remark-code, .hljs.remark-code, .cinescript {
@@ -357,6 +357,11 @@ div.remark-code-line:empty:before {
   overflow: hidden;
   word-break: break-all;
   padding: 0.3em;
+}
+
+.cinescript {
+  width: 100%;
+  padding: 0px;
 }
 
 .remark-inline-code {
@@ -428,6 +433,10 @@ img {
 
 .shadow img {
    vertical-align: top;
+}
+
+.shadow p {
+  margin: 0px;
 }
 
 .border {
