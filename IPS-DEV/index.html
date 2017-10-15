@@ -3422,42 +3422,32 @@ some text
 ```python
 #!/usr/bin/env python
 
-print("Hello from python !")
+# declare variables
+a = 2
+b = 8
+
+# add two numbers
+c = a + b
+
+# print some message
+print("Hello from Python ! (c = %d)" % (c))
 ```
 
 ## .hcenter[Shell session]
 ```shell
 $ chmod +x helloworld.py
 $ ./helloworld.py
-Hello from python !
+Hello from Python ! (c = 10)
 ```
 
----
+.vspace[]
 
-# Python identifiers
+## Explanations
 
-## Identifiers
-
-* Identifiers name variables, functions, classes, modules, objects...
-* They start with `[A-Za-z_]`, followed by zero or more `[A-Za-z0-9_]`.
-* `Python` is **case-sensitive**.
-
-## Reserved words
-
-.block.hcenter[
-<pre>
-and exec not assert finally or break for pass class def print
-continue from global raise with return del import try elif in
-while else is if except lambda yield
-</pre>
-]
-
-## Naming conventions
-
-* Class names start with an **uppercase letter**. All other identifiers start with a **lowercase letter**.
-* Starting an identifier with a **single leading underscore** indicates that the identifier is **private**.
-* Starting an identifier with **two leading underscores** indicates a **strongly private** identifier.
-* If the identifier also ends with **two trailing underscores**, the identifier is a **language-defined special name**.
+* Line 1: path to the Python interpreter
+* Lines 3, 7, 10: lines starting with `#` are comments
+* Lines 4, 5, 8: typing is dynamic
+* Line 11: `%` allows some form of string formatting
 
 ---
 
@@ -3527,6 +3517,171 @@ if True:
 ```]
 ]
 ]
+
+---
+
+# Python identifiers
+
+## Identifiers
+
+* Identifiers name variables, functions, classes, modules, objects...
+* They start with `[A-Za-z_]`, followed by zero or more `[A-Za-z0-9_]`.
+* `Python` is **case-sensitive**.
+
+## Reserved words
+
+.block.hcenter[
+<pre>
+and exec not assert finally or break for pass class def print
+continue from global raise with return del import try elif in
+while else is if except lambda yield False True None
+</pre>
+]
+
+## Naming conventions
+
+* Class names start with an **uppercase letter**. All other identifiers start with a **lowercase letter**.
+* Starting an identifier with a **single leading underscore** indicates that the identifier is **private**.
+* Starting an identifier with **two leading underscores** indicates a **strongly private** identifier.
+* If the identifier also ends with **two trailing underscores**, the identifier is a **language-defined special name**.
+
+---
+
+# Functions and classes
+
+```python
+# define a function
+def func0(arg0, arg1 = 6):
+  c = arg0 + arg1
+  return c
+
+func0(2) # 8
+
+func0(2, 3) # 5
+
+func0("abc", "def") # "abcdef"
+```
+
+```python
+# define a class
+class MyClass:
+
+  a = 3
+
+  def __init__(self, b = None):
+    print("Hello from constructor")
+
+    self.c = "toto"
+
+    print("a = %r" % (self.a))
+    print("b = %r" % (b))
+    print("c = %r" % (self.c))
+
+    d = self.myMethod(4, 4)
+
+    print("d = %r" % (d))
+
+  def myMethod(self, a, b = 2):
+    return self.a + a + b
+    
+myClass = MyClass(6)
+# Output:
+# Hello from constructor
+# a = 3
+# b = 6
+# c = 'toto'
+# d = 11
+```
+
+---
+
+# Containers
+
+* `tuple`
+* `list`
+* `set`
+* `dict`
+
+---
+
+# `True`, `False`, `not`, `and`, `or` keywords
+
+* usual Boolean values and operations
+* "`==`" tests value equality
+* `True` is the same object as `1`
+* `False` is the same object as `0`
+
+```python
+3 == 5 # False
+
+2 == 2 # False
+
+1 + 1 == 2 # True
+
+True or False # True
+
+True or not True # True
+
+True and True # True
+
+False and True # False
+
+True == 1 # True
+
+False == 0 # True
+
+True + True + False # 2
+```
+
+---
+
+# `None` keyword
+
+* special constant representing the absence of a value
+* the type of `None` is `NoneType`
+* :warning: `None` does not imply `False`, 0, or an empty container
+
+```python
+None == 0 # False
+
+None == [] # False
+
+None == False # False
+
+a = None
+b = None
+a == b # True
+```
+
+:arrow_right: A void function without a `return` statement returns a `None` object.
+
+```python
+def void_function():
+  pass # do nothing
+
+a = void_function()
+a == None # True
+```
+
+---
+
+# `as` keyword
+
+* allows to import a module under an alias name
+
+```python
+import math as m
+
+print(m.sqrt(2)) # 1.41421356237
+```
+
+---
+
+# Modules
+
+
+
+
 
 
     </textarea>
