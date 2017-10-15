@@ -34,7 +34,7 @@ IPS-DEV - N. Dubray - ENSIIE - 2017
 ---
 
 layout: true
-class: animated fadeIn middle
+class: animated fadeIn middle numbers
 
 .footnote[
 IPS-DEV - N. Dubray - ENSIIE - 2017
@@ -1126,7 +1126,7 @@ clean:
 
 # Recursive `Makefiles`
 
-.row.hcenter.w70[
+.row.hcenter.w80[
 .column.w20.middle[
 .tree[
 project
@@ -1166,7 +1166,7 @@ clean:
 
 # Recursive `Makefiles`
 
-.row.hcenter.w70[
+.row.hcenter.w80[
 .column.w20.middle[
 .tree[
 project
@@ -1200,7 +1200,7 @@ clean:
 
 # Recursive `Makefiles`
 
-.row.hcenter.w70[
+.row.hcenter.w80[
 .column.w20.middle[
 .tree[
 project
@@ -1447,8 +1447,8 @@ Generating example documentation...
 Generating file sources...
 Generating file documentation...
 Generating docs for file test.cpp...
-*/home/dubrayn/temp/dubrayn.github.io/IPS-DEV/test_doxygen/test.cpp:27: warning: Member undocumentedFunc(void)
-* (function) of file test.cpp is not documented.
+*/home/dubrayn/temp/dubrayn.github.io/IPS-DEV/test_doxygen/test.cpp:27: warning: Member
+*undocumentedFunc(void) (function) of file test.cpp is not documented.
 Generating page documentation...
 Generating group documentation...
 Generating class documentation...
@@ -1504,15 +1504,15 @@ Generating example index...
 
 .row[.w48[
 ```text
-/********************************************//**
+/*****************************************//**
  *  ... text ...
- ***********************************************/
+ ********************************************/
 ```]
 .w48[
 ```text
-/////////////////////////////////////////////////
+//////////////////////////////////////////////
 /// ... text ...
-/////////////////////////////////////////////////
+//////////////////////////////////////////////
 ```]]
 
 ## Brief description
@@ -1534,11 +1534,11 @@ Generating example index...
 
 .row[.w48[
 ```C++
-int var; /*!< Detailed description after the member */
+int var; /*!< Detailed description*/
 ```]
 .w48[
 ```C++
-int var; ///< Brief description after the member
+int var; ///< Brief description
 ```]]
 
 ---
@@ -1782,7 +1782,7 @@ $ g++ -o tests tests.cpp
 $ ./tests
 Running cxxtest tests (2 tests).
 *In MyTestSuite2::testMultiplication:
-*/Users/wehart/home/mac/src/cxxtest/doc/examples/MyTestSuite2.h:16: Error: Expected (2 * 2 == 5), found (4 != 5)
+*/home/dubrayn/temp/test_cxxtest/MyTestSuite2.h:15: Error: Expected (2 * 2 == 5), found (4 != 5)
 Failed 1 and Skipped 0 of 2 tests
 Success rate: 50%
 ```
@@ -1906,6 +1906,9 @@ void test_assert_throws_assert(void)
 
 .hcenter.w30[![](images/armadillo_logo.png)]
 
+.noflex[
+.rightf.animated.fadeInRight.wait1s.shadow.w25[![](images/conrad_sanderson.png)]
+
 ## Key points
 
 * [http://arma.sourceforge.net](http://arma.sourceforge.net)
@@ -1926,7 +1929,7 @@ void test_assert_throws_assert(void)
 * Website: [http://arma.sourceforge.net](http://arma.sourceforge.net)
 * License: `Apache License 2.0`
 ]
-
+]
 
 ---
 
@@ -2339,7 +2342,11 @@ Mandatory bookmark in your browser:
   int global_var = PREDEFINED_VALUE; 
 
    int main(int argc,char ** argv) {
- printf("Hello world, value = %d\n",global_var); return 0; }
+ printf("Hello, v = %d\n",global_var); return 0; }
+
+
+ 
+
 ```
 ]
 .column.w5.middle[
@@ -2355,7 +2362,7 @@ int global_var = PREDEFINED_VALUE;
 
 int main(int argc, char **argv)
 {
-  printf("Hello world, value = %d\n", global_var);
+  printf("Hello, v = %d\n", global_var);
   return 0;
 }
 ```
@@ -2986,7 +2993,7 @@ $$`
 ----
 
 .row[.column.middle.w50[```TeX
-\hat{\mathcal{H}}|\psi\rangle = E_i|\psi\rangle
+\hat{\mathcal{H}}|\psi_i\rangle = E_i|\psi_i\rangle
 ```]
 .column.hcenter.middle.w48[
 `$$
@@ -3365,7 +3372,7 @@ some text
 
 ---
 
-# Python's core philosophy
+# Python core philosophy
 
 .noflex[
 .rightf.animated.fadeInRight.wait1s.shadow.w25[![](images/tim_peters.png)]
@@ -3394,6 +3401,121 @@ some text
 ]
 
 :arrow_right: Some examples of good Python style can be found [here](http://artifex.org/~hblanks/talks/2011/pep20_by_example.pdf).
+
+---
+
+# Python `helloworld`
+
+## .hcenter[`[helloworld.py]`]
+```python
+#!/usr/bin/env python
+
+print("Hello from python !")
+```
+
+## .hcenter[Shell session]
+```shell
+$ chmod +x helloworld.py
+$ ./helloworld.py
+Hello from python !
+```
+
+---
+
+# Python identifiers
+
+## Identifiers
+
+* Identifiers name variables, functions, classes, modules, objects...
+* They start with `[A-Za-z_]`, followed by zero or more `[A-Za-z0-9_]`.
+* `Python` is **case-sensitive**.
+
+## Reserved words
+
+.block.hcenter[
+<pre>
+and exec not assert finally or break for pass class def print
+continue from global raise with return del import try elif in
+while else is if except lambda yield
+</pre>
+]
+
+## Naming conventions
+
+* Class names start with an **uppercase letter**. All other identifiers start with a **lowercase letter**.
+* Starting an identifier with a **single leading underscore** indicates that the identifier is **private**.
+* Starting an identifier with **two leading underscores** indicates a **strongly private** identifier.
+* If the identifier also ends with **two trailing underscores**, the identifier is a **language-defined special name**.
+
+---
+
+# Python indentation
+
+.alert.hcenter[
+There is **no symbol** to delimitate blocks of code in `Python`.  
+Blocks of code are defined using **indentation**.
+]
+
+.vspace[]
+
+.numbers[
+
+## Valid syntaxes
+
+.row[
+.column.w30[
+```python
+if True:
+  print("Always")
+
+```]
+.column.w30[
+```python
+if True:
+  print("Always")
+else:
+  print("Never")
+```]
+.column.w30[
+```python
+if True:
+  print("Almost")
+  print("Always")
+else:
+    print("Almost")
+    print("Never")
+```]
+]
+
+.vspace[]
+
+## Invalid syntaxes
+
+.row[
+.column.w30[
+```python
+if True
+  print("Always")
+```]
+.column.w30[
+```python
+if True:
+  print("Almost")
+    print("Always")
+```]
+.column.w30[
+```python
+if True:
+    print("Almost")
+    print("Always")
+  else:
+
+    print("Almost")
+    print("Never")
+```]
+]
+
+]
 
 
     </textarea>

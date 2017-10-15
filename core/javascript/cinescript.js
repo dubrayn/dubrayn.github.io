@@ -9,20 +9,21 @@ function CineScript(typescript, timing, options, container) {
     $(container).data("cinescript", self);
 
     //console.log("typescript: ..." + typescript + "...");
-    var speed = (options['speed'] != null ? options['speed'] : 2);
+    var speed = (options['speed'] != null ? options['speed'] : 1);
     var cols = typeof options['cols'] !== 'undefined' ? options['cols'] : 80;
     var rows = typeof options['rows'] !== 'undefined' ? options['rows'] : 25;
     var autoplay = typeof options['autoplay'] !== 'undefined' ? options['autoplay'] : false;
     var showcontrols = (options['show-controls'] != null ? options['show-controls'] : true);
-    var orig_speed = undefined;
     var fontsize = (options['font-size'] != null ? options["font-size"] : "auto");
 
     speed = Math.max(+speed, 1);
+    var orig_speed = 1;
+
     cols = +cols;
     rows = +rows;
 
-    //console.log("speed: " + speed);
-    var FAST = 1000;
+    console.log("speed: " + speed);
+    var FAST = 100;
 
     var terminal = new Terminal({cols: cols, rows: rows, screenKeys: false});
     terminal.open(pre);
@@ -58,10 +59,6 @@ function CineScript(typescript, timing, options, container) {
         //console.log("setting font-size to " + fontsize);
         $(container).css("font-size", fontsize);
 
-        if (typeof orig_speed !== 'undefined') {
-            speed = orig_speed;
-            orig_speed = undefined;
-        }
         if (timer) {
             timer.resume();
             return;
@@ -146,6 +143,8 @@ function CineScript(typescript, timing, options, container) {
                 loop = true;
 
                 if (loop) {
+                  timer.pause();
+                  timer = undefined;
                   terminal.reset();
                   self.play();
                 }
@@ -162,7 +161,7 @@ function CineScript(typescript, timing, options, container) {
     self.pause = function() {
         if (self.toggleButton != undefined) {
             self.toggleButton.className = "cine-play";
-	}
+	      }
         timer.pause();
     }
 
@@ -186,10 +185,14 @@ function CineScript(typescript, timing, options, container) {
 
     self.skip = function() {
         if (speed < FAST) {
-            orig_speed = speed;
             speed = FAST;
-            //console.log("new speed: " + speed);
         }
+        else
+        {
+            speed = orig_speed;
+        }
+
+        console.log("new speed: " + speed);
         if (timer) {
             timer.resume();
         }

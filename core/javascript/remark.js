@@ -21239,7 +21239,6 @@ function highlightCodeBlocks (content, slideshow) {
     if (block.className !== '') {
       highlighter.engine.highlightBlock(block, '  ');
     }
-
     wrapLines(block);
 
     if (highlightLines) {

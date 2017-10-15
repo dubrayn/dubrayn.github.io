@@ -305,6 +305,32 @@ em {
 /* ======== code ======== */
 /* ====================== */
 
+.numbers .remark-code {
+  counter-reset: line;
+}
+
+.numbers .remark-code-line {
+  counter-increment: line;
+}
+
+.numbers .remark-code-line:before {
+  content: counter(line, decimal-leading-zero);
+  border-right: 1px solid rgba(160, 100, 100, 1);
+  color: rgba(160, 100, 100, 1);
+  margin-right: 0.3em;
+  padding-right: 0.3em;
+}
+
+.numbers .remark-code-line:before {
+  -webkit-user-select: none;
+}
+
+/* in case of no numbering
+div.remark-code-line:empty:before {
+    content: "\200b";
+}
+*/
+
 .remark-inline-code {
   box-shadow: none;
 }
@@ -315,9 +341,12 @@ em {
 
 .f9, #terminal, .remark-code, .hljs.remark-code, .cinescript {
   color: #FFFFFF;
-  font-family: mymono;
-  font-size: 0.7em;
+  font-family: monospace;
+  font-size: 0.60em;
   line-height: 110%;
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 100%;
 }
 
 #terminal, .remark-code, .hljs.remark-code, .cinescript {
@@ -341,10 +370,6 @@ h1 > code.remark-inline-code {
 
 h1 > code.remark-inline-code.has-jax {
   color: rgba(255, 255, 255, 1.0);
-}
-
-div.remark-code-line:empty:before {
-    content: "\200b";
 }
 
 .remark-code {
@@ -577,7 +602,7 @@ td
 /* ====================== */
 
 .tree {
-  font-family: mymono;
+  font-family: monospace;
 }
 
 .tree ul {
