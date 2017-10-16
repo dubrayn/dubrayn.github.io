@@ -3752,14 +3752,96 @@ import example
 
 ---
 
-# Containers
+# Built-in types
 
-TODO : write me !
+## Mutability
 
-* `tuple`
-* `list`
-* `set`
-* `dict`
+* a **mutable object** has methods to modify its content
+* an **immutable object** does not have methods to modify its content
+
+:arrow_right: immutable built-in objects are hashable !
+
+## Mutable types
+
+* `list`: an ordered list of objects
+* `set`: an unordered list of **unique hashable objects**
+* `dict`: an unordered list of (key, object) couples (key must be hashable, and should be immutable)
+
+## Immutable types
+
+* `tuple`: like `list`, but immutable
+* `frozenset`: like `set`, but immutable
+* `string`: :warning: **strings are immutable in Python** :warning:
+* `numbers`: regular numbers
+
+## Containers
+
+* they can contain references to other objects
+ * `list`, `tuple`, `dict`, `set`, `frozenset`, etc...
+
+---
+
+# Containers mutability
+
+## Is a `set` mutable ?
+
+```python
+x = set([1, 2, 3])
+
+x |= set([2, 3, 4]) # is Python copying an immutable object ?
+
+print(x) # set([1, 2, 3, 4])
+```
+
+:arrow_right: **yes**, a `set` is mutable:
+
+```python
+x = set([1, 2, 3])
+
+x.__ior__(set([2, 3, 4])) # "|=" makes Python call .__ior__() method
+
+print(x) # set([1, 2, 3, 4])
+```
+
+## If a `tuple` is immutable, how is this possible ?
+
+```python
+tuple0 = (1, 2) # tuple declaration
+
+list0 = [3, 4] # list declaration
+
+print(type(tuple0)) # <type 'tuple'>
+
+tuple1 = (tuple0, list0) # tuple declaration
+
+print(type(tuple1)) # <type 'tuple'>
+
+print(tuple1) # ((1, 2), [3, 4])
+
+list0[0] = -1 # change list0
+
+print(tuple1) # ((1, 2), [-1, 4])
+```
+
+:arrow_right: A container stores **references**, not objects.
+
+---
+
+# Container methods
+
+TODO
+
+---
+
+# iterators, loops
+
+TODO
+
+---
+
+# list comprehension
+
+TODO
 
 ---
 
