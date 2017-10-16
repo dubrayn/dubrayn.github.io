@@ -20,7 +20,7 @@ Introduction to Scientific Programming
 ]
 
 .subtitle[
-IPS-DEV - N. Dubray - ENSIIE - 2017
+`IPS-DEV` - N. Dubray - ENSIIE - 2017
 ]
 
 .row[
@@ -37,7 +37,7 @@ layout: true
 class: animated fadeIn middle numbers
 
 .footnote[
-IPS-DEV - N. Dubray - ENSIIE - 2017
+`IPS-DEV` - N. Dubray - ENSIIE - 2017
 ]
 
 ---
@@ -71,12 +71,12 @@ IPS-DEV - N. Dubray - ENSIIE - 2017
 # Modules
 
 ## :arrow_right: IPS: Introduction to Scientific Programming (S3)
-* *IPS.DEV:* Scientific application development
-* *IPS.PROD:* Scientific data production, post-processing and visualization
+* `IPS.DEV`: Scientific application development
+* `IPS.PROD`: Scientific data production, post-processing and visualization
 
 ## :arrow_right: PSA: Advanced Scientific Programming (S4)
-* *PSA.???:* TBA
-* *PSA.???:* TBA
+* `PSA.???`: TBA
+* `PSA.???`: TBA
 
 ## Evaluation
 * project presentation [~10min] + questions [~5min]
@@ -148,7 +148,7 @@ $ vim file      # edit a file
 1. Define a question
 2. Gather information and resources (observe)
 3. Form an explanatory hypothesis
-4. Test the hypothesis by *performing an experiment* and collecting data in a **reproducible manner**
+4. Test the hypothesis by performing an experiment and collecting data in a **reproducible manner**
 5. Analyze the data
 6. Interpret the data and draw conclusions that serve as a starting point for new hypothesis
 7. **Publish results**
@@ -3418,7 +3418,7 @@ some text
 1. Errors should never pass silently.
 1. Unless explicitly silenced.
 1. In the face of ambiguity, refuse the temptation to guess.
-1. There should be one-- and preferably only one --obvious way to do it.
+1. There should be one *and preferably only one* obvious way to do it.
 1. Although that way may not be obvious at first unless you're Dutch.
 1. Now is better than never.
 1. Although never is often better than *right* now.
@@ -3565,24 +3565,18 @@ while else is if except lambda yield False True None
 # Functions and classes
 
 ```python
-# define a function
-def func0(arg0, arg1 = 6):
+def func0(arg0, arg1 = 6): # define a function
   c = arg0 + arg1
   return c
 
 func0(2) # 8
-
 func0(2, 3) # 5
-
 func0("abc", "def") # "abcdef"
 ```
 
 ```python
-# define a class
-class MyClass:
-
+class MyClass: # define a class
   a = 3
-
   def __init__(self, b = None):
     print("Hello from constructor")
 
@@ -3594,9 +3588,13 @@ class MyClass:
 
     print("d = %r" % (d))
 
-  def myMethod(self, a, b = 2):
+  def myMethod(self, a, b = 2): # instance method
     return self.a + a + b
-    
+
+  @classmethod
+  def myClassMethod(MyClass): # class method
+    return 'this is like a static method'
+     
 myClass = MyClass(6)
 # Output:
 # Hello from constructor
@@ -3604,6 +3602,10 @@ myClass = MyClass(6)
 # b = 6
 # c = 'toto'
 # d = 11
+
+myClass.x = 'new value'        # add a new property
+print(myClass.x)               # 'new value'
+print(MyClass.myClassMethod()) # 'this is like a static method'
 ```
 
 ---
@@ -3771,12 +3773,20 @@ import example
 
 * `tuple`: like `list`, but immutable
 * `frozenset`: like `set`, but immutable
-* `string`: :warning: **strings are immutable in Python** :warning:
 * `numbers`: regular numbers
+* `string`: :warning: **strings are immutable in Python** :warning:
+
+```python
+a = 'Some text'
+print(a[5])               # 't'
+*a[5] = 'T'               # ILLEGAL
+a.replace('text', 'Text') # 'Some Text'
+a[:5] + 'T' + a[6:]       # 'Some Text'
+```
 
 ## Containers
 
-* they can contain references to other objects
+* they are empty or contain references to other objects
  * `list`, `tuple`, `dict`, `set`, `frozenset`, etc...
 
 ---
@@ -3827,19 +3837,116 @@ print(tuple1) # ((1, 2), [-1, 4])
 
 ---
 
-# Container methods
+# Numeric types
+
+## Standard numeric types: `int`, `float` and `complex`
+
+* `int` have **unlimited precision**
+* `float` usually correspond to a `C` `double` (check `sys.float_info`)
+* `complex` number's real and imaginary parts are `float` numbers (`z.real` and `z.imag`)
+
+:arrow_right: other types can be found in the standard library (`fractions`, `decimal`...)
+
+## Operations
+
+```python
+x + y           # sum of x and y
+x - y           # difference of x and y
+x * y           # product of x and y
+x / y           # quotient of x and y
+x // y          # floored quotient of x and y
+x % y           # remainder of x / y
+-x              # x negated
++x              # x unchanged
+abs(x)          # absolute value or magnitude of x
+int(x)          # x converted to integer
+float(x)        # x converted to floating point
+complex(re, im) # a complex number
+c.conjugate()   # conjugate of the complex number c 	  	 
+divmod(x, y)    # the pair (x // y, x % y)
+pow(x, y)       # x to the power y
+x ** y          # x to the power y
+
+# for int and float numbers:
+
+math.trunc(x)   # x truncated to Integral
+round(x[, n])   # x rounded to n digits, rounding half to even. If n is omitted, it defaults to 0.
+math.floor(x)   # the greatest Integral <= x
+math.ceil(x)    # the least Integral >= x
+```
+
+---
+
+# Specific operations on `int` and `float` numbers
+
+## Bitwise operations for `int`
+
+```python
+x | y  # bitwise or of x and y
+x ^ y  # bitwise exclusive or of x and y
+x & y  # bitwise and of x and y
+x << n # x shifted left by n bits
+x >> n # x shifted right by n bits
+~x     # the bits of x inverted
+```
+
+## Other methods for `int`
+
+```python
+n = -37
+bin(n) # '-0b100101'
+n.bit_length() # 6
+```
+```python
+(1024).to_bytes(2, byteorder='big')                # b'\x04\x00'
+(1024).to_bytes(10, byteorder='big')               # b'\x00\x00\x00\x00\x00\x00\x00\x00\x04\x00'
+(-1024).to_bytes(10, byteorder='big', signed=True) # b'\xff\xff\xff\xff\xff\xff\xff\xff\xfc\x00'
+```
+```python
+int.from_bytes(b'\x00\x10', byteorder='big')               # 16
+int.from_bytes(b'\x00\x10', byteorder='little')            # 4096
+int.from_bytes(b'\xfc\x00', byteorder='big', signed=True)  # -1024
+int.from_bytes(b'\xfc\x00', byteorder='big', signed=False) # 64512
+int.from_bytes([255, 0, 0], byteorder='big')               # 16711680
+```
+
+## Other methods for `float`
+
+```python
+# hex format: [sign] ['0x'] integer ['.' fraction] ['p' exponent]
+
+float.fromhex('0x3.a7p10') # 3740.0
+
+float.hex(3740.0)          # '0x1.d380000000000p+11'
+```
+
+---
+
+# Using `list` objects
 
 TODO
 
 ---
 
-# iterators, loops
+# Using `dict` objects
 
 TODO
 
 ---
 
-# list comprehension
+# Using `set` objects
+
+TODO
+
+---
+
+# Loops and iterators
+
+TODO
+
+---
+
+# List comprehension
 
 TODO
 
@@ -3880,7 +3987,7 @@ True + True + False # 2
 
 * special constant representing the absence of a value
 * the type of `None` is `NoneType`
-* :warning: `None` does not imply `False`, 0, or an empty container
+* :warning: `None` does not imply `False`, `0`, or an empty container
 
 ```python
 None == 0 # False

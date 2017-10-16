@@ -189,8 +189,8 @@ h6 { width: 100%; font-size: 105% !important; }
 }
 
 em {
-  font-weight: bold;
-  font-style: normal;
+  font-weight: normal;
+  font-style: italic;
 }
 
 .right-column {
