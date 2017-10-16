@@ -341,9 +341,9 @@ div.remark-code-line:empty:before {
 
 .f9, #terminal, .remark-code, .hljs.remark-code, .cinescript {
   color: #FFFFFF;
-  font-family: monospace;
+  font-family: mymono;
   font-size: 0.60em;
-  line-height: 110%;
+  line-height: 130%;
   margin-left: 0px;
   margin-right: 0px;
 /*  width: 100%; */
@@ -367,6 +367,7 @@ div.remark-code-line:empty:before {
 .remark-inline-code {
   font-size: 1.0em;
   padding: 0em;
+  font-weight: bold;       
 }
 
 h1 > code.remark-inline-code {
@@ -440,7 +441,8 @@ img {
 }
 
 .border {
-   border: black solid 1px;
+  border: black solid 1px;
+  padding: 0.3em;
 }
 
 /* ================================= */
@@ -611,7 +613,7 @@ td
 /* ====================== */
 
 .tree {
-  font-family: monospace;
+  font-family: mymono;
 }
 
 .tree ul {

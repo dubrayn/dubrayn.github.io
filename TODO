@@ -159,5 +159,5 @@ Project:
 * implement a transparent restart mechanism in the python script
 * make a scalability benchmark, identify IO and CPU times
 
-BUG: terminal size is not fixed
-
+BUG: trailing empty code lines are removed by markdown parser in remark.js
+TODO: reduce size of terminal in slide 47 (#63)

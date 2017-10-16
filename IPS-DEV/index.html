@@ -2844,9 +2844,22 @@ void Foo() {
 
 ---
 
-# The usual .latex[L<sup>a</sup>T<sub>e</sub>X] workflow
+# The .latex[L<sup>a</sup>T<sub>e</sub>X] workflow
+
+## Historical workflow
 
 .hcenter.w80.mermaid[
+    graph LR
+    A("1. Write / modify<br/>the source file") --> B
+    B("2. Generate a .dvi<br/>with latex") --> C
+    C("2. Generate a .ps<br/>with dvips") --> D
+    D("3. Check the result<br/>with a ps viewer") --> A
+    style B fill:#090
+]
+
+## "Recent" workflow
+
+.hcenter.w55.mermaid[
     graph LR
     A("1. Write / modify<br/>the source file") --> B
     B("2. Generate<br/>with pdflatex") --> C
@@ -3192,8 +3205,9 @@ A second level header
 
 ## Another second level header
 
-The first level header is reserved for the title of the
-slides. The quick brown fox jumped over the lazy dog.
+The first level header is reserved for the title of
+the slides. The quick brown fox jumped over the lazy
+dog.
 
 ### Header 3
 
@@ -3215,8 +3229,9 @@ A second level header
 
 ## Another second level header
 
-The first level header is reserved for the title of the
-slides. The quick brown fox jumped over the lazy dog.
+The first level header is reserved for the title of
+the slides. The quick brown fox jumped over the lazy
+dog.
 
 ### Header 3
 
@@ -3277,7 +3292,7 @@ $$ \pi \simeq 3.1415926535 \ldots $$
 
 .row[
 .column.w48.middle[
-<pre> <code>Include some code:
+<pre><code>Include some code:
 ```C++
 double calcSquare(double a)
 {
@@ -3572,11 +3587,9 @@ class MyClass:
     print("Hello from constructor")
 
     self.c = "toto"
-
     print("a = %r" % (self.a))
     print("b = %r" % (b))
     print("c = %r" % (self.c))
-
     d = self.myMethod(4, 4)
 
     print("d = %r" % (d))
@@ -3595,7 +3608,153 @@ myClass = MyClass(6)
 
 ---
 
+# Modules
+
+* the `import` keyword allows to access built-in and / or custom modules
+
+```python
+import math # import the "math" module
+
+print(math.sqrt(2)) # 1.41421356237
+```
+
+* the keyword `as` allows to import a module under an alias name
+
+```python
+import math as m # import the "math" module and name it "m"
+
+print(m.sqrt(2)) # 1.41421356237
+```
+
+* the keyword `from` allows to select what to import from a module
+
+```python
+from math import sqrt # import only the "sqrt" function from the math module
+
+print(sqrt(2)) # 1.41421356237
+```
+
+* the wildcard `*` allows to import everything from a module
+
+```python
+from math import * # import everything from the math module
+
+print(sqrt(2)) # 1.41421356237
+```
+
+---
+
+# Custom modules
+
+* create a file containing functions, values, classes, etc...
+
+## .hcenter[`[example.py]`]
+
+```python
+someval = 42 # a value
+
+def func(a, b): # a function
+  return a + b
+```
+
+* if `example.py` is in the current directory (`./example.py`):
+
+```python
+import example
+
+print(example.func("Hello ", "world") # "Hello world"
+
+print(example.someval) # 42
+```
+
+* if `example.py` is in a subdirectory (`./somedir/example.py`):
+
+```python
+import somedir
+
+print(somedir.func("Hello ", "world") # "Hello world"
+
+print(somedir.someval) # 42
+```
+
+or use `as` keyword:
+
+```python
+import somedir as example
+
+print(example.func("Hello ", "world") # "Hello world"
+
+print(example.someval) # 42
+```
+
+---
+
+# Module search path
+
+* when looking for a module to import, python tries the following:
+ 1. search for a built-in module
+ 2. search directories from `sys.path`, in order
+
+```python
+import sys
+
+print(sys.path)
+# Output:
+*# ['',
+#  '/usr/bin', '/usr/lib64/python27.zip', '/usr/lib64/python2.7',
+#  '/usr/lib64/python2.7/plat-linux2', '/usr/lib64/python2.7/lib-tk',
+#  ...
+*#  '.local/lib/python2.7/site-packages',
+#  ...
+#  '/usr/lib/python2.7/site-packages/IPython/Extensions',
+*#  '/home/dubrayn/.ipython']
+```
+
+---
+
+# The `dir()` built-in function
+
+* this function allows to list objects defined in a module
+
+## .hcenter[`[example.py]`]
+
+```python
+someval = 42 # a value
+
+def func(a, b): # a function
+  return a + b
+```
+
+* if `example.py` is in the current directory (`./example.py`):
+
+```python
+import example
+
+*print(dir(example))
+# Output:
+# ['__builtins__',
+#  '__doc__',
+#  '__file__',
+#  '__name__',
+#  '__package__',
+#  'func',
+#  'someval']
+```
+
+* without arguments, `dir()` returns a list of objects defined in the current namespace
+
+```python
+*print(dir())
+# Output:
+# ['In', 'Out', '__', '_', '__IP', '___', '__builtins__', '__name__',
+#  '_dh', '_i', '_i1', '_ih', '_ii', '_iii', '_ip', '_oh', '_sh', 'help' ]
+```
+
+---
+
 # Containers
+
+TODO : write me !
 
 * `tuple`
 * `list`
@@ -3662,27 +3821,6 @@ def void_function():
 a = void_function()
 a == None # True
 ```
-
----
-
-# `as` keyword
-
-* allows to import a module under an alias name
-
-```python
-import math as m
-
-print(m.sqrt(2)) # 1.41421356237
-```
-
----
-
-# Modules
-
-
-
-
-
 
     </textarea>
     <script src="core/javascript/remark.js"></script>
