@@ -3437,6 +3437,8 @@ some text
 ```python
 #!/usr/bin/env python
 
+# ^^ use '#!/usr/bin/env python3' for python3 scripts
+
 # declare variables
 a = 2
 b = 8
@@ -3714,9 +3716,46 @@ print(sys.path)
 
 ---
 
+# The docstrings
+
+## What ?
+
+```python
+def mySuperSum(a, b):
+  """This function adds two objects"""
+  return a + b
+
+def mySuperProd(a, b):
+  """This function multiplies two objects.
+
+  Of course, a and b must allow a to be multiplied by b.
+  Try this function with random input objects at your own risk.
+
+  """
+  return a * b
+```
+
+## Why ?
+
+* the python function `help()` will print this documentation
+* some IDE can print this documentation if needed
+* these docstrings can be automatically extracted ( :v: `doxygen` :v: )
+* it is the standard way to document python code
+* the python code can use this docstring
+* some tests and / or examples can be put in the docstrings
+
+## How to use them ?
+
+```python
+help(mySuperSum) # in interactive mode
+print(mySuperSum.__doc__)
+```
+
+---
+
 # The `dir()` built-in function
 
-* this function allows to list objects defined in a module
+:arrow_right: this function allows to list objects defined in a module
 
 ## .hcenter[`[example.py]`]
 
@@ -3783,6 +3822,8 @@ import example
 
 ---
 
+class: top
+
 # Containers mutability
 
 ## Is a `set` mutable ?
@@ -3824,6 +3865,8 @@ list0[0] = -1 # change list0
 
 print(tuple1) # ((1, 2), [-1, 4])
 ```
+
+--
 
 :arrow_right: A container stores **references**, not objects.
 
@@ -4093,6 +4136,14 @@ reduce(add, range(1, 11)) # 55
 
 :arrow_right: allows to create lists in a **very concise way**
 
+## Generic syntax
+
+```python
+[ expr for var in expr [for var in expr]* [if expr]* ]
+```
+
+## Examples
+
 ```python
 # list of the first 6 even numbers
 [i * 2 for i in range(6)] # [0, 2, 4, 6, 8, 10]
@@ -4268,7 +4319,6 @@ data1 = {'a': [1, 2.0, 3, 4+6j],
 selfref_list = [1, 2, 3]
 selfref_list.append(selfref_list)
 output = open('data.pkl', 'wb')
-# Pickle dictionary using protocol 0.
 pickle.dump(data1, output)
 output.close()
 ```
@@ -4284,6 +4334,8 @@ pprint.pprint(data1)
 # {'a': [1, 2.0, 3, (4+6j)], 'b': ('string', u'Unicode string'), 'c': None}
 pkl_file.close()
 ```
+.hcenter[:warning: `pickle` file formats differ between Python2 and Python3 versions:warning:]
+
 ---
 
 # `True`, `False`, `not`, `and`, `or` keywords
@@ -4294,24 +4346,15 @@ pkl_file.close()
 * `False` is the same object as `0`
 
 ```python
-3 == 5 # False
-
-2 == 2 # False
-
-1 + 1 == 2 # True
-
-True or False # True
-
-True or not True # True
-
-True and True # True
-
-False and True # False
-
-True == 1 # True
-
-False == 0 # True
-
+3 == 5              # False
+2 == 2              # False
+1 + 1 == 2          # True
+True or False       # True
+True or not True    # True
+True and True       # True
+False and True      # False
+True == 1           # True
+False == 0          # True
 True + True + False # 2
 ```
 

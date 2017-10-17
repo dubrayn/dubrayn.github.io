@@ -4,48 +4,148 @@
 
 Project:
 * calculate and manipulate 1D-HO solutions (C++ / armadillo)
-* use git, doxygen, make, cxxtest, matplotlib, remark.js
+* use git, doxygen, make, cxxtest, remark.js
 
-0 * introduction
-0  * lecturer
-0  * modules
-0  * GNU/Linux quick howto
-0  * scientific method
-0  * good development practices
-0 * development tools
-0  * git
-0  * GNU Make
-0 TP0
+---- WEEK0 ----
 
-1  * Doxygen
-1  * CxxTest
-1 * C++ scientific libraries
-1  * armadillo
-1 Project presentation
-1 TP1
+* These slides
+* (Introduction)
+ * Lecturer
+ * Modules
+ * GNU/Linux quick howto
+ * Scientific method
+ * Good development practices
+* Development tools
+ * Version control system: `git`
+  * `git` workflow
+  * Creation of a `git` repo from scratch
+  * Main `git` commands
+  * Typical `git` workflow
+  * `git` history
+  * GUI tool `gitk`
+  * GUI tool `gitg`
+  * `git` branches
+  * How to use `git` branches
+  * Remote repositories
+  * Conclusions on `git`
+ * Build system: `GNU Make`
+  * `GNU Make` workflow
+  * Using `GNU Make`
+  * Writing clean `Makefiles`
+  * `Makefile` wizardry
+  * `Makefile` transformation
+  * Recursive `Makefiles`
 
-2 * development tools (continued)
-2  * astyle / indent
-2 * results presentation
-2  * LaTeX
-2  * Markdown
-2  * remark.js
-2 TP2
+-> project initialization
+=== TP0
 
-3 * python
-3  * standard types
-3  * branching
-3  * indentation
-3  * iteration and loops
-3  * containers
-3 TP3
+---- WEEK1 ----
 
-4  * python as a glue
-4  * bindings
-4  * matplotlib
-4 TP4
+ * Doxygen
+  * Example of a documented code
+  * Generate the documentation
+  * Browse the documentation
+  * Configure `Doxygen`
+  * Undocumented function
+  * `Doxygen` output
+  * `Doxygen` syntax
+  * Some `Doxygen` commands
+  * Conclusion on `Doxygen`
+ * Unit tests
+  * What is unit testing ?
+  * Why write unit tests ?
+  * Why *not* write unit tests ?
+  * `CxxTest`
+  * Example of a failed test
+  * Main assertions
+  * Exception-related assertions
+  * Special assertions
+  * Conclusion on unit testing
 
-5 Project presentation
+ * Let your code do some linear algebra
+ * Armadillo
+  * Armadillo example
+  * Manipulate rows/columns
+  * Element-wise functions
+  * Standard linear algebra operations
+  * Object initialisation
+  * `Armadillo` documentation
+
+-> project presentation
+=== TP1
+
+---- WEEK2 ----
+
+ * Artistic Style (`astyle`)
+  * `astyle` usage
+  * Usage with a default options file
+  * Disable formatting
+  * Brace styles
+  * Brace styles (continued)
+  * Brace styles (continued)
+  * Tab options
+  * Conclusion on `astyle`
+
+* Results presentation
+ * .latex[L<sup>a</sup>T<sub>e</sub>X]
+  * The .latex[L<sup>a</sup>T<sub>e</sub>X] workflow
+  * .latex[L<sup>a</sup>T<sub>e</sub>X] example
+  * Remarks on the usual .latex[L<sup>a</sup>T<sub>e</sub>X] workflow
+  * .latex[L<sup>a</sup>T<sub>e</sub>X] math syntax
+ * `Markdown`
+  * `Markdown` example
+  * These slides use `remark.js`
+
+-> project discussion
+=== TP2
+
+---- WEEK3 ----
+
+* Python
+ * Python core philosophy
+ * Python `helloworld`
+ * Python indentation
+ * Python identifiers
+ * Functions and classes
+ * Modules
+ * Custom modules
+ * Module search path
+ * The `dir()` built-in function
+ * Built-in types
+ * Containers mutability
+ * Numeric types
+ * Specific operations on `int` and `float` numbers
+ * Using `list` objects
+ * Using `list` elements and ranges
+ * Loops and iterators
+ * `filter`, `map`, `reduce`
+ * List comprehensions
+ * Using `string` objects
+ * Using `dict` objects
+ * Using `set` objects
+ * File IO
+ * Module `pickle`
+ * `True`, `False`, `not`, `and`, `or` keywords
+ * `None` keyword
+
+-> project discussion
+=== TP3
+
+---- WEEK4 ----
+
+ * numpy
+ * matplotlib
+ * python as a glue
+  * bindings
+
+--> presentation directives
+=== TP4
+
+---- WEEK5 ----
+
+=== project presentations
+
+
 
 +----------+
 | IPS-PROD |
