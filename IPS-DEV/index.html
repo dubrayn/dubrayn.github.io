@@ -3776,14 +3776,6 @@ import example
 * `numbers`: regular numbers
 * `string`: :warning: **strings are immutable in Python** :warning:
 
-```python
-a = 'Some text'
-print(a[5])               # 't'
-*a[5] = 'T'               # ILLEGAL
-a.replace('text', 'Text') # 'Some Text'
-a[:5] + 'T' + a[6:]       # 'Some Text'
-```
-
 ## Containers
 
 * they are empty or contain references to other objects
@@ -3924,32 +3916,374 @@ float.hex(3740.0)          # '0x1.d380000000000p+11'
 
 # Using `list` objects
 
-TODO
+```python
+l1 = []             # create an empty list
+
+l1.append(7)        # append value
+l2 = ['final', 'final2']
+l1.extend(l2)       # append another list
+l1.insert(1, 8)     # insert value
+print(l1)           # [7, 8, 'final', 'final2']
+v = l1.pop()        # get and remove last value
+print(v)            # 'final2'
+print(l1)           # [7, 8, 'final']
+del l1[-1]          # remove last value
+print(len(l1))      # 2
+
+l2 = [1, 2, "pipo"] # create another list
+
+l3 = l2             # l3 is another name for l2 list
+
+print(l2)           # [1, 2, 'pipo']
+print(l3)           # [1, 2, 'pipo']
+
+l3.append('new')    # append value to l3
+
+print(l2)           # [1, 2, 'pipo', 'new']
+print(l3)           # [1, 2, 'pipo', 'new']
+
+l4 = list(l2)       # copy a list
+
+l4.append(3.142)    # append value to l4
+
+print(l2)           # [1, 2, 'pipo', 'new']
+print(l4)           # [1, 2, 'pipo', 'new', 3.1419999999999999]
+
+l5 = list('abcdef') # create list from string
+print(l5)           # ['a', 'b', 'c', 'd', 'e', 'f']
+
+l6 = [l1, l2, 3]    # create a list containing lists
+print(l6)           # [[7, 8], [1, 2, 'pipo', 'new'], 3]
+```
 
 ---
 
-# Using `dict` objects
+# Using `list` elements and ranges
 
-TODO
+## Element access
+```python
+l = range(5)
+l               # [0, 1, 2, 3, 4]
+l[2]            # 2
+l[-1]           # 4
+l[2] = 8
+l               # [0, 1, 8, 3, 4]
+del l[3]
+l               # [0, 1, 8, 4]
+```
 
----
+## Ranges
+```python
+l = [0, 1, 2, 3, 4]
+l[0:3]          # [0, 1, 2]
+l[::2]          # [0, 2, 4]
+l[-1:]          # [4]
+l[-3:-1]        # [2, 3]
+l[:]            # [0, 1, 2, 3, 4]
+l[2:3]          # [2]
+l[2:3] = ['X', 'Y']
+l               # [0, 1, 'X', 'Y', 3, 4]
+# range(a, b, c) is equivalent to range(b)[a:b:c]
+range(3, 6, 2)  # [3, 5]
+```
 
-# Using `set` objects
+## Concatenation
+```python
+[1, 2] + [3, 4] # [1, 2, 3, 4]
+[1, 2] * 3      # [1, 2, 1, 2, 1, 2]
+```
 
-TODO
+## Searching
+```python
+l = [0, 1, 2, 3, 4]
+3 in l          # True
+l.index(3)      # 3
+5 in l          # False
+```
 
 ---
 
 # Loops and iterators
 
-TODO
+## Iterate over values
+```python
+l = list('abcde')
+for v in l:
+  print(v)
+# Output:
+# 'a'
+# 'b'
+# 'c'
+# 'd'
+# 'e'
+```
+
+## Iterate over indices
+```python
+l = list('abcde')
+for i in range(len(l)):
+  print("index: %d val: %r" % (i, l[i]))
+# Output:
+# index: 0 val: 'a'
+# index: 1 val: 'b'
+# index: 2 val: 'c'
+# index: 3 val: 'd'
+# index: 4 val: 'e'
+```
+
+## Iterate over indices and values
+```python
+l = list('abcde')
+for i, v in enumerate(l):
+  print("index: %d val: %r" % (i, v))
+# Output:
+# index: 0 val: 'a'
+# index: 1 val: 'b'
+# index: 2 val: 'c'
+# index: 3 val: 'd'
+# index: 4 val: 'e'
+```
 
 ---
 
-# List comprehension
+# `filter`, `map`, `reduce`
 
-TODO
+:arrow_right: used in functionnal programming
 
+* `filter` keeps elements matching a criterion
+
+```python
+def f(x):
+  return x % 3 == 0 or x % 5 == 0
+
+l = range(2, 25)
+filter(f, l) # [3, 5, 6, 9, 10, 12, 15, 18, 20, 21, 24]
+```
+
+* `map` applies a function to each element
+
+```python
+def cube(x):
+  return x*x*x
+
+map(cube, range(1, 11)) # [1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]
+
+# Example with two arguments
+
+seq = range(8)
+
+def add(x, y):
+  return x+y
+
+map(add, seq, seq) # [0, 2, 4, 6, 8, 10, 12, 14]
+```
+
+* `reduce` propagates the cumulative result of a function
+
+```python
+def add(x,y):
+  return x+y
+
+reduce(add, range(1, 11)) # 55
+```
+
+---
+
+# List comprehensions
+
+:arrow_right: allows to create lists in a **very concise way**
+
+```python
+# list of the first 6 even numbers
+[i * 2 for i in range(6)] # [0, 2, 4, 6, 8, 10]
+
+# combine elements of two lists if they differ
+[(x, y) for x in [1,2,3] for y in [3,1,4] if x != y] # [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+
+# is equivalent to
+final = []
+for x in [1,2,3]:
+  for y in [3,1,4]:
+    if x != y:
+      final.append((x, y))
+final                                                # [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+```
+
+---
+
+# Using `string` objects
+
+## Spliting / joining
+
+```python
+s = 'A simple string'
+
+s.split()                 # ['A', 'simple', 'string']
+' '.join(s.split())       # 'A simple string'
+'   some text  '.strip()  # 'some text'
+'some' + ' ' + 'text'     # 'some text'
+'pipo' * 3                # 'pipopipopipo'
+```
+
+## String formatting
+
+```python
+n = 3
+l = range(3)
+'n: %03d l: %r' % (n, l) # 'n: 003 l: [0, 1, 2]'
+```
+
+:warning: **strings are immutable in Python** :warning:
+
+```python
+a = 'Some text'
+print(a[5])               # 't'
+*a[5] = 'T'                # ILLEGAL
+a.replace('text', 'Text') # 'Some Text'
+a[:5] + 'T' + a[6:]       # 'Some Text'
+```
+
+
+---
+
+# Using `dict` objects
+
+* A `dict` stores unordered (`key`, `value`) pairs
+* Keys are unique and not ordered
+
+```python
+# create an empty dict
+d = {}
+d = dict()
+
+# initialize a dict
+other_dict = {'first': 8, 'other': ['a', 'pair'], 'toto': {'pipo': 42}}
+other_dict = dict(first = 8, other = ['a', 'pair'], toto = dict(pipo =  42))
+
+d['key0'] = 'text0'
+d['key1'] = 'text1'
+d['key2'] = 'text2'
+print(d)                 # {'key2': 'text2', 'key0': 'text0', 'key1': 'text1'}
+
+d['key0'] = 'other_text' # replace value for key 'key0'
+del d['key1']            # remove key and value for key 'key1'
+print(d)                 # {'key2': 'text2', 'key0': 'other_text'}
+
+'key1' in d              # False
+'key2' in d              # True
+
+d.keys()                 # ['key2', 'key0']
+d.values()               # ['text2', 'other_text']
+
+for k in d:              # iterate over a dict
+  print(k)
+# Output:
+# key2
+# key0
+```
+
+---
+
+# Using `set` objects
+
+* A `set` stores unordered and unique objects
+
+```python
+# create an empty set
+s = set()
+
+# initialize a set
+s1 = set(['Beta', 'Gamma', 'Alpha', 'Delta', 'Gamma', 'Beta'])
+s2 = set(['Beta', 'Alpha', 'Epsilon', 'Omega', 'Psi'])
+
+s1                          # set(['Alpha', 'Beta', 'Gamma', 'Delta'])
+s2                          # set(['Alpha', 'Beta', 'Omega', 'Psi', 'Epsilon'])
+
+# test if a value is in a set
+'Psi' in s2                 # True
+
+# remove a value
+s2.remove('Psi')
+
+'Psi' in s2                 # False
+s2                          # set(['Alpha', 'Beta', 'Omega', 'Epsilon'])
+```
+
+## Usual `set` operations
+```python
+s1 = set(['Alpha', 'Beta', 'Gamma', 'Delta'])
+s2 = set(['Alpha', 'Beta', 'Omega', 'Epsilon'])
+
+s1.union(s2)                #  set(['Epsilon', 'Beta', 'Delta', 'Alpha', 'Omega', 'Gamma'])
+s1 | s2                     #  set(['Epsilon', 'Beta', 'Delta', 'Alpha', 'Omega', 'Gamma'])
+
+s1.intersection(s2)         # set(['Alpha', 'Beta'])
+s1 & s2                     # set(['Alpha', 'Beta'])
+
+s1.difference(s2)           # set(['Gamma', 'Delta'])
+s1 - s2                     # set(['Gamma', 'Delta'])
+
+s1.symmetric_difference(s2) # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
+s1 ^ s2                     # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
+```
+---
+
+# File IO
+
+## .hcenter[`[data.txt]`]
+```text
+1.0 2.1 3.0 4.9 5.9
+9.0 8.2 5.7 6.2 7.1
+2.2 3.6 4.4
+```
+
+## Read
+```python
+f = open('data.txt')
+lines = f.readlines()
+words = [l.split() for l in lines]
+print(words)
+# Output:
+# [['1.0', '2.1', '3.0', '4.9', '5.9'], ['9.0', '8.2', '5.7', '6.2', '7.1'], ['2.2', '3.6', '4.4'], []]                                                 
+
+# one-liner
+[l.split() for l in open('data.txt').readlines()]
+# Output:
+# [['1.0', '2.1', '3.0', '4.9', '5.9'], ['9.0', '8.2', '5.7', '6.2', '7.1'], ['2.2', '3.6', '4.4'], []]                                                 
+```
+
+---
+
+# Module `pickle`
+
+:arrow_right: allows to serialize / deserialize data
+
+## Write
+```python
+import pickle
+
+data1 = {'a': [1, 2.0, 3, 4+6j],
+         'b': ('string', u'Unicode string'),
+         'c': None}
+selfref_list = [1, 2, 3]
+selfref_list.append(selfref_list)
+output = open('data.pkl', 'wb')
+# Pickle dictionary using protocol 0.
+pickle.dump(data1, output)
+output.close()
+```
+
+## Read
+```python
+import pprint, pickle
+
+pkl_file = open('data.pkl', 'rb')
+data1 = pickle.load(pkl_file)
+pprint.pprint(data1)
+# Output:
+# {'a': [1, 2.0, 3, (4+6j)], 'b': ('string', u'Unicode string'), 'c': None}
+pkl_file.close()
+```
 ---
 
 # `True`, `False`, `not`, `and`, `or` keywords
