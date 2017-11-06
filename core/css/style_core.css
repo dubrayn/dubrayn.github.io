@@ -341,9 +341,9 @@ div.remark-code-line:empty:before {
 
 .f9, #terminal, .remark-code, .hljs.remark-code, .cinescript {
   color: #FFFFFF;
-  font-family: mymono;
-  font-size: 0.60em;
-  line-height: 130%;
+  font-family: Monospace;
+  font-size: 0.65em;
+  line-height: 100%;
   margin-left: 0px;
   margin-right: 0px;
 /*  width: 100%; */
@@ -613,7 +613,7 @@ td
 /* ====================== */
 
 .tree {
-  font-family: mymono;
+  font-family: Monospace;
 }
 
 .tree ul {

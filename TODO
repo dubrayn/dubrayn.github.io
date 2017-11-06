@@ -133,12 +133,11 @@ Project:
 
 ---- WEEK4 ----
 
+ * quadratures
  * numpy
  * matplotlib
- * python as a glue
-  * bindings
 
---> presentation directives
+-> presentation directives
 === TP4
 
 ---- WEEK5 ----
@@ -156,6 +155,8 @@ Project:
 * profile the resulting code
 * use git, doxygen, make, cxxtest, matplotlib, remark.js, povray
 
+0 * python as a glue
+0  * bindings
 0 * numerical techniques
 0  * eigenvalue problems
 0  * quadratures
