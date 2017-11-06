@@ -261,4 +261,6 @@ Project:
 * make a scalability benchmark, identify IO and CPU times
 
 BUG: trailing empty code lines are removed by markdown parser in remark.js
+BUG: plotly.js does not like CSS scale transform (mouse coords are messed up)
 TODO: reduce size of terminal in slide 47 (#63)
+
