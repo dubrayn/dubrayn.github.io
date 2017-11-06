@@ -17,6 +17,7 @@ The presentations use original or slightly modified versions of the following op
 * [mathjax](https://mathjax.org)
 * [emojify.js](https://github.com/emojione/emojify.js)
 * [term.js](https://github.com/chjj/term.js)
+* [plotly.js](https://plot.ly/javascript)
 * [animate.css](https://daneden.github.io/animate.css)
 
 # How to use
