@@ -36,3 +36,14 @@ hr {
 h1 > code.remark-inline-code {
   color: rgba(210, 210, 255, 1.0);
 }
+
+a {
+  text-decoration: none;
+  color: #4040B0;
+}
+
+a:visited {
+  color: #4040B0;
+}
+
+

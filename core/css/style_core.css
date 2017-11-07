@@ -275,6 +275,15 @@ em {
   margin-right: 0;
 }
 
+a {
+  text-decoration: none;
+  color: #B04040;
+}
+
+a:visited {
+  color: #B04040;
+}
+
 /* ============================ */
 /* ======== LaTeX logo ======== */
 /* ============================ */
