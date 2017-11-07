@@ -3404,7 +3404,7 @@ double calcSquare(double a)
  * high level programming language
   * **`Python`**
  * numerical integration
-  * **Gaussian quadratures**
+  * **Gaussian quadrature**
 
 ---
 
@@ -3478,7 +3478,7 @@ some text
  * high level programming language
   * **`Python`** .animated.infinite.flash[:arrow_left:]
  * numerical integration
-  * **Gaussian quadratures**
+  * **Gaussian quadrature**
 
 ---
 
@@ -4515,7 +4515,7 @@ a == None # True
  * high level programming language
   * **`Python`** :+:
  * numerical integration
-  * **Gaussian quadratures** .animated.infinite.flash[:arrow_left:]
+  * **Gaussian quadrature** .animated.infinite.flash[:arrow_left:]
 
 ---
 
@@ -4601,6 +4601,10 @@ where `\(a_k\)` is the coefficient of `\(x^k\)` in `\(P^\omega_k(x)\)`.
 | `\(0\)`       | `\(+\infty\)` | `\(e^{-x}\)`                                       | Gauss–Laguerre  | Laguerre              |
 | `\(0\)`       | `\(+\infty\)` | `\(x^\alpha e^{-x}, \, \alpha\gt-1\)`              | Gauss–Laguerre  | Generalized Laguerre  |
 | `\(−\infty\)` | `\(+\infty\)` | `\(e^{-x^2}\)`                                     | Gauss–Hermite   | Hermite               |
+]
+
+.hcenter[
+ :arrow_right: the approximation is **exact** if `\(g(x)\)` is a polynomial of degree `\(2n-1\)` or less.
 ]
 
 ---
@@ -4763,7 +4767,72 @@ print(numpy.polynomial.hermite.hermgauss(10))
 #          6.10862634e-01, 2.40138611e-01, 3.38743945e-02, 1.34364575e-03, 7.64043286e-06]))
 ```
 
+---
 
+# Example of use
+
+## Calculate the following integral:
+
+`$$I\equiv \int_{r=0}^\infty \int_{\theta=0}^{2\pi} e^{-r^2} g(r, \theta) r\, dr\, d\theta $$`
+
+----
+
+We introduce the following substitutions:
+
+`$$\begin{array}{rcl}
+R &=& r^2\\
+dR &=& 2r\,dr\\
+T &=& \frac{\theta}{\pi} - 1\\
+dT &=& \frac{1}{\pi}d\theta
+\end{array}
+$$`
+
+One then has
+
+`$$I = \frac{\pi}{2} \int_{R=0}^\infty \int_{T=-1}^1 e^{-R} g(\sqrt{R}, \pi(T+1))\, dR\, dT$$`
+
+We use GLA and GLE quadrature rules and obtain
+
+`$$I \simeq \frac{\pi}{2} \sum_i^n w^{\textrm{GLA}}_i \sum_j^{n'} w^{\textrm{GLE}} g(\sqrt{x_i}, \pi(x_j + 1)).$$`
+
+---
+
+# Example of use - 2D-Gaussian integral
+
+If we set `\(g(r, \theta) = 1\)`, `\(I\)` becomes the famous 2D-Gaussian integral:
+
+`$$I = \iint_\Omega e^{-r^2} r\, dr\, d\theta,$$`
+
+and we can calculate it **exactly** (since `\(1\)` is a polynomial :v:) with
+
+`$$I = \frac{\pi}{2} \sum_i^n w^{\textrm{GLA}}_i \sum_j^{n'} w^{\textrm{GLE}}.$$`
+
+```python
+#!/usr/bin/env python
+
+import numpy
+
+sum(numpy.polynomial.laguerre.laggauss(10)[1]) # Output: 1.0
+sum(numpy.polynomial.legendre.leggauss(10)[1]) # Output: 2.0
+```
+
+`$$I = \frac{\pi}{2} \underbrace{\sum_i^n w^{\textrm{GLA}}_i}_{=1} \underbrace{\sum_j^{n'} w^{\textrm{GLE}}}_{=2} = \pi.$$`
+
+---
+
+# Special values
+
+## Gauss-Legendre quadrature rule
+
+`$$\forall n\ge 1,\, \int_{-1}^{1} 1\, dx = \sum_i^{n} w^{(n)}_i = w^{(1)}_0 = 2$$`
+
+## Gauss-Laguerre quadrature rule
+
+`$$\forall n\ge 1,\, \int_{0}^{\infty} e^{-x}\, dx = \sum_i^{n} w^{(n)}_i = w^{(1)}_0 = 1$$`
+
+## Gauss-Hermite quadrature rule
+
+`$$\forall n\ge 1,\, \int_{-\infty}^{\infty} e^{-x^2}\, dx = \sum_i^{n} w^{(n)}_i = w^{(1)}_0 = \sqrt{\pi}$$`
 
 ---
 
@@ -4773,11 +4842,11 @@ print(numpy.polynomial.hermite.hermgauss(10))
 
 `$$\int_{\Omega} e^{-x^2}g(x) dx \simeq \sum_{i=0}^{n-1} w_i g(x_i)$$`
 
-## 2D-space - cartesian coordinates (GHE, GHE)
+## 2D-space - cartesian (GHE, GHE)
 
 `$$\iint_{\Omega} e^{-x^2-y^2}g(x, y) dx\, dy \simeq \sum_{i=0}^{n-1}w_i\sum_{j=0}^{n'-1} w'_j g(x_i, x'_j)$$`
 
-## 2D-space - polar coordinates (GLA, GLE), COV (`\(R = r^2\)`)
+## 2D-space - polar (GLA, GLE), COV (`\(R = r^2,\, T = \frac{\theta}{\pi} - 1\)`)
 
 `$$\iint_{\Omega} e^{-r^2}g(r, \theta) r\, dr\, d\theta \simeq \sum_{i=0}^{n-1}w_i\sum_{j=0}^{n'-1} w'_j G(x_i, x'_j)$$`
 
@@ -4785,28 +4854,28 @@ print(numpy.polynomial.hermite.hermgauss(10))
 
 # Examples: full-space integrations
 
-## 3D-space - cartesian coordinates (GHE, GHE, GHE)
+## 3D-space - cartesian (GHE, GHE, GHE)
 
 `$$\iiint_{\Omega} e^{-x^2-y^2-z^2}g(x, y, z) dx\, dy\, dz \simeq \sum_{i=0}^{n-1}w_i\sum_{j=0}^{n'-1}w'_j\sum_{k=0}^{n''-1} w''_k g(x_i, x'_j, x''_k)$$`
 
-## 3D-space - cylindrical coordinates (GHE, GLA, GLE), COV (`\(R=r_\perp^2\)`)
+## 3D-space - cylindrical (GHE, GLA, GLE), COV (`\(R=r_\perp^2,\, T = \frac{\theta}{\pi} - 1\)`)
 
 `$$\iiint_{\Omega} e^{-x^2-r_\perp^2}g(x, r_\perp, \theta) dx\, r_\perp\, dr_\perp\, d\theta \simeq \sum_{i=0}^{n-1}w_i\sum_{j=0}^{n'-1} w'_j \sum_{k=0}^{n''-1} w''_k G(x_i, x'_j, x''_k)$$`
 
-## 3D-space - spherical coordinates (GLA, GLE, GLE), COV (...)
+## 3D-space - spherical (GLA, GLE, GLE), COV (...)
 
 `$$\iiint_{\Omega} e^{-r^2}g(r, \theta, \phi) r^2\sin{\phi}\, dr\, d\theta\, d\phi \simeq \sum_{i=0}^{n-1}w_i\sum_{j=0}^{n'-1} w'_j \sum_{k=0}^{n''-1} w''_k G(x_i, x'_j, x''_k)$$`
 
 ---
 
-# Conclusions on the Gaussian quadratures
+# Conclusions on the Gaussian quadrature
 
  * if possible, place yourself in a case where the quadratures are **exact** (COV, combinations, etc...)
 
 .hcenter.shadow.w80.animated.fadeInRight.wait2s[![](images/chosen_wisely.png)]
 
  * there are many other quadrature rules in the litterature with different pros/cons, find the ones that suit your problem.
- * the rectangle and trapezoidal rules can be seen as a special Gaussian quadratures.
+ * the rectangle and trapezoidal rules can be seen as special (very simple) Gaussian quadrature rules.
 
     </textarea>
     <script src="core/javascript/remark.js"></script>
