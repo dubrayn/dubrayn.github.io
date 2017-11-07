@@ -140,7 +140,7 @@ $ vim file      # edit a file
 # Scientific method
 
 .noflex[
-.rightf.animated.fadeInRight.wait1s.w20[
+.fshadow.rightf.animated.fadeInRight.wait1s.w20[
  ![](images/wikipedia_logo.png)
 ]
 
@@ -258,6 +258,8 @@ class: top
  * will be presented in PSA (S4)
 
 ---
+
+class: top
 
 # Development tools
 
@@ -765,6 +767,8 @@ $ git pull farAway
 
 ---
 
+class: top
+
 # Development tools
 
 ## Tools presented in this course
@@ -1262,6 +1266,8 @@ $(SUBDIRS_TARGETS) :
 
 ---
 
+class: top
+
 # Development tools
 
 ## Tools presented in this course
@@ -1613,7 +1619,7 @@ class SomeRandomClass {};
 
 ---
 
-# Conclusion on `Doxygen`
+# Conclusions on `Doxygen`
 
 ## In **your** code
 * write the special comment blocks **while** you code
@@ -1632,6 +1638,8 @@ class SomeRandomClass {};
  * etc...
 
 ---
+
+class: top
 
 # Development tools
 
@@ -1666,14 +1674,14 @@ class SomeRandomClass {};
 ## Wikipedia
 
 .hcenter.block[
-  Unit tests are **short code fragments** created by programmers or occasionally by white box testers during the development process. It forms the basis for component testing.
+  Unit tests are **short code fragments** created by programmers or occasionally by white box testers during the development process. They form the basis for component testing.
 ]
 
 ## A unit test
 
 * should be independent from other unit tests
 * should test only one class (otherwise it is an **integration test**)
-* takes no parameter
+* takes no parameter (usually)
 * **validates the implementation of a feature**
 * can use **mock objects**
 
@@ -1845,6 +1853,8 @@ Success rate: 50%
 | `TS_ASSERT_THROWS_NOTHING(expr)`              | `expr` doesn’t throw anything              |
 ]
 
+.vspace[]
+
 ## Example for `TS_ASSERT_THROWS_ASSERT()`
 ```C++
 void throws_value(void)
@@ -1874,7 +1884,7 @@ void test_assert_throws_assert(void)
 
 ---
 
-# Conclusion on unit testing
+# Conclusions on unit testing
 
 .w45.hcenter.middle[
 .shadow[![](images/xkcd_derivative.png)]
@@ -1882,6 +1892,8 @@ void test_assert_throws_assert(void)
 .hcenter[[source: xkcd](https://xkcd.com/303)]
 
 ---
+
+class: top
 
 # Development tools
 
@@ -2358,6 +2370,8 @@ Mandatory bookmark in your browser:
 
 ---
 
+class: top
+
 # Development tools
 
 ## Tools presented in this course
@@ -2831,7 +2845,7 @@ void Foo() {
 
 ---
 
-# Conclusion on `astyle`
+# Conclusions on `astyle`
 
 * use `astyle` to be sure that your source is well formatted
 * **experiment** with `astyle` options and **choose what suits you best**
@@ -2845,6 +2859,8 @@ void Foo() {
 .hcenter.w90[![](images/xkcd_code_quality.png)]
 .hcenter[[source: xkcd](https://xkcd.com/1513)]
 ---
+
+class: top
 
 # Development tools
 
@@ -3109,13 +3125,13 @@ $$`
 ----
 
 .row[.column.middle.w50[```TeX
-\Psi = \int_{-\infty}^{\infty} %
-\exp \left( \sqrt{\alpha} \, x^2\right) d x
+\Psi_\alpha = \int_{-\infty}^{\infty} %
+\exp \left( \sqrt{\alpha} \, -x^2\right) d x
 ```]
 .column.hcenter.middle.w48[
 `$$
-\Psi = \int_{-\infty}^{\infty} %
-\exp \left( \sqrt{\alpha} \, x^2\right) d x
+\Psi_\alpha = \int_{-\infty}^{\infty} %
+\exp \left( \sqrt{\alpha} \, -x^2\right) d x
 $$`
 ]]
 
@@ -3331,11 +3347,11 @@ dog.
 .column.w48.middle[
 ```markdown
 Some `\(\LaTeX\)` thanks to **`MathJax`**:
-$$ \pi \simeq 3.1415926535 \ldots $$
+`$$ \pi \simeq 3.1415926535 \ldots $$`
 ``` ]
 .column.w48.middle.border.shadow[
 Some `\(\LaTeX\)` thanks to **`MathJax`**:
-$$ \pi \simeq 3.1415926535 \ldots $$
+`$$ \pi \simeq 3.1415926535 \ldots $$`
 ]]
 
 ----
@@ -3489,7 +3505,7 @@ some text
 ]
 
 .noflex[
-.rightf.animated.middle.fadeInRight.wait1s.shadow.w15[![](images/guido_van_rossum.png)]
+.rightf.animated.middle.fadeInRight.wait1s.shadow.w20[![](images/guido_van_rossum.png)]
 
 ## Key points
 

@@ -131,7 +131,6 @@ h1 {
   font-size: 160% !important;
   margin: 0;
   padding: 0;
-  text-shadow:  2px  2px 4px rgba(0, 0, 0, 0.7);
   line-height: 2.7em;
 }
 
@@ -343,10 +342,16 @@ div.remark-code-line:empty:before {
   color: #FFFFFF;
   font-family: Monospace;
   font-size: 0.65em;
-  line-height: 100%;
+  line-height: 110%;
   margin-left: 0px;
   margin-right: 0px;
 /*  width: 100%; */
+}
+
+.terminal {
+  font-family: mymono;
+  font-size: 0.85em;
+  line-height: 130%;
 }
 
 #terminal, .remark-code, .hljs.remark-code, .cinescript {
@@ -517,12 +522,12 @@ hr {
 /* ======== shadow ======== */
 /* ======================== */
 
-.mermaid rect {
-  filter: drop-shadow( 4px 4px 3px rgba(0, 0, 0, 0.5) );
+.mermaid rect, h1, .fshadow {
+  filter: drop-shadow( 2px 2px 3px rgba(0, 0, 0, 0.7) );
 }
 
 #terminal, code, .remark-code, video, table, .block, .alert, .cinescript, .shadow, hr {
-  box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7);
 }
 
 .shadow {
@@ -576,8 +581,8 @@ table
   border-collapse: collapse;
   font-size: 1.0em;
   border: none;
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
 /*  border: 0.15em solid rgba(185,201,255,1.0); */
 }
 

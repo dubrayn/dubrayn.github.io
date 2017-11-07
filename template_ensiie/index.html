@@ -391,6 +391,8 @@ This
 <div id='plotly00' class='hcenter border shadow'></div>
 <div id='plotly01' class='hcenter border shadow'></div>
 
+BUG: due to a `scale()` rule in `remark.js`, the mouse coordinates mismatch the graph coordinates.
+
 ---
 
 class: hcenter, middle
@@ -478,8 +480,8 @@ Holy :cow: !!! I can put notes on my slides !?!
     Plotly.newPlot('plotly00', [trace1], {
                                           title: 'Neutron local density [fm^-3]',
                                           autosize: false,
-                                          width: 600,
-                                          height: 250,
+                                          width: 400,
+                                          height: 220,
                                           margin: {l: 50, r: 0, b: 50, t: 80, p: 10},
                                           xaxis: {title: 'Z-axis [fm]'},
                                           yaxis: {title: 'X-axis [fm]'},
@@ -496,8 +498,8 @@ Holy :cow: !!! I can put notes on my slides !?!
     Plotly.newPlot('plotly01', [trace2], {
                                           title: '',
                                           autosize: false,
-                                          width: 600,
-                                          height: 250,
+                                          width: 400,
+                                          height: 220,
                                           margin: {l: 50, r: 50, b: 50, t: 50, p: 10},
                                           xaxis: {title: 'Z-axis [fm]'},
                                           yaxis: {title: 'Neut. loc. dens. [fm^-3]'},
