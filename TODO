@@ -134,8 +134,6 @@ Project:
 ---- WEEK4 ----
 
  * quadratures
- * numpy
- * matplotlib
 
 -> presentation directives
 === TP4
@@ -143,8 +141,6 @@ Project:
 ---- WEEK5 ----
 
 === project presentations
-
-
 
 +----------+
 | IPS-PROD |
@@ -156,10 +152,11 @@ Project:
 * use git, doxygen, make, cxxtest, matplotlib, remark.js, povray
 
 0 * python as a glue
+0  * numpy
+0  * matplotlib
 0  * bindings
 0 * numerical techniques
 0  * eigenvalue problems
-0  * quadratures
 0 TP0
 
 1  * bases
