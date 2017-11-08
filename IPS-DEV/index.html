@@ -4866,7 +4866,51 @@ sum(numpy.polynomial.legendre.leggauss(10)[1]) # Output: 2.0
 
 ---
 
-# Examples: full-space integrations
+# Usage in quantum mechanics
+
+## Too short introduction to quantum mechanics
+
+* states are described by "vectors" noted `\(|a\rangle\)`
+* operators act on states to give new states:
+
+`$$\hat{X}|a\rangle = |d\rangle$$`
+
+* scalar product between two states is defined as
+
+`$$\langle a|.|c \rangle = \langle a|c \rangle = \int_\Omega a^*(\mathbf{r}) c(\mathbf{r}) \mathbf{dr}$$`
+
+---
+
+# Usage in quantum mechanics
+
+## Basis definition
+
+* if you define a basis of states `\(\{|b_i\rangle\}\)` such as
+
+`$$\begin{array}{rcl}
+|b_i\rangle: b_i(\mathbf{r}) &\equiv& A.e^{-B\mathbf{r}^2} P(\mathbf{r})\\
+\langle b_i|b_j \rangle &=& \delta_{ij}
+\end{array}
+$$`
+
+  with `\(P(\mathbf{r})\)` a polynomial function, then you can express your states in this basis and have
+
+`$$\begin{array}{rcl}
+|a \rangle &=& \sum_i a_i |b_i\rangle\\
+|c \rangle &=& \sum_i c_i |b_i\rangle\\
+\langle a | \hat{X} | c \rangle &=& \sum_i \sum_j a_i c_i \langle b_i| \hat{X} | b_j\rangle
+\end{array}
+$$`
+
+  and, if `\(\hat{X}\)` is nice enough,
+
+  `$$\langle b_i| \hat{X} | b_j\rangle = A \int_\Omega e^{-C \mathbf{r}^2} P'(\mathbf{r}) \mathbf{dr}.$$`
+
+  :arrow_right: if you use a quadrature rule to approximate the last integral, you can have an **exact** result.
+
+---
+
+# Full-space integrations
 
 ## 1D-space (GHE)
 
@@ -4882,7 +4926,7 @@ sum(numpy.polynomial.legendre.leggauss(10)[1]) # Output: 2.0
 
 ---
 
-# Examples: full-space integrations
+# Full-space integrations
 
 ## 3D-space - cartesian (GHE, GHE, GHE)
 
