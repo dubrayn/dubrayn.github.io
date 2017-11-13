@@ -4910,6 +4910,32 @@ $$`
 
 ---
 
+# Which basis states ?
+
+## Widely used in nuclear physics, chemistry, etc...
+
+* eigenvectors with different eigenvalues of **any** operator are orthonormal
+* the HO is a good first approximation of **any** potential minimum :v:
+* the HO states are of the form `\(A.e^{-B\mathbf{r}^2}.P(\mathbf{r})\)`
+* the HO states have an **infinite support**, like physical states
+* the HO **can be deformed** without loosing its nice properties
+
+.hcenter[
+:arrow_right: Use HO states as basis states
+]
+
+.vspace[]
+
+## Other possible choices
+
+* `\(\mathbf{r}\)`-bases
+* Finite Elements
+* Wavelets
+* special non-orthogonal bases (e.g. unions of different HO solution sets)
+* etc...
+
+---
+
 # Full-space integrations
 
 ## 1D-space (GHE)
@@ -4939,6 +4965,10 @@ $$`
 ## 3D-space - spherical (GLA, GLE, GLE), COV (...)
 
 `$$\iiint_{\Omega} e^{-r^2}g(r, \theta, \phi) r^2\sin{\phi}\, dr\, d\theta\, d\phi \simeq \sum_{i=0}^{n-1}w_i\sum_{j=0}^{n'-1} w'_j \sum_{k=0}^{n''-1} w''_k G(x_i, x'_j, x''_k)$$`
+
+.hcenter[
+:arrow_right: Choose `\(n\)`, `\(n'\)` and `\(n''\)` depending on the geometry of your problem.
+]
 
 ---
 
