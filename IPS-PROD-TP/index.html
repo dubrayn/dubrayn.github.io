@@ -135,7 +135,7 @@ $$`
 
 ---
 
-# IPS-PROD-TP - Week #1 - Mandatory unit tests
+# IPS-PROD-TP - Week #1 - Mandatory unit test
 
 .mermaid[
     graph LR
@@ -149,7 +149,7 @@ $$`
 
 .column.middle.grow[
 ```C++
-// Mandatory test #00
+// Mandatory test #00 - Hermite and Laguerre polynomials
 
 Poly poly();
 poly.calcHermite(6);     // compute Hermite polynomials for n in {0 ... 5}
@@ -264,6 +264,8 @@ R(r_\perp, m, n)
          \left(\frac{r_{\perp}}{b_{\perp}}\right)^{|m|}
          L_n^{|m|}\left(\frac{r_{\perp}^2}{b_{\perp}^2}\right).
 $$`
+
+Parameters: `\(b_\perp, b_z\)`.
 ]
 
 ---
@@ -285,7 +287,7 @@ $$`
 
 
 .column.middle.grow[
-## Basis quantum numbers
+## Basis truncation
 
 We define
 `$$
@@ -297,14 +299,249 @@ and
 m^\textrm{max} \equiv \textrm{sup}\left\{i:n_z^\textrm{max}(i)\ge 1\right\}.
 $$`
 
-The quantum numbers are defined as
+The quantum number values are the **integers** verifying
 `$$\begin{eqnarray}
 0 &\le m \le& m^\textrm{max}-1\\
 0 &\le n \le& \frac{1}{2}(m^\textrm{max}-m-1)\\
 0 &\le n_z \le& n_z^\textrm{max}(m+2n)-1.
 \end{eqnarray}$$`
+
+Parameters: `\(N, Q\)`.
 ]
 
+
+---
+
+# IPS-PROD-TP - Weeks #2-#5 - Mandatory unit test
+
+.mermaid[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+    style B fill:#090
+    style C fill:#090
+    style D fill:#090
+    style E fill:#090
+]
+
+.column.middle.grow[
+```C++
+// Mandatory test #01 - Basis truncation
+
+//     br = 1.935801664793151, bz = 2.829683956491218, N = 14, Q = 1.3
+Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
+
+TS_ASSERT_EQUALS(basis.mMax, 14);
+
+arma::ivec nMax = {7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1};
+
+TS_ASSERT(!arma::any(basis.nMax - nMax));
+
+arma::imat n_zMax = {{18, 15, 13, 10, 7, 5, 2}, 
+                     {16, 14, 11,  9, 6, 3, 1}, 
+                     {15, 13, 10,  7, 5, 2, 0}, 
+                     {14, 11,  9,  6, 3, 1, 0}, 
+                     {13, 10,  7,  5, 2, 0, 0}, 
+                     {11,  9,  6,  3, 1, 0, 0}, 
+                     {10,  7,  5,  2, 0, 0, 0}, 
+                     { 9,  6,  3,  1, 0, 0, 0}, 
+                     { 7,  5,  2,  0, 0, 0, 0}, 
+                     { 6,  3,  1,  0, 0, 0, 0}, 
+                     { 5,  2,  0,  0, 0, 0, 0}, 
+                     { 3,  1,  0,  0, 0, 0, 0}, 
+                     { 2,  0,  0,  0, 0, 0, 0}, 
+                     { 1,  0,  0,  0, 0, 0, 0}};
+
+TS_ASSERT(!arma::any(arma::any(basis.n_zMax - n_zMax)));
+```
+]
+
+---
+
+# IPS-PROD-TP - Weeks #2-#5 - Mandatory unit test
+
+.mermaid[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+    style B fill:#090
+    style C fill:#090
+    style D fill:#090
+    style E fill:#090
+]
+
+.column.middle.grow[
+```C++
+// Mandatory test #02 - Basis r-functions
+
+//     br = 1.935801664793151, bz = 2.829683956491218, N = 14, Q = 1.3
+Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
+
+arma::vec r = {3.1, 2.3, 1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
+
+arma::vec res00 = { 8.08521235111303e-02,
+                    1.43887615825118e-01,
+                    2.55045100912706e-01,
+                    2.91450097294984e-01,
+                    2.91061479407116e-01,
+                    2.47240792330589e-02,
+                    3.63004153921473e-06,
+                    3.87659726026123e-12};
+
+TS_ASSERT_DELTA(arma::norm(basis.rPart(r, 0, 0) - res00), 0.0, 1e-15);
+
+arma::vec res82 = { 5.87858442372438e-02,
+                    1.35240488413384e-02,
+                    4.06810074575519e-05,
+                    0.00000000000000e+00,
+                    4.92817669085478e-13,
+                    8.52011998934850e-02,
+                    5.20525909328609e-02,
+                    1.44615166152252e-05};
+
+TS_ASSERT_DELTA(arma::norm(basis.rPart(r, 8, 2) - res82), 0.0, 1e-15);
+```
+]
+
+---
+
+# IPS-PROD-TP - Weeks #2-#5 - Mandatory unit test
+
+.mermaid[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+    style B fill:#090
+    style C fill:#090
+    style D fill:#090
+    style E fill:#090
+]
+
+.column.middle.grow[
+```C++
+// Mandatory test #03 - Basis z-functions
+
+//     br = 1.935801664793151, bz = 2.829683956491218, N = 14, Q = 1.3
+Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
+
+arma::vec z = {-10.1, -8.4, -1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
+
+arma::vec res00 = { 7.64546544834383e-04,
+                    5.44886272162148e-03,
+                    4.19492564268520e-01,
+                    4.46522724110539e-01,
+                    4.46243982300708e-01,
+                    1.40736821086932e-01,
+                    2.26186220733178e-03,
+                    3.62929640195959e-06};
+
+TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 0, 0) - res00), 0.0, 1e-15);
+
+arma::vec res15 = {-9.48674551049192e-02,
+                   -1.40338701953237e-03,
+                    1.85620628040096e-01,
+                   -0.00000000000000e+00,
+                   -3.93028470685214e-02,
+                   -1.79526868763440e-01,
+                    2.15604096600475e-01,
+                    2.44977220882127e-01};
+
+TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 15, 0) - res15), 0.0, 1e-15);
+```
+]
+
+---
+
+# IPS-PROD-TP - Weeks #2-#5 - Nuclear local density
+
+.mermaid[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+    style B fill:#090
+    style C fill:#090
+    style D fill:#090
+    style E fill:#090
+]
+
+.column.middle.grow[
+## Direct algorithm
+```C++
+arma::mat result = arma::zeros(nbR, nbZ); // number of points on r- and z- axes
+for (int m = 0; m < basis.mMax; m++)
+{
+  for (int n = 0; n < basis.nMax(m); n++)
+  {
+    for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
+    {
+      for (int mp = 0; mp < basis.mMax; mp++)
+      {
+        for (int np = 0; np < basis.nMax(mp); np++)
+        {
+          for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
+          {
+            arma::mat funcA = basis.basisFunc( m,  n,  n_z, zVals, rVals);
+            arma::mat funcB = basis.basisFunc(mp, np, n_zp, zVals, rVals);
+            result += funcA % funcB * rho(m, n, n_z, mp, np, n_zp); // mat += mat % mat * double
+          }
+        }
+      }
+    }
+  }
+}
+```
+]
+
+---
+
+# IPS-PROD-TP - Weeks #2-#5 - Nuclear local density
+
+.mermaid[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+    style B fill:#090
+    style C fill:#090
+    style D fill:#090
+    style E fill:#090
+]
+
+.column.middle.grow[
+## Work to be done
+
+* calculate Hermite and Generalized Laguerre polynomials
+* calculate z- and r- functions
+* define the basis quantum number values
+* calculate the nuclear local density with the direct algorithm
+* calculate the nuclear local density with an **optimized algorithm** (see below)
+* implement the mandatory unit tests
+* plot the nuclear local density in the (x, z) plane (with Matplotlib, Plotly.js...)
+* plot the nuclear local density in the (x, y, z) space (with POV-Ray, Blender...)
+* present your results using the [presentation template](../template_ensiie/index.html)
+
+## Possible optimizations of the direct algorithm
+
+* use `\(\rho_{mnn_z,m'n'n'_z} = \delta_{mm'}\rho_{mnn_z,mn'n'_z}\)`
+* use `\(\rho_{mnn_z,m'n'n'_z} = \rho_{m'n'n'_z,mnn_z}\)`
+* optimize loops
+* use partial sums
+* pre-calculate quantities if needed
+]
 
     </textarea>
 
