@@ -152,30 +152,30 @@ $$`
 // Mandatory test #00
 
 Poly poly();
-poly.calcHermite(6);     // compute Hermite polynomials for n in  {0 ... 5}
-poly.calcLaguerre(6, 4); // compute generalized Laguerre polynomials for n in {0 ... 5} for m in {0 ... 3}
+poly.calcHermite(6);     // compute Hermite polynomials for n in {0 ... 5}
+poly.calcLaguerre(6, 4); // compute generalized Laguerre polynomials for m in {0 ... 5} and n in {0 ... 3}
 
 arma::vec zVals, calcVals, targetVals;
 
 zVals = {-3.1, -2.3, -1.0, -0.3, 0.1, 4.3, 9.2, 13.7};
 
-calcVals   = poly.hermite(4, zVals);
+calcVals   = poly.hermite(4, zVals); // n = 4
 targetVals = {  1.02835360e+03,  2.05825600e+02, -2.00000000e+01,  7.80960000e+00,
                 1.15216000e+01,  4.59456160e+03,  1.10572154e+05,  5.54643458e+05};
 TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
 
-calcVals   = poly.hermite(5, zVals);
+calcVals   = poly.hermite(5, zVals); // n = 5
 targetVals = { -4.76676832e+03, -3.88909760e+02,  8.00000000e+00, -3.17577600e+01,
                 1.18403200e+01,  3.48375818e+04,  1.98557479e+06,  1.50339793e+07};
 TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
 
 zVals = {0.1, 0.3, 1.2, 1.8, 2.0, 2.5, 7.1, 11.1};
 
-calcVals   = poly.laguerre(4, 2, zVals);
+calcVals   = poly.laguerre(4, 2, zVals); // m = 4, n = 2
 targetVals = {  14.405,  13.245,  8.52 ,  5.82 ,  5.,  3.125,  -2.395,  10.005};
 TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
 
-calcVals   = poly.laguerre(5, 3, zVals);
+calcVals   = poly.laguerre(5, 3, zVals); // m = 5, n = 3
 targetVals = { 53.23983333,  47.95550000,  27.87200000,  17.5880,
                14.66666667,   8.39583333,  -0.81183333,  10.1015};
 TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
@@ -209,6 +209,102 @@ During this 6-week long project, the local density of a nuclear system will be c
 Definition:
 `$$\rho(\mathbf{r})\equiv \sum_a \sum_b \rho_{ab}\psi_a(\mathbf{r})\psi^*_b(\mathbf{r})$$`
 ]
+
+---
+
+# IPS-PROD-TP - Weeks #2-#5 - Project description
+
+.mermaid[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+    style B fill:#090
+    style C fill:#090
+    style D fill:#090
+    style E fill:#090
+]
+
+
+.column.middle.grow[
+## Basis functions
+
+They are defined as
+`$$
+\psi_{m,n,n_z}(r_\perp, \theta, z)
+        \equiv
+    Z(z, n_z)
+    .
+    R(r_\perp, m, n)
+    .
+         e^{im\theta}
+$$`
+
+with
+
+`$$
+Z(z, n_z)
+\equiv
+\phi_{n_z}(z)
+=
+         \frac{1}{\sqrt{b_z}}
+         \frac{1}{\sqrt{2^{n_z} \sqrt{\pi}n_z!}}
+         e^{-\frac{z^2}{2b_z^2}}H_{n_z}\left(\frac{z}{b_z}\right)
+$$`
+
+and
+`$$
+R(r_\perp, m, n)
+         \equiv
+         \frac{1}{b_{\perp}\sqrt{\pi}}
+         \sqrt{\frac{n!}{(n+|m|)!}}
+         e^{-\frac{r_{\perp}^2}{2b_{\perp}^2}}
+         \left(\frac{r_{\perp}}{b_{\perp}}\right)^{|m|}
+         L_n^{|m|}\left(\frac{r_{\perp}^2}{b_{\perp}^2}\right).
+$$`
+]
+
+---
+
+# IPS-PROD-TP - Weeks #2-#5 - Project description
+
+.mermaid[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+    style B fill:#090
+    style C fill:#090
+    style D fill:#090
+    style E fill:#090
+]
+
+
+.column.middle.grow[
+## Basis quantum numbers
+
+We define
+`$$
+n_z^\textrm{max}(i) \equiv (N+2).Q^\frac{2}{3}+\frac{1}{2}-i.Q
+$$`
+
+and
+`$$
+m^\textrm{max} \equiv \textrm{sup}\left\{i:n_z^\textrm{max}(i)\ge 1\right\}.
+$$`
+
+The quantum numbers are defined as
+`$$\begin{eqnarray}
+0 &\le m \le& m^\textrm{max}-1\\
+0 &\le n \le& \frac{1}{2}(m^\textrm{max}-m-1)\\
+0 &\le n_z \le& n_z^\textrm{max}(m+2n)-1.
+\end{eqnarray}$$`
+]
+
 
     </textarea>
 

@@ -150,16 +150,26 @@ Project:
 * calculate and plot the local density of a nuclear system (C++ / armadillo)
 * use git, doxygen, make, cxxtest, matplotlib, remark.js, povray
 
-0 * IPS-DEV-TP debriefing
-0 * Unit tests: real example
-0 * C++ headers: main rules
-0 * project presentation
-0 * cyl-HO basis
-0  * Hermite polynomials
-0  * Generalized Laguerre polynomials
-0 * data visualization
-0  * POVray
-0 TP1
+---- WEEK0 ----
+
+* These slides
+* (Introduction)
+ * Lecturer
+ * Modules
+* IPS-DEV-TP debriefing
+* Unit tests: real example
+* C++ headers: main rules
+* project presentation
+* cyl-HO basis
+ * Hermite polynomials
+ * Generalized Laguerre polynomials
+* data visualization
+ * POVray
+
+-> project initialization
+=== TP0
+
+---- WEEK1 ----
 
 1 * python as a glue
 1  * numpy
