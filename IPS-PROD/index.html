@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IPS-PROD</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+class: titlepage
+
+.title[
+Introduction to Scientific Programming
+]
+
+.subtitle[
+`IPS-PROD` - N. Dubray - ENSIIE - 2017
+]
+
+.row[
+`$$\int_{-\infty}^\infty f(x)e^{-x^2} dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
+]
+
+.footnote[
+[:book:](../toc/index.html)
+]
+
+---
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`IPS-PROD` - N. Dubray - ENSIIE - 2017 - [:book:](../toc/index.html)
+]
+
+---
+
+# These slides
+
+.hcenter.w20[![](images/github-octocat.png)]
+
+.block.hcenter[
+* You can **freely** download, modify and use these slides.
+* Do not hesitate to make some **pull requests** if you want to share your modifications.
+* Repository: [https://www.github.com/dubrayn/dubrayn.github.io](https://www.github.com/dubrayn/dubrayn.github.io).
+* Online slides: [https://dubrayn.github.io](https://dubrayn.github.io).
+]
+
+---
+
+# Lecturer
+
+## N. Dubray - [`noel.dubray@gmail.com`](mailto:noel.dubray@gmail.com)
+* *job:* researcher at the CEA (french alternative energies and atomic energy commission)
+* *field:* theoretical nuclear physics
+* *research subject:* microscopic description of the fission process
+* *skills:* scientist / developer / HPC user / sysadmin
+
+.hcenter.shadow.w50[![](images/density.png)]
+.hcenter[Example of a simulated fissioning nucleus]
+
+---
+
+# Modules
+
+## :arrow_right: IPS: Introduction to Scientific Programming (S3)
+* `IPS.DEV`: Scientific application development
+* `IPS.PROD`: Scientific data production, post-processing and visualization
+
+## :arrow_right: PSA: Advanced Scientific Programming (S4)
+* `PSA.???`: TBA
+* `PSA.???`: TBA
+
+## Evaluation
+* project presentation [~10min] + questions [~10min]
+
+## TPs timeline
+.mermaid[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+    style F fill:#090
+]
+
+---
+
+# IPS-DEV-TP debriefing 1/3
+
+## General remarks
+:+: good team work  
+:+: nice file trees, well organized projects  
+
+.vspace[]
+
+## Development tools
+:+: rather goot `git` use, may use more **branches**  
+:+: nice recursive `Makefiles`  
+:+: `Doxygen` compiles with some warnings, may use more the **main page**, some LaTeX, etc...  
+:warning: unit tests are perfectible:
+ * some missing or dummy unit tests
+ * some difficulties to test user-defined classes
+ * no need to re-compile the whole project to link the tests
+
+:warning: overlooked `astyle` tool
+
+---
+
+# IPS-DEV-TP debriefing 2/3
+
+## Development
+:+: Hermite polynomials calculated by recurrence  
+:+: no iteration over armadillo object elements = **good vectorization**  
+:warning: hard to check if the Hermite polynomial values are OK, mandatory plots / unit tests ?  
+:warning: orthonormality of the 1D-HO solutions should be presented as a **matrix**  
+:warning: not ideal numerical calculation of the energy of the 1D-HO solutions, diverging values not disturbing  
+
+.vspace[]
+
+## Presentation
+:+: nice presentations in general  
+:warning: may include more plots  
+:warning: physics context not well understood / presented  
+:question: should we keep `remark.js` for the presentations ?
+
+---
+
+class: top
+
+# IPS-DEV-TP debriefing 3/3
+
+## Conclusions
+:arrow_right: do not get stuck during the TPs, **ask for help**  
+:arrow_right: **anticipate**, no commit frenzy during the last minutes  
+:arrow_right: test your whole project **before the deadline** (compilation, cleanup, documentation, tests, etc...)  
+:arrow_right: test your whole project **before every major commit** (branch merge ?)  
+:arrow_right: **test your slides** and talk length in the real presentation context (projector, slides, etc...)  
+
+---
+
+class: top
+
+# IPS-DEV-TP debriefing 3/3
+
+## Conclusions
+:arrow_right: do not get stuck during the TPs, **ask for help**  
+:arrow_right: **anticipate**, no commit frenzy during the last minutes  
+:arrow_right: test your whole project **before the deadline** (compilation, cleanup, documentation, tests, etc...)  
+:arrow_right: test your whole project **before every major commit** (branch merge ?)  
+:arrow_right: **test your slides** and talk length in the real presentation context (projector, slides, etc...)  
+
+.vspace[]
+
+.row[
+.column.w48.animated.fadeInLeft[
+## .hcenter[Slides not tested]
+.shadow[![](images/gates.png)]
+]
+]
+
+---
+
+class: top
+
+# IPS-DEV-TP debriefing 3/3
+
+## Conclusions
+:arrow_right: do not get stuck during the TPs, **ask for help**  
+:arrow_right: **anticipate**, no commit frenzy during the last minutes  
+:arrow_right: test your whole project **before the deadline** (compilation, cleanup, documentation, tests, etc...)  
+:arrow_right: test your whole project **before every major commit** (branch merge ?)  
+:arrow_right: **test your slides** and talk length in the real presentation context (projector, slides, etc...)  
+
+.vspace[]
+
+.row[
+.column.w48[
+## .hcenter[Slides not tested]
+.shadow[![](images/gates.png)]
+]
+.column.w48.animated.fadeInRight[
+## .hcenter[Slides tested]
+.shadow[![](images/concert.png)]
+]
+]
+
+---
+
+# Unit tests: real example
+
+.row[
+.column.w48[
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int _a) : a(_a)
+{
+// possible other ways: "a = int(_a);"
+// or simply "a = _a;"
+}
+
+int MyClass::myFunc(int b)
+{
+return a + b; // "a" is the same as "this->a" in C++
+}
+```
+]
+
+.column.w48[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+class MyClass
+{
+  public:
+  MyClass(int);
+  int myFunc(int);
+  int a;
+};
+
+#endif // MYCLASS_H
+```
+]
+]
+
+.row[
+.column.w48[
+## .hcenter[`main.cpp`]
+```C++
+#include "myclass.h"
+
+#include <iostream>
+
+int main(int charc, char** argv)
+{
+  MyClass myClass(2);
+
+  std::cout << "Result: " << myClass.myFunc(3);
+  std::cout << std::endl;
+  return 0;
+}
+```
+]
+
+.column.w48[
+## .hcenter[`test_myclass.h`]
+```C++
+#include <cxxtest/TestSuite.h>
+#include "myclass.h"
+
+class TestMyClass : public CxxTest::TestSuite
+{
+  public:
+  void testMyFunc(void)
+  {
+    MyClass myClass(2);
+    TS_ASSERT_EQUALS(myClass.myFunc(3), 5);
+  }
+};
+```
+]
+]
+
+
+.row[
+.column.w48[
+## .hcenter[Build & launch `main`]
+```shell
+*$ g++ -Wall -c myclass.cpp -o myclass.o
+*$ g++ -Wall -c main.cpp -o main.o
+*$ g++ main.o myclass.o -o main
+$ ./main
+Result: 5
+```
+]
+.column.w48[
+## .hcenter[Build & launch `tests`]
+```shell
+*$ g++ -Wall -c myclass.cpp -o myclass.o
+$ cxxtestgen --error-printer -o t.cpp test_myclass.h
+*$ g++ -Wall -c t.cpp -o t.o
+*$ g++ t.o myclass.o -o tests
+$ ./tests
+Running cxxtest tests (1 test).OK!
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header
+* use `#define` guards
+* separate public and private headers
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+  MyClass(int, int);
+
+  int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp` :arrow_left:
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header
+* use `#define` guards
+* separate public and private headers
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+* MyClass(int, int);
+
+* int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+*MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+*int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file :arrow_left:
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header
+* use `#define` guards
+* separate public and private headers
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+*class MyClass
+{
+  public:
+  MyClass(int, int);
+
+  int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp` :arrow_left:
+* no `everything.h` header
+* use `#define` guards
+* separate public and private headers
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+  MyClass(int, int);
+
+  int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+*#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header :arrow_left:
+* use `#define` guards
+* separate public and private headers
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+  MyClass(int, int);
+
+  int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header
+* use `#define` guards :arrow_left:
+* separate public and private headers
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+*#ifndef MYCLASS_H
+*#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+  MyClass(int, int);
+
+  int myFunc(double e = -1.0);
+};
+
+*#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header
+* use `#define` guards
+* separate public and private headers :arrow_left:
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+  MyClass(int, int);
+
+  int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header
+* use `#define` guards
+* separate public and private headers
+* default values belong to `%.h` :arrow_left:
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+  MyClass(int, int);
+
+* int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header
+* use `#define` guards
+* separate public and private headers
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults) :arrow_left:
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+* MyClass(int, int);
+
+* int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header
+* use `#define` guards
+* separate public and private headers
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible) :arrow_left:
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+  MyClass(int, int);
+
+  int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# Scientific programming
+
+## Scientific tools presented in this course
+ * linear algebra libraries (usable from `C++`)
+  * `Boost`, `LAPACK`, `BLAS`, `MKL`, `GSL`, `Eigen`, **`Armadillo`** :+:
+ * scientific programming with Python
+  * **introduction to Python** .animated.infinite.flash[:arrow_left:]
+  * **`Numpy`**
+ * presenting results
+  * write beautiful math: ** .latex[L<sup>a</sup>T<sub>e</sub>X] ** :+:
+  * structure your documentation: **Markdown** :+:
+  * write some slides: **remark.js** :+:
+
+## Scientific techniques presented in this course
+ * numerical integration
+  * **Gaussian quadrature**
+
+---
+
+# Python
+
+.hcenter.w40[
+![](images/python_logo.png)
+]
+
+.noflex[
+.rightf.animated.middle.fadeInRight.wait1s.shadow.w20[![](images/guido_van_rossum.png)]
+
+## Key points
+
+* created by **Guido van Rossum** in 1989, first released in 1991
+* name comes from the series **Monty Python's Flying Circus**
+* **high-level**, **interpreted** programming language
+* widely used by projects **of every size**
+* emphasis on **code readability** and **powerful and concise syntax**
+* supports **multiple programming paradigms** (object-oriented, imperative...)
+* very large **standard library**
+* reference implementation and interpreter: **`CPython`**
+]
+
+.block[
+* `CPython` repository: [https://github.com/python/cpython](https://github.com/python/cpython)
+* `Python` website: [https://www.python.org](https://www.python.org)
+* `CPython` license: `PSFL` (Python Software Foundation License, compatible with the GPL)
+]
+
+---
+
+# Python core philosophy
+
+.noflex[
+.rightf.animated.fadeInRight.wait1s.shadow.w25[![](images/tim_peters.png)]
+
+## The Zen of Python, by Tim Peters (PEP 20)
+
+1. Beautiful is better than ugly.
+1. Explicit is better than implicit.
+1. Simple is better than complex.
+1. Complex is better than complicated.
+1. Flat is better than nested.
+1. Sparse is better than dense.
+1. Readability counts.
+1. Special cases aren't special enough to break the rules.
+1. Although practicality beats purity.
+1. Errors should never pass silently.
+1. Unless explicitly silenced.
+1. In the face of ambiguity, refuse the temptation to guess.
+1. There should be one *and preferably only one* obvious way to do it.
+1. Although that way may not be obvious at first unless you're Dutch.
+1. Now is better than never.
+1. Although never is often better than *right* now.
+1. If the implementation is hard to explain, it's a bad idea.
+1. If the implementation is easy to explain, it may be a good idea.
+1. Namespaces are one honking great idea -- let's do more of those!
+]
+
+:arrow_right: Some examples of good Python style can be found [here](http://artifex.org/~hblanks/talks/2011/pep20_by_example.pdf).
+
+---
+
+# Python `helloworld`
+
+## .hcenter[`[helloworld.py]`]
+```python
+#!/usr/bin/env python
+
+# ^^ use '#!/usr/bin/env python3' for python3 scripts
+
+# declare variables
+a = 2
+b = 8
+
+# add two numbers
+c = a + b
+
+# print some message
+print("Hello from Python ! (c = %d)" % (c))
+```
+
+## .hcenter[Shell session]
+```shell
+$ chmod +x helloworld.py
+$ ./helloworld.py
+Hello from Python ! (c = 10)
+```
+
+.vspace[]
+
+## Explanations
+
+* Line 1: path to the Python interpreter
+* Lines 3, 7, 10: lines starting with `#` are comments
+* Lines 4, 5, 8: typing is dynamic
+* Line 11: `%` allows some form of string formatting
+
+---
+
+# Python indentation
+
+.alert.hcenter[
+There is **no symbol** to delimitate blocks of code in `Python`.  
+Blocks of code are defined using **indentation**.
+]
+
+.vspace[]
+
+.numbers[
+
+## Valid syntaxes
+
+.row[
+.column.w30[
+```python
+if True:
+  print("Always")
+
+```]
+.column.w30[
+```python
+if True:
+  print("Always")
+else:
+  print("Never")
+```]
+.column.w30[
+```python
+if True:
+  print("Almost")
+  print("Always")
+else:
+    print("Almost")
+    print("Never")
+```]
+]
+
+.vspace[]
+
+## Invalid syntaxes
+
+.row[
+.column.w30[
+```python
+if True
+  print("Always")
+```]
+.column.w30[
+```python
+if True:
+  print("Almost")
+    print("Always")
+```]
+.column.w30[
+```python
+if True:
+    print("Almost")
+    print("Always")
+  else:
+
+    print("Almost")
+    print("Never")
+```]
+]
+]
+
+---
+
+# Python identifiers
+
+## Identifiers
+
+* Identifiers name variables, functions, classes, modules, objects...
+* They start with `[A-Za-z_]`, followed by zero or more `[A-Za-z0-9_]`.
+* `Python` is **case-sensitive**.
+
+## Reserved words
+
+.block.hcenter[
+<pre>
+and exec not assert finally or break for pass class def print
+continue from global raise with return del import try elif in
+while else is if except lambda yield False True None
+</pre>
+]
+
+## Naming conventions
+
+* Class names start with an **uppercase letter**. All other identifiers start with a **lowercase letter**.
+* Starting an identifier with a **single leading underscore** indicates that the identifier is **private**.
+* Starting an identifier with **two leading underscores** indicates a **strongly private** identifier.
+* If the identifier also ends with **two trailing underscores**, the identifier is a **language-defined special name**.
+
+---
+
+# Functions and classes
+
+```python
+def func0(arg0, arg1 = 6): # define a function
+  c = arg0 + arg1
+  return c
+
+func0(2) # 8
+func0(2, 3) # 5
+func0("abc", "def") # "abcdef"
+```
+
+```python
+class MyClass: # define a class
+  a = 3
+  def __init__(self, b = None):
+    print("Hello from constructor")
+
+    self.c = "toto"
+    print("a = %r" % (self.a))
+    print("b = %r" % (b))
+    print("c = %r" % (self.c))
+    d = self.myMethod(4, 4)
+
+    print("d = %r" % (d))
+
+  def myMethod(self, a, b = 2): # instance method
+    return self.a + a + b
+
+  @classmethod
+  def myClassMethod(MyClass): # class method
+    return 'this is like a static method'
+     
+myClass = MyClass(6)
+# Output:
+# Hello from constructor
+# a = 3
+# b = 6
+# c = 'toto'
+# d = 11
+
+myClass.x = 'new value'        # add a new property
+print(myClass.x)               # 'new value'
+print(MyClass.myClassMethod()) # 'this is like a static method'
+```
+
+---
+
+# Modules
+
+* the `import` keyword allows to access built-in and / or custom modules
+
+```python
+import math # import the "math" module
+
+print(math.sqrt(2)) # 1.41421356237
+```
+
+* the keyword `as` allows to import a module under an alias name
+
+```python
+import math as m # import the "math" module and name it "m"
+
+print(m.sqrt(2)) # 1.41421356237
+```
+
+* the keyword `from` allows to select what to import from a module
+
+```python
+from math import sqrt # import only the "sqrt" function from the math module
+
+print(sqrt(2)) # 1.41421356237
+```
+
+* the wildcard `*` allows to import everything from a module
+
+```python
+from math import * # import everything from the math module
+
+print(sqrt(2)) # 1.41421356237
+```
+
+---
+
+# Custom modules
+
+* create a file containing functions, values, classes, etc...
+
+## .hcenter[`[example.py]`]
+
+```python
+someval = 42 # a value
+
+def func(a, b): # a function
+  return a + b
+```
+
+* if `example.py` is in the current directory (`./example.py`):
+
+```python
+import example
+
+print(example.func("Hello ", "world") # "Hello world"
+
+print(example.someval) # 42
+```
+
+* if `example.py` is in a subdirectory (`./somedir/example.py`):
+
+```python
+import somedir
+
+print(somedir.func("Hello ", "world") # "Hello world"
+
+print(somedir.someval) # 42
+```
+
+or use `as` keyword:
+
+```python
+import somedir as example
+
+print(example.func("Hello ", "world") # "Hello world"
+
+print(example.someval) # 42
+```
+
+---
+
+# Module search path
+
+* when looking for a module to import, python tries the following:
+ 1. search for a built-in module
+ 2. search directories from `sys.path`, in order
+
+```python
+import sys
+
+print(sys.path)
+# Output:
+*# ['',
+#  '/usr/bin', '/usr/lib64/python27.zip', '/usr/lib64/python2.7',
+#  '/usr/lib64/python2.7/plat-linux2', '/usr/lib64/python2.7/lib-tk',
+#  ...
+*#  '.local/lib/python2.7/site-packages',
+#  ...
+#  '/usr/lib/python2.7/site-packages/IPython/Extensions',
+*#  '/home/dubrayn/.ipython']
+```
+
+---
+
+# The docstrings
+
+## What ?
+
+```python
+def mySuperSum(a, b):
+  """This function adds two objects"""
+  return a + b
+
+def mySuperProd(a, b):
+  """This function multiplies two objects.
+
+  Of course, a and b must allow a to be multiplied by b.
+  Try this function with random input objects at your own risk.
+
+  """
+  return a * b
+```
+
+## Why ?
+
+* the python function `help()` will print this documentation
+* some IDE can print this documentation if needed
+* these docstrings can be automatically extracted ( :v: `doxygen` :v: )
+* it is the standard way to document python code
+* the python code can use this docstring
+* some tests and / or examples can be put in the docstrings
+
+## How to use them ?
+
+```python
+help(mySuperSum) # in interactive mode
+print(mySuperSum.__doc__)
+```
+
+---
+
+# The `dir()` built-in function
+
+:arrow_right: this function allows to list objects defined in a module
+
+## .hcenter[`[example.py]`]
+
+```python
+someval = 42 # a value
+
+def func(a, b): # a function
+  return a + b
+```
+
+* if `example.py` is in the current directory (`./example.py`):
+
+```python
+import example
+
+*print(dir(example))
+# Output:
+# ['__builtins__',
+#  '__doc__',
+#  '__file__',
+#  '__name__',
+#  '__package__',
+#  'func',
+#  'someval']
+```
+
+* without arguments, `dir()` returns a list of objects defined in the current namespace
+
+```python
+*print(dir())
+# Output:
+# ['In', 'Out', '__', '_', '__IP', '___', '__builtins__', '__name__',
+#  '_dh', '_i', '_i1', '_ih', '_ii', '_iii', '_ip', '_oh', '_sh', 'help' ]
+```
+
+---
+
+# Built-in types
+
+## Mutability
+
+* a **mutable object** has methods to modify its content
+* an **immutable object** does not have methods to modify its content
+
+:arrow_right: immutable built-in objects are hashable !
+
+## Mutable types
+
+* `list`: an ordered list of objects
+* `set`: an unordered list of **unique hashable objects**
+* `dict`: an unordered list of (key, object) couples (key must be hashable, and should be immutable)
+
+## Immutable types
+
+* `tuple`: like `list`, but immutable
+* `frozenset`: like `set`, but immutable
+* `numbers`: regular numbers
+* `string`: :warning: **strings are immutable in Python** :warning:
+
+## Containers
+
+* they are empty or contain references to other objects
+ * `list`, `tuple`, `dict`, `set`, `frozenset`, etc...
+
+---
+
+class: top
+
+# Containers mutability
+
+## Is a `set` mutable ?
+
+```python
+x = set([1, 2, 3])
+
+x |= set([2, 3, 4]) # is Python copying an immutable object ?
+
+print(x) # set([1, 2, 3, 4])
+```
+
+:arrow_right: **yes**, a `set` is mutable:
+
+```python
+x = set([1, 2, 3])
+
+x.__ior__(set([2, 3, 4])) # "|=" makes Python call .__ior__() method
+
+print(x) # set([1, 2, 3, 4])
+```
+
+## If a `tuple` is immutable, how is this possible ?
+
+```python
+tuple0 = (1, 2) # tuple declaration
+
+list0 = [3, 4] # list declaration
+
+print(type(tuple0)) # <type 'tuple'>
+
+tuple1 = (tuple0, list0) # tuple declaration
+
+print(type(tuple1)) # <type 'tuple'>
+
+print(tuple1) # ((1, 2), [3, 4])
+
+list0[0] = -1 # change list0
+
+print(tuple1) # ((1, 2), [-1, 4])
+```
+
+--
+
+:arrow_right: A container stores **references**, not objects.
+
+---
+
+# Numeric types
+
+## Standard numeric types: `int`, `float` and `complex`
+
+* `int` have **unlimited precision**
+* `float` usually correspond to a `C` `double` (check `sys.float_info`)
+* `complex` number's real and imaginary parts are `float` numbers (`z.real` and `z.imag`)
+
+:arrow_right: other types can be found in the standard library (`fractions`, `decimal`...)
+
+## Operations
+
+```python
+x + y           # sum of x and y
+x - y           # difference of x and y
+x * y           # product of x and y
+x / y           # quotient of x and y
+x // y          # floored quotient of x and y
+x % y           # remainder of x / y
+-x              # x negated
++x              # x unchanged
+abs(x)          # absolute value or magnitude of x
+int(x)          # x converted to integer
+float(x)        # x converted to floating point
+complex(re, im) # a complex number
+c.conjugate()   # conjugate of the complex number c 	  	 
+divmod(x, y)    # the pair (x // y, x % y)
+pow(x, y)       # x to the power y
+x ** y          # x to the power y
+
+# for int and float numbers:
+
+math.trunc(x)   # x truncated to Integral
+round(x[, n])   # x rounded to n digits, rounding half to even. If n is omitted, it defaults to 0.
+math.floor(x)   # the greatest Integral <= x
+math.ceil(x)    # the least Integral >= x
+```
+
+---
+
+# Specific operations on `int` and `float` numbers
+
+## Bitwise operations for `int`
+
+```python
+x | y  # bitwise or of x and y
+x ^ y  # bitwise exclusive or of x and y
+x & y  # bitwise and of x and y
+x << n # x shifted left by n bits
+x >> n # x shifted right by n bits
+~x     # the bits of x inverted
+```
+
+## Other methods for `int`
+
+```python
+n = -37
+bin(n) # '-0b100101'
+n.bit_length() # 6
+```
+```python
+(1024).to_bytes(2, byteorder='big')                # b'\x04\x00'
+(1024).to_bytes(10, byteorder='big')               # b'\x00\x00\x00\x00\x00\x00\x00\x00\x04\x00'
+(-1024).to_bytes(10, byteorder='big', signed=True) # b'\xff\xff\xff\xff\xff\xff\xff\xff\xfc\x00'
+```
+```python
+int.from_bytes(b'\x00\x10', byteorder='big')               # 16
+int.from_bytes(b'\x00\x10', byteorder='little')            # 4096
+int.from_bytes(b'\xfc\x00', byteorder='big', signed=True)  # -1024
+int.from_bytes(b'\xfc\x00', byteorder='big', signed=False) # 64512
+int.from_bytes([255, 0, 0], byteorder='big')               # 16711680
+```
+
+## Other methods for `float`
+
+```python
+# hex format: [sign] ['0x'] integer ['.' fraction] ['p' exponent]
+
+float.fromhex('0x3.a7p10') # 3740.0
+
+float.hex(3740.0)          # '0x1.d380000000000p+11'
+```
+
+---
+
+# Using `list` objects
+
+```python
+l1 = []             # create an empty list
+
+l1.append(7)        # append value
+l2 = ['final', 'final2']
+l1.extend(l2)       # append another list
+l1.insert(1, 8)     # insert value
+print(l1)           # [7, 8, 'final', 'final2']
+v = l1.pop()        # get and remove last value
+print(v)            # 'final2'
+print(l1)           # [7, 8, 'final']
+del l1[-1]          # remove last value
+print(len(l1))      # 2
+
+l2 = [1, 2, "pipo"] # create another list
+
+l3 = l2             # l3 is another name for l2 list
+
+print(l2)           # [1, 2, 'pipo']
+print(l3)           # [1, 2, 'pipo']
+
+l3.append('new')    # append value to l3
+
+print(l2)           # [1, 2, 'pipo', 'new']
+print(l3)           # [1, 2, 'pipo', 'new']
+
+l4 = list(l2)       # copy a list
+
+l4.append(3.142)    # append value to l4
+
+print(l2)           # [1, 2, 'pipo', 'new']
+print(l4)           # [1, 2, 'pipo', 'new', 3.1419999999999999]
+
+l5 = list('abcdef') # create list from string
+print(l5)           # ['a', 'b', 'c', 'd', 'e', 'f']
+
+l6 = [l1, l2, 3]    # create a list containing lists
+print(l6)           # [[7, 8], [1, 2, 'pipo', 'new'], 3]
+```
+
+---
+
+# Using `list` elements and ranges
+
+## Element access
+```python
+l = range(5)
+l               # [0, 1, 2, 3, 4]
+l[2]            # 2
+l[-1]           # 4
+l[2] = 8
+l               # [0, 1, 8, 3, 4]
+del l[3]
+l               # [0, 1, 8, 4]
+```
+
+## Ranges
+```python
+l = [0, 1, 2, 3, 4]
+l[0:3]          # [0, 1, 2]
+l[::2]          # [0, 2, 4]
+l[-1:]          # [4]
+l[-3:-1]        # [2, 3]
+l[:]            # [0, 1, 2, 3, 4]
+l[2:3]          # [2]
+l[2:3] = ['X', 'Y']
+l               # [0, 1, 'X', 'Y', 3, 4]
+# range(a, b, c) is equivalent to range(b)[a:b:c]
+range(3, 6, 2)  # [3, 5]
+```
+
+## Concatenation
+```python
+[1, 2] + [3, 4] # [1, 2, 3, 4]
+[1, 2] * 3      # [1, 2, 1, 2, 1, 2]
+```
+
+## Searching
+```python
+l = [0, 1, 2, 3, 4]
+3 in l          # True
+l.index(3)      # 3
+5 in l          # False
+```
+
+---
+
+# Loops and iterators
+
+## Iterate over values
+```python
+l = list('abcde')
+for v in l:
+  print(v)
+# Output:
+# 'a'
+# 'b'
+# 'c'
+# 'd'
+# 'e'
+```
+
+## Iterate over indices
+```python
+l = list('abcde')
+for i in range(len(l)):
+  print("index: %d val: %r" % (i, l[i]))
+# Output:
+# index: 0 val: 'a'
+# index: 1 val: 'b'
+# index: 2 val: 'c'
+# index: 3 val: 'd'
+# index: 4 val: 'e'
+```
+
+## Iterate over indices and values
+```python
+l = list('abcde')
+for i, v in enumerate(l):
+  print("index: %d val: %r" % (i, v))
+# Output:
+# index: 0 val: 'a'
+# index: 1 val: 'b'
+# index: 2 val: 'c'
+# index: 3 val: 'd'
+# index: 4 val: 'e'
+```
+
+---
+
+# `filter`, `map`, `reduce`
+
+:arrow_right: used in functionnal programming
+
+* `filter` keeps elements matching a criterion
+
+```python
+def f(x):
+  return x % 3 == 0 or x % 5 == 0
+
+l = range(2, 25)
+filter(f, l) # [3, 5, 6, 9, 10, 12, 15, 18, 20, 21, 24]
+```
+
+* `map` applies a function to each element
+
+```python
+def cube(x):
+  return x*x*x
+
+map(cube, range(1, 11)) # [1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]
+
+# Example with two arguments
+
+seq = range(8)
+
+def add(x, y):
+  return x+y
+
+map(add, seq, seq) # [0, 2, 4, 6, 8, 10, 12, 14]
+```
+
+* `reduce` propagates the cumulative result of a function
+
+```python
+def add(x,y):
+  return x+y
+
+reduce(add, range(1, 11)) # 55
+```
+
+---
+
+# List comprehensions
+
+:arrow_right: allows to create lists in a **very concise way**
+
+## Generic syntax
+
+```python
+[ expr for var in expr [for var in expr]* [if expr]* ]
+```
+
+## Examples
+
+```python
+# list of the first 6 even numbers
+[i * 2 for i in range(6)] # [0, 2, 4, 6, 8, 10]
+
+# combine elements of two lists if they differ
+[(x, y) for x in [1,2,3] for y in [3,1,4] if x != y] # [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+
+# is equivalent to
+final = []
+for x in [1,2,3]:
+  for y in [3,1,4]:
+    if x != y:
+      final.append((x, y))
+final                                                # [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+```
+
+---
+
+# Using `string` objects
+
+## Spliting / joining
+
+```python
+s = 'A simple string'
+
+s.split()                 # ['A', 'simple', 'string']
+' '.join(s.split())       # 'A simple string'
+'   some text  '.strip()  # 'some text'
+'some' + ' ' + 'text'     # 'some text'
+'pipo' * 3                # 'pipopipopipo'
+```
+
+## String formatting
+
+```python
+n = 3
+l = range(3)
+'n: %03d l: %r' % (n, l) # 'n: 003 l: [0, 1, 2]'
+```
+
+:warning: **strings are immutable in Python** :warning:
+
+```python
+a = 'Some text'
+print(a[5])               # 't'
+*a[5] = 'T'                # ILLEGAL
+a.replace('text', 'Text') # 'Some Text'
+a[:5] + 'T' + a[6:]       # 'Some Text'
+```
+
+
+---
+
+# Using `dict` objects
+
+* A `dict` stores unordered (`key`, `value`) pairs
+* Keys are unique and not ordered
+
+```python
+# create an empty dict
+d = {}
+d = dict()
+
+# initialize a dict
+other_dict = {'first': 8, 'other': ['a', 'pair'], 'toto': {'pipo': 42}}
+other_dict = dict(first = 8, other = ['a', 'pair'], toto = dict(pipo =  42))
+
+d['key0'] = 'text0'
+d['key1'] = 'text1'
+d['key2'] = 'text2'
+print(d)                 # {'key2': 'text2', 'key0': 'text0', 'key1': 'text1'}
+
+d['key0'] = 'other_text' # replace value for key 'key0'
+del d['key1']            # remove key and value for key 'key1'
+print(d)                 # {'key2': 'text2', 'key0': 'other_text'}
+
+'key1' in d              # False
+'key2' in d              # True
+
+d.keys()                 # ['key2', 'key0']
+d.values()               # ['text2', 'other_text']
+
+for k in d:              # iterate over a dict
+  print(k)
+# Output:
+# key2
+# key0
+```
+
+---
+
+# Using `set` objects
+
+* A `set` stores unordered and unique objects
+
+```python
+# create an empty set
+s = set()
+
+# initialize a set
+s1 = set(['Beta', 'Gamma', 'Alpha', 'Delta', 'Gamma', 'Beta'])
+s2 = set(['Beta', 'Alpha', 'Epsilon', 'Omega', 'Psi'])
+
+s1                          # set(['Alpha', 'Beta', 'Gamma', 'Delta'])
+s2                          # set(['Alpha', 'Beta', 'Omega', 'Psi', 'Epsilon'])
+
+# test if a value is in a set
+'Psi' in s2                 # True
+
+# remove a value
+s2.remove('Psi')
+
+'Psi' in s2                 # False
+s2                          # set(['Alpha', 'Beta', 'Omega', 'Epsilon'])
+```
+
+## Usual `set` operations
+```python
+s1 = set(['Alpha', 'Beta', 'Gamma', 'Delta'])
+s2 = set(['Alpha', 'Beta', 'Omega', 'Epsilon'])
+
+s1.union(s2)                #  set(['Epsilon', 'Beta', 'Delta', 'Alpha', 'Omega', 'Gamma'])
+s1 | s2                     #  set(['Epsilon', 'Beta', 'Delta', 'Alpha', 'Omega', 'Gamma'])
+
+s1.intersection(s2)         # set(['Alpha', 'Beta'])
+s1 & s2                     # set(['Alpha', 'Beta'])
+
+s1.difference(s2)           # set(['Gamma', 'Delta'])
+s1 - s2                     # set(['Gamma', 'Delta'])
+
+s1.symmetric_difference(s2) # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
+s1 ^ s2                     # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
+```
+---
+
+# File IO
+
+## .hcenter[`[data.txt]`]
+```text
+1.0 2.1 3.0 4.9 5.9
+9.0 8.2 5.7 6.2 7.1
+2.2 3.6 4.4
+```
+
+## Read
+```python
+f = open('data.txt')
+lines = f.readlines()
+words = [l.split() for l in lines]
+print(words)
+# Output:
+# [['1.0', '2.1', '3.0', '4.9', '5.9'], ['9.0', '8.2', '5.7', '6.2', '7.1'], ['2.2', '3.6', '4.4'], []]                                                 
+
+# one-liner
+[l.split() for l in open('data.txt').readlines()]
+# Output:
+# [['1.0', '2.1', '3.0', '4.9', '5.9'], ['9.0', '8.2', '5.7', '6.2', '7.1'], ['2.2', '3.6', '4.4'], []]                                                 
+```
+
+---
+
+# Module `pickle`
+
+:arrow_right: allows to serialize / deserialize data
+
+## Write
+```python
+import pickle
+
+data1 = {'a': [1, 2.0, 3, 4+6j],
+         'b': ('string', u'Unicode string'),
+         'c': None}
+selfref_list = [1, 2, 3]
+selfref_list.append(selfref_list)
+output = open('data.pkl', 'wb')
+pickle.dump(data1, output)
+output.close()
+```
+
+## Read
+```python
+import pprint, pickle
+
+pkl_file = open('data.pkl', 'rb')
+data1 = pickle.load(pkl_file)
+pprint.pprint(data1)
+# Output:
+# {'a': [1, 2.0, 3, (4+6j)], 'b': ('string', u'Unicode string'), 'c': None}
+pkl_file.close()
+```
+.hcenter[:warning: `pickle` file formats differ between Python2 and Python3 versions:warning:]
+
+---
+
+# `True`, `False`, `not`, `and`, `or` keywords
+
+* usual Boolean values and operations
+* "`==`" tests value equality
+* `True` is the same object as `1`
+* `False` is the same object as `0`
+
+```python
+3 == 5              # False
+2 == 2              # False
+1 + 1 == 2          # True
+True or False       # True
+True or not True    # True
+True and True       # True
+False and True      # False
+True == 1           # True
+False == 0          # True
+True + True + False # 2
+```
+
+---
+
+# `None` keyword
+
+* special constant representing the absence of a value
+* the type of `None` is `NoneType`
+* :warning: `None` does not imply `False`, `0`, or an empty container
+
+```python
+None == 0 # False
+
+None == [] # False
+
+None == False # False
+
+a = None
+b = None
+a == b # True
+```
+
+:arrow_right: A void function without a `return` statement returns a `None` object.
+
+```python
+def void_function():
+  pass # do nothing
+
+a = void_function()
+a == None # True
+```
+
+---
+
+# Scientific programming
+
+## Scientific tools presented in this course
+ * linear algebra libraries (usable from `C++`)
+  * `Boost`, `LAPACK`, `BLAS`, `MKL`, `GSL`, `Eigen`, **`Armadillo`** :+:
+ * scientific programming with Python
+  * **introduction to Python** :+:
+  * **`Numpy`**
+ * presenting results
+  * write beautiful math: ** .latex[L<sup>a</sup>T<sub>e</sub>X] ** :+:
+  * structure your documentation: **Markdown** :+:
+  * present your results: **remark.js** :+:
+
+## Scientific techniques presented in this course
+ * numerical integration
+  * **Gaussian quadrature**
+
+    </textarea>
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+    <script src="gitgraphs.js" type="text/javascript"></script>
+  </body>
+</html>
+

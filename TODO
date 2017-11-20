@@ -147,24 +147,27 @@ Project:
 +----------+
 
 Project:
-* calculate and manipulate nuclear local densities (C++ / armadillo)
-* profile the resulting code
+* calculate and plot the local density of a nuclear system (C++ / armadillo)
 * use git, doxygen, make, cxxtest, matplotlib, remark.js, povray
 
-0 * python as a glue
-0  * numpy
-0  * matplotlib
-0  * bindings
-0 * numerical techniques
-0  * eigenvalue problems
-0 TP0
+0 * IPS-DEV-TP debriefing
+0 * Unit tests: real example
+0 * C++ headers: main rules
+0 * project presentation
+0 * cyl-HO basis
+0  * Hermite polynomials
+0  * Generalized Laguerre polynomials
+0 * data visualization
+0  * POVray
+0 TP1
 
-1  * bases
-1   * HO solutions
-1   * FEM
-1 * data visualization
-1  * POVray
-1 TP1
+1 * python as a glue
+1  * numpy
+1  * matplotlib
+1  * bindings
+1 * numerical techniques
+1  * eigenvalue problems
+1 TP0
 
 2 * optimizations
 2  * vectorization
