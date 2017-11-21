@@ -156,7 +156,7 @@ Poly poly();
 arma::vec zVals, calcVals, targetVals;
 
 zVals = {-3.1, -2.3, -1.0, -0.3, 0.1, 4.3, 9.2, 13.7};
-poly.calcHermite(6, zVals);     // compute Hermite polynomials for n in {0 ... 5}
+poly.calcHermite(6, zVals); // compute Hermite polynomials for n in {0 ... 5}
 
 calcVals   = poly.hermite(4); // n = 4
 targetVals = {  1.02835360e+03,  2.05825600e+02, -2.00000000e+01,  7.80960000e+00,
@@ -444,7 +444,7 @@ arma::vec res00 = { 7.64546544834383e-04,
                     2.26186220733178e-03,
                     3.62929640195959e-06};
 
-TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 0, 0) - res00), 0.0, 1e-15);
+TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 0) - res00), 0.0, 1e-15);
 
 arma::vec res15 = {-9.48674551049192e-02,
                    -1.40338701953237e-03,
@@ -455,7 +455,7 @@ arma::vec res15 = {-9.48674551049192e-02,
                     2.15604096600475e-01,
                     2.44977220882127e-01};
 
-TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 15, 0) - res15), 0.0, 1e-15);
+TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 15) - res15), 0.0, 1e-15);
 ```
 ]
 
