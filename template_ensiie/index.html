@@ -46,7 +46,7 @@ Some items:
 
 ---
 layout: true
-class: animated fadeIn middle
+class: animated fadeIn middle numbers
 
 .footnote[
 Presentation template - N. Dubray - ENSIIE - 2017 - [:book:](../toc/index.html)
@@ -282,7 +282,8 @@ some text
 
 ---
 
-class: hcenter, middle
+class: middle
+
 # A chart with `mermaid.js`
 
 .mermaid[
@@ -433,7 +434,8 @@ Holy :cow: !!! I can put notes on my slides !?!
     var slideshow = remark.create({
       highlightStyle: 'monokai',
       countIncrementalSlides: false,
-      highlightLines: false
+      highlightLines: true,
+      highlightInlineCode: false
     });
 
     // === Mermaid.js initialization ===

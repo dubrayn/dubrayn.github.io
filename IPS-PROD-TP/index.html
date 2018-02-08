@@ -30,7 +30,7 @@ class: titlepage
 ---
 
 layout: true
-class: animated fadeIn 
+class: animated fadeIn numbers
 
 .footnote[
 `IPS-PROD-TP` - N. Dubray - ENSIIE - 2017 - [:book:](../toc/index.html)
@@ -40,7 +40,7 @@ class: animated fadeIn
 
 # Project rules
 
-.mermaid[
+.mermaid.fshadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -71,7 +71,7 @@ class: animated fadeIn
 
 # IPS-PROD-TP - Week #1 - Initialization
 
-.mermaid[
+.mermaid.fshadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -100,7 +100,7 @@ class: animated fadeIn
 
 # IPS-PROD-TP - Week #1 - Polynomials
 
-.mermaid[
+.mermaid.fshadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -137,7 +137,7 @@ $$`
 
 # IPS-PROD-TP - Week #1 - Mandatory unit test
 
-.mermaid[
+.mermaid.fshadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -151,7 +151,7 @@ $$`
 ```C++
 // Mandatory test #00 - Hermite and Laguerre polynomials
 
-Poly poly();
+Poly poly;
 
 arma::vec zVals, calcVals, targetVals;
 
@@ -186,7 +186,7 @@ TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
 
 # IPS-PROD-TP - Weeks #2-#5 - Project description
 
-.mermaid[
+.mermaid.fshadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -214,7 +214,7 @@ Definition:
 
 # IPS-PROD-TP - Weeks #2-#5 - Project description
 
-.mermaid[
+.mermaid.fshadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -272,7 +272,7 @@ Parameters: `\(b_\perp, b_z\)`.
 
 # IPS-PROD-TP - Weeks #2-#5 - Project description
 
-.mermaid[
+.mermaid.fshadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -303,7 +303,7 @@ The quantum number values are the **integers** verifying
 `$$\begin{eqnarray}
 0 &\le m \le& m^\textrm{max}-1\\
 0 &\le n \le& \frac{1}{2}(m^\textrm{max}-m-1)\\
-0 &\le n_z \le& n_z^\textrm{max}(m+2n)-1.
+0 &\le n_z \le& n_z^\textrm{max}(m+2n+1)-1.
 \end{eqnarray}$$`
 
 Parameters: `\(N, Q\)`.
@@ -314,7 +314,7 @@ Parameters: `\(N, Q\)`.
 
 # IPS-PROD-TP - Weeks #2-#5 - Mandatory unit test
 
-.mermaid[
+.mermaid.fshadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -355,6 +355,7 @@ arma::imat n_zMax = {{18, 15, 13, 10, 7, 5, 2},
                      { 2,  0,  0,  0, 0, 0, 0}, 
                      { 1,  0,  0,  0, 0, 0, 0}};
 
+// check if matrices are equal
 TS_ASSERT(!arma::any(arma::any(basis.n_zMax - n_zMax)));
 ```
 ]
@@ -363,7 +364,7 @@ TS_ASSERT(!arma::any(arma::any(basis.n_zMax - n_zMax)));
 
 # IPS-PROD-TP - Weeks #2-#5 - Mandatory unit test
 
-.mermaid[
+.mermaid.fshadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -413,7 +414,7 @@ TS_ASSERT_DELTA(arma::norm(basis.rPart(r, 8, 2) - res82), 0.0, 1e-15);
 
 # IPS-PROD-TP - Weeks #2-#5 - Mandatory unit test
 
-.mermaid[
+.mermaid.fshadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -463,7 +464,7 @@ TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 15) - res15), 0.0, 1e-15);
 
 # IPS-PROD-TP - Weeks #2-#5 - Nuclear local density
 
-.mermaid[
+.mermaid.fshadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -508,7 +509,7 @@ for (int m = 0; m < basis.mMax; m++)
 
 # IPS-PROD-TP - Weeks #2-#5 - Nuclear local density
 
-.mermaid[
+.mermaid.fshadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -538,9 +539,165 @@ for (int m = 0; m < basis.mMax; m++)
 
 * use `\(\rho_{mnn_z,m'n'n'_z} = \delta_{mm'}\rho_{mnn_z,mn'n'_z}\)`
 * use `\(\rho_{mnn_z,m'n'n'_z} = \rho_{m'n'n'_z,mnn_z}\)`
-* optimize loops
-* use partial sums
-* pre-calculate quantities if needed
+* optimize loops by using partial sums and pre-calculations
+]
+
+---
+
+# POV-Ray - `df3` writer
+
+```C++
+std::string cubeToDf3(const arma::cube &m)
+{
+  std::stringstream ss(std::stringstream::out | std::stringstream::binary);
+  int nx = m.n_rows;
+  int ny = m.n_cols;
+  int nz = m.n_slices;
+  ss.put(nx >> 8);
+  ss.put(nx & 0xff);
+  ss.put(ny >> 8);
+  ss.put(ny & 0xff);
+  ss.put(nz >> 8);
+  ss.put(nz & 0xff);
+  double theMin = 0.0;
+  double theMax = m.max();
+  for (uint k = 0; k < m.n_slices; k++)
+  {
+    for (uint j = 0; j < m.n_cols; j++)
+    {
+      for (uint i = 0; i < m.n_rows; i++)
+      {
+        uint v = 255 * (fabs(m(i, j, k)) - theMin) / (theMax - theMin);
+        ss.put(v);
+      }
+    }
+  }
+  return ss.str();
+}
+```
+where `m` is an `arma::cube` representing the density to be plotted.
+**Mandatory dimensions for `m`**:
+
+.hcenter[
+| Axis |    x   |    y   |    z   |
+| :--: | :----: | :----: | :----: |
+| min  | -10 fm | -10 fm | -20 fm |
+| max  |  10 fm |  10 fm |  20 fm |
+| nbp  |  32    |  32    |  64    |
+]
+
+---
+
+# Blender - `raw` writer
+
+```C++
+std::string cubeToRaw(const arma::cube &m)
+{
+  std::stringstream ss(std::stringstream::out | std::stringstream::binary);
+  double theMin = 0.0;
+  double theMax = m.max();
+
+  for (uint k = 0; k < m.n_slices; k++)
+  {
+    for (uint j = 0; j < m.n_cols; j++)
+    {
+      for (uint i = 0; i < m.n_rows; i++)
+      {
+        uint v = 255 * (fabs(m(i, j, k)) - theMin) / (theMax - theMin);
+        ss.put(v);
+      }
+    }
+  }
+
+  return ss.str();
+}
+```
+where `m` is an `arma::cube` representing the density to be plotted.
+**Mandatory dimensions for `m`**:
+
+.hcenter[
+| Axis |    x   |    y   |    z   |
+| :--: | :----: | :----: | :----: |
+| min  | -10 fm | -10 fm | -20 fm |
+| max  |  10 fm |  10 fm |  20 fm |
+| nbp  |  32    |  32    |  64    |
+]
+
+---
+
+class: middle
+
+# Density file to be loaded
+
+The file containing the values of the `\(\rho\)` matrix can be found [here](files/rho.arma).
+To read it, use the `.load()` method of the `arma::mat` class:
+
+```C++
+arma::mat rho;
+rho.load("rho.arma", arma::arma_ascii);
+```
+
+The corresponding basis has the following parameters:
+
+```C++
+//     br = 1.935801664793151, bz = 2.829683956491218, N = 14, Q = 1.3
+Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
+```
+
+:arrow_right: check that this basis contains 374 vectors !
+
+The quantum numbers of the basis vector corresponding to the `\(i\)`-th row (or column) of the `\(\rho\)` matrix can be calculated with:
+
+```C++
+uint i = 0;
+for (int m = 0; m < basis.mMax; m++)
+for (int n = 0; n < basis.nMax(m); n++)
+for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
+{
+  std::cout << "Basis vector " << i << ": m=" << m << " n=" << n << " n_z=" << n_z << std::endl;
+  i++;
+}
+```
+
+:arrow_right: You can check the symmetries of the `\(\rho\)` matrix:
+* `\(\rho\)` should be symmetric : `\(\rho = \rho^t\)`
+* `\(\rho\)` should be `\(m-\)`diagonal : `\(\rho(a, b) = \delta_{m_a, m_b} \rho(a, b)\)`
+
+---
+
+class: middle
+
+# Presentation
+
+## Directives
+
+* at the deadline, the branch `master` will be pulled
+* check that your repository is **at the right address** in the following slides
+* the slides **must be** in your repository (branch `master`, location `pres/index.html`)
+* do not bring your slides for the presentation, they will already be on the screen
+* if you want to plug a laptop to show something else than the slides, **check if it works before**
+* be on time (5 min before the scheduled time)
+* presentation format: **15 min + 5 min for questions**
+
+.row[
+.column.w48[
+## :warning: Mandatory content :warning:
+
+* explain the problem you have solved
+* explain the associated physics content
+* describe your project
+* **show your results**
+* **show the mandatory unit tests**
+]
+.column.w48[
+## Possible content
+
+* show some parts of your code
+* show some benchmarks
+* show some documentation
+* show some of your `git` history
+* show your `Makefile` organization
+]
 ]
 
     </textarea>
@@ -560,7 +717,8 @@ for (int m = 0; m < basis.mMax; m++)
     var slideshow = remark.create({
       highlightStyle: 'monokai',
       countIncrementalSlides: false,
-      highlightLines: false
+      highlightLines: true,
+      highlightInlineCode: false
     });
 
     // === Mermaid.js initialization ===

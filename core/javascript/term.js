@@ -658,7 +658,6 @@ Terminal.insertStyle = function(document, bg, fg) {
 //    + '  font-family: "DejaVu Sans Mono", "Liberation Mono", monospace;\n'
     + '  color: ' + fg + ';\n'
     + '  background: ' + bg + ';\n'
-    + '  padding: 0.3em;\n'
     + '}\n'
     + '\n'
     + '.terminal-cursor {\n'
@@ -793,6 +792,7 @@ Terminal.prototype.open = function(parent) {
   // the character width of monospace fonts.
   if (Terminal.brokenBold == null) {
     Terminal.brokenBold = isBoldBroken(this.document);
+    Terminal.brokenBold = false;
   }
 
   // this.emit('open');

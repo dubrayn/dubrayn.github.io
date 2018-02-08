@@ -46,11 +46,29 @@ class: animated fadeIn middle numbers
 
 .hcenter.w20[![](images/github-octocat.png)]
 
-.block.hcenter[
+.block.hcenter.w100[
 * You can **freely** download, modify and use these slides.
 * Do not hesitate to make some **pull requests** if you want to share your modifications.
-* Repository: [https://www.github.com/dubrayn/dubrayn.github.io](https://www.github.com/dubrayn/dubrayn.github.io).
-* Online slides: [https://dubrayn.github.io](https://dubrayn.github.io).
+* Repository: [https://github.com/dubrayn/dubrayn.github.io](https://github.com/dubrayn/dubrayn.github.io).
+* Online slides: [http://dubrayn.github.io](http://dubrayn.github.io).
+]
+
+.vspace[]
+
+.block.hcenter.w100[
+To view these slides **locally** with `chromium-browser`:
+```shell
+$ chromium-browser --allow-file-access-from-files index.html
+```
+]
+
+.vspace[]
+
+.block.hcenter.w100[
+To view these slides **locally** with `firefox`:
+1. go to `about:config`,
+2. search for the `origin_policy` pattern,
+3. set the property `security.fileuri.strict_origin_policy` to `false`.
 ]
 
 ---
@@ -82,7 +100,7 @@ class: animated fadeIn middle numbers
 * project presentation [~10min] + questions [~10min]
 
 ## TPs timeline
-.mermaid[
+.mermaid.fshadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -858,8 +876,7 @@ target0: dep0 dep1 dep2
 .tree.hcenter[
 project
 * main.c
-* test.c
-* test.h
+* main.h
 * **Makefile**
 ]]
 .column.w65.middle[
@@ -1006,7 +1023,7 @@ main: main.c main.h
     gcc -o main main.c
 ```
 ]
-.column.w5[:arrow_right:]
+.column.w5.middle[:arrow_right:]
 .column.w45[
 ## .hcenter[`[Makefile]`]
 ```Makefile
@@ -1039,7 +1056,7 @@ clean:
     rm -f main
 ```
 ]
-.column.w5[:arrow_right:]
+.column.w5.middle[:arrow_right:]
 .column.w45[
 ## .hcenter[`[Makefile]`]
 ```Makefile
@@ -1076,7 +1093,7 @@ clean:
     rm -f $(TARGET)
 ```
 ]
-.column.w5[:arrow_right:]
+.column.w5.middle[:arrow_right:]
 .column.w45[
 ## .hcenter[`[Makefile]`]
 ```Makefile
@@ -1123,7 +1140,7 @@ clean:
     rm -f $(TARGET)
 ```
 ]
-.column.w5[:arrow_right:]
+.column.w5.middle[:arrow_right:]
 .column.w45[
 ## .hcenter[`[Makefile]`]
 ```Makefile
@@ -1853,8 +1870,6 @@ Success rate: 50%
 | `TS_ASSERT_THROWS_NOTHING(expr)`              | `expr` doesn’t throw anything              |
 ]
 
-.vspace[]
-
 ## Example for `TS_ASSERT_THROWS_ASSERT()`
 ```C++
 void throws_value(void)
@@ -1880,6 +1895,109 @@ void test_assert_throws_assert(void)
 | `TS_SKIP(message)`  | Skip this test                              |
 | `TS_TRACE(message)` | Print `message` as an informational message |
 | `TS_WARN(message)`  | Print `message` as a warning                |
+]
+
+---
+
+# Unit tests: real example
+
+.row[
+.column.w48[
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int _a) : a(_a)
+{
+// possible other ways: "a = int(_a);" or "a = _a;"
+}
+
+int MyClass::myFunc(int b)
+{
+  return a + b; // "a" is the same as "this->a" in C++
+}
+```
+]
+
+.column.w48[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+class MyClass
+{
+  public:
+  MyClass(int);
+  int myFunc(int);
+  int a;
+};
+#endif // MYCLASS_H
+```
+]
+]
+
+.row[
+.column.w48[
+## .hcenter[`main.cpp`]
+```C++
+#include "myclass.h"
+
+#include <iostream>
+
+int main(int charc, char** argv)
+{
+  MyClass myClass(2);
+
+  std::cout << "Result: " << myClass.myFunc(3);
+  std::cout << std::endl;
+  return 0;
+}
+```
+]
+
+.column.w48[
+## .hcenter[`test_myclass.h`]
+```C++
+#include <cxxtest/TestSuite.h>
+#include "myclass.h"
+
+class TestMyClass : public CxxTest::TestSuite
+{
+  public:
+  void testMyFunc(void)
+  {
+    MyClass myClass(2);
+    TS_ASSERT_EQUALS(myClass.myFunc(3), 5);
+  }
+};
+```
+]
+]
+
+
+.row[
+.column.w48[
+## .hcenter[Build & launch `main`]
+```shell
+*$ g++ -Wall -c myclass.cpp -o myclass.o
+*$ g++ -Wall -c main.cpp -o main.o
+*$ g++ main.o myclass.o -o main
+$ ./main
+Result: 5
+```
+]
+.column.w48[
+## .hcenter[Build & launch `tests`]
+```shell
+*$ g++ -Wall -c myclass.cpp -o myclass.o
+$ cxxtestgen --error-printer -o t.cpp test_myclass.h
+*$ g++ -Wall -c t.cpp -o t.o
+*$ g++ t.o myclass.o -o tests
+$ ./tests
+Running cxxtest tests (1 test).OK!
+```
+]
 ]
 
 ---
@@ -1914,6 +2032,565 @@ class: top
  * will be presented in PSA (S4)
 * binding generator
  * will be presented in PSA (S4)
+
+---
+
+# Scientific programming
+
+## Scientific tools presented in this course
+ * linear algebra libraries (usable from `C++` .animated.infinite.flash[:arrow_left:])
+  * `Boost`, `LAPACK`, `BLAS`, `MKL`, `GSL`, `Eigen`, **`Armadillo`** 
+ * scientific programming with Python
+  * **introduction to Python**
+  * **`Numpy`**
+ * presenting results
+  * write beautiful math: ** .latex[L<sup>a</sup>T<sub>e</sub>X] **
+  * structure your documentation: **Markdown**
+  * write some slides: **remark.js**
+
+## Scientific techniques presented in this course
+ * numerical integration
+  * **Gaussian quadrature**
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header
+* use `#define` guards
+* separate public and private headers
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+  MyClass(int, int);
+
+  int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp` :arrow_left:
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header
+* use `#define` guards
+* separate public and private headers
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+* MyClass(int, int);
+
+* int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+*MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+*int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file :arrow_left:
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header
+* use `#define` guards
+* separate public and private headers
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+*class MyClass
+{
+  public:
+  MyClass(int, int);
+
+  int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp` :arrow_left:
+* no `everything.h` header
+* use `#define` guards
+* separate public and private headers
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+  MyClass(int, int);
+
+  int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+*#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header :arrow_left:
+* use `#define` guards
+* separate public and private headers
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+  MyClass(int, int);
+
+  int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header
+* use `#define` guards :arrow_left:
+* separate public and private headers
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+*#ifndef MYCLASS_H
+*#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+  MyClass(int, int);
+
+  int myFunc(double e = -1.0);
+};
+
+*#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header
+* use `#define` guards
+* separate public and private headers :arrow_left:
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+  MyClass(int, int);
+
+  int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header
+* use `#define` guards
+* separate public and private headers
+* default values belong to `%.h` :arrow_left:
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+  MyClass(int, int);
+
+* int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header
+* use `#define` guards
+* separate public and private headers
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults) :arrow_left:
+* **no forward-declarations** (if possible)
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+* MyClass(int, int);
+
+* int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
+
+---
+
+# `C++` headers: main rules
+
+.row[
+.column.w55.middle[
+## Rules
+
+* same methods in `%.h` and `%.cpp`
+* one class per `%.h` file
+* `%.h` **first included file** in `%.cpp`
+* no `everything.h` header
+* use `#define` guards
+* separate public and private headers
+* default values belong to `%.h`
+* no argument names in `%.h` (except defaults)
+* **no forward-declarations** (if possible) :arrow_left:
+]
+.column.w40[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <iostream>
+
+class MyClass
+{
+  public:
+  MyClass(int, int);
+
+  int myFunc(double e = -1.0);
+};
+
+#endif // MYCLASS_H
+```
+
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int a, int b)
+{
+  ...
+}
+
+int MyClass::myFunc(double e)
+{
+  ...
+}
+```
+]
+]
 
 ---
 
@@ -3025,8 +3702,6 @@ Transcript written on example.log.
 
 :arrow_right: **My advice**: for scientific papers only.
 
-.vspace[]
-
 ## Using only the math engine of .latex[L<sup>a</sup>T<sub>e</sub>X]
 * allows to insert .latex[L<sup>a</sup>T<sub>e</sub>X] math blocks in another formatting tool / language
 * examples: **`MathJax`**, **`Markdown`**, **`Doxygen`**...
@@ -3236,8 +3911,6 @@ $$`
 \exp(z) \det(M)
 $$`
 ]]
-
-.vspace[]
 
 ## List of math symbols
 * [http://tug.ctan.org/info/symbols/comprehensive/symbols-a4.pdf](http://tug.ctan.org/info/symbols/comprehensive/symbols-a4.pdf) (338 pages !)
@@ -4037,7 +4710,7 @@ abs(x)          # absolute value or magnitude of x
 int(x)          # x converted to integer
 float(x)        # x converted to floating point
 complex(re, im) # a complex number
-c.conjugate()   # conjugate of the complex number c 	  	 
+c.conjugate()   # conjugate of the complex number c
 divmod(x, y)    # the pair (x // y, x % y)
 pow(x, y)       # x to the power y
 x ** y          # x to the power y
@@ -4166,7 +4839,6 @@ l[:]            # [0, 1, 2, 3, 4]
 l[2:3]          # [2]
 l[2:3] = ['X', 'Y']
 l               # [0, 1, 'X', 'Y', 3, 4]
-# range(a, b, c) is equivalent to range(b)[a:b:c]
 range(3, 6, 2)  # [3, 5]
 ```
 
@@ -4580,11 +5252,11 @@ the quadrature gives a good approximation of the definite integral.
 
 # Generalization
 
-## Weighted function
+## Weight function
 
  * If the approximated function can be written as
 `$$f(x)=\omega(x)g(x)$$`
-with `\(g(x)\)` a function well approximated by a polynomial and `\(\omega(x)\)` a known function (called **weighted function**), then
+with `\(g(x)\)` a function well approximated by a polynomial and `\(\omega(x)\)` a known function (called **weight function**), then
 `$$\int_{-1}^1 f(x) dx = \int_{-1}^1 \omega(x)g(x) dx \simeq \sum_{i=0}^{n-1}w'_ig(x'_i)$$`
 may give a good approximation of the definite integral.
 
@@ -4617,7 +5289,7 @@ where `\(a_k\)` is the coefficient of `\(x^k\)` in `\(P^\omega_k(x)\)`.
 
 ---
 
-# Common weighted functions and intervals
+# Common weight functions and intervals
 
 `$$\int_{a}^b \omega(x)g(x) dx \simeq \sum_{i=0}^{n-1}w^\omega_ig(x^\omega_i)$$`
 
@@ -4875,9 +5547,9 @@ sum(numpy.polynomial.legendre.leggauss(10)[1]) # Output: 2.0
 
 `$$\hat{X}|a\rangle = |d\rangle$$`
 
-* scalar product between two states is defined as
+* the scalar product between two states is defined as
 
-`$$\langle a|.|c \rangle = \langle a|c \rangle = \int_\Omega a^*(\mathbf{r}) c(\mathbf{r}) \mathbf{dr}$$`
+`$$\langle a|.|c \rangle \equiv \langle a|c \rangle \equiv \int_\Omega a^*(\mathbf{r}) c(\mathbf{r}) \mathbf{dr}$$`
 
 ---
 
@@ -4990,7 +5662,7 @@ $$`
   * `Boost`, `LAPACK`, `BLAS`, `MKL`, `GSL`, `Eigen`, **`Armadillo`** :+:
  * scientific programming with Python
   * **introduction to Python** :+:
-  * **`Numpy`** .animated.infinite.flash[:arrow_left:]
+  * **`Numpy`**
  * presenting results
   * write beautiful math: ** .latex[L<sup>a</sup>T<sub>e</sub>X] ** :+:
   * structure your documentation: **Markdown** :+:
@@ -5002,20 +5674,11 @@ $$`
 
 ---
 
-# Numpy
 
-## Key points
 
-* core library for scientific computing in Python
-* very close from MATLAB (but open-source :v:)
-* provides very efficient multi-dimensional arrays
-
-.block[
-* `Numpy` website: [http://www.numpy.org](http://www.numpy.org)
-* `Numpy` license: `BSD`
-]
 
     </textarea>
+
     <script src="core/javascript/remark.js"></script>
     <script src="core/javascript/plotly.js" type="text/javascript"></script>
     <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>

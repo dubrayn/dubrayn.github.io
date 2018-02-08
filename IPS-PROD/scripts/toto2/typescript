@@ -1,0 +1,88 @@
+Script started on Tue 12 Dec 2017 03:03:47 PM CET
+[48;5;32m dubrayn [0m[38;5;32;48;5;240m[0m[48;5;240m gdb [0m[38;5;240m[0m ls
+segfault.c  test2.c  test.c
+[48;5;32m dubrayn [0m[38;5;32;48;5;240m[0m[48;5;240m gdb [0m[38;5;240m[0m vim test2.c 
+7[?47h[?1h=[2;1H▽[6n[2;1H  [1;1H[1;34r[27m[m[H[2J[?25l[34;1H"test2.c" 20L, 258C[>c[1;1H[38;5;81m#include [m[95m"stdlib.h"[m
+[38;5;81m#include [m[95m"stdio.h"[m
+
+[96m// new function[m
+[38;5;121mint[m addition([38;5;121mint[m a, [38;5;121mint[m b)
+{
+  [93mreturn[m a + b;
+}
+
+[38;5;81m#define SIZE [m[95m3[m
+
+[38;5;121mint[m main([38;5;121mint[m argc, [38;5;121mchar[m **argv)
+{
+  [93mfor[m ([38;5;121mint[m i = [95m0[m; i < SIZE; i++)
+  {
+    printf([95m"i=[m[38;5;224m%d[m[95m i+3=[m[38;5;224m%d\n[m[95m"[m, i, addition(i, [95m3[m));
+  }
+
+  [93mreturn[m [95m0[m;
+}
+[94m~                                                                                                                   [22;1H~                                                                                                                   [23;1H~                                                                                                                   [24;1H~                                                                                                                   [25;1H~                                                                                                                   [26;1H~                                                                                                                   [27;1H~                                                                                                                   [28;1H~                                                                                                                   [29;1H~                                                                                                                   [30;1H~                                                                                                                   [31;1H~                                                                                                                   [32;1H~                                                                                                                   [m[33;1H[38;5;17m[48;5;190m [m[1m[38;5;17m[48;5;190mNORMAL[m[38;5;17m[48;5;190m [m[38;5;190m[48;5;238m[m[38;5;238m[48;5;234m[m[38;5;85m[48;5;234m test2.c                                                        [m[38;5;234m[48;5;234m[m[38;5;85m[48;5;234m c [m[38;5;238m[48;5;234m[m[38;5;255m[48;5;238m utf-8[unix] [m[38;5;190m[48;5;238m[m[38;5;17m[48;5;190m  20% [m[1m[38;5;17m[48;5;190m☰    4/20 [m[38;5;17m[48;5;190m :  1 [4;1H[?25h[?25l[33;97H5[m[7C[1m[38;5;17m[48;5;190m5/[5;1H[?25h[?25l[m
+[46m{
+
+}[m[33;96H[38;5;17m[48;5;190m30[m[7C[1m[38;5;17m[48;5;190m6/[6;1H[?25h[?25l[m{
+
+}[33;97H[38;5;17m[48;5;190m5[m[7C[1m[38;5;17m[48;5;190m7/[7;1H[?25h[?25l[m[6;1H[46m{
+
+}[m[33;97H[38;5;17m[48;5;190m0[m[7C[1m[38;5;17m[48;5;190m6/[6;1H[?25h[?25l[m{
+
+}[33;96H[38;5;17m[48;5;190m25[m[7C[1m[38;5;17m[48;5;190m5/[5;1H[?25h[m[33;115H[38;5;17m[48;5;190m2[5;2H[33;115H3[5;3H[33;115H4[5;4H[33;115H5[5;5H[33;115H6[5;6H[33;115H7[5;7H[33;115H8[5;8H[?25l[m[34;1H[K[34;1H:[?25hw[?25l[?25hq[?25l[?25h[?25l"test2.c" 20L, 258C written
+[?1l>[?25h[2J[?47l8[48;5;32m dubrayn [0m[38;5;32;48;5;240m[0m[48;5;240m gdb [0m[38;5;240m[0m gcc -g -c test2.c
+[48;5;32m dubrayn [0m[38;5;32;48;5;240m[0m[48;5;240m gdb [0m[38;5;240m[0m gcc -o test2 test2.o
+[48;5;32m dubrayn [0m[38;5;32;48;5;240m[0m[48;5;240m gdb [0m[38;5;240m[0m ./test2
+i=0 i+3=3
+i=1 i+3=4
+i=2 i+3=5
+[48;5;32m dubrayn [0m[38;5;32;48;5;240m[0m[48;5;240m gdb [0m[38;5;240m[0m gdb -q test2
+Reading symbols from test2...done.
+(gdb) start
+Temporary breakpoint 1 at 0x40062b: file test2.c, line 14.
+Starting program: /cea/dsku/u-pelote/hal1/home/pn/dubray/temp/lectures/tools/gdb/test2 
+
+Temporary breakpoint 1, main (argc=1, argv=0x7fffffffdd28) at test2.c:14
+14	  for (int i = 0; i < SIZE; i++)
+(gdb) list
+9	
+10	#define SIZE 3
+11	
+12	int main(int argc, char **argv)
+13	{
+14	  for (int i = 0; i < SIZE; i++)
+15	  {
+16	    printf("i=%d i+3=%d\n", i, addition(i, 3));
+17	  }
+18	
+(gdb) break addition
+Breakpoint 2 at 0x400612: file test2.c, line 7.
+(gdb) continue
+Continuing.
+
+Breakpoint 2, addition (a=0, b=3) at test2.c:7
+7	  return a + b;
+(gdb) print a
+$1 = 0
+(gdb) print b
+$2 = 3
+(gdb) print i
+No symbol "i" in current context.
+(gdb) backtrace
+#0  addition (a=0, b=3) at test2.c:7
+#1  0x0000000000400643 in main (argc=1, argv=0x7fffffffdd28) at test2.c:16
+(gdb) frame 1
+#1  0x0000000000400643 in main (argc=1, argv=0x7fffffffdd28) at test2.c:16
+16	    printf("i=%d i+3=%d\n", i, addition(i, 3));
+(gdb) print i
+$3 = 0
+(gdb) quit
+A debugging session is active.
+
+	Inferior 1 [process 21950] will be killed.
+
+Quit anyway? (y or n) y
+[48;5;32m dubrayn [0m[38;5;32;48;5;240m[0m[48;5;240m gdb [0m[38;5;240m[0m # bye
+[48;5;32m dubrayn [0m[38;5;32;48;5;240m[0m[48;5;240m gdb [0m[38;5;240m[0m exit

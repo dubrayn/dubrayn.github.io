@@ -1,4 +1,10 @@
 @font-face {
   font-family: mymono;
   src: url('DejaVuSansMono/DejaVu Sans Mono for Powerline.ttf');
+  font-weight: normal;
+}
+@font-face {
+  font-family: mymono;
+  src: url('DejaVuSansMono/DejaVu Sans Mono Bold for Powerline.ttf');
+  font-weight: bold;
 }

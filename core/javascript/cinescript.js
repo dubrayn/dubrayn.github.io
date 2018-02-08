@@ -57,7 +57,7 @@ function CineScript(typescript, timing, options, container) {
             }
         }
         //console.log("setting font-size to " + fontsize);
-        $(container).css("font-size", fontsize);
+//        $(container).css("font-size", fontsize);
 
         if (timer) {
             timer.resume();
@@ -233,7 +233,7 @@ function CineScript(typescript, timing, options, container) {
         }
       }
       //console.log("setting font-size to " + fontsize);
-      $(container).css("font-size", fontsize);
+//      $(container).css("font-size", fontsize);
     }
 
 }
@@ -269,7 +269,7 @@ init_cinescripts = function() {
 	if (lcols != undefined) options['cols'] = lcols;
         options['speed'] = this.getAttribute("data-speed") || "1";
         options['show-controls'] = this.getAttribute('data-show-controls') || "true";
-        options['font-size'] = this.getAttribute('data-font-size') || '13px';
+        options['font-size'] = this.getAttribute('data-font-size') || '1em';
 
 	var timing;
         $.get(timing_filename, function(ltiming) {
