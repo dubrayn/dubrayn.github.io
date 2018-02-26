@@ -84,9 +84,11 @@ body {
   overflow: hidden;
 }
 
+/*
 .remark-slide-content pre {
   width: 100%;
 }
+*/
 
 .remark-slide-content * {
   flex: 0 0 auto;
@@ -207,6 +209,7 @@ em {
   margin: 0 0.3em 0 0;
 }
 
+.wauto { display: inline-flex; }
 .w05 { width: 05%; }
 .w10 { width: 10%; }
 .w15 { width: 15%; }
@@ -329,7 +332,7 @@ a:visited {
   counter-increment: line;
 }
 
-.numbers .remark-code-line:before {
+.numbers .remark-code-line::before {
   content: counter(line, decimal-leading-zero);
   border-right: 1px solid rgba(160, 100, 100, 1);
   color: rgba(160, 100, 100, 1);
@@ -338,12 +341,35 @@ a:visited {
   padding-right: 0.3em;
 }
 
-.numbers .remark-code-line:before {
+.numbers .remark-code-line::before {
   -webkit-user-select: none;
 }
 
+/* ==================================== */
+/* === code highlight on mouse over === */
+/* ==================================== */
+
+.numbers .remark-code-line:hover::before {
+  background-color: rgba(255, 0, 0, 1);
+  color: rgba(255, 255, 255, 1);
+  transition: all 0s ease;
+}
+
+.remark-code-line {
+  transition: background-color 0.5s ease;
+}
+
+.remark-code-line:hover {
+  background-color: rgba(100,0,0,1);
+  transition: background-color 0s ease;
+}
+
+/* ==================================== */
+/* ==================================== */
+/* ==================================== */
+
 /* in case of no numbering
-div.remark-code-line:empty:before {
+div.remark-code-line:empty::before {
     content: "\200b";
 }
 */
@@ -644,7 +670,7 @@ td
   position: relative;
 }
 
-.tree ul li:before {
+.tree ul li::before {
   position: absolute;
   left: -15px;
   top: 0px;
@@ -656,7 +682,7 @@ td
   width: 10px;
 }
 
-.tree ul li:after {
+.tree ul li::after {
   position: absolute;
   left: -15px;
   bottom: -7px;
@@ -666,7 +692,7 @@ td
   height: 100%;
 }
 
-.tree ul li:last-child:after {
+.tree ul li:last-child::after {
   display: none;
 }
 
