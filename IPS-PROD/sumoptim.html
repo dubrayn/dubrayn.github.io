@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IPS-PROD</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`IPS-PROD` - N. Dubray - ENSIIE - 2017 - [:book:](../index.html)
+]
+
+---
+
+# Optimization of sum calculation - Sum types
+
+## 1. Simple sum
+`$$
+V \equiv \sum_{i_1}^{I_1}\ldots \sum_{i_N}^{I_N} \prod_{j=1}^{M} F_j[i_1,\ldots,i_N]
+$$`
+
+:arrow_right: By convention, the `\(F_j[\ldots]\)` values are pre-calculated and stored:
+
+`$$
+\forall j \in [1..\,M], F_j[i_1,\ldots,i_N] \equiv F(x_{1,j}[i_1], \ldots, x_{N,j}[i_N])
+$$`
+and
+`$$
+\forall i \in [1..\,N], \forall j \in [1..\,M], x_{i,j} \equiv \{x_{i,j}[1],\ldots,x_{i,j}[I_i]\}.
+$$`
+
+## Example
+`$$
+V \equiv \sum_{i=0}^{100}\sum_{j=0}^{100} \frac{x[i]+y[j]}{\sqrt{1 + x[i] + y[j]}}
+$$`
+
+---
+
+# Optimization of sum calculation - Sum types
+
+## 2. "Multiple" sum
+`$$
+\forall k_1 \in [1..\,K_1],\ldots, \forall k_L \in [1..\,K_L], V[k_1,\ldots,k_L] \equiv \sum_{i_1}^{I_1}\ldots \sum_{i_N}^{I_N} \prod_{j=1}^{M} F_j[i_1,\ldots,i_N, k_1,\ldots, k_L].
+$$`
+Using the notation
+`$$
+\coprod_{k}^{K} \equiv \left(\forall k \in [1..\,K]\right),
+$$`
+one can re-write the previous expression as
+`$$
+\coprod_{k_1}^{K_1}\ldots \coprod_{k_L}^{K_L} V[k_1,\ldots,k_L] \equiv \sum_{i_1}^{I_1}\ldots \sum_{i_N}^{I_N} \prod_{j=1}^{M} F_j[i_1,\ldots,i_N, k_1,\ldots, k_L].
+$$`
+
+## Example
+`$$
+\coprod_i^{10}\coprod_j^{10} V[i,j] \equiv \sum_{k=0}^{100}\sum_{l=0}^{100} \frac{x[i]+y[j]}{\sqrt{1 + x[k] + y[l]}}
+$$`
+
+---
+
+# Optimization of sum calculation - Sum types
+
+## 3. "Multiple", "variable range" sum
+
+`$$
+\coprod_{k_1}^{K_1}\ldots \coprod_{k_L}^{K_L[k_1,\ldots,k_{L-1}]} V[k_1,\ldots,k_L] \equiv \sum_{i_1}^{I_1[k_1,\ldots,k_L]}\ldots \sum_{i_N}^{I_N[k_1,\ldots,k_L,i_1,\ldots,i_{N-1}]} \prod_{j=1}^{M} F_j[i_1,\ldots,i_N, k_1,\ldots, k_L].
+$$`
+
+## Example
+`$$
+\coprod_i^{10}\coprod_j^{i + 10} V[i,j] \equiv \sum_{k=0}^{i + 1}\sum_{l=0}^{j + k + 1} \frac{x[i]+y[j]}{\sqrt{1 + x[k] + y[l]}}
+$$`
+
+---
+
+# Optimization of sum calculation - Sum types
+
+## 4. "Multiple", "variable-range", "block-structured" sum
+
+`$$
+\coprod_{k_1}^{K_1}\ldots \coprod_{k_L}^{K_L[k_1,\ldots,k_{L-1}]} V[k_1,\ldots,k_L] \equiv \sum_{i_1}^{I_1[k_1,\ldots,k_L]}\ldots \sum_{i_N}^{I_N[k_1,\ldots,k_L,i_1,\ldots,i_{N-1}]} \prod_{j=1}^{M} F_j[i_1,\ldots,i_N, k_1,\ldots, k_L]
+$$`
+with
+`$$
+\prod_{j=1}^M F_j[i_1,\ldots,i_N, k_1,\ldots, k_L] = G[i_1,\ldots,i_N, k_1,\ldots, k_L] \left(\prod_{l=1}^{L} \delta_l(i_1,\ldots,i_N, k_1,\ldots, k_L)\right).
+$$`
+
+## Example
+`$$
+\begin{eqnarray}
+\coprod_i^{10}\coprod_j^{i + 10} V[i,j] &\equiv& \sum_{k=0}^{i + 1}\sum_{l=0}^{j + k + 1} \frac{(1-\delta_{lk})\left(x[i]+y[j]\right)}{\sqrt{1 + x[k] + y[l]}}\\
+                                        &=&      \sum_{k=0}^{i + 1}\sum_{\substack{l=0\\l\ne k}}^{j + k + 1} \frac{x[i]+y[j]}{\sqrt{1 + x[k] + y[l]}}
+                                        \end{eqnarray}
+$$`
+
+---
+
+# Optimization of sum calculation - Notations
+
+* we sum up all `\(\sum\)` and `\(\coprod\)` dependencies in the upper symbol list
+* we do the same for all functions
+
+## Example
+
+`$$
+\begin{eqnarray}
+\sum_{i=F(a)}^{G(b,c)} &\rightarrow& \sum_i^{(abc)}\\
+\coprod_{j=H(d)}^{J(d,f)} &\rightarrow& \coprod_j^{(df)}\\
+F[a,c,d] &\rightarrow& F^{(acd)}
+\end{eqnarray}
+$$`
+
+---
+
+# Optimization of sum calculation - Example
+
+`$$
+\coprod_a^A\coprod_b^B V[a,b]\equiv \sum_c^C\sum_d^{D(c)}\sum_e^E F[a,b] G[d,e] \delta_{ae}
+$$`
+
+## Raw implementation
+
+* `\(\sum\)` and `\(\coprod\)` are replaced by `for` loops
+* `\(\delta_{xy}\)` are replaced by `if` tests
+
+```C++
+//=== Version 0 ===
+
+for (uint a = 0; a < A; a++)
+{
+  for (uint b = 0; b < B; b++)
+  {
+    double sum = 0.0;
+    for (uint c = 0; c < C; c++)
+    {
+      for (uint d = 0; d < D[c]; d++)
+      {
+        for (uint e = 0; e < E; e++)
+        {
+          if (a != e) continue; 
+          sum += F(a, b) * G(d, e);
+        } // e
+      } // d
+    } // c
+    V(a, b) = sum;
+  } // b
+} // a
+```
+
+---
+
+# Optimization of sum calculation - Remove deltas
+
+## Use `\(\delta_{xy}\)` to remove loops
+
+`$$
+\coprod_a^A\coprod_b^B V[a,b]\equiv \sum_c^C\sum_d^{D(c)}\color{magenta}{\sum_e^E} F[a,b] G[d,e] \color{magenta}{\delta_{ae}}
+$$`
+`$$
+\iff \coprod_a\coprod_b V^{(ab)}= \sum_c\sum_d^{(c)} F^{(ab)} G^{(ad)}
+$$`
+
+.row[
+.column.w48.middle[
+```C++
+//=== Version 0 ===
+
+for (uint a = 0; a < A; a++)
+{
+  for (uint b = 0; b < B; b++)
+  {
+    double sum = 0.0;
+    for (uint c = 0; c < C; c++)
+    {
+      for (uint d = 0; d < D[c]; d++)
+      {
+*       for (uint e = 0; e < E; e++)
+        {
+*         if (a != e) continue; 
+          sum += F(a, b) * G(d, e);
+        } // e
+      } // d
+    } // c
+    V(a, b) = sum;
+  } // b
+} // a
+```
+]
+.column.middle[
+:arrow_right:
+]
+.column.w48.middle[
+```C++
+//=== Version 1 ===
+
+for (uint a = 0; a < A; a++)
+{
+  for (uint b = 0; b < B; b++)
+  {
+    double sum = 0.0;
+    for (uint c = 0; c < C; c++)
+    {
+      for (uint d = 0; d < D(c); d++)
+      {
+
+
+
+        sum += F(a, b) * G(d, a);
+
+      } // d
+    } // c
+    V(a, b) = sum;
+  } // b
+} // a
+```
+]
+]
+
+---
+
+# Optimization of sum calculation - Loop order
+
+:arrow_right: Move loops **as deep (right) as possible** (except in this case, see later)
+`$$
+\coprod_a\coprod_b  V^{(ab)} = \color{magenta}{\sum_c}\sum_d^{(c)} F^{(ab)} G^{(ad)}
+$$`
+`$$
+\iff \color{magenta}{V=0}, \color{magenta}{\coprod_c}\coprod_a\coprod_b V^{(ab)} \color{magenta}{\mathrel{+}=} \sum_d^{(c)} F^{(ab)} G^{(ad)}
+$$`
+
+.row[
+.column.w48.middle[
+```C++
+//=== Version 1 ===
+
+for (uint a = 0; a < A; a++)
+{
+  for (uint b = 0; b < B; b++)
+  {
+    double sum = 0.0;
+
+*   for (uint c = 0; c < C; c++)
+    {
+      for (uint d = 0; d < D(c); d++)
+      {
+        sum += F(a, b) * G(d, a);
+      } // d
+    } // c
+
+    V(a, b) = sum;
+  } // b
+} // a
+```
+]
+.column.middle[
+:arrow_right:
+]
+.column.w48.middle[
+```C++
+//=== Version 2 ===
+
+*for (uint a = 0; a < A; a++)
+* for (uint b = 0; b < B; b++)
+*   V(a, b) = 0.0;
+
+*for (uint c = 0; c < C; c++)
+{
+  for (uint a = 0; a < A; a++)
+  {
+    for (uint b = 0; b < B; b++)
+    {
+      for (uint d = 0; d < D(c); d++)
+      {
+*       V(a, b) += F(a, b) * G(d, a);
+      } // d
+    } // b
+  } // a
+} // c
+```
+]
+]
+
+---
+
+# Optimization of sum calculation - Function order
+
+:arrow_right: Move functions **as high (left) as possible**
+`$$
+V=0, \coprod_c\coprod_a\coprod_b V^{(ab)} \mathrel{+}= \sum_d^{(c)} \color{magenta}{F^{(ab)}} G^{(ad)}
+$$`
+
+`$$
+\iff V=0, \coprod_c\coprod_a\coprod_b V^{(ab)} \mathrel{+}= \color{magenta}{F^{(ab)}} \sum_d^{(c)}  G^{(ad)}
+$$`
+
+.row[
+.column.w48.middle[
+```C++
+//=== Version 2 ===
+
+for (uint a = 0; a < A; a++)
+  for (uint b = 0; b < B; b++)
+    V(a, b) = 0.0;
+
+for (uint c = 0; c < C; c++)
+{
+  for (uint a = 0; a < A; a++)
+  {
+    for (uint b = 0; b < B; b++)
+    {
+*     for (uint d = 0; d < D(c); d++)
+*     {
+*       V(a, b) += F(a, b) * G(d, a);
+*     } // d
+    } // b
+  } // a
+} // c
+```
+]
+.column.middle[
+:arrow_right:
+]
+.column.w48.middle[
+```C++
+//=== Version 3 ===
+
+for (uint a = 0; a < A; a++)
+ for (uint b = 0; b < B; b++)
+   V(a, b) = 0.0;
+
+for (uint c = 0; c < C; c++)
+{
+  for (uint a = 0; a < A; a++)
+  {
+    for (uint b = 0; b < B; b++)
+    {
+*     double sum = 0.0;
+*     for (uint d = 0; d < D(c); d++)
+*       sum += G(d, a);
+*     V(a, b) += sum * F(a, b);
+    } // b
+  } // a
+} // c
+```
+]
+]
+
+---
+
+# Optimization of sum calculation - Pre-sum
+
+:arrow_right: Identify pre-summable quantities
+
+`$$
+V=0, \coprod_c\coprod_a\coprod_b V^{(ab)} \mathrel{+}= F^{(ab)} \underbrace{\color{magenta}{\sum_d^{(c)}  G^{(ad)}}}_{H^{(ac)}}
+$$`
+`$$
+\iff V=0, \coprod_c\coprod_a\left[\color{magenta}{H^{(ac)}=\sum_d^{(c)}  G^{(ad)}}\right]\coprod_b V^{(ab)} \mathrel{+}= F^{(ab)} \color{magenta}{H^{(ac)}}
+$$`
+
+.row[
+.column.w48.middle[
+```C++
+//=== Version 3 ===
+
+for (uint a = 0; a < A; a++)
+  for (uint b = 0; b < B; b++)
+    V(a, b) = 0.0;
+
+for (uint c = 0; c < C; c++)
+{
+  for (uint a = 0; a < A; a++)
+  {
+*   for (uint b = 0; b < B; b++)
+*   {
+*     double sum = 0.0;
+*     for (uint d = 0; d < D(c); d++)
+*       sum += G(d, a);
+*     V(a, b) += sum * F(a, b);
+*   } // b
+  } // a
+} // c
+```
+]
+.column.middle[
+:arrow_right:
+]
+.column.w48.middle[
+```C++
+//=== Version 4 ===
+
+for (uint a = 0; a < A; a++)
+  for (uint b = 0; b < B; b++)
+    V(a, b) = 0.0;
+    
+for (uint c = 0; c < C; c++)
+{
+  for (uint a = 0; a < A; a++)
+  {
+*   double Hac = 0.0;
+
+*   for (uint d = 0; d < D[c]; d++)
+*     Hac += G(d, a);
+
+*   for (uint b = 0; b < B; b++)
+*     V(a, b) += F(a, b) * Hac;
+  } // a
+} // c
+```
+]
+]
+
+---
+
+# Optimization of sum calculation - Vectorization
+
+:arrow_right: Identify vector, matrix and cube operations
+
+`$$
+\color{magenta}{V=0}, \coprod_c\coprod_a\left[\color{magenta}{H^{(ac)}=\sum_d^{(c)}  G^{(ad)}}\right]\color{magenta}{\coprod_b V^{(ab)} \mathrel{+}= F^{(ab)} H^{(ac)}}
+$$`
+
+.row[
+ .column.w48.middle[
+```C++
+//=== Version 4 ===
+
+*for (uint a = 0; a < A; a++)
+* for (uint b = 0; b < B; b++)
+*   V(a, b) = 0.0;
+    
+for (uint c = 0; c < C; c++)
+{
+  for (uint a = 0; a < A; a++)
+  {
+*   double Hac = 0.0;
+*
+*   for (uint d = 0; d < D[c]; d++)
+*     Hac += G(d, a);
+
+*   for (uint b = 0; b < B; b++)
+*     V(a, b) += F(a, b) * Hac;
+  } // a
+} // c
+```
+]
+.column.middle[
+:arrow_right:
+]
+.column.w48.middle[
+```C++
+//=== Version 5 ===
+
+*V = arma::zeros(A, B);
+
+
+
+for (uint c = 0; c < C; c++)
+{
+  for (uint a = 0; a < A; a++)
+  {
+*   double Hac =
+*     arma::sum(G.col(a).rows(0, D[c] - 1));
+
+
+
+*   V.row(a) += F.row(a) * Hac; 
+
+  } // a
+} // c
+```
+]]
+
+---
+
+# Optimization of sum calculation - Speed-up
+
+`$$
+\coprod_a^A\coprod_b^B V[a,b]\equiv \sum_c^C\sum_d^{D(c)}\sum_e^E F[a,b] G[d,e] \delta_{ae}
+$$`
+
+## Initialization
+```C++
+//=== Common initialization ===
+
+uint A = 109;
+uint B = 119;
+uint C = 129;
+arma::ivec D(C);
+
+for (uint c = 0; c < C; c++)
+  D(c) = c + 1;
+
+uint E = A;
+
+arma::mat F;
+F.randu(A, B);
+
+arma::mat G;
+G.randu(D.max(), E);
+
+arma::mat V;
+```
+
+---
+
+# Optimization of sum calculation - Initial execution time
+
+`$$
+\coprod_a^A\coprod_b^B V[a,b]\equiv \sum_c^C\sum_d^{D(c)}\sum_e^E F[a,b] G[d,e] \delta_{ae}
+$$`
+
+## Raw implementation
+
+* `\(\sum\)` and `\(\coprod\)` are replaced by `for` loops
+* `\(\delta_{xy}\)` are replaced by `if` tests
+
+```C++
+//=== Version 0 ===
+
+for (uint a = 0; a < A; a++)
+{
+  for (uint b = 0; b < B; b++)
+  {
+    double sum = 0.0;
+    for (uint c = 0; c < C; c++)
+    {
+      for (uint d = 0; d < D[c]; d++)
+      {
+        for (uint e = 0; e < E; e++)
+        {
+          if (a != e) continue; 
+          sum += F(a, b) * G(d, e);
+        } // e
+      } // d
+    } // c
+    V(a, b) = sum;
+  } // b
+} // a
+```
+.alert.hcenter[**4.7808s**]
+
+---
+
+# Optimization of sum calculation - Remove deltas
+
+## Use `\(\delta_{xy}\)` to remove loops
+
+`$$
+\coprod_a^A\coprod_b^B V[a,b]\equiv \sum_c^C\sum_d^{D(c)}\color{magenta}{\sum_e^E} F[a,b] G[d,e] \color{magenta}{\delta_{ae}}
+$$`
+`$$
+\iff \coprod_a\coprod_b V^{(ab)}= \sum_c\sum_d^{(c)} F^{(ab)} G^{(ad)}
+$$`
+
+.row[
+.column.w48.middle[
+```C++
+//=== Version 0 ===
+
+for (uint a = 0; a < A; a++)
+{
+  for (uint b = 0; b < B; b++)
+  {
+    double sum = 0.0;
+    for (uint c = 0; c < C; c++)
+    {
+      for (uint d = 0; d < D[c]; d++)
+      {
+*       for (uint e = 0; e < E; e++)
+        {
+*         if (a != e) continue; 
+          sum += F(a, b) * G(d, e);
+        } // e
+      } // d
+    } // c
+    V(a, b) = sum;
+  } // b
+} // a
+```
+]
+.column.middle[
+:arrow_right:
+]
+.column.w48.middle[
+```C++
+//=== Version 1 ===
+
+for (uint a = 0; a < A; a++)
+{
+  for (uint b = 0; b < B; b++)
+  {
+    double sum = 0.0;
+    for (uint c = 0; c < C; c++)
+    {
+      for (uint d = 0; d < D(c); d++)
+      {
+
+
+
+        sum += F(a, b) * G(d, a);
+
+      } // d
+    } // c
+    V(a, b) = sum;
+  } // b
+} // a
+```
+]
+]
+.row[
+.column.w48.middle[
+.alert.hcenter[**4.7808s**]
+]
+.column.w48.middle[
+.alert.hcenter[**0.6951s** (speed-up 6.88)]
+]
+]
+
+---
+
+# Optimization of sum calculation - Loop and function order
+
+:arrow_right: Move loops **as deep (right) as possible** (except in this case, see later)
+`$$
+\coprod_a\coprod_b  V^{(ab)} = \color{magenta}{\sum_c}\sum_d^{(c)} F^{(ab)} G^{(ad)}
+$$`
+`$$
+\iff \color{magenta}{V=0}, \color{magenta}{\coprod_c}\coprod_a\coprod_b V^{(ab)} \color{magenta}{\mathrel{+}=} \sum_d^{(c)} F^{(ab)} G^{(ad)}
+$$`
+
+.row[
+.column.w48.middle[
+```C++
+//=== Version 1 ===
+
+for (uint a = 0; a < A; a++)
+{
+  for (uint b = 0; b < B; b++)
+  {
+    double sum = 0.0;
+
+*   for (uint c = 0; c < C; c++)
+    {
+      for (uint d = 0; d < D(c); d++)
+      {
+        sum += F(a, b) * G(d, a);
+      } // d
+    } // c
+
+    V(a, b) = sum;
+  } // b
+} // a
+```
+]
+.column.middle[
+:arrow_right:
+]
+.column.w48.middle[
+```C++
+//=== Version 2 ===
+
+*for (uint a = 0; a < A; a++)
+* for (uint b = 0; b < B; b++)
+*   V(a, b) = 0.0;
+
+*for (uint c = 0; c < C; c++)
+{
+  for (uint a = 0; a < A; a++)
+  {
+    for (uint b = 0; b < B; b++)
+    {
+      for (uint d = 0; d < D(c); d++)
+      {
+*       V(a, b) += F(a, b) * G(d, a);
+      } // d
+    } // b
+  } // a
+} // c
+```
+]
+]
+.row[
+.column.w48.middle[
+.alert.hcenter[**0.6951s**]
+]
+.column.w48.middle[
+.alert.hcenter[**0.4261s** (speed-up 1.63)]
+]
+]
+
+---
+
+# Optimization of sum calculation - Loop and function order
+
+:arrow_right: Move functions **as high (left) as possible**
+`$$
+V=0, \coprod_c\coprod_a\coprod_b V^{(ab)} \mathrel{+}= \sum_d^{(c)} \color{magenta}{F^{(ab)}} G^{(ad)}
+$$`
+
+`$$
+\iff V=0, \coprod_c\coprod_a\coprod_b V^{(ab)} \mathrel{+}= \color{magenta}{F^{(ab)}} \sum_d^{(c)}  G^{(ad)}
+$$`
+
+.row[
+.column.w48.middle[
+```C++
+//=== Version 2 ===
+
+for (uint a = 0; a < A; a++)
+  for (uint b = 0; b < B; b++)
+    V(a, b) = 0.0;
+
+for (uint c = 0; c < C; c++)
+{
+  for (uint a = 0; a < A; a++)
+  {
+    for (uint b = 0; b < B; b++)
+    {
+*     for (uint d = 0; d < D(c); d++)
+*     {
+*       V(a, b) += F(a, b) * G(d, a);
+*     } // d
+    } // b
+  } // a
+} // c
+```
+]
+.column.middle[
+:arrow_right:
+]
+.column.w48.middle[
+```C++
+//=== Version 3 ===
+
+for (uint a = 0; a < A; a++)
+ for (uint b = 0; b < B; b++)
+   V(a, b) = 0.0;
+
+for (uint c = 0; c < C; c++)
+{
+  for (uint a = 0; a < A; a++)
+  {
+    for (uint b = 0; b < B; b++)
+    {
+*     double sum = 0.0;
+*     for (uint d = 0; d < D(c); d++)
+*       sum += G(d, a);
+*     V(a, b) += sum * F(a, b);
+    } // b
+  } // a
+} // c
+```
+]
+]
+.row[
+.column.w48.middle[
+.alert.hcenter[**0.4261s**]
+]
+.column.w48.middle[
+.alert.hcenter[**0.1447s** (speed-up 2.94)]
+]
+]
+
+---
+
+# Optimization of sum calculation - Pre-sum
+
+:arrow_right: Identify pre-summable quantities
+
+`$$
+V=0, \coprod_c\coprod_a\coprod_b V^{(ab)} \mathrel{+}= F^{(ab)} \underbrace{\color{magenta}{\sum_d^{(c)}  G^{(ad)}}}_{H^{(ac)}}
+$$`
+`$$
+\iff V=0, \coprod_c\coprod_a\left[\color{magenta}{H^{(ac)}=\sum_d^{(c)}  G^{(ad)}}\right]\coprod_b V^{(ab)} \mathrel{+}= F^{(ab)} \color{magenta}{H^{(ac)}}
+$$`
+
+.row[
+.column.w48.middle[
+```C++
+//=== Version 3 ===
+
+for (uint a = 0; a < A; a++)
+  for (uint b = 0; b < B; b++)
+    V(a, b) = 0.0;
+
+for (uint c = 0; c < C; c++)
+{
+  for (uint a = 0; a < A; a++)
+  {
+*   for (uint b = 0; b < B; b++)
+*   {
+*     double sum = 0.0;
+*     for (uint d = 0; d < D(c); d++)
+*       sum += G(d, a);
+*     V(a, b) += sum * F(a, b);
+*   } // b
+  } // a
+} // c
+```
+]
+.column.middle[
+:arrow_right:
+]
+.column.w48.middle[
+```C++
+//=== Version 4 ===
+
+for (uint a = 0; a < A; a++)
+  for (uint b = 0; b < B; b++)
+    V(a, b) = 0.0;
+    
+for (uint c = 0; c < C; c++)
+{
+  for (uint a = 0; a < A; a++)
+  {
+*   double Hac = 0.0;
+
+*   for (uint d = 0; d < D[c]; d++)
+*     Hac += G(d, a);
+
+*   for (uint b = 0; b < B; b++)
+*     V(a, b) += F(a, b) * Hac;
+  } // a
+} // c
+```
+]
+]
+.row[
+.column.w48.middle[
+.alert.hcenter[**0.1447s**]
+]
+.column.w48.middle[
+.alert.hcenter[**0.0027s** (speed-up 53.59)]
+]
+]
+
+---
+
+# Optimization of sum calculation - Vectorization
+
+:arrow_right: Identify vector, matrix and cube operations
+
+`$$
+\color{magenta}{V=0}, \coprod_c\coprod_a\left[\color{magenta}{H^{(ac)}=\sum_d^{(c)}  G^{(ad)}}\right]\color{magenta}{\coprod_b V^{(ab)} \mathrel{+}= F^{(ab)} H^{(ac)}}
+$$`
+
+.row[
+ .column.w48.middle[
+```C++
+//=== Version 4 ===
+
+*for (uint a = 0; a < A; a++)
+* for (uint b = 0; b < B; b++)
+*   V(a, b) = 0.0;
+    
+for (uint c = 0; c < C; c++)
+{
+  for (uint a = 0; a < A; a++)
+  {
+*   double Hac = 0.0;
+*
+*   for (uint d = 0; d < D[c]; d++)
+*     Hac += G(d, a);
+
+*   for (uint b = 0; b < B; b++)
+*     V(a, b) += F(a, b) * Hac;
+  } // a
+} // c
+```
+]
+.column.middle[
+:arrow_right:
+]
+.column.w48.middle[
+```C++
+//=== Version 5 ===
+
+*V = arma::zeros(A, B);
+
+for (uint c = 0; c < C; c++)
+{
+  for (uint a = 0; a < A; a++)
+  {
+*   double Hac =
+*     arma::sum(G.col(a).rows(0, D[c] - 1));
+
+*   V.row(a) += F.row(a) * Hac; 
+  } // a
+} // c
+```
+]]
+.row[
+.column.w48.middle[
+.alert.hcenter[**0.0027s**]
+]
+.column.w48.middle[
+.alert.hcenter[**0.0019s** (speed-up 1.42)]
+]
+]
+
+---
+
+# Optimization of sum calculation - Overall speed-up
+
+:arrow_right: Best speed-ups are achieved when **reducing the height of the loop stack**.  
+:arrow_right: There is an important **readability / performance trade-off**.
+
+.row[
+.column.w48.middle[
+```C++
+//=== Version 0 ===
+
+for (uint a = 0; a < A; a++)
+{
+  for (uint b = 0; b < B; b++)
+  {
+    double sum = 0.0;
+    for (uint c = 0; c < C; c++)
+    {
+      for (uint d = 0; d < D[c]; d++)
+      {
+        for (uint e = 0; e < E; e++)
+        {
+          if (a != e) continue; 
+          sum += F(a, b) * G(d, e);
+        } // e
+      } // d
+    } // c
+    V(a, b) = sum;
+  } // b
+} // a
+```
+]
+.column.middle[
+:arrow_right:
+]
+.column.w48.middle[
+```C++
+//=== Version 5 ===
+
+V = arma::zeros(A, B);
+
+for (uint c = 0; c < C; c++)
+{
+  for (uint a = 0; a < A; a++)
+  {
+    double Hac =
+      arma::sum(G.col(a).rows(0, D[c] - 1));
+
+    V.row(a) += F.row(a) * Hac; 
+  } // a
+} // c
+```
+]
+]
+
+.row[
+.column.w48.middle[
+.alert.hcenter[**4.7808s**]
+]
+.column.w48.middle[
+.alert.hcenter[**0.0019s** (speed-up 2516.21)]
+]
+]
+
+---
+
+# Optimization of sum calculation - Other techniques
+
+## Linearization
+
+:arrow_right: Transform multiple simple loops into a single loop.  
+:arrow_right: Use a **simple formula** to calculate the indices.
+
+.row[
+.column.w48.middle[
+```C++
+double sum = 0.0;
+
+for (uint a = 0; a < A; a++)
+for (uint b = 0; b < B; b++)
+{
+  sum += F(a, b); 
+}
+```
+]
+.column.middle[
+:arrow_right:
+]
+.column.w48.middle[
+```C++
+double sum = 0.0;
+
+for (uint i = 0; i < A * B; i++)
+{
+  uint a = i / B;
+  uint b = i - a * B;
+  sum += F(a, b); 
+}
+```
+]
+]
+
+---
+
+# Optimization of sum calculation - Other techniques
+
+## Two-pass linearization
+
+.vspace[]
+
+.block.hcenter[
+.hcenter[When a simple formula to calculate the indices does not exist,]
+.hcenter[:arrow_right: **store the indices**.]
+]
+
+.vspace[]
+
+.row[
+.column.w48.middle[
+```C++
+double sum = 0.0;
+for (uint a = A0;          a < A1;          a++)
+for (uint b = B0(a);       b < B1(a);       b++)
+for (uint c = C0(a, b);    c < C1(a, b);    c++)
+for (uint d = D0(a, b, c); d < D1(a, b, c); d++)
+{
+  sum += F(a, b, c) * G(b, c, d); 
+}
+```
+]
+.column.middle[
+:arrow_right:
+]
+.column.w48.middle[
+```C++
+arma::imat ind(4,0);
+for (uint a = A0;          a < A1;          a++)
+for (uint b = B0(a);       b < B1(a);       b++)
+for (uint c = C0(a, b);    c < C1(a, b);    c++)
+for (uint d = D0(a, b, c); d < D1(a, b, c); d++)
+{
+  arma::ivec v = {a, b, c, d};
+  ind.insert_cols(ind.n_cols, v);
+}
+
+double sum = 0.0;
+for (uint i = 0; i < ind.n_cols; i++)
+  sum += F(ind(0, i), ind(1, i), ind(2, i))
+       * G(ind(1, i), ind(2, i), ind(3, i)); 
+```
+]
+]
+
+## Three-pass
+
+:arrow_right: The same with a fixed size for `ind`, to avoid the costly `.insert_cols()`.
+
+## :warning: Caution with multi-pass techniques
+:warning: This can be useful for the **small**, **deep** loops only. No need to linearize all loops.  
+:arrow_right: To be efficient, it must **factorize some calculations**.
+
+---
+
+# Optimization of sum calculation - Conclusions
+
+.noflex[
+## Remember these points:
+* push the heaviest loops as deep as possible
+* factorize functions when possible
+* **pre-sum** everything ! (if possible)
+* **vectorize** ! (Armadillo, special `asm` instructions, etc...)
+* be smart with the indices (pick-up table, linearization, two-pass, etc...)
+
+:arrow_right: One can do **much better** than the `-O3` flag of the compiler.
+
+.rightf.shadow.w35[
+ ![](images/cpu_cache.png)
+]
+
+## To go further...
+
+* check the data structure alignment
+* explore hardware cache levels optimization
+* look up "cache invalidation"
+* use multi-threading
+* use multi-processing
+* use GPUs
+* use `asm`
+* ...
+]
+
+    </textarea>
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+  </body>
+</html>
+

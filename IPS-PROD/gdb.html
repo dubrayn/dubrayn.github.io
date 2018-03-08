@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IPS-PROD</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`IPS-PROD` - N. Dubray - ENSIIE - 2017 - [:book:](../index.html)
+]
+
+---
+
+# GNU Project Debugger
+
+.hcenter.shadow.w20[![](images/stallman.png)]
+
+## Key points
+
+* written by **Richard Stallman** in 1986
+* official debugger of the GNU system
+* **best symbolic debugger ever**
+* learn `gdb`, use every other debugger
+
+.block[
+* Repository: [https://sourceware.org/git/?p=binutils-gdb.git](https://sourceware.org/git/?p=binutils-gdb.git)
+* Website: [https://www.gnu.org/software/gdb](https://www.gnu.org/software/gdb)
+* License: `GPLv3`
+]
+
+---
+
+# GNU Project Debugger - Introduction
+
+## What is a **good** symbolic debugger ?
+* a program to run and check the execution of another program
+* you can stop the program execution and explore its full state (memory, registers, call stack, threads, etc...)
+* you can **MODIFY** the program state at any time
+* you can **call functions** from your program scope at any time
+* you can **go back in time** in the execution flow
+* you can **see what is actually executed**
+  
+## Some problems that can be solved with a debugger
+* infinite loop ? see why the loop is not finishing
+* crash ? see what happened
+* a line is not executing ? see the program flow
+* a variable has not the expected value ? see how it is calculated
+* etc...
+
+---
+
+class: top
+
+# GNU Project Debugger - Introduction
+
+.hcenter.shadow.w40[
+![](images/dog.png)
+]
+
+## Why not use `printf()` ?
+
+--
+ * to avoid code pollution
+
+--
+ * a debugger can do **much more** than `printf()`
+
+--
+ * you can attach `gdb` to a **running** program !
+
+--
+ * you can debug post-mortem without restarting
+
+--
+ * you will learn from the lower layers (memory, stack, registers, etc...)
+
+--
+ * with `gdb`, no need to recompile and re-run
+
+---
+
+# GNU Project Debugger - Compilation
+
+:arrow_right: Compile to binary objects with the `-g` flag.
+* this will add **debugging symbols** to your binary objects
+
+## .hcenter[test.c]
+```C
+#include "stdlib.h"
+#include "stdio.h"
+
+#define SIZE 3
+
+int main(int argc, char **argv)
+{
+  int* table = (int*)malloc(sizeof(int) * SIZE);
+
+  for (int i = 0; i < SIZE; i++)
+  {
+    table[i] = i;
+  }
+
+  for (int i = 0; i < SIZE; i++)
+  {
+    printf("table[%d]=%d\n", i, table[i]);
+  }
+
+  free(table);
+
+  return 0;
+}
+```
+
+---
+
+# GNU Project Debugger - Debugging symbols
+
+.row[
+.column.w48[
+
+## .hcenter[Shell session]
+```shell
+$ gcc -c test.c
+$ nm -a test.o
+0000000000000000 b .bss
+0000000000000000 n .comment
+0000000000000000 d .data
+0000000000000000 r .eh_frame
+                 U free
+                 U _GLOBAL_OFFSET_TABLE_
+0000000000000000 T main
+                 U malloc
+0000000000000000 n .note.GNU-stack
+                 U printf
+0000000000000000 r .rodata
+0000000000000000 a test.c
+0000000000000000 t .text
+```
+]
+
+.column.w48[
+
+## .hcenter[Shell session]
+```shell
+$ gcc -c -g test.c
+$ nm -a test.o
+0000000000000000 b .bss
+0000000000000000 n .comment
+0000000000000000 d .data
+*0000000000000000 N .debug_abbrev
+*0000000000000000 N .debug_aranges
+*0000000000000000 N .debug_info
+*0000000000000000 N .debug_line
+*0000000000000000 N .debug_str
+0000000000000000 r .eh_frame
+                 U free
+                 U _GLOBAL_OFFSET_TABLE_
+0000000000000000 T main
+                 U malloc
+0000000000000000 n .note.GNU-stack
+                 U printf
+0000000000000000 r .rodata
+0000000000000000 a test.c
+0000000000000000 t .text
+```
+]
+]
+
+---
+
+# GNU Project Debugger - Loading a binary
+
+## .hcenter[Shell session]
+```shell
+$ gcc -c -g test.c
+$ gcc test.o -o test
+*$ gdb test
+GNU gdb (Ubuntu 7.12.50.20170314-0ubuntu1.1) 7.12.50.20170314-git
+Copyright (C) 2017 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from test...done.
+(gdb) 
+```
+
+## .hcenter[Shell session]
+```shell
+$ gcc -c -g test.c
+$ gcc test.o -o test
+*$ gdb -q test
+Reading symbols from test...done.
+(gdb) 
+```
+
+---
+
+# GNU Project Debugger - Loading a binary
+
+## .hcenter[Shell session]
+```shell
+$ gcc -c -g test.c
+$ gcc test.o -o test
+$ gdb -q
+*(gdb) file test
+Reading symbols from test...done.
+(gdb) 
+```
+
+## .hcenter[Shell session]
+```shell
+*$ gcc -c test.c
+$ gcc test.o -o test
+$ gdb -q
+(gdb) file test
+*Reading symbols from test...(no debugging symbols found)...done.
+(gdb) 
+```
+
+:arrow_right: `gdb` can work without debugging symbols... but can You ? 
+
+---
+
+# GNU Project Debugger - Launching a program
+
+## Run with arguments
+```shell
+(gdb) file test
+Reading symbols from test...done.
+*(gdb) run -h --help --please --pleasehelpme 
+Starting program: /home/dubrayn/temp/ensiie/lectures/tools/gdb/test -h --help --please --pleasehelpme
+table[0]=0
+table[1]=1
+table[2]=2
+[Inferior 1 (process 9109) exited normally]
+(gdb)
+```
+
+## Run without arguments and break at `main()`
+```shell
+(gdb) file test
+Reading symbols from test...done.
+*(gdb) start
+Temporary breakpoint 1 at 0x72f: file test.c, line 8.
+Starting program: /home/dubrayn/temp/ensiie/lectures/tools/gdb/test 
+
+Temporary breakpoint 1, main (argc=1, argv=0x7fffffffe548) at test.c:8
+8         int* table = (int*)malloc(sizeof(int) * SIZE);
+(gdb)
+```
+
+## Run with arguments and break at `main()`
+```shell
+(gdb) file test
+Reading symbols from test...done.
+*(gdb) set args -h --help --please --pleasehelpme
+*(gdb) start
+Temporary breakpoint 1 at 0x72f: file test.c, line 8.
+Starting program: /home/dubrayn/temp/ensiie/lectures/tools/gdb/test -h --help --please --pleasehelpme
+
+Temporary breakpoint 1, main (argc=1, argv=0x7fffffffe548) at test.c:8
+8         int* table = (int*)malloc(sizeof(int) * SIZE);
+(gdb)
+```
+
+---
+
+# GNU Project Debugger - Running environment
+
+## Show arguments
+```shell
+(gdb) file test
+Reading symbols from test...done.
+(gdb) run 1 -2 --3 4
+Starting program: /home/dubrayn/temp/ensiie/lectures/tools/gdb/test 1 -2 --3 4
+table[0]=0
+table[1]=1
+table[2]=2
+[Inferior 1 (process 9109) exited normally]
+*(gdb) show args
+Argument list to give program being debugged when it is started is "1 -2 --3 4".
+(gdb)
+```
+
+## Show and set environment variables
+```shell
+(gdb) file test
+Reading symbols from test...done.
+*(gdb) show environment
+[...]
+SHELL_SESSION_ID=40fbec4f88ec4e3da8d0ae5adcdb501f
+COLORTERM=truecolor
+USERNAME=dubrayn
+[...]
+*(gdb) show environment SHELL
+SHELL = /bin/bash
+*(gdb) set environment SHELL /bin/false
+*(gdb) show environment SHELL
+SHELL = /bin/false
+```
+
+---
+
+# GNU Project Debugger - Source
+
+## List the current source line and its surroundings
+```shell
+(gdb) file test
+Reading symbols from test...done.
+(gdb) start
+Temporary breakpoint 1 at 0x72f: file test.c, line 8.
+Starting program: /home/dubrayn/temp/ensiie/lectures/tools/gdb/test 
+
+Temporary breakpoint 1, main (argc=1, argv=0x7fffffffe548) at test.c:8
+8         int* table = (int*)malloc(sizeof(int) * SIZE);
+*(gdb) list
+3
+4       #define SIZE 3
+5
+6       int main(int argc, char **argv)
+7       {
+8         int* table = (int*)malloc(sizeof(int) * SIZE);
+9
+10        for (int i = 0; i < SIZE; i++)
+11        {
+12          table[i] = i;
+```
+
+---
+
+# GNU Project Debugger - Machine code
+
+## Disassemble the current function and show the current instruction
+```shell
+(gdb) file test
+Reading symbols from test...done.
+(gdb) start
+Temporary breakpoint 4 at 0x55555555472f: file test.c, line 8.
+Starting program: /home/dubrayn/temp/ensiie/lectures/tools/gdb/test 
+
+Temporary breakpoint 4, main (argc=1, argv=0x7fffffffe548) at test.c:8
+8         int* table = (int*)malloc(sizeof(int) * SIZE);
+*(gdb) disassemble
+Dump of assembler code for function main:
+   0x0000555555554720 <+0>:     push   %rbp
+   0x0000555555554721 <+1>:     mov    %rsp,%rbp
+   0x0000555555554724 <+4>:     sub    $0x20,%rsp
+   0x0000555555554728 <+8>:     mov    %edi,-0x14(%rbp)
+   0x000055555555472b <+11>:    mov    %rsi,-0x20(%rbp)
+=> 0x000055555555472f <+15>:    mov    $0xc,%edi
+   0x0000555555554734 <+20>:    callq  0x5555555545e0
+   0x0000555555554739 <+25>:    mov    %rax,-0x8(%rbp)
+   0x000055555555473d <+29>:    movl   $0x0,-0x10(%rbp)
+   0x0000555555554744 <+36>:    jmp    0x555555554763 <main+67>
+   0x0000555555554746 <+38>:    mov    -0x10(%rbp),%eax
+   0x0000555555554749 <+41>:    cltq   
+   0x000055555555474b <+43>:    lea    0x0(,%rax,4),%rdx
+   0x0000555555554753 <+51>:    mov    -0x8(%rbp),%rax
+   0x0000555555554757 <+55>:    add    %rax,%rdx
+
+[...]
+
+   0x00005555555547af <+143>:   callq  0x5555555545d0
+   0x00005555555547b4 <+148>:   mov    $0x0,%eax
+   0x00005555555547b9 <+153>:   leaveq 
+   0x00005555555547ba <+154>:   retq   
+End of assembler dump.
+(gdb)
+```
+
+---
+
+# GNU Project Debugger - Main commands
+
+## Execution flow control
+* `start`: start the program execution and break at `main()`
+* `run args`: restart the program execution with arguments `args`
+* `kill`: stop the program execution
+* `step`: execute until next line of code, go deeper if needed (and possible)
+* `stepi`: execute next machine instruction, go deeper if needed (and possible)
+* `next`: execute until next line of code, do not go deeper
+* `nexti`: execute next machine instruction, do not go deeper
+* `finish`: execute until exiting the current function
+* `continue`: continue the program execution
+
+## Breakpoints
+* `break loc`: set a **breakpoint** at location `loc`
+* `clear loc`: remove a breakpoint at location `loc`
+* `info breakpoints`: print the list of breakpoints and watchpoints
+* `delete id`: delete the breakpoint or watchpoint `id`
+
+---
+
+# GNU Project Debugger - Core dump
+
+:arrow_right: An "image" of the state of a program at a given moment in time,
+that allows to perform (among other things) a **post-mortem analysis** of a crash.
+
+## Activate core dump at segfault
+
+```shell
+$ ulimit -c
+0
+*$ ulimit -c unlimited
+$ ulimit -c
+unlimited
+```
+
+## Dump core at segfault and analyse with `gdb`
+
+.row[
+.column.w30[
+## .hcenter[`segfault.c`]
+```C
+#include "stdlib.h"
+
+void main(void)
+{
+  int *p = NULL;
+  *p = 0;
+}
+```
+]
+
+.column.w65[
+## .hcenter[Shell session]
+```shell
+$ gcc -c -g segfault.c
+$ gcc segfault.o -o segfault
+$ ./segfault
+*Segmentation fault (core dumped)
+*$ gdb -q segfault core.8840
+Reading symbols from segfault...done.
+[New LWP 9812]
+Core was generated by `./segfault'.
+Program terminated with signal SIGSEGV, Segmentation fault.
+#0  0x00000000004005c8 in main () at segfault.c:6
+6         *p = 0;
+(gdb)
+```
+]
+]
+
+---
+
+# GNU Project Debugger - Call stack / variables
+
+<div data-dir='scripts/toto2' class='cinescript'></div>
+
+---
+
+# GNU Project Debugger - Call stack / variables
+
+:arrow_right: The **call stack** is a stack of **frames**. When following a `call` command,
+a new frame is added on top of the existing ones. Each **frame** contains local variables,
+function arguments and the local address pointer.  
+
+## Manipulate frames
+* `backtrace`: print the call stack
+* `backtrace full`: print the full call stack (print variables, arguments...)
+* `frame`: select a frame
+* `up`: got one frame up in the call stack
+* `down`: got one frame down in the call stack
+
+## Print variables / expressions
+* `print expr`: evaluate and print `expr`
+* `print/x expr`: evaluate and print `expr` in hexadecimal format
+* `print * addr`: print the value located at `addr` address
+* `display expr`: evaluate and print `expr` at each break
+* `undisplay nb`: cancel display number `nb`
+
+---
+
+# GNU Project Debugger - Watchpoints
+
+:arrow_right: Stop the program when a variable, expression or part of memory changes.
+
+## Commands to manipulate watchpoints
+* `watch expr`: break if `expr` change, **even if it is not defined yet**
+* `info watchpoints`: print the list of watchpoints
+* `delete id`: delete the breakpoint or watchpoint `id`
+
+---
+
+# GNU Project Debugger - Program scope modification
+
+## .hcenter[:warning: These commands will alter the "normal" execution of the program :warning:]
+
+## Change program variables
+* `set variable v = expr`: evaluate `expr` and assign its value to the variable `v`
+
+## Call a function 
+* `call func(...)`: call function `func` in the program scope
+
+## Return from a function
+* `return`: return to the calling function **now**
+
+---
+
+# GNU Project Debugger - Conditional breakpoint
+
+:arrow_right: Allows to break only if a given condition is verified.
+
+## Add a condition to a breakpoint
+* `condition id cond`: add `cond` condition to the breakpoint `id`
+
+## .hcenter[Example `gdb` session]
+```text
+(gdb) file test
+Reading symbols from test...done.
+(gdb) start
+Temporary breakpoint 1 at 0x4006a7: file test.c, line 8.
+Starting program: /home/dubrayn/temp/ensiie/lectures/tools/gdb/test
+
+Temporary breakpoint 1, main (argc=1, argv=0x7fffffffd7c8) at test.c:8
+8         int* table = (int*)malloc(sizeof(int) * SIZE);
+(gdb) break 12
+Breakpoint 3 at 0x4006be: file test.c, line 12.
+*(gdb) condition 3 i > 1
+(gdb) continue
+Continuing.
+
+Breakpoint 3, main (argc=1, argv=0x7fffffffd7c8) at test.c:12
+12          table[i] = i;
+(gdb) print i
+*$1 = 2
+```
+
+---
+
+# GNU Project Debugger - Thread debugging
+
+:arrow_right: Threads can be easily debugged with `gdb`.
+
+## Threads-related commands
+* `thread id`: switch to thread `id`
+* `info threads`: show existing threads
+* `thread apply [thread-id-list] [all] cmd`: apply `cmd` to a list of threads
+
+## Armadillo threads ?
+* the Armadillo library uses the `BLAS` library, which can spawn threads
+
+:arrow_right: Use the environment variable `OPENBLAS_NUM_THREADS` to control the number of threads used by `OpenBLAS`.
+
+## .hcenter[Shell session]
+```shell
+$ export OPENBLAS_NUM_THREADS=1 # no thread spawning
+$ export OPENBLAS_NUM_THREADS=$(nproc) # full throttle !!!
+```
+
+---
+
+# GNU Project Debugger - Conque-GDB vim addon
+
+<div data-dir='scripts/toto' class='cinescript'></div>
+
+---
+
+# GNU Project Debugger - Qt-Creator
+
+.hcenter.shadow.w100[![](images/qt-creator.png)]
+
+---
+
+# GNU Project Debugger - Reverse debugging
+
+.hcenter.shadow.w40[![](images/future.png)]
+
+:arrow_right: Record the full program state and **go back and forth in time** !
+
+## Commands **to go back in time**
+* `record`: start the recording of the program state
+* `reverse-continue`: continue **backwards**
+* `reverse-finish`: continue backwards until the lower frame
+* `reverse-step`: go back to the previous line, go deeper if needed
+* `reverse-stepi`: go back to the previous machine instruction, go deeper if needed
+* `reverse-next`: go back to the previous line, do not go deeper
+* `reverse-nexti`: go back to the previous machine instruction, do not go deeper
+* `set exec-direction (forward/reverse)`: set direction of execution for `next`, `step`, etc...
+
+---
+
+# GNU Project Debugger - Reverse debugging
+
+<div data-dir='scripts/toto3' class='cinescript'></div>
+
+---
+
+# GNU Project Debugger - Conclusions
+
+## About `gdb`
+
+:+: **best debugger ever**  
+:warning: CLI interface **might be** hard to grasp  
+:warning: several commands to remember  
+:+: the debugging workflow is **almost the same** in every other debugger  
+:+: if `gdb` is often used "below" a nice GUI, why use a GUI ?  
+
+## About debugging
+:+: no more `printf()` !!!  
+:+: gain some knowledge about the lower layers (stack, cache, register, etc...)  
+:+: do not trust your compiler, check the generated code (and learn ASM)  
+:+: "A segfault ? Yes ! Time to play with `gdb` !"  
+
+.hcenter.w90[![](images/xkcd_371.png)]
+.hcenter[[source: xkcd](https://xkcd.com/371)]
+
+    </textarea>
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+  </body>
+</html>
+

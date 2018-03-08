@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IPS-PROD</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`IPS-PROD` - N. Dubray - ENSIIE - 2017 - [:book:](../index.html)
+]
+
+---
+
+# Valgrind
+
+## Key points
+
+* `Valgrind` is a **virtual machine**
+* it uses JIT compilation techniques
+* it allows to easily instrument binary code (with or without debug symbols)
+* there is no need to source access nor recompilation
+* it provides different tools for binary code profiling
+* it is language-agnostic
+* it has a **huge impact** on execution times (x20)
+
+## Tools provided
+* `Memcheck`: default tool, checks validity, adressability, memory leaks...
+* `None`: get the traceback of a segfault
+* `Helrind`: detects race conditions in multithreaded code
+* `Callgrind`: logs and profiles the function call tree
+* `Cachegrind`: profiles cache use
+* `exp-sgcheck`, `exp-dhat`, `exp-bbv`, etc...
+
+.block[
+* Repository: [https://sourceware.org/git/?p=valgrind.git](https://sourceware.org/git/?p=valgrind.git)
+* Website: [http://valgrind.org](http://valgrind.org)
+* License: `GPLv2`
+]
+
+---
+
+# Valgrind - Memcheck example
+
+## .hcenter[test.c]
+```C
+#include "stdlib.h"
+#include "stdio.h"
+
+#define SIZE 3
+
+int main(int argc, char **argv)
+{
+  int* table = (int*)malloc(sizeof(int) * SIZE);
+
+  for (int i = 0; i < SIZE; i++)
+  {
+    table[i] = i;
+  }
+
+  for (int i = 0; i <= SIZE; i++)
+  {
+    printf("table[%d]=%d\n", i, table[i]);
+  }
+
+  return 0;
+}
+```
+
+## .hcenter[Shell session]
+```shell
+$ gcc test.c -o test
+$ ./test
+table[0]=0
+table[1]=1
+table[2]=2
+table[3]=0
+```
+
+---
+
+# Valgrind - Memcheck example
+
+## .hcenter[Shell session]
+```shell
+$ valgrind ./test
+==6434== Memcheck, a memory error detector
+==6434== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==6434== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
+==6434== Command: ./test
+==6434== 
+*table[0]=0
+*table[1]=1
+*table[2]=2
+==6434== Invalid read of size 4
+==6434==    at 0x108756: main (in /home/dubrayn/temp/ensiie/lectures/tools/gdb/test)
+==6434==  Address 0x520104c is 0 bytes after a block of size 12 alloc'd
+==6434==    at 0x4C2DB2F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==6434==    by 0x108708: main (in /home/dubrayn/temp/ensiie/lectures/tools/gdb/test)
+==6434== 
+*table[3]=0
+==6434== 
+==6434== HEAP SUMMARY:
+==6434==     in use at exit: 12 bytes in 1 blocks
+==6434==   total heap usage: 2 allocs, 1 frees, 1,036 bytes allocated
+==6434== 
+==6434== LEAK SUMMARY:
+==6434==    definitely lost: 12 bytes in 1 blocks
+==6434==    indirectly lost: 0 bytes in 0 blocks
+==6434==      possibly lost: 0 bytes in 0 blocks
+==6434==    still reachable: 0 bytes in 0 blocks
+==6434==         suppressed: 0 bytes in 0 blocks
+==6434== Rerun with --leak-check=full to see details of leaked memory
+==6434== 
+==6434== For counts of detected and suppressed errors, rerun with: -v
+==6434== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+```
+
+---
+
+# Valgrind - Memcheck example
+
+## .hcenter[Shell session]
+```shell
+$ valgrind ./test
+==6434== Memcheck, a memory error detector
+==6434== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==6434== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
+==6434== Command: ./test
+==6434== 
+table[0]=0
+table[1]=1
+table[2]=2
+==6434== Invalid read of size 4
+==6434==    at 0x108756: main (in /home/dubrayn/temp/ensiie/lectures/tools/gdb/test)
+==6434==  Address 0x520104c is 0 bytes after a block of size 12 alloc'd
+==6434==    at 0x4C2DB2F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==6434==    by 0x108708: main (in /home/dubrayn/temp/ensiie/lectures/tools/gdb/test)
+==6434== 
+table[3]=0
+==6434== 
+==6434== HEAP SUMMARY:
+==6434==     in use at exit: 12 bytes in 1 blocks
+==6434==   total heap usage: 2 allocs, 1 frees, 1,036 bytes allocated
+==6434== 
+==6434== LEAK SUMMARY:
+==6434==    definitely lost: 12 bytes in 1 blocks
+==6434==    indirectly lost: 0 bytes in 0 blocks
+==6434==      possibly lost: 0 bytes in 0 blocks
+==6434==    still reachable: 0 bytes in 0 blocks
+==6434==         suppressed: 0 bytes in 0 blocks
+==6434== Rerun with --leak-check=full to see details of leaked memory
+==6434== 
+==6434== For counts of detected and suppressed errors, rerun with: -v
+*==6434== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+```
+
+---
+
+# Valgrind - Memcheck example
+
+## .hcenter[Shell session]
+```shell
+$ valgrind ./test
+==6434== Memcheck, a memory error detector
+==6434== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==6434== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
+==6434== Command: ./test
+==6434== 
+table[0]=0
+table[1]=1
+table[2]=2
+*==6434== Invalid read of size 4
+*==6434==    at 0x108756: main (in /home/dubrayn/temp/ensiie/lectures/tools/gdb/test)
+*==6434==  Address 0x520104c is 0 bytes after a block of size 12 alloc'd
+*==6434==    at 0x4C2DB2F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+*==6434==    by 0x108708: main (in /home/dubrayn/temp/ensiie/lectures/tools/gdb/test)
+==6434== 
+table[3]=0
+==6434== 
+==6434== HEAP SUMMARY:
+==6434==     in use at exit: 12 bytes in 1 blocks
+==6434==   total heap usage: 2 allocs, 1 frees, 1,036 bytes allocated
+==6434== 
+==6434== LEAK SUMMARY:
+==6434==    definitely lost: 12 bytes in 1 blocks
+==6434==    indirectly lost: 0 bytes in 0 blocks
+==6434==      possibly lost: 0 bytes in 0 blocks
+==6434==    still reachable: 0 bytes in 0 blocks
+==6434==         suppressed: 0 bytes in 0 blocks
+==6434== Rerun with --leak-check=full to see details of leaked memory
+==6434== 
+==6434== For counts of detected and suppressed errors, rerun with: -v
+==6434== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+```
+
+---
+
+# Valgrind - Memcheck example
+
+## .hcenter[Shell session]
+```shell
+$ valgrind ./test
+==6434== Memcheck, a memory error detector
+==6434== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==6434== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
+==6434== Command: ./test
+==6434== 
+table[0]=0
+table[1]=1
+table[2]=2
+==6434== Invalid read of size 4
+==6434==    at 0x108756: main (in /home/dubrayn/temp/ensiie/lectures/tools/gdb/test)
+==6434==  Address 0x520104c is 0 bytes after a block of size 12 alloc'd
+==6434==    at 0x4C2DB2F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==6434==    by 0x108708: main (in /home/dubrayn/temp/ensiie/lectures/tools/gdb/test)
+==6434== 
+table[3]=0
+==6434== 
+==6434== HEAP SUMMARY:
+*==6434==     in use at exit: 12 bytes in 1 blocks
+==6434==   total heap usage: 2 allocs, 1 frees, 1,036 bytes allocated
+==6434== 
+==6434== LEAK SUMMARY:
+*==6434==    definitely lost: 12 bytes in 1 blocks
+==6434==    indirectly lost: 0 bytes in 0 blocks
+==6434==      possibly lost: 0 bytes in 0 blocks
+==6434==    still reachable: 0 bytes in 0 blocks
+==6434==         suppressed: 0 bytes in 0 blocks
+==6434== Rerun with --leak-check=full to see details of leaked memory
+==6434== 
+==6434== For counts of detected and suppressed errors, rerun with: -v
+==6434== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+```
+
+---
+
+# Valgrind - Memcheck example
+
+## .hcenter[test.c]
+```C
+#include "stdlib.h"
+#include "stdio.h"
+
+#define SIZE 3
+
+int main(int argc, char **argv)
+{
+  int* table = (int*)malloc(sizeof(int) * SIZE);
+
+  for (int i = 0; i < SIZE; i++)
+  {
+    table[i] = i;
+  }
+
+  for (int i = 0; i <= SIZE; i++)
+  {
+    printf("table[%d]=%d\n", i, table[i]);
+  }
+
+  return 0;
+}
+```
+
+## .hcenter[Shell session]
+```shell
+*$ gcc -g test.c -o test
+$ ./test
+table[0]=0
+table[1]=1
+table[2]=2
+table[3]=0
+```
+
+---
+
+# Valgrind - Memcheck example
+
+## .hcenter[Shell session]
+
+```shell
+$ valgrind ./test
+=6522== Memcheck, a memory error detector
+==6522== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==6522== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
+==6522== Command: ./test
+==6522== 
+table[0]=0
+table[1]=1
+table[2]=2
+==6522== Invalid read of size 4
+*==6522==    at 0x108756: main (test.c:17)
+==6522==  Address 0x520104c is 0 bytes after a block of size 12 alloc'd
+==6522==    at 0x4C2DB2F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==6522==    by 0x108708: main (test.c:8)
+==6522== 
+table[3]=0
+==6522== 
+==6522== HEAP SUMMARY:
+==6522==     in use at exit: 12 bytes in 1 blocks
+==6522==   total heap usage: 2 allocs, 1 frees, 1,036 bytes allocated
+==6522== 
+==6522== LEAK SUMMARY:
+==6522==    definitely lost: 12 bytes in 1 blocks
+==6522==    indirectly lost: 0 bytes in 0 blocks
+==6522==      possibly lost: 0 bytes in 0 blocks
+==6522==    still reachable: 0 bytes in 0 blocks
+==6522==         suppressed: 0 bytes in 0 blocks
+==6522== Rerun with --leak-check=full to see details of leaked memory
+==6522== 
+==6522== For counts of detected and suppressed errors, rerun with: -v
+==6522== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+```
+
+---
+
+# Valgrind - Memcheck example
+
+## .hcenter[test.c]
+```C
+#include "stdlib.h"
+#include "stdio.h"
+
+#define SIZE 3
+
+int main(int argc, char **argv)
+{
+  int* table = (int*)malloc(sizeof(int) * SIZE);
+
+  for (int i = 0; i < SIZE; i++)
+  {
+    table[i] = i;
+  }
+
+  for (int i = 0; i <= SIZE; i++)
+  {
+*   printf("table[%d]=%d\n", i, table[i]);
+  }
+
+  return 0;
+}
+```
+
+## .hcenter[Shell session]
+```shell
+$ gcc -g test.c -o test
+$ ./test
+table[0]=0
+table[1]=1
+table[2]=2
+table[3]=0
+```
+
+---
+
+# Valgrind - Memcheck example
+
+## .hcenter[Shell session]
+
+```shell
+$ valgrind ./test
+=6522== Memcheck, a memory error detector
+==6522== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==6522== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
+==6522== Command: ./test
+==6522== 
+table[0]=0
+table[1]=1
+table[2]=2
+==6522== Invalid read of size 4
+==6522==    at 0x108756: main (test.c:17)
+==6522==  Address 0x520104c is 0 bytes after a block of size 12 alloc'd
+==6522==    at 0x4C2DB2F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==6522==    by 0x108708: main (test.c:8)
+==6522== 
+table[3]=0
+==6522== 
+==6522== HEAP SUMMARY:
+==6522==     in use at exit: 12 bytes in 1 blocks
+==6522==   total heap usage: 2 allocs, 1 frees, 1,036 bytes allocated
+==6522== 
+==6522== LEAK SUMMARY:
+==6522==    definitely lost: 12 bytes in 1 blocks
+==6522==    indirectly lost: 0 bytes in 0 blocks
+==6522==      possibly lost: 0 bytes in 0 blocks
+==6522==    still reachable: 0 bytes in 0 blocks
+==6522==         suppressed: 0 bytes in 0 blocks
+*==6522== Rerun with --leak-check=full to see details of leaked memory
+==6522== 
+==6522== For counts of detected and suppressed errors, rerun with: -v
+==6522== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+```
+
+---
+
+# Valgrind - Memcheck example
+
+## .hcenter[Shell session]
+
+```shell
+*$ valgrind --leak-check=full ./test
+==6554== Memcheck, a memory error detector
+==6554== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==6554== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
+==6554== Command: ./test
+==6554== 
+table[0]=0
+table[1]=1
+table[2]=2
+==6554== Invalid read of size 4
+==6554==    at 0x108756: main (test.c:17)
+==6554==  Address 0x520104c is 0 bytes after a block of size 12 alloc'd
+==6554==    at 0x4C2DB2F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==6554==    by 0x108708: main (test.c:8)
+==6554== 
+table[3]=0
+==6554== 
+==6554== HEAP SUMMARY:
+==6554==     in use at exit: 12 bytes in 1 blocks
+==6554==   total heap usage: 2 allocs, 1 frees, 1,036 bytes allocated
+==6554== 
+*==6554== 12 bytes in 1 blocks are definitely lost in loss record 1 of 1
+*==6554==    at 0x4C2DB2F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+*==6554==    by 0x108708: main (test.c:8)
+==6554== 
+==6554== LEAK SUMMARY:
+==6554==    definitely lost: 12 bytes in 1 blocks
+==6554==    indirectly lost: 0 bytes in 0 blocks
+==6554==      possibly lost: 0 bytes in 0 blocks
+==6554==    still reachable: 0 bytes in 0 blocks
+==6554==         suppressed: 0 bytes in 0 blocks
+==6554== 
+==6554== For counts of detected and suppressed errors, rerun with: -v
+==6554== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+```
+
+---
+
+# Valgrind - Memcheck example
+
+## .hcenter[test.c]
+```C
+#include "stdlib.h"
+#include "stdio.h"
+
+#define SIZE 3
+
+int main(int argc, char **argv)
+{
+* int* table = (int*)malloc(sizeof(int) * SIZE);
+
+  for (int i = 0; i < SIZE; i++)
+  {
+    table[i] = i;
+  }
+
+  for (int i = 0; i <= SIZE; i++)
+  {
+    printf("table[%d]=%d\n", i, table[i]);
+  }
+
+  return 0;
+}
+```
+
+## .hcenter[Shell session]
+```shell
+$ gcc -g test.c -o test
+$ ./test
+table[0]=0
+table[1]=1
+table[2]=2
+table[3]=0
+```
+
+---
+
+# Valgrind - Memcheck example
+
+## .hcenter[test.c]
+```C
+#include "stdlib.h"
+#include "stdio.h"
+
+#define SIZE 3
+
+int main(int argc, char **argv)
+{
+  int* table = (int*)malloc(sizeof(int) * SIZE);
+
+  for (int i = 0; i < SIZE; i++)
+  {
+    table[i] = i;
+  }
+
+* for (int i = 0; i < SIZE; i++)
+  {
+    printf("table[%d]=%d\n", i, table[i]);
+  }
+
+* free(table);
+
+  return 0;
+}
+```
+
+## .hcenter[Shell session]
+```shell
+$ gcc -g test.c -o test
+$ ./test
+table[0]=0
+table[1]=1
+table[2]=2
+```
+
+---
+
+# Valgrind - Memcheck example
+
+## .hcenter[Shell session]
+
+```shell
+$ valgrind ./test
+==6614== Memcheck, a memory error detector
+==6614== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==6614== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
+==6614== Command: ./test
+==6614== 
+table[0]=0
+table[1]=1
+table[2]=2
+==6614== 
+==6614== HEAP SUMMARY:
+*==6614==     in use at exit: 0 bytes in 0 blocks
+==6614==   total heap usage: 2 allocs, 2 frees, 1,036 bytes allocated
+==6614== 
+*==6614== All heap blocks were freed -- no leaks are possible
+==6614== 
+==6614== For counts of detected and suppressed errors, rerun with: -v
+*==6614== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+```
+
+## Other detectable bugs
+* use of uninitialized values (with `--track-origins=yes`)
+* declaration of unused variables
+* invalid write
+* use of free'd resource
+
+---
+
+# Valgrind - Conclusions
+
+:+: can easily locate some common (but specific) bugs  
+:+: no need to recompile  
+:+: no need to have source access  
+:+: can be used everywhere (CLI)  
+:warning: can not detect everything (static array overflow...)  
+:warning: huge impact on performances  
+:warning: slightly verbose ?  
+
+:arrow_right: **My advice:** Strange bug ? Segfault ? Unexpected behavior ? **Valgrind !!!** No excuse.  
+
+.hcenter.w90[![](images/xkcd_722.png)]
+.hcenter[[source: xkcd](https://xkcd.com/722)]
+
+:arrow_right: Nothing visible with **Valgrind** ? Time to move to... **GDB** !
+
+    </textarea>
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+  </body>
+</html>
+
