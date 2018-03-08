@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IPS-DEV</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`IPS-DEV` - N. Dubray - ENSIIE - 2017 - [:book:](../index.html)
+]
+
+---
+
+# Gaussian-type quadratures
+
+.hcenter.shadow.w20[![](images/carl_gauss.png)]
+
+## Main author
+* Carl Friedrich Gauss (30/04/1777 - 23/02/1855)
+
+## Quadrature rule
+* allows to approximate the definite integral of a function
+* usual form:
+
+`$$\int_{-1}^1 f(x) dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
+---
+
+# Exact Gauss quadrature
+
+## `\(n\)`-point gaussian quadrature rule
+
+ * allows to calculate **exactly** the integral of polynomials of degree `\(2n-1\)` or less.
+
+`$$\textrm{If }\deg{(P(x)}) \le 2n-1,$$`
+`$$\int_{-1}^1 P(x) dx = \sum_{i=0}^{n-1}w_iP(x_i).$$`
+
+ * if `\(f(x)\)` is well approximated by a polynomial function on the `\([-1, 1]\)` range,
+the quadrature gives a good approximation of the definite integral.
+
+
+---
+
+# Generalization
+
+## Weight function
+
+ * If the approximated function can be written as
+`$$f(x)=\omega(x)g(x)$$`
+with `\(g(x)\)` a function well approximated by a polynomial and `\(\omega(x)\)` a known function (called **weight function**), then
+`$$\int_{-1}^1 f(x) dx = \int_{-1}^1 \omega(x)g(x) dx \simeq \sum_{i=0}^{n-1}w'_ig(x'_i)$$`
+may give a good approximation of the definite integral.
+
+
+## Other integration intervals
+
+ * The integration interval can also be generalized to other intervals, like `\([a,b]\)`, `\((a,b)\)` or `\((-\infty,b]\)`.
+
+## General form
+
+`$$\int_{a}^b \omega(x)g(x) dx \simeq \sum_{i=0}^{n-1}w^\omega_ig(x^\omega_i)$$`
+
+---
+
+# Nodes and weights
+
+## Definitions
+ * node `\(x^\omega_i\)` is the `\(i\)`-th root of the specific associated polynomial of the quadrature rule `\(P^\omega_n(x)\)` of degree `\(n\)`:
+`$$P^\omega_n(x^\omega_i)=0.$$`
+ * weight `\(w^\omega_i\)` is then defined as
+`$$w^\omega_{i} \equiv \frac{a_{n}}{a_{n-1}}\frac{\int_{a}^{b}\omega(x)P^\omega_{n-1}(x)^{2}dx}{\frac{dP^\omega_{n}}{dx}(x^\omega_{i})P^\omega_{n-1}(x^\omega_{i})}$$`
+where `\(a_k\)` is the coefficient of `\(x^k\)` in `\(P^\omega_k(x)\)`.
+
+## Usage
+ * the `\(\{x^\omega_i\}\)` and `\(\{w^\omega_i\}\)` values are either
+  * calculated using a three-term recurrence relation and a specific algorithm (e.g. Golub-Welsh)
+  * numerically solved using an analytic software (e.g. [Maxima](http://maxima.sourceforge.net))
+  * copied from tabulated values (e.g. [http://vixra.org/pdf/1303.0013v1.pdf](http://vixra.org/pdf/1303.0013v1.pdf))
+  * retrieved from scientific libraries (e.g. `Boost` for C++ or `Numpy` for Python)
+
+---
+
+# Common weight functions and intervals
+
+`$$\int_{a}^b \omega(x)g(x) dx \simeq \sum_{i=0}^{n-1}w^\omega_ig(x^\omega_i)$$`
+
+.hcenter[
+| `\(a\)`       | `\(b\)`       | `\(\omega(x)\)`                                    | Quadrature      | Associated polynomial |
+| :-----------: | :-----------: | :------------------------------------------------: | :-------------: | :-------------------: |
+| `\(−1\)`      | `\(1\)`       | `\(1\)`                                            | Gauss–Legendre  | Legendre              |
+| `\(−1\)`      | `\(1\)`       | `\((1-x)^\alpha(1+x)^\beta,\, \alpha,\beta\gt-1\)` | Gauss-Jacobi    | Jacobi                |
+| `\(−1\)`      | `\(1\)`       | `\(\frac{1}{\sqrt{1-x^2}}\)`                       | Chebyshev-Gauss | Chebyshev (1st type)  |
+| `\(−1\)`      | `\(1\)`       | `\(\sqrt{1-x^2}\)`                                 | Chebyshev-Gauss | Chebyshev (2nd type)  |
+| `\(0\)`       | `\(+\infty\)` | `\(e^{-x}\)`                                       | Gauss–Laguerre  | Laguerre              |
+| `\(0\)`       | `\(+\infty\)` | `\(x^\alpha e^{-x}, \, \alpha\gt-1\)`              | Gauss–Laguerre  | Generalized Laguerre  |
+| `\(−\infty\)` | `\(+\infty\)` | `\(e^{-x^2}\)`                                     | Gauss–Hermite   | Hermite               |
+]
+
+.hcenter[
+ :arrow_right: the approximation is **exact** if `\(g(x)\)` is a polynomial of degree `\(2n-1\)` or less.
+]
+
+---
+
+# Maxima code - Gauss-Legendre nodes / weights
+
+## .hcenter[`[gauss_legendre.max]`]
+```maxima
+/* ===== Gauss - Legendre ===== */
+
+fpprec: 40$
+linel: 100$
+
+gauss_legendre_coeff(n) := block([p, q, v, w],
+    p: expand(legendre_p(n, x)),
+    q: expand(n/2*diff(p, x)*legendre_p(n-1, x)),
+    v: map(rhs, bfallroots(p)),
+    w: map(lambda([z], 1/subst([x = z], q)), v),
+    [map(bfloat, v), map(bfloat, w)])$
+
+a: gauss_legendre_coeff(10)$
+for i:1 thru length(a[1]) do
+(
+print(a[1][i],a[2][i])
+)$
+```
+
+## .hcenter[Shell session]
+```shell
+$ maxima --very-quiet < gauss_legendre.max
+-1.488743389816312108848260011297199846176b-1 2.955242247147528701738929946513383294211b-1 
+ 1.488743389816312108848260011297199846176b-1 2.955242247147528701738929946513383294211b-1 
+-4.333953941292471907992659431657841622000b-1 2.692667193099963550912269215694693528596b-1 
+ 4.333953941292471907992659431657841622000b-1 2.692667193099963550912269215694693528587b-1 
+ 6.794095682990244062343273651148735757696b-1 2.190863625159820439955349342281631924308b-1 
+-6.794095682990244062343273651148735757693b-1 2.190863625159820439955349342281631923213b-1 
+-8.650633666889845107320966884234930485275b-1 1.494513491505805931457763396576973319076b-1 
+ 8.650633666889845107320966884234930485265b-1 1.494513491505805931457763396576973322436b-1 
+-9.739065285171717200779640120844520534283b-1 6.667134430868813759356880989333179286787b-2 
+ 9.739065285171717200779640120844520534291b-1 6.667134430868813759356880989333179265385b-2 
+```
+
+---
+
+# Maxima code - Gauss-Laguerre nodes / weights
+
+## .hcenter[`[gauss_laguerre.max]`]
+```maxima
+/* ===== Gauss - Laguerre ===== */
+
+fpprec: 40$
+linel: 100$
+
+gauss_laguerre_coeff(n) := block([p, q, v, w],
+    p: expand(laguerre(n, x)),
+    q: x/((n+1)^2*laguerre(n+1, x)^2),
+    v: map(rhs, bfallroots(p)),
+    w: map(lambda([z], subst([x = z],q)), v),
+    [map(bfloat, v), map(bfloat, w)])$
+
+a: gauss_laguerre_coeff(10)$
+for i:1 thru length(a[1]) do
+(
+print(a[1][i],a[2][i])
+)$
+```
+
+## .hcenter[Shell session]
+```shell
+$ maxima --very-quiet < gauss_laguerre.max
+ 1.377934705404924308307725056527111881080b-1 3.084411157650201415474708346778606956288b-1 
+ 7.294545495031704981603731216760787810760b-1 4.011199291552735515157803099128195147967b-1 
+ 1.808342901740316048232920075750608833284b0  2.180682876118094215886485234746467267477b-1 
+ 3.401433697854899514482532221408390679280b0  6.208745609867774739290212931351795369709b-2 
+ 5.552496140063803632417558486868762857889b0  9.501516975181100553839072194171991223032b-3 
+ 8.330152746764496700238767197274522183064b0  7.530083885875387754559643536756639014829b-4 
+ 1.184378583790006556491853891914161398504b1  2.825923349599565567422563826850021277427b-5 
+ 1.627925783137810209953265393583362233619b1  4.249313984962686372586576659747123537011b-7 
+ 2.199658581198076195127709019559449397618b1  1.839564823979630780921535224355938249463b-9 
+ 2.992069701227389155990879334079919517988b1  9.911827219609008558377547283244736073046b-13 
+```
+
+---
+
+# Maxima code - Gauss-Hermite nodes / weights
+
+## .hcenter[`[gauss_hermite.max]`]
+```maxima
+/* ===== Gauss - Hermite ===== */
+
+fpprec: 40$
+linel: 100$
+
+gauss_hermite_coeff(n) := block([p, q, v, w],
+    p: expand(hermite(n, x)),
+    q: 2^(n+1)*n!*sqrt(%pi)/(hermite(n+1, x)^2),
+    v: map(rhs, bfallroots(p)),
+    w: map(lambda([z], subst([x = z],q)), v),
+    [map(bfloat, v), map(bfloat, w)])$
+
+a: gauss_hermite_coeff(10)$
+for i:1 thru length(a[1]) do
+(
+print(a[1][i],a[2][i])
+)$
+```
+
+## .hcenter[Shell session]
+```shell
+$ maxima --very-quiet < gauss_hermite.max
+ 3.429013272237046087891650255572580312083b-1 6.108626337353257987835649904334197132386b-1 
+-3.429013272237046087891650255572580312083b-1 6.108626337353257987835649904334197132386b-1 
+-1.036610829789513654177491916759209016298b0  2.401386110823146864165232950058613953699b-1 
+ 1.036610829789513654177491916759209016298b0  2.4013861108231468641652329500586139537b00-1 
+ 1.756683649299881773451401220106156763296b0  3.387439445548106313616473127758597369816b-2 
+-1.756683649299881773451401220106156763291b0  3.387439445548106313616473127758597369824b-2 
+-2.532731674232789796408960797754793480315b0  1.343645746781232692201565585845913869865b-3 
+ 3.436159118837737603326725494319121384841b0  7.640432855232620629159367859595222108274b-6 
+ 2.532731674232789796408960797754793480307b0  1.343645746781232692201565585845913869867b-3 
+-3.436159118837737603326725494319121384838b0  7.640432855232620629159367859595222108288b-6 
+```
+
+---
+
+# Python code - nodes / weights
+
+## Gauss-Legendre quadrature
+```python
+import numpy
+
+print(numpy.polynomial.legendre.leggauss(10))
+# Output:
+# (array([-0.97390653, -0.86506337, -0.67940957, -0.43339539, -0.14887434,
+#          0.14887434,  0.43339539,  0.67940957,  0.86506337,  0.97390653]),
+#  array([ 0.06667134,  0.14945135,  0.21908636,  0.26926672,  0.29552422,
+#          0.29552422,  0.26926672,  0.21908636,  0.14945135,  0.06667134]))
+```
+
+## Gauss-Laguerre quadrature
+```python
+import numpy
+
+print(numpy.polynomial.laguerre.laggauss(10))
+# Output:
+# (array([ 0.13779347,  0.72945455,  1.80834290,  3.40143370,  5.55249614,
+#          8.33015275, 11.84378584, 16.27925783, 21.99658581, 29.92069701]),
+#  array([ 3.08441116e-01, 4.01119929e-01, 2.18068288e-01, 6.20874561e-02, 9.50151698e-03,
+#          7.53008389e-04, 2.82592335e-05, 4.24931398e-07, 1.83956482e-09, 9.91182722e-13]))
+```
+
+## Gauss-Hermite quadrature
+```python
+import numpy
+
+print(numpy.polynomial.hermite.hermgauss(10))
+# Output:
+# (array([-3.43615912, -2.53273167, -1.75668365, -1.03661083, -0.34290133,
+#          0.34290133,  1.03661083,  1.75668365,  2.53273167,  3.43615912]),
+#  array([ 7.64043286e-06, 1.34364575e-03, 3.38743945e-02, 2.40138611e-01, 6.10862634e-01,
+#          6.10862634e-01, 2.40138611e-01, 3.38743945e-02, 1.34364575e-03, 7.64043286e-06]))
+```
+
+---
+
+# Example of use
+
+## Calculate the following integral:
+
+`$$I\equiv \int_{r=0}^\infty \int_{\theta=0}^{2\pi} e^{-r^2} g(r, \theta) r\, dr\, d\theta $$`
+
+----
+
+We introduce the following substitutions:
+
+`$$\begin{array}{rcl}
+R &=& r^2\\
+dR &=& 2r\,dr\\
+T &=& \frac{\theta}{\pi} - 1\\
+dT &=& \frac{1}{\pi}d\theta
+\end{array}
+$$`
+
+One then has
+
+`$$I = \frac{\pi}{2} \int_{R=0}^\infty \int_{T=-1}^1 e^{-R} g(\sqrt{R}, \pi(T+1))\, dR\, dT$$`
+
+We use GLA and GLE quadrature rules and obtain
+
+`$$I \simeq \frac{\pi}{2} \sum_i^n w^{\textrm{GLA}}_i \sum_j^{n'} w^{\textrm{GLE}}_j g(\sqrt{x_i}, \pi(x_j + 1)).$$`
+
+---
+
+# Example of use - 2D-Gaussian integral
+
+If we set `\(g(r, \theta) = 1\)`, `\(I\)` becomes the famous 2D-Gaussian integral:
+
+`$$I = \iint_\Omega e^{-r^2} r\, dr\, d\theta,$$`
+
+and we can calculate it **exactly** (since `\(1\)` is a polynomial :v:) with
+
+`$$I = \frac{\pi}{2} \sum_i^n w^{\textrm{GLA}}_i \sum_j^{n'} w^{\textrm{GLE}}.$$`
+
+```python
+#!/usr/bin/env python
+
+import numpy
+
+sum(numpy.polynomial.laguerre.laggauss(10)[1]) # Output: 1.0
+sum(numpy.polynomial.legendre.leggauss(10)[1]) # Output: 2.0
+```
+
+`$$I = \frac{\pi}{2} \underbrace{\sum_i^n w^{\textrm{GLA}}_i}_{=1} \underbrace{\sum_j^{n'} w^{\textrm{GLE}}}_{=2} = \pi.$$`
+
+---
+
+# Special values
+
+## Gauss-Legendre quadrature rule
+
+`$$\forall n\ge 1,\, \int_{-1}^{1} 1\, dx = \sum_i^{n} w^{(n)}_i = w^{(1)}_0 = 2$$`
+
+## Gauss-Laguerre quadrature rule
+
+`$$\forall n\ge 1,\, \int_{0}^{\infty} e^{-x}\, dx = \sum_i^{n} w^{(n)}_i = w^{(1)}_0 = 1$$`
+
+## Gauss-Hermite quadrature rule
+
+`$$\forall n\ge 1,\, \int_{-\infty}^{\infty} e^{-x^2}\, dx = \sum_i^{n} w^{(n)}_i = w^{(1)}_0 = \sqrt{\pi}$$`
+
+---
+
+# Usage in quantum mechanics
+
+## Too short introduction to quantum mechanics
+
+* states are described by "vectors" noted `\(|a\rangle\)`
+* operators act on states to give new states:
+
+`$$\hat{X}|a\rangle = |d\rangle$$`
+
+* the scalar product between two states is defined as
+
+`$$\langle a|.|c \rangle \equiv \langle a|c \rangle \equiv \int_\Omega a^*(\mathbf{r}) c(\mathbf{r}) \mathbf{dr}$$`
+
+---
+
+# Usage in quantum mechanics
+
+## Basis definition
+
+* if you define a basis of states `\(\{|b_i\rangle\}\)` such as
+
+`$$\begin{array}{rcl}
+|b_i\rangle: b_i(\mathbf{r}) &\equiv& A.e^{-B\mathbf{r}^2} P(\mathbf{r})\\
+\langle b_i|b_j \rangle &=& \delta_{ij}
+\end{array}
+$$`
+
+  with `\(P(\mathbf{r})\)` a polynomial function, then you can express your states in this basis and have
+
+`$$\begin{array}{rcl}
+|a \rangle &=& \sum_i a_i |b_i\rangle\\
+|c \rangle &=& \sum_i c_i |b_i\rangle\\
+\langle a | \hat{X} | c \rangle &=& \sum_i \sum_j a_i c_i \langle b_i| \hat{X} | b_j\rangle
+\end{array}
+$$`
+
+  and, if `\(\hat{X}\)` is nice enough,
+
+  `$$\langle b_i| \hat{X} | b_j\rangle = A \int_\Omega e^{-C \mathbf{r}^2} P'(\mathbf{r}) \mathbf{dr}.$$`
+
+  :arrow_right: if you use a quadrature rule to approximate the last integral, you can have an **exact** result.
+
+---
+
+# Which basis states ?
+
+## Widely used in nuclear physics, chemistry, etc...
+
+* eigenvectors with different eigenvalues of **any** operator are orthonormal
+* the HO is a good first approximation of **any** potential minimum :v:
+* the HO states are of the form `\(A.e^{-B\mathbf{r}^2}.P(\mathbf{r})\)`
+* the HO states have an **infinite support**, like physical states
+* the HO **can be deformed** without loosing its nice properties
+
+.hcenter[
+:arrow_right: Use HO states as basis states
+]
+
+.vspace[]
+
+## Other possible choices
+
+* `\(\mathbf{r}\)`-bases
+* Finite Elements
+* Wavelets
+* special non-orthogonal bases (e.g. unions of different HO solution sets)
+* etc...
+
+---
+
+# Full-space integrations
+
+## 1D-space (GHE)
+
+`$$\int_{\Omega} e^{-x^2}g(x) dx \simeq \sum_{i=0}^{n-1} w_i g(x_i)$$`
+
+## 2D-space - cartesian (GHE, GHE)
+
+`$$\iint_{\Omega} e^{-x^2-y^2}g(x, y) dx\, dy \simeq \sum_{i=0}^{n-1}w_i\sum_{j=0}^{n'-1} w'_j g(x_i, x'_j)$$`
+
+## 2D-space - polar (GLA, GLE), COV (`\(R = r^2,\, T = \frac{\theta}{\pi} - 1\)`)
+
+`$$\iint_{\Omega} e^{-r^2}g(r, \theta) r\, dr\, d\theta \simeq \sum_{i=0}^{n-1}w_i\sum_{j=0}^{n'-1} w'_j G(x_i, x'_j)$$`
+
+---
+
+# Full-space integrations
+
+## 3D-space - cartesian (GHE, GHE, GHE)
+
+`$$\iiint_{\Omega} e^{-x^2-y^2-z^2}g(x, y, z) dx\, dy\, dz \simeq \sum_{i=0}^{n-1}w_i\sum_{j=0}^{n'-1}w'_j\sum_{k=0}^{n''-1} w''_k g(x_i, x'_j, x''_k)$$`
+
+## 3D-space - cylindrical (GHE, GLA, GLE), COV (`\(R=r_\perp^2,\, T = \frac{\theta}{\pi} - 1\)`)
+
+`$$\iiint_{\Omega} e^{-x^2-r_\perp^2}g(x, r_\perp, \theta) dx\, r_\perp\, dr_\perp\, d\theta \simeq \sum_{i=0}^{n-1}w_i\sum_{j=0}^{n'-1} w'_j \sum_{k=0}^{n''-1} w''_k G(x_i, x'_j, x''_k)$$`
+
+## 3D-space - spherical (GLA, GLE, GLE), COV (...)
+
+`$$\iiint_{\Omega} e^{-r^2}g(r, \theta, \phi) r^2\sin{\phi}\, dr\, d\theta\, d\phi \simeq \sum_{i=0}^{n-1}w_i\sum_{j=0}^{n'-1} w'_j \sum_{k=0}^{n''-1} w''_k G(x_i, x'_j, x''_k)$$`
+
+.hcenter[
+:arrow_right: Choose `\(n\)`, `\(n'\)` and `\(n''\)` depending on the geometry of your problem.
+]
+
+---
+
+# Conclusions on the Gaussian quadrature
+
+ * if possible, place yourself in a case where the quadratures are **exact** (COV, combinations, etc...)
+
+.hcenter.shadow.w80.animated.fadeInRight.wait2s[![](images/chosen_wisely.png)]
+
+ * there are many other quadrature rules in the litterature with different pros/cons, find the ones that suit your problem.
+ * the rectangle and trapezoidal rules can be seen as special (very simple) Gaussian quadrature rules.
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+  </body>
+</html>
+

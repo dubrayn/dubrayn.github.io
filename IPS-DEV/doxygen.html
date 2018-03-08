@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IPS-DEV</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`IPS-DEV` - N. Dubray - ENSIIE - 2017 - [:book:](../index.html)
+]
+
+---
+
+# Doxygen
+
+.hcenter.w30[![](images/doxygen_logo.png)]
+
+## Key points
+
+* documentation generator
+* supports `C++` (originally), `C`, `C#`, `Objective C`, `Fortran`, `PHP`, `Python`, etc...
+* interprets special comments in the source code **and the source code itself**
+* generates documentation pages in `HTML`, .latex[L<sup>a</sup>T<sub>e</sub>X], `PDF`, etc...
+* understands `Markdown` syntax and numerous specific commands
+
+## Main ideas
+
+1. The documentation is **in the code**, so it is easier to keep the code and the documentation **in sync**.
+2. Developers are encouraged to document their code in a standardized format **when they write it**.
+
+.block[
+* Repository: [https://github.com/doxygen/doxygen](https://github.com/doxygen/doxygen)
+* Website: [http://www.doxygen.org](http://www.doxygen.org)
+* License: `GPL`
+]
+
+
+---
+
+# Example of a documented code
+
+## .hcenter[`[test.cpp]`]
+
+```C++
+/**
+ * @file test.cpp
+ */
+
+/**
+ * A global variable.
+ */
+int global = 0;
+
+/**
+ * A very simple test function.
+ *
+ * This function is for test purposes only.
+ * The returned value should not be used for anything serious.
+ * 
+ * If you have any remark concerning this function, please append it to the file /dev/null.
+ *
+ * @param arg0 This is the first argument. It should be ignored.
+ * @param arg1 This is the second argument. It should also be ignored.
+ * @return The returned value can be used as a neutral element for the addition operation.
+ */
+double testFunc(int arg0, int arg1)
+{
+  return 0.0; // Not very useful...
+}
+
+```
+
+---
+
+# Generate the documentation
+
+<div data-dir='scripts/toto6' class='cinescript'></div>
+
+---
+
+# Browse the documentation
+
+.shadow.hcenter.w90[![](images/doxygen_example.png)]
+
+.hcenter[
+[`HTML` documentation pages](test_doxygen/doc/html/index.html)
+]
+
+---
+
+# Configure `Doxygen`
+
+## Tweak the generic configuration file
+
+```shell
+*$ doxygen -g Doxyfile
+
+
+Configuration file `Doxyfile' created.
+
+Now edit the configuration file and enter
+
+  doxygen Doxyfile
+
+  to generate the documentation for your project
+*$ vim Doxyfile # tweak !!!
+$ doxygen
+[...]
+```
+
+## .hcenter[`[Doxyfile]` (sample)]
+
+```text
+[...]
+# This tag specifies the encoding used for all characters in the config file
+# that follow. The default is UTF-8 which is also the encoding used for all text
+# before the first occurrence of this tag. Doxygen uses libiconv (or the iconv
+# built into libc) for the transcoding. See http://www.gnu.org/software/libiconv
+# for the list of possible encodings.
+# The default value is: UTF-8.
+
+*DOXYFILE_ENCODING      = UTF-8
+
+# The PROJECT_NAME tag is a single word (or a sequence of words surrounded by
+# double-quotes, unless you are using Doxywizard) that should identify the
+# project for which the documentation is generated. This name is used in the
+# title of most generated pages and in a few other places.
+# The default value is: My Project.
+
+*PROJECT_NAME           = "My Project"
+[...]
+```
+
+---
+
+# Configure `Doxygen`
+
+## Use a GUI
+
+```shell
+$ doxywizard
+```
+
+.shadow.hcenter.w100[![](images/doxywizard.png)]
+
+---
+
+# Undocumented function
+
+## .hcenter[`[test.cpp]`]
+
+```C++
+/**
+ * @file test.cpp
+ */
+
+/**
+ * A global variable.
+ */
+int global = 0;
+
+/**
+ * A very simple test function.
+ * 
+ * This function is for test purposes only.
+ * The returned value should not be used for anything serious.
+ *  
+ * If you have any remark concerning this function, please append it to the file /dev/null.
+ * 
+ * @param arg0 This is the first argument. It should be ignored.
+ * @param arg1 This is the second argument. It should also be ignored.
+ * @return The returned value can be used as a neutral element for the addition operation.
+ */
+double testFunc(int arg0, int arg1)
+{
+  return 0.0; // Not very useful...
+}
+
+*void undocumentedFunc(void)
+*{
+*  printf("This function is not documented !\n");
+*}
+```
+
+---
+
+# `Doxygen` output
+
+## Generate documentation
+```shell
+$ doxygen
+[...]
+Generating style sheet...
+Generating search indices...
+Generating example documentation...
+Generating file sources...
+Generating file documentation...
+Generating docs for file test.cpp...
+*/home/dubrayn/temp/dubrayn.github.io/IPS-DEV/test_doxygen/test.cpp:27: warning: Member
+*undocumentedFunc(void) (function) of file test.cpp is not documented.
+Generating page documentation...
+Generating group documentation...
+Generating class documentation...
+Generating namespace index...
+Generating graph info page...
+Generating directory documentation...
+Generating index page...
+Generating page index...
+Generating module index...
+Generating namespace index...
+Generating namespace member index...
+Generating annotated compound index...
+Generating alphabetical compound index...
+Generating hierarchical class index...
+Generating graphical class hierarchy...
+Generating member index...
+Generating file index...
+Generating file member index...
+Generating example index...
+[...]
+```
+
+---
+
+# `Doxygen` syntax
+
+## Special comment blocks
+.row[.w48[
+```text
+/**
+ * ... text ...
+ */
+```]
+.w48[
+```text
+/*!
+ ... text ...
+ */
+```]]
+
+.row[.w48[
+```text
+///
+///... text ...
+///
+```]
+.w48[
+```text
+//!
+//!... text ...
+//!
+```]]
+
+.row[.w48[
+```text
+/*****************************************//**
+ *  ... text ...
+ ********************************************/
+```]
+.w48[
+```text
+//////////////////////////////////////////////
+/// ... text ...
+//////////////////////////////////////////////
+```]]
+
+## Brief description
+
+.row[.w48[
+```text
+/// Brief description.
+/** Detailed description. */
+```]
+.w48[
+```text
+//! Brief description.
+
+//! Detailed description 
+//! starts here.
+```]]
+
+## Documentation after declaration
+
+.row[.w48[
+```C++
+int var; /*!< Detailed description*/
+```]
+.w48[
+```C++
+int var; ///< Brief description
+```]]
+
+---
+
+# Some `Doxygen` commands
+
+## File description
+
+```C++
+/*! \file file.h
+ * A brief file description.
+ * A more elaborated file description.
+ */
+```
+
+## Class / method / enum / etc... properties
+
+```C++
+/*! 
+ *  \brief     A trully random class.
+ *  \details   This class is used to demonstrate a number of section commands.
+ *  \author    John Doe
+ *  \author    Jan Doe
+ *  \version   3.14a
+ *  \date      2015-2017
+ *  \pre       First initialize the system.
+ *  \bug       Not all memory is freed when deleting an object of this class.
+ *  \warning   Improper use can crash your application
+ *  \copyright GNU Public License.
+ */
+class SomeRandomClass {};
+```
+
+## Main page
+
+```C++
+/*! \mainpage My Personal Index Page
+ *
+ * \section intro_sec Introduction
+ *
+ * This is the introduction.
+ *
+ * \section install_sec Installation
+ *
+ * \subsection step1 Step 1: Opening the box
+ *
+ * etc...
+ */
+```
+
+---
+
+# Conclusions on `Doxygen`
+
+## In **your** code
+* write the special comment blocks **while** you code
+* use `Doxygen` commands
+* stick to the documentation guidelines
+* use `Doxygen` output to check for undocumented objects
+* use `Doxygen`'s mainpage to add general documentation
+
+## In **other** code using `Doxygen`
+* generate the documentation if needed
+* **browse the generated documentation**
+* use the generated documentation as a source for
+ * API / class reference
+ * examples
+ * use cases
+ * etc...
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+  </body>
+</html>
+

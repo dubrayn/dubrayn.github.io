@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IPS-DEV</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`IPS-DEV` - N. Dubray - ENSIIE - 2017 - [:book:](../index.html)
+]
+
+---
+
+# Unit tests
+
+.hcenter.border.shadow.w50[![](images/unit_tests_excuses.png)]
+
+---
+
+# What is unit testing ?
+
+## Wikipedia
+
+.hcenter.block[
+  Unit tests are **short code fragments** created by programmers or occasionally by white box testers during the development process. They form the basis for component testing.
+]
+
+## A unit test
+
+* should be independent from other unit tests
+* should test only one class (otherwise it is an **integration test**)
+* takes no parameter (usually)
+* **validates the implementation of a feature**
+* can use **mock objects**
+
+## Unit tests
+
+* can be automated
+* can be built / launched in a framework
+* used in Extreme Programming (XP)
+* used in Test Driven Development (TDD)
+
+---
+
+# Why write unit tests ?
+
+.row[
+.column.w60.middle[
+* :+: to reduce bugs while coding
+* :+: to **avoid regressions**
+* :+: to have code examples
+* :+: to ease the development of code extensions
+* :+: to improve the design of the code
+* :+: to focus on features before code design
+* :+: to prevent other programmers from breaking anything
+* :+: to **know when to stop working on a feature**
+* :+: to allow easy debugging
+* :+: to sleep well
+* :+: to watch all these nice green lights
+]
+.column.w35.middle[
+.shadow[![](images/unit_tests_cartoon.png)]
+]
+]
+
+---
+
+# Why *not* write unit tests ?
+
+.row.hcenter.w80[
+.column.w45.middle[
+
+## Frequent answers
+
+* "it takes too much time"
+* "not my job"
+* "my code is perfect"
+* "I work alone"
+* "it is useless"
+* "unit what ?"
+* "unit testing is a **forever returning short-lived hype**"
+]
+.column.w50.middle[
+.shadow[![](images/dog.png)]
+]
+]
+
+---
+
+# `CxxTest`
+
+.row[
+.column.w45[
+## Key points
+
+* unit testing framework for `C++`
+* very flexible
+* semi-automatic test discovery
+]
+.column.w45.block[
+* Repository: [https://github.com/CxxTest](https://github.com/CxxTest)
+* Website: [http://cxxtest.com](http://cxxtest.com)
+* License: `LGPL`
+]
+]
+
+## .hcenter[`[MyTestSuite.h]`]
+```C++
+#include <cxxtest/TestSuite.h>
+
+class MyTestSuite : public CxxTest::TestSuite 
+{
+  public:
+  void testAddition( void )
+  {
+    TS_ASSERT( 1 + 1 > 1 );
+    TS_ASSERT_EQUALS( 1 + 1, 2 );
+  }
+};
+```
+
+## .hcenter[Shell session]
+```shell
+$ cxxtestgen --error-printer -o tests.cpp MyTestSuite.h
+$ g++ -o tests tests.cpp
+$ ./tests
+Running cxxtest tests (1 test).OK!
+```
+
+---
+
+# Example of a failed test
+
+## .hcenter[`[MyTestSuite2.h]`]
+```C++
+#include <cxxtest/TestSuite.h>
+
+class MyTestSuite2 : public CxxTest::TestSuite
+{
+public:
+    void testAddition(void)
+    {
+        TS_ASSERT(1 + 1 > 1);
+        TS_ASSERT_EQUALS(1 + 1, 2);
+    }
+
+    void testMultiplication(void)
+    {
+        TS_TRACE("Starting multiplication test");
+*       TS_ASSERT_EQUALS(2 * 2, 5);
+        TS_TRACE("Finishing multiplication test");
+    }
+};
+```
+
+## .hcenter[Shell session]
+```shell
+$ cxxtestgen --error-printer -o tests.cpp MyTestSuite.h
+$ g++ -o tests tests.cpp
+$ ./tests
+Running cxxtest tests (2 tests).
+*In MyTestSuite2::testMultiplication:
+*/home/dubrayn/temp/test_cxxtest/MyTestSuite2.h:15: Error: Expected (2 * 2 == 5), found (4 != 5)
+Failed 1 and Skipped 0 of 2 tests
+Success rate: 50%
+```
+
+---
+
+# Main assertions
+
+.hcenter[
+| Macro                             | Description           |
+| --------------------------------- | --------------------- |
+| `TS_ASSERT(expr)`                 | `expr` is `true`      | 
+| `TS_ASSERT_DELTA(x,y,d)`          | `abs(x-y) < d`        |
+| `TS_ASSERT_DIFFERS(x,y)`          | `x != y`              |
+| `TS_ASSERT_EQUALS(x,y)`           | `x == y`              |
+| `TS_ASSERT_IS_NAN(x)`             | `x` is `NaN`          |
+| `TS_ASSERT_IS_INFINITE(x)`        | `x` is `infinite`     |
+| `TS_ASSERT_LESS_THAN(x,y)`        | `x < y`               |
+| `TS_ASSERT_LESS_THAN_EQUALS(x,y)` | `x ≤ y`               |
+| `TS_ASSERT_PREDICATE(P,x)`        | `P(x)`                |
+| `TS_ASSERT_RELATION(x,R,y)`       | `x R y`               |
+| `TS_ASSERT_SAME_DATA(x,y,size)`   | two buffers are equal |
+]
+
+---
+
+# Exception-related assertions
+
+.hcenter[
+| Macro                                         | Description                                |
+| --------------------------------------------- | ------------------------------------------ |
+| `TS_ASSERT_THROWS(expr,type)`                 | `expr` throws an exception with a type     |
+| `TS_ASSERT_THROWS_ANYTHING(expr)`             | `expr` throws an exception                 |
+| `TS_ASSERT_THROWS_ASSERT(expr,arg,assertion)` | `expr` throws an exception with a property |
+| `TS_ASSERT_THROWS_EQUALS(expr,arg,x,y)`       | `expr` throws an exception with a property |
+| `TS_ASSERT_THROWS_IS_NAN(expr,arg,x)`         | `expr` throws an exception with a property |
+| `TS_ASSERT_THROWS_IS_INFINITE(expr,arg,x)`    | `expr` throws an exception with a property |
+| `TS_ASSERT_THROWS_NOTHING(expr)`              | `expr` doesn’t throw anything              |
+]
+
+## Example for `TS_ASSERT_THROWS_ASSERT()`
+```C++
+void throws_value(void)
+{
+    raise 1;
+}
+
+void test_assert_throws_assert(void)
+{
+    TS_ASSERT_THROWS_ASSERT(self.throws_value(), const Error & e, TS_ASSERT_EQUALS(e, 1));
+}
+```
+
+
+---
+
+# Special assertions
+
+.hcenter[
+| Macro               | Description                                 |
+| ------------------- | ------------------------------------------- |
+| `TS_FAIL(message)`  | Fail unconditionally                        |
+| `TS_SKIP(message)`  | Skip this test                              |
+| `TS_TRACE(message)` | Print `message` as an informational message |
+| `TS_WARN(message)`  | Print `message` as a warning                |
+]
+
+---
+
+# Unit tests: real example
+
+.row[
+.column.w48[
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int _a) : a(_a)
+{
+// possible other ways: "a = int(_a);" or "a = _a;"
+}
+
+int MyClass::myFunc(int b)
+{
+  return a + b; // "a" is the same as "this->a" in C++
+}
+```
+]
+
+.column.w48[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+class MyClass
+{
+  public:
+  MyClass(int);
+  int myFunc(int);
+  int a;
+};
+#endif // MYCLASS_H
+```
+]
+]
+
+.row[
+.column.w48[
+## .hcenter[`main.cpp`]
+```C++
+#include "myclass.h"
+
+#include <iostream>
+
+int main(int charc, char** argv)
+{
+  MyClass myClass(2);
+
+  std::cout << "Result: " << myClass.myFunc(3);
+  std::cout << std::endl;
+  return 0;
+}
+```
+]
+
+.column.w48[
+## .hcenter[`test_myclass.h`]
+```C++
+#include <cxxtest/TestSuite.h>
+#include "myclass.h"
+
+class TestMyClass : public CxxTest::TestSuite
+{
+  public:
+  void testMyFunc(void)
+  {
+    MyClass myClass(2);
+    TS_ASSERT_EQUALS(myClass.myFunc(3), 5);
+  }
+};
+```
+]
+]
+
+
+.row[
+.column.w48[
+## .hcenter[Build & launch `main`]
+```shell
+*$ g++ -Wall -c myclass.cpp -o myclass.o
+*$ g++ -Wall -c main.cpp -o main.o
+*$ g++ main.o myclass.o -o main
+$ ./main
+Result: 5
+```
+]
+.column.w48[
+## .hcenter[Build & launch `tests`]
+```shell
+*$ g++ -Wall -c myclass.cpp -o myclass.o
+$ cxxtestgen --error-printer -o t.cpp test_myclass.h
+*$ g++ -Wall -c t.cpp -o t.o
+*$ g++ t.o myclass.o -o tests
+$ ./tests
+Running cxxtest tests (1 test).OK!
+```
+]
+]
+
+---
+
+# Conclusions on unit testing
+
+.w45.hcenter.middle[
+.shadow[![](images/xkcd_derivative.png)]
+]
+.hcenter[[source: xkcd](https://xkcd.com/303)]
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+  </body>
+</html>
+

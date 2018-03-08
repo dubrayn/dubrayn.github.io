@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IPS-DEV</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`IPS-DEV` - N. Dubray - ENSIIE - 2017 - [:book:](../index.html)
+]
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X]
+
+.hcenter.shadow.w20[![](images/leslie_lamport.png)]
+
+## Key points
+
+* created by Leslie Lamport (winner of the 2013 Turing Award) in the 80s
+* used to communicate and publish scientific documents in **all scientific fields**
+* markup language
+* written in the `TeX` macro language
+
+.block[
+* Repository: [https://www.latex-project.org//svnroot/experimental/trunk](https://www.latex-project.org//svnroot/experimental/trunk)
+* Website: [https://www.latex-project.org](https://www.latex-project.org)
+* License: `LPPL` (LaTeX Project Public License, not `GPL`-compatible)
+]
+
+---
+
+# The .latex[L<sup>a</sup>T<sub>e</sub>X] workflow
+
+## Historical workflow
+
+.hcenter.w80.mermaid[
+    graph LR
+    A("1. Write / modify<br/>the source file") --> B
+    B("2. Generate a .dvi<br/>with latex") --> C
+    C("2. Generate a .ps<br/>with dvips") --> D
+    D("3. Check the result<br/>with a ps viewer") --> A
+    style B fill:#090
+]
+
+## "Recent" workflow
+
+.hcenter.w55.mermaid[
+    graph LR
+    A("1. Write / modify<br/>the source file") --> B
+    B("2. Generate<br/>with pdflatex") --> C
+    C("3. Check the result<br/>with a pdf viewer") --> A
+    style B fill:#090
+]
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] example
+
+## 1. Write / modify the source file
+
+Use your favorite **text editor**, not a WYSIWYG one.
+
+## .hcenter[`[example.tex]`]
+```TeX
+\documentclass[12pt]{article}
+\begin{document}
+\section{My very first \LaTeX\ example}
+\subsection{Excerpt from wikipedia}
+\LaTeX follows the design philosophy of separating presentation from content, so that authors can focus on the
+content of what they are writing without attending simultaneously to its visual appearance. In preparing a \LaTeX
+docu\-ment, the author specifies the logical structure using simple, familiar concepts such as chapter, section,
+table, figure, etc., and lets the \LaTeX system worry about the formatting and layout of these structures. It
+therefore encourages the separation of layout from content while still allowing manual typesetting adjustments
+where needed. This concept is similar to the mechanism by which many word processors allow styles to be defined
+globally for an entire document or the use of Cascading Style Sheets to style HTML. The \LaTeX system is a markup
+language that also handles typesetting and rendering.
+\subsection{Some math ?}
+Yes, \LaTeX can do some math, either inline like $f(x)\equiv x^2e^{\sqrt{x + 1}}$, or in a math block like
+\begin{equation}
+A.B = \frac{-1}{\sqrt{2}} E.B^{-1}
+\end{equation}
+\end{document}
+```
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] example
+
+## 2. Generate with `pdflatex`
+```shell
+*$ pdflatex example.tex
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./example.tex
+LaTeX2e <2017/01/01> patch level 3
+Babel <3.9r> and hyphenation patterns for 3 language(s) loaded.
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo)) (./example.aux)
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./example.aux) )</usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmsy8.pfb>
+Output written on example.pdf (1 page, 70040 bytes).
+Transcript written on example.log.
+```
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] example
+
+## 3. Check the result with a `.pdf` viewer
+.hcenter.border.shadow.w70[![](images/latex_example.png)]
+
+---
+
+# Remarks on the usual .latex[L<sup>a</sup>T<sub>e</sub>X] workflow
+
+## Using full .latex[L<sup>a</sup>T<sub>e</sub>X]
+* some are **fine** with this workflow
+* some prefer a WYSIWYM editor (`LyX`...)
+* some prefer a WYSIWYG editor (`BaKoMa TeX`, `Scientific Word`...) :warning: **not free**
+
+:arrow_right: **My advice**: for scientific papers only.
+
+## Using only the math engine of .latex[L<sup>a</sup>T<sub>e</sub>X]
+* allows to insert .latex[L<sup>a</sup>T<sub>e</sub>X] math blocks in another formatting tool / language
+* examples: **`MathJax`**, **`Markdown`**, **`Doxygen`**...
+
+:arrow_right: **My advice**: for scientific presentations, documentations, web pages...
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] math syntax
+
+.row[.column.middle.w50[```TeX
+S_i = 1 + 2 + 3 + \ldots + i
+```]
+.column.hcenter.middle.w48[
+`$$
+S_i = 1 + 2 + 3 + \ldots + i
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+S_{ i } =1+2
++
+    3    +\ldots   + i
+```]
+.column.hcenter.middle.w48[
+`$$
+S_{ i } =1+2
++
+    3    +\ldots   + i
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+a_i^j = b_{i + 1}^{-1} + \frac{c^2 + d}
+{ \sqrt{e + f + 0.4} }
+```]
+.column.hcenter.middle.w48[
+`$$
+a_i^j = b_{i + 1}^{-1} + \frac{c^2 + d}{\sqrt{e + f + 0.4}}
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+S \equiv \sum_{k = 1}^\infty \frac{1}{k^2}
+= \frac{\pi^2}{6}
+```]
+.column.hcenter.middle.w48[
+`$$
+S \equiv \sum_{k = 1}^\infty \frac{1}{k^2} = \frac{\pi^2}{6}
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\hat{\mathcal{H}}|\psi_i\rangle = E_i|\psi_i\rangle
+```]
+.column.hcenter.middle.w48[
+`$$
+\hat{\mathcal{H}}|\psi_i\rangle = E_i|\psi_i\rangle
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\left(\frac{1}{2} + \frac{3}{4}\right) =1 +  \frac{1}{4}
+```]
+.column.hcenter.middle.w48[
+`$$
+\left(\frac{1}{2} + \frac{3}{4}\right) =1 +  \frac{1}{4}
+$$`
+]]
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] math syntax
+
+.row[.column.middle.w50[```TeX
+D = \left|\begin{array}{ccc}
+a & b & c\\
+d & e & f\\
+g & h & i
+\end{array}\right|
+```]
+.column.hcenter.middle.w48[
+`$$
+D = \left|\begin{array}{ccc}
+a & b & c\\
+d & e & f\\
+g & h & i
+\end{array}\right|
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\Psi_\alpha = \int_{-\infty}^{\infty} %
+\exp \left( \sqrt{\alpha} \, -x^2\right) d x
+```]
+.column.hcenter.middle.w48[
+`$$
+\Psi_\alpha = \int_{-\infty}^{\infty} %
+\exp \left( \sqrt{\alpha} \, -x^2\right) d x
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+I_{\sigma} =
+\int_{z=-\infty}^{\infty}
+\int_{\theta=0}^{2\pi}
+\int_{r_\perp = 0}^{\infty}
+e^{-\frac{r_\perp^2+z^2}{\sigma^2}}
+r_\perp dr_\perp d\theta dz
+```]
+.column.hcenter.middle.w48[
+`$$
+I_{\sigma} =
+\int_{z=-\infty}^{\infty}
+\int_{\theta=0}^{2\pi}
+\int_{r_\perp = 0}^{\infty}
+e^{-\frac{r_\perp^2+z^2}{\sigma^2}}
+r_\perp dr_\perp d\theta dz
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\begin{array}{cccccccc}
+\alpha&\theta&o&\tau&\beta&\vartheta&\pi&\upsilon\\
+\gamma&\gamma&\varpi&\phi&\delta&\kappa&\rho&\varphi\\
+\epsilon&\lambda&\varrho&\chi&\varepsilon&\mu&
+\sigma&\psi\\
+\zeta&\nu&\varsigma&\omega&\eta&\xi\\
+\Gamma&\Lambda&\Sigma&\Psi&\Delta&\Xi&\Upsilon&\Omega\\
+\Theta&\Pi&\Phi\\
+\end{array}
+```]
+.column.hcenter.middle.w48[
+`$$
+\begin{array}{cccccccc}
+\alpha&\theta&o&\tau&\beta&\vartheta&\pi&\upsilon\\
+\gamma&\gamma&\varpi&\phi&\delta&\kappa&\rho&\varphi\\
+\epsilon&\lambda&\varrho&\chi&\varepsilon&\mu&
+\sigma&\psi\\
+\zeta&\nu&\varsigma&\omega&\eta&\xi\\
+\Gamma&\Lambda&\Sigma&\Psi&\Delta&\Xi&\Upsilon&\Omega\\
+\Theta&\Pi&\Phi\\
+\end{array}
+$$`
+]]
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] math syntax
+
+## Some math symbols
+
+.row[.column.middle.w50[```TeX
+\odot \iiint \oint \smile \fallingdotseq \simeq \subset
+```]
+.column.hcenter.middle.w48[
+`$$
+\odot \iiint \oint \smile \fallingdotseq \simeq \subset
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\sin(\theta) \cos(\theta) \tan(\theta)
+```]
+.column.hcenter.middle.w48[
+`$$
+\sin(\theta) \cos(\theta) \tan(\theta)
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\sinh(x) \cosh (x) \tanh(x)
+```]
+.column.hcenter.middle.w48[
+`$$
+\sinh(x) \cosh (x) \tanh(x)
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\exp(z) \det(M)
+```]
+.column.hcenter.middle.w48[
+`$$
+\exp(z) \det(M)
+$$`
+]]
+
+## List of math symbols
+* [http://tug.ctan.org/info/symbols/comprehensive/symbols-a4.pdf](http://tug.ctan.org/info/symbols/comprehensive/symbols-a4.pdf) (338 pages !)
+* [http://oeis.org/wiki/List_of_LaTeX_mathematical_symbols](http://oeis.org/wiki/List_of_LaTeX_mathematical_symbols)
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+  </body>
+</html>
+

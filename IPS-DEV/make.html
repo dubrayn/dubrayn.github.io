@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IPS-DEV: Make</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`IPS-DEV: Make` - N. Dubray - ENSIIE - 2017 - [:book:](../index.html)
+]
+
+---
+
+# Build system: `GNU Make`
+
+.hcenter.w20[![](images/gnu_logo.png)]
+
+## Key points
+
+* originally created by *Stuart Feldman* in April 1976 at Bell Labs
+* part of the `GNU Autotools`
+* allows to recompile **only the necessary files**
+* has its own language to describe dependencies / actions
+* allows a user to build a package **without knowing how it should be done**
+* not limited to any particular language
+* not limited to building packages
+* required for building the **Linux kernel**, Apache OpenOffice and LibreOffice, Mozilla Firefox, `gcc`...
+
+.block[
+* Repository: [https://savannah.gnu.org/projects/make](https://savannah.gnu.org/projects/make)
+* Website: [https://www.gnu.org/software/make](https://www.gnu.org/software/make)
+* License: `GPLv3`
+]
+
+---
+
+# `GNU Make` workflow
+
+## as a user
+```shell
+$ make
+$ make install
+```
+
+## as a dev
+```shell
+$ # tweak the Makefile...
+$ make clean
+$ make docs
+$ make tests
+$ make debug
+...
+```
+
+---
+
+# Using `GNU Make`
+
+## .hcenter[`[Makefile]`]
+
+```Makefile
+target0: dep0 dep1 dep2
+    command0
+    command1
+```
+* a `Makefile` contains a set of rules
+* a rule consists of a target, its dependencies, and the commands used to update it
+* if not specified, `GNU Make` tries to update the first target of the default file `Makefile`
+* for a given target to be updated, `GNU Make` checks which of its dependencies must be updated by checking their modification time
+* if a target **does not exist or is older than some of its dependencies**, `GNU Make` tries to update it
+
+----
+
+## Example
+
+.row.hcenter.w60[
+.column.w30[
+.tree.hcenter[
+project
+* main.c
+* main.h
+* **Makefile**
+]]
+.column.w65.middle[
+## .hcenter[`[Makefile]`]
+```makefile
+main: main.c main.h
+    gcc -o main main.c
+```
+]]
+
+---
+
+# Writing clean `Makefiles`
+
+## Try to...
+* use standard variable names (`CC`, `CFLAGS`, `LDFLAGS`, `PREFIX`, `TARGET`...)
+* use standard target names (`all`, `install`, `clean`...)
+* use generic rules (wildcards)
+
+.row[
+.column.w48[
+## .hcenter[`[Makefile]`]
+```Makefile
+CC = gcc
+CFLAGS = -Wall
+TARGET = main
+OBJS = main.o
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+    $(CC) $(CFLAGS) $^ -o $@
+
+%.o: %.c %.h
+    $(CC) $(CFLAGS) $< -c -o $@
+
+.PHONY: clean
+clean:
+    rm -f $(OBJS)
+    rm -f $(TARGET)
+```
+]
+
+.column.w48[
+## .hcenter[Shell session]
+```shell
+$ make
+gcc -Wall main.c -c -o main.o
+gcc -Wall main.o -o main
+$ make
+make: Nothing to be done for `all'.
+$ touch main.c
+$ make
+gcc -Wall main.c -c -o main.o
+gcc -Wall main.o -o main
+$ touch main.o
+$ make
+gcc -Wall main.o -o main
+$ make clean
+rm -f main.o
+rm -f main
+$ ls
+main.c  main.h  Makefile
+```
+]
+]
+
+---
+
+# `Makefile` wizardry
+
+.row[
+.column.w35[
+## .hcenter[`[Makefile]`]
+```Makefile
+CC = gcc
+CFLAGS = -Wall -O3
+LDFLAGS =
+TARGET = main
+OBJS = main.o
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+    $(CC) $(LDFLAGS) $^ -o $@
+
+%.o: %.c %.h
+    $(CC) $(CFLAGS) $< -c -o $@
+
+.PHONY: clean
+clean:
+    rm -f $(OBJS)
+    rm -f $(TARGET)
+```
+]
+
+.column.w60[
+## .hcenter[Magic spell]
+* replace by internal variable: `$(VAR)`
+* replace by env. variable: `${VAR}`
+* replace by target: `$@`
+* replace by first dependency: `$<`
+* replace by dependencies more recent than target: `$?`
+* replace by all dependencies: `$^`
+* target must always be updated: `.PHONY: target`
+* launch `GNU Make` in a given directory: `make -C dir`
+.hcenter.w50[![](images/wizard.png)]
+]
+]
+
+---
+
+# `Makefile` transformation
+
+.row[
+.column.w45[
+## .hcenter[`[Makefile]`]
+```Makefile
+main: main.c main.h
+    gcc -o main main.c
+```
+]
+.column.w45[
+* not easily extendable
+* will almost always rebuild everything
+* has no standard target names
+* not easily tweakable
+* etc...
+]]
+
+---
+
+# `Makefile` transformation
+
+.hcenter.block[
+Add a `clean` target
+]
+.vspace[]
+.row[
+.column.w45[
+## .hcenter[`[Makefile]`]
+```Makefile
+main: main.c main.h
+    gcc -o main main.c
+```
+]
+.column.w5.middle[:arrow_right:]
+.column.w45[
+## .hcenter[`[Makefile]`]
+```Makefile
+main: main.c main.h
+    gcc -o main main.c
+
+*.PHONY: clean
+*clean:
+*   rm -f main
+```
+]]
+
+---
+
+# `Makefile` transformation
+
+.hcenter.block[
+Use variables
+]
+.vspace[]
+.row[
+.column.w45[
+## .hcenter[`[Makefile]`]
+```Makefile
+main: main.c main.h
+    gcc -o main main.c
+
+.PHONY: clean
+clean:
+    rm -f main
+```
+]
+.column.w5.middle[:arrow_right:]
+.column.w45[
+## .hcenter[`[Makefile]`]
+```Makefile
+*TARGET = main
+
+*$(TARGET): main.c main.h
+*   gcc -o $@ main.c
+
+.PHONY: clean
+clean:
+*   rm -f $(TARGET)
+```
+]]
+
+---
+
+# `Makefile` transformation
+
+.hcenter.block[
+Use intermediate objects
+]
+.vspace[]
+.row[
+.column.w45[
+## .hcenter[`[Makefile]`]
+```Makefile
+TARGET = main
+
+$(TARGET): main.c main.h
+    gcc -o $@ main.c
+
+.PHONY: clean
+clean:
+    rm -f $(TARGET)
+```
+]
+.column.w5.middle[:arrow_right:]
+.column.w45[
+## .hcenter[`[Makefile]`]
+```Makefile
+TARGET = main
+*OBJS = main.o
+
+*$(TARGET): $(OBJS)
+*   gcc -o $@ $^
+
+*%.o: %.c %.h
+*   gcc -c $<
+
+.PHONY: clean
+clean:
+*   rm -f $(OBJS)
+    rm -f $(TARGET)
+```
+]]
+
+---
+
+# `Makefile` transformation
+
+.hcenter.block[
+Add standard variables/targets
+]
+.vspace[]
+.row[
+.column.w45[
+## .hcenter[`[Makefile]`]
+```Makefile
+TARGET = main
+OBJS = main.o
+
+$(TARGET): $(OBJS)
+    gcc -o $@ $^
+
+%.o: %.c %.h
+    gcc -c $<
+
+.PHONY: clean
+clean:
+    rm -f $(OBJS)
+    rm -f $(TARGET)
+```
+]
+.column.w5.middle[:arrow_right:]
+.column.w45[
+## .hcenter[`[Makefile]`]
+```Makefile
+*CC = gcc
+*CFLAGS = -Wall -O3
+*LDFLAGS =
+TARGET = main
+OBJS = main.o
+
+*all: $(TARGET)
+
+$(TARGET): $(OBJS)
+*   $(CC) $(LDFLAGS) $^ -o $@
+
+%.o: %.c %.h
+*   $(CC) $(CFLAGS) $< -c -o $@
+
+.PHONY: clean
+clean:
+    rm -f $(OBJS)
+    rm -f $(TARGET)
+```
+]]
+
+---
+
+# Recursive `Makefiles`
+
+.row.hcenter.w80[
+.column.w20.middle[
+.tree[
+project
+* src
+    * ...
+    * **Makefile**
+* doc
+    * ...
+    * Makefile
+* Makefile
+]]
+.column.w70[
+## .hcenter[`[Makefile]`]
+```Makefile
+CC = gcc
+CFLAGS = -Wall -O3
+LDFLAGS =
+TARGET = main
+OBJS = main.o
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+    $(CC) $(LDFLAGS) $^ -o $@
+
+%.o: %.c %.h
+    $(CC) $(CFLAGS) $< -c -o $@
+
+.PHONY: clean
+clean:
+    rm -f $(OBJS)
+    rm -f $(TARGET)
+```
+]]
+
+---
+
+# Recursive `Makefiles`
+
+.row.hcenter.w80[
+.column.w20.middle[
+.tree[
+project
+* src
+    * ...
+    * Makefile
+* doc
+    * ...
+    * Makefile
+* **Makefile**
+]]
+.column.w70[
+## .hcenter[`[Makefile]`]
+```Makefile
+all: src doc
+
+src:
+    $(MAKE) -C src
+
+doc:
+    $(MAKE) -C doc
+
+.PHONY: clean src doc
+clean:
+    $(MAKE) -C src clean
+    $(MAKE) -C doc clean
+```
+]]
+
+---
+
+# Recursive `Makefiles`
+
+.row.hcenter.w80[
+.column.w20.middle[
+.tree[
+project
+* src
+    * ...
+    * Makefile
+* doc
+    * ...
+    * Makefile
+* **Makefile**
+]]
+.column.w70[
+## .hcenter[`[Makefile]`]
+```Makefile
+SUBDIRS := doc/. src/.
+TARGETS := all clean
+
+# foo/.all bar/.all foo/.clean bar/.clean
+SUBDIRS_TARGETS := \
+    $(foreach t,$(TARGETS),$(addsuffix $t,$(SUBDIRS)))
+
+.PHONY : $(TARGETS) $(SUBDIRS_TARGETS)
+
+# static pattern rule, expands into:
+# all clean : % : foo/.% bar/.%
+$(TARGETS) : % : $(addsuffix %,$(SUBDIRS))
+    @echo 'Done "$*" target'
+
+# here, for foo/.all:
+#   $(@D) is foo
+#   $(@F) is .all, with leading period
+#   $(@F:.%=%) is just all
+$(SUBDIRS_TARGETS) :
+    $(MAKE) -C $(@D) $(@F:.%=%)
+```
+]]
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+  </body>
+</html>
+
