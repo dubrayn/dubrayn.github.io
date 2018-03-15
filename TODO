@@ -1,0 +1,345 @@
+################################################################################
+################################################################################
+#################################### IPS-DEV ###################################
+################################################################################
+################################################################################
+
+Project:
+* calculate and manipulate 1D-HO solutions (C++ / armadillo)
+* use git, doxygen, make, cxxtest, remark.js
+
+---- WEEK0 ----
+
+* These slides
+* (Introduction)
+ * Lecturer
+ * Modules
+ * GNU/Linux quick howto
+ * Scientific method
+ * Good development practices
+* Development tools
+ * Version control system: `git`
+  * `git` workflow
+  * Creation of a `git` repo from scratch
+  * Main `git` commands
+  * Typical `git` workflow
+  * `git` history
+  * GUI tool `gitk`
+  * GUI tool `gitg`
+  * `git` branches
+  * How to use `git` branches
+  * Remote repositories
+  * Conclusions on `git`
+ * Build system: `GNU Make`
+  * `GNU Make` workflow
+  * Using `GNU Make`
+  * Writing clean `Makefiles`
+  * `Makefile` wizardry
+  * `Makefile` transformation
+  * Recursive `Makefiles`
+
+-> project initialization
+=== TP0
+
+---- WEEK1 ----
+
+ * Doxygen
+  * Example of a documented code
+  * Generate the documentation
+  * Browse the documentation
+  * Configure `Doxygen`
+  * Undocumented function
+  * `Doxygen` output
+  * `Doxygen` syntax
+  * Some `Doxygen` commands
+  * Conclusion on `Doxygen`
+ * Unit tests
+  * What is unit testing ?
+  * Why write unit tests ?
+  * Why *not* write unit tests ?
+  * `CxxTest`
+  * Example of a failed test
+  * Main assertions
+  * Exception-related assertions
+  * Special assertions
+  * Conclusion on unit testing
+ * Scientific programming
+ * Let your code do some linear algebra
+ * Armadillo
+  * Armadillo example
+  * Manipulate rows/columns
+  * Element-wise functions
+  * Standard linear algebra operations
+  * Object initialisation
+  * `Armadillo` documentation
+
+-> project presentation
+=== TP1
+
+---- WEEK2 ----
+
+ * Artistic Style (`astyle`)
+  * `astyle` usage
+  * Usage with a default options file
+  * Disable formatting
+  * Brace styles
+  * Brace styles (continued)
+  * Brace styles (continued)
+  * Tab options
+  * Conclusion on `astyle`
+
+* Results presentation
+ * .latex[L<sup>a</sup>T<sub>e</sub>X]
+  * The .latex[L<sup>a</sup>T<sub>e</sub>X] workflow
+  * .latex[L<sup>a</sup>T<sub>e</sub>X] example
+  * Remarks on the usual .latex[L<sup>a</sup>T<sub>e</sub>X] workflow
+  * .latex[L<sup>a</sup>T<sub>e</sub>X] math syntax
+ * `Markdown`
+  * `Markdown` example
+  * These slides use `remark.js`
+
+-> project discussion
+=== TP2
+
+---- WEEK3 ----
+
+* Python
+ * Python core philosophy
+ * Python `helloworld`
+ * Python indentation
+ * Python identifiers
+ * Functions and classes
+ * Modules
+ * Custom modules
+ * Module search path
+ * The `dir()` built-in function
+ * Built-in types
+ * Containers mutability
+ * Numeric types
+ * Specific operations on `int` and `float` numbers
+ * Using `list` objects
+ * Using `list` elements and ranges
+ * Loops and iterators
+ * `filter`, `map`, `reduce`
+ * List comprehensions
+ * Using `string` objects
+ * Using `dict` objects
+ * Using `set` objects
+ * File IO
+ * Module `pickle`
+ * `True`, `False`, `not`, `and`, `or` keywords
+ * `None` keyword
+
+-> project discussion
+=== TP3
+
+---- WEEK4 ----
+
+ * quadratures
+
+-> presentation directives
+=== TP4
+
+---- WEEK5 ----
+
+=== project presentations
+
+################################################################################
+################################################################################
+################################### IPS-PROD ###################################
+################################################################################
+################################################################################
+
+Project:
+* calculate and plot the local density of a nuclear system (C++ / armadillo)
+* use git, doxygen, make, cxxtest, matplotlib, remark.js, povray
+
+---- WEEK0 ----
+
+* project presentation
+
+* These slides
+* (Introduction)
+ * Lecturer
+ * Modules
+* IPS-DEV-TP debriefing
+* Unit tests: real example
+* C++ headers: main rules
+
+=== TP0
+
+---- WEEK1 ----
+
+* data visualization
+ * POVray
+  * .df3 writer
+ * Blender
+ --> live demo
+  * .raw writer
+
+=== TP1
+
+---- WEEK2 ----
+
+* optimizations
+ * vectorization
+ * loops / sums / pre-sums
+
+=== TP2
+
+---- WEEK3 ----
+
+* debug / profiling
+ * gdb
+ * valgrind
+
+=== TP3
+
+---- WEEK4 ----
+
+* python numpy
+
+
+* DIY timers
+* ParaView ?
+* python as a glue
+ * numpy
+ * matplotlib
+
+ * bindings
+* numerical techniques
+ * eigenvalue problems
+
+* data storage
+ * mongoDB
+ * MPI-IO
+
+=== TP4
+
+---- WEEK5 ----
+
+Project presentation
+
+################################################################################
+################################################################################
+###################################### PSA #####################################
+################################################################################
+################################################################################
+
+Project:
+* write a 2D-FD solver for the time-dependent Shrodinger equation (Python / C++ / armadillo)
+* visualize the time-evolution of a wave packet (paraview / custom VTK)
+* get some real-time monitoring information of a run (API)
+* implement an automatic restart mechanism
+* store the results in a mongoDB database
+* check some special cases (diffraction, tunneling effect, HO solutions, etc...)
+* use git, doxygen, make, cxxtest, swig, remark.js, VTK
+
+---- Session 0 ----
+
+* Project presentation
+ * TD Schrödinger equation
+ * FDM
+
+---- Session 1 ----
+
+* programming techniques
+ * python bindings
+  * manual
+
+---- Session 2 ----
+
+  * swig
+
+---- Session 3 ----
+
+ * errors / exceptions
+  * C++
+  * python
+  * with swig
+
+---- Session 4 ----
+
+ * threads / OpenMP
+ * MPI master / slaves
+
+---- Session 5 ----
+
+===> Mid-project presentation
+
+---- Session 6 ----
+
+ * live monitoring
+  * JSON
+  * with a database (rdd, *SQL, mongo...)
+  * socket / named pipe
+  * REST API
+
+ * restart mechanism
+
+---- Session 7 ----
+
+* data persistence
+ * JSON
+ * pickle
+ * MPI-IO
+
+---- Session 8 ----
+
+ * mongoDB
+
+---- Session 9 ----
+
+* data visualization
+ * VTK
+
+---- Session 10 ----
+
+ * paraview
+
+---- Session 11 ----
+
+===> Final project presentation
+
+
+
+
+
+
+
+
+
+# IPS project goals:
+
+* initialize project (hierarchy of files, of classes, doxygen, Makefile, clean, git, cxxtest, data, bindings, README, LICENSE)
+* derivate cylindrical HO solutions (LaTeX in doxygen), implement them, check H|p>=E|p>
+* write C++ msgpack importer
+* calculate the local density from a msgpack
+* monitor the code performances with at least a simple timer
+* num. calculate some <Q0m> values
+* ana. calculate some <Q0m> values
+* visualize local density in paraview, blender, povray, etc...
+* use bindings in a MPI4py python script to calculate from mongoDB to ana. and num. <Q0m> values
+* implement a transparent restart mechanism in the python script
+* make a scalability benchmark, identify IO and CPU times
+* write monitor server
+* write monitor client
+
+# PSA project goals:
+
+* initialize project (hierarchy of files, of classes, doxygen, Makefile, clean, git, cxxtest, data, bindings, README, LICENSE)
+* derivate cylindrical HO solutions (LaTeX in doxygen), implement them, check H|p>=E|p>
+* write C++ msgpack importer
+* calculate the local density from a msgpack
+* monitor the code performances with at least a simple timer
+* calculate the local density from a msgpack
+* num. calculate some <Q0m> values
+* ana. calculate some <Q0m> values
+* visualize local density in paraview, blender, povray, etc...
+* use bindings in a MPI4py python script to calculate from mongoDB to ana. and num. <Q0m> values
+* implement a transparent restart mechanism in the python script
+* make a scalability benchmark, identify IO and CPU times
+
+BUG: trailing empty code lines are removed by markdown parser in remark.js
+BUG: plotly.js does not like CSS scale transform (mouse coords are messed up)
+
