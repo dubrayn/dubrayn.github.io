@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PSA Project</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+class: titlepage numbers
+
+.title[Advanced Scientific Programming - Project :notebook:]
+
+.subtitle[`PSA` - N. Dubray - ENSIIE - 2018]
+
+.wauto[
+```C++
+#include <Python.h>
+#include "solver.h"
+
+static PyObject * calc_system(PyObject *self, PyObject *args)
+{
+  const char *string;
+  int val;
+
+  if (!PyArg_ParseTuple(args, "s", &string)) return NULL;
+
+  Solver s(string);
+  val = s.getVal();
+
+  return Py_BuildValue("i", val);
+}
+```
+]
+
+.footnote[
+[:book:](../index.html)
+]
+
+---
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`PSA` - N. Dubray - ENSIIE - 2017 - [:book:](../index.html)
+]
+
+---
+
+# Courses / project
+
+## Schedule
+.hcenter[
+| Time          | 04/13         | 04/27         | 05/04                  | 05/18         | 05/25         | 06/01                  |
+|:-------------:|:-------------:|:-------------:|:----------------------:|:-------------:|:-------------:|:----------------------:|
+| 9:00  - 10:45 | **Course #0** | **Course #2** | **Course #4**          | **Course #5** | **Course #7** | **Course #9**          |
+| 11:00 - 12:45 | Project       | Project       | Project                | Project       | Project       | Project                |
+| 14:00 - 15:45 | **Course #1** | **Course #3** | .redb[Presentation #0] | **Course #6** | **Course #8** | .redb[Presentation #1] |
+| 16:00 - 17:45 | Project       | Project       | .redb[Presentation #0] | Project       | Project       | .redb[Presentation #1] |
+]
+
+.vspace[]
+
+.noflex[
+.rightf.w30[
+.hcenter[![](images/slides.png)]
+.hcenter[[source: xkcd](https://xkcd.com/365)]
+]
+
+## Presentations
+* slides [~20min] + discussion / questions [~10min]
+* .redb[presentation #0: weight 1.0] (mid-project)
+* .redb[presentation #1: weight 2.0] (final)
+
+.vspace[]
+
+## Teamwork
+* 2 students per team
+* **mandatory** `git` use
+]
+
+---
+
+# Project rules
+
+.column.middle.grow[
+## Rules:
+* an "`AUTHORS`" file **must** be present and contain your name(s)
+* the source **must** be written in `C++11` and `Python2`
+* the source **must** be documented with `Doxygen`
+* the compilation chain **must** use `GNU Make`
+* the presentation **must** be at the location "`pres/index.html`"
+* using branches is OK but **only master will be checked**
+* `Python2` bindings **are mandatory** at location "`bindings/`"
+* the presentation **must** use `remark.js`
+* unit tests **are mandatory** and **must pass**
+
+## :moneybag: Bonuses:
+* no warning at {compilation, bindings, tests, doc}
+* project is implementing other methods, or is going further than specified
+* source code is well written (comments, easy to read, etc...)
+* commits are small and explicit
+]
+
+---
+
+# Evaluation
+
+## What will be evaluated at the mid-project presentation (.redb[weight 1.0])
+* the presentation quality
+* the teamwork
+* the progress status of the project
+
+## What will be evaluated at the final presentation (.redb[weight 2.0])
+* the presentation quality
+* the teamwork
+* the **final** status of the project
+* **the obtained results**
+* **the use of the development tools**
+* **unit tests**
+
+---
+
+# Project description
+
+## Main objective
+:arrow_right: **write and use a 2D-FD solver for the time-dependent non-relativistic Schrödinger equation**
+
+## Details
+* **write the solver** in a mix of `Python2` and `C++11` using `Armadillo`
+* visualize the time-evolution of a wave packet with Paraview or a custom `VTK` program
+* get some real-time monitoring information of a run using an API (in `Python2`)
+* implement an automatic restart mechanism (in `Python2`)
+* store the results in a mongoDB database (in `Python2`)
+* **calculate some special physical cases** (diffraction, tunneling effect, HO solutions, etc...)
+* use `git`, `doxygen`, `make`, `cxxtest`, `swig`, `remark.js`, `VTK` / Paraview
+
+.hcenter.w40[
+<video controls="yes" loop="yes" preload="auto" width="100%" height="auto" data-setup="{}" loop>
+<source src="videos/tutu.webm" type="video/webm" />
+</video>
+]
+
+---
+
+# Project - formalism
+
+## Time-dependent Schrödinger equation
+`$$i\hbar\frac{\partial}{\partial t}|\psi(t)\rangle = \left(\frac{\hat{\mathbf{p}}^2}{2m} + \hat{V}(\mathbf{r}, t)\right)|\psi(t)\rangle$$`
+where
+* `\(\hbar\)` is the **reduced Planck constant**
+* `\(i\)` is the imaginary unit (`\(i^2=-1\)`)
+* `\(\hat{H}\equiv \frac{\hat{\mathbf{p}}^2}{2m} + \hat{V}(\mathbf{r}, t)\)` is the **Hamiltonian operator** of the quantum system
+* `\(|\psi(t)\rangle\)` is the **wave function** of the quantum system
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+    <script src="gitgraphs.js" type="text/javascript"></script>
+  </body>
+</html>
+

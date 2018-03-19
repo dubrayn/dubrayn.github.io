@@ -567,7 +567,7 @@ h1, .fshadow {
 }
 
 
-#terminal, code, .remark-code, video, table, .block, .alert, .cinescript, .shadow, hr {
+#terminal, code, .remark-code, table, .block, .alert, .cinescript, .shadow, hr {
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7);
 }
 
