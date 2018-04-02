@@ -135,12 +135,12 @@ class: animated fadeIn middle numbers
 
 ## Details
 * **write the solver** in a mix of `Python2` and `C++11` using `Armadillo`
-* visualize the time-evolution of a wave packet with Paraview or a custom `VTK` program
-* get some real-time monitoring information of a run using an API (in `Python2`)
-* implement an automatic restart mechanism (in `Python2`)
-* store the results in a mongoDB database (in `Python2`)
-* **calculate some special physical cases** (diffraction, tunneling effect, HO solutions, etc...)
-* use `git`, `doxygen`, `make`, `cxxtest`, `swig`, `remark.js`, `VTK` / Paraview
+* visualize the time-evolution of a wave packet with `Paraview` or a custom `VTK` program
+* get some **real-time monitoring information** of a run using an API (in `Python2`)
+* implement an **automatic restart mechanism** (in `Python2`)
+* store the results in a **mongoDB database** (in `Python2`)
+* calculate some **special physical cases** (diffraction, tunneling effect, HO solutions, etc...)
+* use `git`, `doxygen`, `make`, `cxxtest`, `swig`, `remark.js`, `VTK` / `Paraview`
 
 .hcenter.w40[
 <video controls="yes" loop="yes" preload="auto" width="100%" height="auto" data-setup="{}" loop>
@@ -152,13 +152,62 @@ class: animated fadeIn middle numbers
 
 # Project - formalism
 
-## Time-dependent Schrödinger equation
-`$$i\hbar\frac{\partial}{\partial t}|\psi(t)\rangle = \left(\frac{\hat{\mathbf{p}}^2}{2m} + \hat{V}(\mathbf{r}, t)\right)|\psi(t)\rangle$$`
-where
+## Time-dependent non-relativistic Schrödinger equation
+Evolution equation:
+`$$i\hbar\frac{\partial}{\partial t}\psi(x,y,t) = \hat{\mathcal{H}}_{(x,y)}\psi(x,y,t)$$`
+with the 2D-Hamiltonian operator defined as
+`$$\hat{H}_{(x,y)}\equiv \frac{\hat{p}_{(x)}^2}{2m} + \frac{\hat{p}_{(y)}^2}{2m} + \hat{V}(x,y),$$`
+and the momentum operators defined as
+`$$\forall u \in \{x,y\},\hspace{5mm}\hat{p}_{(u)}\equiv -i\hbar\frac{\partial}{\partial u}.$$`
+Constants:
 * `\(\hbar\)` is the **reduced Planck constant**
-* `\(i\)` is the imaginary unit (`\(i^2=-1\)`)
-* `\(\hat{H}\equiv \frac{\hat{\mathbf{p}}^2}{2m} + \hat{V}(\mathbf{r}, t)\)` is the **Hamiltonian operator** of the quantum system
-* `\(|\psi(t)\rangle\)` is the **wave function** of the quantum system
+* `\(i\)` is the **imaginary unit** (`\(i^2=-1\)`)
+
+---
+
+# Project - fields
+
+## Wave function `\(\psi(x,y,t)\)`
+* is a complex field
+* depends on time
+* must be initialized to
+`$$\psi_0(x,y) \equiv \psi(x,y,t=0),$$`
+* must stay **normalized**
+`$$\forall t, \iint \psi^*(x,y,t).\psi(x,y,t)\,dx\,dy = \iint \psi_0^*(x,y).\psi_0(x,y)\,dx\,dy = 1.$$`
+
+## Potential `\(\hat{V}(x,y)\)`
+* is a real field
+* does not depend on time
+
+---
+
+# Project - solver
+
+## Numerical method
+* Finite Difference Method
+* **must implement FTCS, BTCS and CTCS schemes**
+* **scheme type specified at execution**
+
+## Discretized domain
+* regular mesh
+* **number of points specified at execution**
+* **physical span specified at execution**
+
+## Time domain
+* fixed time step
+* **time step specified at execution**
+
+## Boundary conditions
+* the wave function vanishes outside the discretized domain
+
+## Fields
+* **initial wave function specified at execution**
+* **potential field specified at execution**
+
+---
+
+# Project - technical requirements
+
 
     </textarea>
 
