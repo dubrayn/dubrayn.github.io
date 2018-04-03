@@ -156,11 +156,14 @@ class: animated fadeIn middle numbers
 Evolution equation:
 `$$i\hbar\frac{\partial}{\partial t}\psi(x,y,t) = \hat{\mathcal{H}}_{(x,y)}\psi(x,y,t)$$`
 with the 2D-Hamiltonian operator defined as
-`$$\hat{H}_{(x,y)}\equiv \frac{\hat{p}_{(x)}^2}{2m} + \frac{\hat{p}_{(y)}^2}{2m} + \hat{V}(x,y),$$`
+`$$\hat{\mathcal{H}}_{(x,y)}\equiv \frac{\hat{p}_{(x)}^2}{2m} + \frac{\hat{p}_{(y)}^2}{2m} + \hat{V}(x,y),$$`
 and the momentum operators defined as
 `$$\forall u \in \{x,y\},\hspace{5mm}\hat{p}_{(u)}\equiv -i\hbar\frac{\partial}{\partial u}.$$`
 Constants:
 * `\(\hbar\)` is the **reduced Planck constant**
+`$$\hbar \equiv 6.582119514\times10^{−22}\,\textrm{MeV.s}$$`
+* `\(m\)` is the **neutron mass**
+`$$m\equiv 939.5654133\,\textrm{MeV/c}^2$$`
 * `\(i\)` is the **imaginary unit** (`\(i^2=-1\)`)
 
 ---
@@ -206,7 +209,70 @@ Constants:
 
 ---
 
-# Project - technical requirements
+# Project - architecture
+
+.mermaid.fshadow.w60.hcenter[
+    graph LR
+    A("Field generator") --> B
+    B("Solver") --> C("Monitor")
+    style B fill:#090 
+]
+
+## Field generator
+* must be written in **Python2**
+* generate the initial wave function
+* generate the potential field from an image file, a formula, etc...
+
+## Solver
+* must be written in **Python2** and **C++**
+* **calculate the dynamical propagation**
+* must be able to be **stopped and restarted automatically**
+* must implement an **API** to check the progress of the calculation
+* must store results in a **mongoDB database**
+
+## Monitor
+* must be written in **Python2**
+* connect to the solver **or** to a mongoDB database
+* generate plots / animations **or** export to *paraview*
+
+---
+
+# Project - special physical cases
+
+## HO solutions
+* check stationarity of some HO solutions
+* check periodicity of combinations of HO solutions
+
+## Young's slits
+* check the interference pattern created by a wave packet through two slits in a potential wall
+
+## quantum tunneling
+* check the partial crossing of a barrier higher in energy than the cinetic energy of a wave packet
+
+## other cases
+* be creative...
+
+---
+
+# Project - results presentation
+
+:arrow_right: How to present a calculation result ?
+
+## input
+* show the space and time discretization
+* show the numerical scheme
+* show the initial wave packet
+* show the potential
+
+## output
+* show the evolution with time of the total norm of the wave packet
+* show the evolution with time of the wave packet
+
+## to go further
+* show projections and/or slices of the wave packet if needed
+* show the (un)stability of the results with respect to the time step, the mesh size, etc...
+
+.w70.alert.hcenter[:warning: a plot without a label and a unit for each axis is **worthless** :warning:]
 
 
     </textarea>
