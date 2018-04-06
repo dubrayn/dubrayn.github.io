@@ -98,7 +98,7 @@ class: animated fadeIn middle numbers
 * the compilation chain **must** use `GNU Make`
 * the presentation **must** be at the location "`pres/index.html`"
 * using branches is OK but **only master will be checked**
-* `Python2` bindings **are mandatory** at location "`bindings/`"
+* `Python2` bindings **are mandatory** and **must** be at the location "`bindings/`"
 * the presentation **must** use `remark.js`
 * unit tests **are mandatory** and **must pass**
 
@@ -239,18 +239,75 @@ Constants:
 
 # Project - special physical cases
 
-## HO solutions
+## 2D-HO solutions
 * check stationarity of some HO solutions
 * check periodicity of combinations of HO solutions
 
 ## Young's slits
 * check the interference pattern created by a wave packet through two slits in a potential wall
 
-## quantum tunneling
+## Quantum tunneling
 * check the partial crossing of a barrier higher in energy than the cinetic energy of a wave packet
 
-## other cases
+## Other cases
 * be creative...
+
+---
+
+# Project - 2D-HO solutions
+
+## Resulting 2D-HO Schrödinger equation
+`$$\hat{\mathcal{H}}_{(x,y)}^{\textrm{HO}}\psi(x,y) = E\psi(x,y)$$`
+with the 2D-HO Hamiltonian operator defined as
+`$$\hat{\mathcal{H}}_{(x,y)}^{\textrm{HO}}\equiv \frac{\hat{p}_{(x)}^2}{2m} + \frac{\hat{p}_{(y)}^2}{2m} + \frac{1}{2}m\omega^2(\hat{x}^2+\hat{y}^2),$$`
+and the momentum operators defined as
+`$$\forall u \in \{x,y\},\hspace{5mm}\hat{p}_{(u)}\equiv -i\hbar\frac{\partial}{\partial u}.$$`
+
+## Solutions
+**One can show** that solutions take the form
+`$$\forall n_x\ge 0,\, \forall n_y\ge 0,\, \psi_{n_x,n_y}(x,y)=\psi_{n_x}(x).\psi_{n_y}(y),$$`
+with
+`$$\forall u \in \{x,y\},\hspace{5mm}\psi_{n_u}(u) = \frac{1}{\sqrt{2^n_u n_u!}}\left(\frac{m\omega}{\pi\hbar}\right)^{1/4}e^{-\frac{m\omega u^2}{2\hbar}}H_{n_u}\left(\sqrt{\frac{m\omega}{\hbar}} . u\right).$$`
+The corresponding eigenvalues are given by
+`$$E_{n_x, n_y}=\hbar \omega \left(n_x+n_y + 1\right).$$`
+
+---
+
+# Project - Young's slits
+
+## History
+* "double-slit" experiment by **Thomas Young** in 1801
+* demonstrated the validity of the **wave theory of light**
+* can also show the concept of **wave-particle duality** when performed with several particles
+
+.hcenter.w60[![](images/double_slit.svg)]
+.hcenter[[source: wikipedia](https://en.wikipedia.org/wiki/Double-slit_experiment#/media/File:Double-slit.svg)]
+
+## Result
+* an interference pattern appears on the screen
+
+---
+
+# Project - quantum tunneling
+
+.noflex[
+.rightf.w30[![](images/square_barrier.png).hcenter[[source: wikipedia](https://en.wikipedia.org/wiki/Rectangular_potential_barrier#/media/File:Square_potential.png)]]
+
+## Setup
+* a particle with **constant** energy `\(E \gt 0\)`
+* a rectangular potential barrier of height `\(V_0 \gt 0\)`
+
+## Classical mechanics
+* the outcome depends only on the barrier's height, **not its shape**
+* if `\(E \gt V_0\)`, the particule **always** crosses, **never** bounces
+* if `\(E \lt V_0\)`, the particule **never** crosses, **always** bounces
+
+## Quantum mechanics
+* the outcome **depends on the barrier's height and shape**
+* for whatever `\(E\)` and `\(V_0\)` values, the particule **may** cross, **may** bounce
+* even if `\(E \gt V_0\)`, the particule **may** bounce
+* even if `\(E \lt V_0\)`, the particule **may** cross :arrow_right: **quantum tunneling effect**
+]
 
 ---
 
@@ -258,22 +315,21 @@ Constants:
 
 :arrow_right: How to present a calculation result ?
 
-## input
+## Input
 * show the space and time discretization
 * show the numerical scheme
 * show the initial wave packet
 * show the potential
 
-## output
+## Output
 * show the evolution with time of the total norm of the wave packet
 * show the evolution with time of the wave packet
 
-## to go further
+## To go further
 * show projections and/or slices of the wave packet if needed
 * show the (un)stability of the results with respect to the time step, the mesh size, etc...
 
 .w70.alert.hcenter[:warning: a plot without a label and a unit for each axis is **worthless** :warning:]
-
 
     </textarea>
 
@@ -335,7 +391,6 @@ Constants:
     $(document).ready(init_cinescripts);
 
     </script>
-    <script src="gitgraphs.js" type="text/javascript"></script>
   </body>
 </html>
 

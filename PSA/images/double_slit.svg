@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" viewBox="0 0 401 192" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <marker id="p" overflow="visible" orient="auto">
+   <path transform="scale(.8) rotate(180) translate(12.5)" d="m0 0l5-5-17.5 5 17.5 5-5-5z" fill="#00f" fill-rule="evenodd" stroke="#00f" stroke-width="1pt"/>
+  </marker>
+  <marker id="r" overflow="visible" orient="auto">
+   <path transform="scale(.8) rotate(180) translate(12.5)" d="m0 0l5-5-17.5 5 17.5 5-5-5z" fill="#00f" fill-rule="evenodd" stroke="#00f" stroke-width="1pt"/>
+  </marker>
+  <marker id="q" overflow="visible" orient="auto">
+   <path transform="scale(1.1) rotate(180) translate(1)" d="m8.7186 4.0337l-10.926-4.0177 10.926-4.0177c-1.7455 2.3721-1.7354 5.6175-6e-7 8.0354z" fill-rule="evenodd" stroke="#000" stroke-linejoin="round" stroke-width=".625"/>
+  </marker>
+  <radialGradient id="v" cx="318.5" cy="101" r="4.5" gradientTransform="matrix(1 0 0 19.498 0 -1868.3)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#00f" offset="0"/>
+   <stop stop-opacity="0" offset="1"/>
+  </radialGradient>
+  <linearGradient id="s" x1="38.5" x2="58.5" y1="93" y2="93" gradientTransform="rotate(90,48.5,93)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#000064" stop-opacity=".39216" offset="0"/>
+   <stop stop-color="#6464ff" stop-opacity=".39216" offset=".44844"/>
+   <stop stop-color="#000064" stop-opacity=".39216" offset="1"/>
+  </linearGradient>
+  <radialGradient id="b" cx="107.5" cy="92" r="3.5" gradientTransform="translate(-3)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#00f" offset="0"/>
+   <stop stop-color="#00f" stop-opacity="0" offset="1"/>
+  </radialGradient>
+  <radialGradient id="u" cx="117.5" cy="92" r="3.5" gradientTransform="translate(-1.5)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#00f" offset="0"/>
+   <stop stop-color="#00f" stop-opacity="0" offset="1"/>
+  </radialGradient>
+  <radialGradient id="f" cx="107.5" cy="92" r="3.5" gradientTransform="translate(-15)" gradientUnits="userSpaceOnUse" xlink:href="#b"/>
+  <radialGradient id="e" cx="107.5" cy="92" r="3.5" gradientTransform="translate(-27)" gradientUnits="userSpaceOnUse" xlink:href="#b"/>
+ </defs>
+ <circle cx="80.5" cy="92" r="3.5" fill="url(#e)"/>
+ <use transform="translate(-24)" width="100%" height="100%" xlink:href="#d"/>
+ <g transform="translate(-10,-1)" fill="#fff">
+  <path d="m16 83c2.7614 0 5 4.4772 5 10s-2.2386 10-5 10h70c2.7614 0 5-4.4772 5-10s-2.2386-10-5-10z" fill="#fff" stroke="#000" stroke-width=".5"/>
+ </g>
+ <use id="a" xlink:href="#j"/>
+ <path d="m290 19 57.195 57.195v103.42l-57.195-57.195z" fill="none" stroke="#000" stroke-width="1px"/>
+ <path d="m168 19 57.195 57.195v103.42l-57.195-57.195z" fill="#7e6a74" stroke="#000" stroke-width="1px"/>
+ <path id="j" d="m314 61 9 9v71l-9-9z" fill="url(#v)"/>
+ <use id="g" transform="translate(-12,-12)" width="100%" height="100%" xlink:href="#a"/>
+ <use transform="translate(24,24)" width="100%" height="100%" xlink:href="#g"/>
+ <g fill="none">
+  <path d="m271 155 17-17" marker-end="url(#q)" stroke="#000" stroke-width="1.0016"/>
+  <g stroke="#00f">
+   <path d="m240 92h37" marker-end="url(#r)" stroke-dasharray="1, 1"/>
+   <path d="m122 92h37" marker-end="url(#p)" stroke-width="1.0016"/>
+   <path id="i" d="m122 92c11.51-18.666 12.49 17.23 24 0" fill="none" stroke="#00f" stroke-width="1.1735px"/>
+  </g>
+ </g>
+ <circle cx="116" cy="92" r="3.5" fill="url(#u)"/>
+ <circle cx="104.5" cy="92" r="3.5" fill="url(#b)"/>
+ <ellipse cx="6" cy="92" rx="5" ry="10" fill="#00f" fill-opacity=".39216" stroke="#000" stroke-width=".5"/>
+ <path id="t" d="m201 70v71l4 4v-71z" fill="#fff" stroke="#000" stroke-width="1px"/>
+ <use transform="translate(-14,-14)" width="100%" height="100%" xlink:href="#t"/>
+ <g font-family="Liberation Serif" letter-spacing="0px" text-anchor="middle" word-spacing="0px">
+  <text x="41.3125" y="118.54688" fill="#000000" font-size="16px" xml:space="preserve"><tspan x="41" y="118">electron</tspan><tspan x="41.3125" y="118.54688"/></text>
+  <text x="41.3125" y="118.54688" fill="#000000" font-size="37.333px" xml:space="preserve"><tspan x="41" y="134" font-family="Liberation Serif" font-size="16px">beam gun</tspan></text>
+  <g font-size="16px">
+   <text x="125.125" y="71.84375" xml:space="preserve"><tspan x="125.125" y="71.84375">electron</tspan></text>
+   <text x="213.85938" y="22.59375" xml:space="preserve"><tspan x="213.85938" y="22.59375">double-</tspan><tspan x="213.85938" y="38.59375">slit</tspan></text>
+   <text x="267.85156" y="167.59375" xml:space="preserve"><tspan x="270" y="168">interference</tspan><tspan x="270" y="184">pattern</tspan></text>
+   <text x="340.9375" y="25.84375" xml:space="preserve"><tspan x="341" y="26"/><tspan x="341" y="42">screen</tspan></text>
+  </g>
+ </g>
+ <circle cx="92.5" cy="92" r="3.5" fill="url(#f)"/>
+ <use id="d" transform="translate(-24)" width="100%" height="100%" xlink:href="#i"/>
+ <g transform="translate(-10,-1)">
+  <path d="m16 83c2.7614 0 5 4.4772 5 10s-2.2386 10-5 10h70c2.7614 0 5-4.4772 5-10s-2.2386-10-5-10z" fill="url(#s)" stroke="#000" stroke-width=".5"/>
+ </g>
+ <use transform="translate(-24,-24)" width="100%" height="100%" fill="#0000ff" fill-opacity=".39216" xlink:href="#a"/>
+ <use transform="translate(24,24)" width="100%" height="100%" fill="#0000ff" fill-opacity=".39216" xlink:href="#a"/>
+</svg>
