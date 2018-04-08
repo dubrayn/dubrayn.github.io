@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PSA</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`PSA` - N. Dubray - ENSIIE - 2017 - [:book:](../index.html)
+]
+
+---
+
+# Finite difference methods (FDMs)
+
+## Definition
+:arrow_right: solve differential equations by approximating time- and space-derivatives with finite differences
+
+.vspace[]
+
+## Finite difference
+:arrow_right: expression of the form `\(f(x+b)-f(x+a)\)`
+
+.vspace[]
+
+.block[
+## Things to remember about FDMs
+* FDMs are **discretization methods**
+* FDMs are **the most used methods** to solve partial differential equations
+* FDMs can use several **numerical schemes** with varying numerical **cost** and **stability**
+]
+
+---
+
+# Finite difference methods - Derivative approximations
+
+## Forward difference
+For a **"properly-behaved"** function `\(f(x)\)`, **Taylor's theorem** gives
+`$$f(x+h)=f(x)+\frac{f^{(1)}(x).h}{1!}+\frac{f^{(2)}(x).h^2}{2!}+\ldots+\frac{f^{(n)}(x).h^n}{n!}+R_n(x+h)$$`
+with
+`$$R_n(x+h) = o(h^n).$$`
+
+For `\(n=1\)`, one obtains
+`$$f(x+h)=f(x)+f'(x).h+R_1(x+h),$$`
+
+and one can express `\(f'(x)\)` as
+`$$\begin{eqnarray}f'(x)&=&\frac{f(x+h)-f(x)}{h}-\frac{R_1(x+h)}{h}\\
+&=&\frac{f(x+h)-f(x)}{h} + O(h).\end{eqnarray}$$`
+
+Neglecting `\(R_1(x+h)\)` leads to an approximation of `\(f'(x)\)`:
+`$$f'(x)\simeq \frac{f(x+h)-f(x)}{h}.$$`
+
+---
+
+# Finite difference methods - Derivative approximations
+
+## Backward difference
+For a **"properly-behaved"** function `\(f(x)\)`, **Taylor's theorem** gives
+`$$f(x-h)=f(x)-\frac{f^{(1)}(x).h}{1!}+\frac{f^{(2)}(x).h^2}{2!}+\ldots+(-1)^n\frac{f^{(n)}(x).h^n}{n!}+R_n(x-h)$$`
+with
+`$$R_n(x-h) = o(h^n).$$`
+
+For `\(n=1\)`, one obtains
+`$$f(x-h)=f(x)-f'(x).h+R_1(x-h),$$`
+
+and one can express `\(f'(x)\)` as
+`$$\begin{eqnarray}f'(x)&=&\frac{f(x)-f(x-h)}{h}+\frac{R_1(x-h)}{h}\\
+&=&\frac{f(x)-f(x-h)}{h} + O(h).\end{eqnarray}$$`
+
+Neglecting `\(R_1(x+h)\)` leads to an approximation of `\(f'(x)\)`:
+`$$f'(x)\simeq \frac{f(x)-f(x-h)}{h}.$$`
+
+---
+
+# Finite difference methods - Derivative approximations
+
+## Central difference
+For a **"properly-behaved"** function `\(f(x)\)`, the difference between previous **Taylor's expansions** gives
+`$$f(x+h)-f(x-h)=2\frac{f^{(1)}(x).h}{1!}+\ldots+(1-(-1)^n)\frac{f^{(n)}(x).h^n}{n!}+R_{n}(x+h)-R_{n}(x-h)$$`
+with
+`$$R_n(x+h) = o(h^n),\,R_n(x-h) = o(h^n).$$`
+
+For `\(n=2\)`, one obtains
+`$$f(x+h)-f(x-h)=2f'(x).h+R_2(x+h)-R_2(x-h),$$`
+
+and one can express `\(f'(x)\)` as
+`$$\begin{eqnarray}f'(x)&=&\frac{f(x+h)-f(x-h)}{2h}-\frac{R_2(x+h)-R_2(x-h)}{2h}\\
+&=&\frac{f(x+h)-f(x-h)}{2h} + O(h^2).\end{eqnarray}$$`
+
+Neglecting `\(R_1(x+h)\)` leads to an approximation of `\(f'(x)\)`:
+`$$f'(x)\simeq \frac{f(x+h)-f(x-h)}{2h}.$$`
+
+---
+
+class: top
+
+# Finite difference methods - Finite differences
+
+## Forward difference
+* Approximation: `$$f'(x)\simeq \frac{f(x+h)-f(x)}{h}$$`
+* Error magnitude: `$$O(h)$$`
+
+--
+
+## Backward difference
+* Approximation: `$$f'(x)\simeq \frac{f(x)-f(x-h)}{h}$$`
+* Error magnitude: `$$O(h)$$`
+
+--
+
+## Central difference
+* Approximation: `$$f'(x)\simeq \frac{f(x+h)-f(x-h)}{2h}$$`
+* Error magnitude: `$$O(h^2)$$`
+
+---
+
+class: top
+
+# Finite difference methods - Most used methods
+
+## Explicit method (FTCS)
+* forward difference at time `\(t_n\)`
+* second-order central difference at position `\(x_i\)`
+
+:arrow_right: [1D-heat] numerically stable and convergent if `\(\frac{\Delta t}{\Delta x^2}\le\frac{1}{2}\)`.
+
+:arrow_right: [1D-heat] error: `\(O(\Delta t)+O(\Delta x^2)\)`
+
+--
+
+## Implicit method (BTCS)
+* backward difference at time `\(t_{n+1}\)`
+* second-order central difference at position `\(x_i\)`
+
+:arrow_right: [1D-heat] always stable and convergent but need to solve a system of equations on each time step.
+
+:arrow_right: [1D-heat] error: `\(O(\Delta t)+O(\Delta x^2)\)`
+
+--
+
+## Crank-Nicolson method (CTCS)
+* central difference at time `\(t_{n+\frac{1}{2}}\)`
+* second-order central difference at position `\(x_i\)`
+
+:arrow_right: [1D-heat] always stable and convergent but need to solve a system of equations on each time step.
+
+:arrow_right: [1D-heat] error: `\(O(\Delta t^2)+O(\Delta x^2)\)`
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+  </body>
+</html>
+
