@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PSA</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`PSA` - N. Dubray - ENSIIE - 2017 - [:book:](../index.html)
+]
+
+---
+
+# `Python` and `C/C++`
+
+
+## Several ways to interface `Python` and `C/C++`
+1. create a `Python` module in `C/C++` with `distutils`
+2. write a `C/C++` library, then generate `Python` bindings with `swig`
+3. write a `C/C++` library, then load it in a `Python` environment (`ctypes`, `dl`, etc...)
+4. use `C` code from `Python` with the `CFFI` or the `ctypes` `Python` modules
+5. use `Cython` (compiler and superset of the `Python` language, "mixing" `Python` and `C`)
+6. create a `Python` module in `C/C++` and extend `CPython` with it :warning: **obsolete** :warning:
+ 
+---
+
+# Create a `Python` module in `C/C++`
+
+## What ?
+:arrow_right: extend the `Python` language with pure `C/C++` modules  
+
+## Why ?
+:+: create new `Python` built-in types  
+:+: use `C/C++` library functions and system calls  
+:+: use optimized, vectorized, multi-thread `C/C++` code from `Python`
+
+## Warning
+:warning: only usable with the `C` extension interface, **specific to `CPython`**  
+:arrow_right: for a **portable solution** between `Python` implementations, prefer using `ctypes` or `CFFI` modules
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Example
+
+We want to write a `Python` module in `C/C++` and use it as
+
+```Python
+import testmod
+
+print(testmod.countchars.__doc__) # "Count characters in the input string."
+
+testmod.countchars('some text')   # should return 9
+```
+
+---
+
+# Create a `Python` module in `C/C++`
+
+:arrow_right: include the `Python.h` header
+
+.hcenter[`[testmod.c]`]
+```C
+#include <Python.h>
+```
+
+:warning: the `Python.h` header must be included **before** any other header
+
+---
+
+# Create a `Python` module in `C/C++`
+
+:arrow_right: write the `C/C++` method
+
+.hcenter[`[testmod.c]`]
+```C
+#include <Python.h>
+
+static PyObject *testmod_countchars(PyObject *self, PyObject *args)
+{
+  const char *text;
+  int sts;
+
+  if (!PyArg_ParseTuple(args, "s", &text))
+    return NULL;
+  sts = strlen(text);
+  return Py_BuildValue("i", sts);
+}
+```
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+  </body>
+</html>
+
