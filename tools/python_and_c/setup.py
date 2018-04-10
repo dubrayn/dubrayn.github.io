@@ -1,4 +1,5 @@
-from distutils.core import setup, Extension
+#from distutils.core import setup, Extension
+from setuptools import setup, Extension
 
 module1 = Extension('testmod',
                     sources = ['testmod.c'])

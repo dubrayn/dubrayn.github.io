@@ -27,12 +27,13 @@ class: animated fadeIn middle numbers
 
 
 ## Several ways to interface `Python` and `C/C++`
-1. create a `Python` module in `C/C++` with `distutils`
-2. write a `C/C++` library, then generate `Python` bindings with `swig`
-3. write a `C/C++` library, then load it in a `Python` environment (`ctypes`, `dl`, etc...)
-4. use `C` code from `Python` with the `CFFI` or the `ctypes` `Python` modules
-5. use `Cython` (compiler and superset of the `Python` language, "mixing" `Python` and `C`)
-6. create a `Python` module in `C/C++` and extend `CPython` with it :warning: **obsolete** :warning:
+1. create a `Python` module in `C/C++` with `distutils` or `Setuptools`
+2. use `Python` from `C/C++`
+3. write a `C/C++` library, then generate `Python` bindings with `swig`
+4. write a `C/C++` library, then load it in a `Python` environment (`ctypes`, `dl`, etc...)
+5. use `C` code from `Python` with the `CFFI` or the `ctypes` `Python` modules
+6. use `Cython` (compiler and superset of the `Python` language, "mixing" `Python` and `C`)
+7. create a `Python` module in `C/C++` and extend `CPython` with it :warning: **obsolete** :warning:
  
 ---
 
@@ -70,34 +71,310 @@ testmod.countchars('some text')   # should return 9
 
 # Create a `Python` module in `C/C++`
 
-:arrow_right: include the `Python.h` header
+## Step 1
 
-.hcenter[`[testmod.c]`]
+:arrow_right: create a `testmod.c` file and include the `Python.h` header
+
 ```C
 #include <Python.h>
 ```
 
-:warning: the `Python.h` header must be included **before** any other header
+## Remarks
+
+* the `Python.h` header comes with the `Python` development package  
+* for **debian** / **ubuntu**: package `libpython2.7-dev`  
+* :warning: the `Python.h` header must be included **before any other header**
 
 ---
 
 # Create a `Python` module in `C/C++`
 
-:arrow_right: write the `C/C++` method
+## Step 2
 
-.hcenter[`[testmod.c]`]
+:arrow_right: write the `C/C++` function
+
+```C
+static PyObject *testmod_countchars(PyObject *self, PyObject *args)
+{
+  const char *text;
+  int res;
+
+  if (!PyArg_ParseTuple(args, "s", &text))
+    return NULL;
+
+  res = strlen(text);
+
+  return Py_BuildValue("i", res);
+}
+```
+
+## Remarks
+
+* `Python` expects `C` functions to always have 2 or 3 arguments: `self`, `args`, `[keywords]`
+* `self` is `NULL` for modules
+* for methods, `self` is a pointer to the class instance
+* `args` is a pointer to a `Python` tuple containing the arguments
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Step 3
+
+:arrow_right: write the module's method table
+
+```C
+static PyMethodDef testmodMethods[] =
+  {
+    {
+      "countchars",
+      testmod_countchars,
+      METH_VARARGS,
+      "Count characters in the input string."
+    },
+    { NULL, NULL, 0, NULL }
+  };
+```
+
+## Remarks
+
+* list all methods of the module
+* format for each method: `{name, pointer, args_format, docstring}`
+* `METH_VARARGS` means that the `args` tuple is parsable by `PyArg_ParseTuple()`
+* docstring of the method: access with `help(countchars)` or `countchars.__doc__`
+* do not forget the special terminating struct :warning:
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Step 4
+
+:arrow_right: write the module's initialization function
+
+```C
+PyMODINIT_FUNC inittestmod(void)
+{
+  (void) Py_InitModule("testmod", testmodMethods);
+}
+```
+
+## Remarks
+
+* arguments of `Py_InitModule()`: name, pointer to the module's method table
+* must be named `initxxx()` with `xxx` the name of the module
+* `initxxx()` will be called when `Python` imports the module for the first time
+* `Py_InitModule()` creates a `Python` module object 
+* `PyMODINIT_FUNC` will include `extern "C"` in `C++`
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## .hcenter[`[testmod.c]`]
+
 ```C
 #include <Python.h>
 
 static PyObject *testmod_countchars(PyObject *self, PyObject *args)
 {
   const char *text;
-  int sts;
+  int res;
 
   if (!PyArg_ParseTuple(args, "s", &text))
     return NULL;
-  sts = strlen(text);
-  return Py_BuildValue("i", sts);
+
+  res = strlen(text);
+
+  return Py_BuildValue("i", res);
+}
+
+static PyMethodDef testmodMethods[] =
+  {
+    {
+      "countchars",
+      testmod_countchars,
+      METH_VARARGS,
+      "Count characters in the input string."
+    },
+    { NULL, NULL, 0, NULL }
+  };
+
+PyMODINIT_FUNC inittestmod(void)
+{
+  (void) Py_InitModule("testmod", testmodMethods);
+}
+```
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Compilation with `distutils`
+
+:arrow_right: create a simple `setup.py` file
+
+## .hcenter[`[setup.py]`]
+
+```Python
+from distutils.core import setup, Extension
+
+module1 = Extension('testmod',
+                    sources = ['testmod.c'])
+
+setup (name = 'TestPackage',
+       version = '1.0',
+       description = 'This is a test package',
+       ext_modules = [module1])
+```
+
+## Remarks
+
+* `distutils` is **no more** the prefered method to build and install `Python` modules :warning:
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Compilation with `Setuptools`
+
+:arrow_right: create a simple `setup.py` file
+
+## .hcenter[`[setup.py]`]
+
+```Python
+from setuptools import setup, Extension
+
+module1 = Extension('testmod',
+                    sources = ['testmod.c'])
+
+setup (name = 'TestPackage',
+       version = '1.0',
+       description = 'This is a test package',
+       ext_modules = [module1])
+```
+
+## Remarks
+
+* `Setuptools` is a set of enhancements to the `distutils` module
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Compilation
+
+```shell
+*$ python setup.py build
+running build
+running build_ext
+building 'testmod' extension
+creating build
+creating build/temp.linux-x86_64-2.7
+x86_64-linux-gnu-gcc -pthread -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fno-strict-aliasing -Wdate-time -D_
+FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat 
+-Werror=format-security -fPIC -I/usr/include/python2.7 -c testmod.c -o build/temp.linux-x86_64-2.7/testmod.o
+creating build/lib.linux-x86_64-2.7
+x86_64-linux-gnu-gcc -pthread -shared -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro -fno-st
+rict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-ma
+p=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -Wl,-Bsymboli
+c-functions -Wl,-z,relro -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7
+.14=. -fstack-protector-strong -Wformat -Werror=format-security build/temp.linux-x86_64-2.7/testmod.o -o build/lib.l
+inux-x86_64-2.7/testmod.so
+```
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Installation
+
+```shell
+*$ python setup.py install --user
+running install
+running bdist_egg
+running egg_info
+creating TestPackage.egg-info
+writing TestPackage.egg-info/PKG-INFO
+writing top-level names to TestPackage.egg-info/top_level.txt
+writing dependency_links to TestPackage.egg-info/dependency_links.txt
+writing manifest file 'TestPackage.egg-info/SOURCES.txt'
+reading manifest file 'TestPackage.egg-info/SOURCES.txt'
+writing manifest file 'TestPackage.egg-info/SOURCES.txt'
+installing library code to build/bdist.linux-x86_64/egg
+running install_lib
+running build_ext
+creating build/bdist.linux-x86_64
+creating build/bdist.linux-x86_64/egg
+copying build/lib.linux-x86_64-2.7/testmod.so -> build/bdist.linux-x86_64/egg
+creating stub loader for testmod.so
+byte-compiling build/bdist.linux-x86_64/egg/testmod.py to testmod.pyc
+creating build/bdist.linux-x86_64/egg/EGG-INFO
+copying TestPackage.egg-info/PKG-INFO -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying TestPackage.egg-info/SOURCES.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying TestPackage.egg-info/dependency_links.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying TestPackage.egg-info/top_level.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+writing build/bdist.linux-x86_64/egg/EGG-INFO/native_libs.txt
+zip_safe flag not set; analyzing archive contents...
+creating dist
+creating 'dist/TestPackage-1.0-py2.7-linux-x86_64.egg' and adding 'build/bdist.linux-x86_64/egg' to it
+removing 'build/bdist.linux-x86_64/egg' (and everything under it)
+Processing TestPackage-1.0-py2.7-linux-x86_64.egg
+Removing /home/dubrayn/.local/lib/python2.7/site-packages/TestPackage-1.0-py2.7-linux-x86_64.egg
+Copying TestPackage-1.0-py2.7-linux-x86_64.egg to /home/dubrayn/.local/lib/python2.7/site-packages
+TestPackage 1.0 is already the active version in easy-install.pth
+
+Installed /home/dubrayn/.local/lib/python2.7/site-packages/TestPackage-1.0-py2.7-linux-x86_64.egg
+Processing dependencies for TestPackage==1.0
+Finished processing dependencies for TestPackage==1.0
+```
+
+
+---
+
+TODO: keywords
+METH_VARARGS | METH_KEYWORDS
+
+---
+
+TODO PyArg_ParseTuple
+
+---
+
+TODO Py_BuildValue
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Return `void` (`None` in `Python`)
+
+```C
+Py_INCREF(Py_None);
+return Py_None;
+```
+
+:arrow_right: the special macro `Py_RETURN_NONE` does the same
+
+---
+
+# use `Python` from `C/C++`
+
+TODO
+
+```C
+#include <Python.h>
+
+int main(int argc, char *argv[])
+{
+  /* Pass argv[0] to the Python interpreter */
+  Py_SetProgramName(argv[0]);
+
+  /* Initialize the Python interpreter.  Required. */
+  Py_Initialize();
+
+  /* Add a static module */
+  inittestmod();
 }
 ```
 
