@@ -110,7 +110,7 @@ static PyObject *testmod_countchars(PyObject *self, PyObject *args)
 
 ## Remarks
 
-* `Python` expects `C` functions to always have 2 or 3 arguments: `self`, `args`, `[keywords]`
+* `Python` expects `C` functions to always have 2 arguments: `self`, `args`
 * `self` is `NULL` for modules
 * for methods, `self` is a pointer to the class instance
 * `args` is a pointer to a `Python` tuple containing the arguments
@@ -349,7 +349,7 @@ testmod.countchars('some text')   # 9
 static PyObject *testmod_countchars2(PyObject *self, PyObject *args, PyObject *keywords)
 {
   const char *text;
-  const int other;
+  int other;
   int res;
   static char *kwlist[] = {"text", "other", NULL};
 
@@ -383,7 +383,7 @@ static PyMethodDef testmodMethods[] =
 *     METH_VARARGS | METH_KEYWORDS,
 *     "Count characters in the input string and add 'other' value (keywords version)."
 *   },
-    { NULL, NULL, 2, NULL }
+    { NULL, NULL, 0, NULL }
   };
 ```
 
@@ -431,19 +431,213 @@ testmod.countchars2(other = 'pipo', text = 'some text')
 
 ---
 
-TODO PyArg_ParseTuple
+# Create a `Python` module in `C/C++`
+
+## Variant with keywords and default value: the `C/C++` function
+
+```C
+static PyObject *testmod_countchars3(PyObject *self, PyObject *args, PyObject *keywords)
+{
+  const char *text;
+  int other = 0;
+  int res;
+  static char *kwlist[] = {"text", "other", NULL};
+
+  if (!PyArg_ParseTupleAndKeywords(args, keywords, "s|i", kwlist, &text, &other))
+    return NULL;
+
+  res = strlen(text) + other;
+
+  return Py_BuildValue("i", res);
+}
+```
 
 ---
 
-TODO PyArg_ParseTupleAndKeywords
+# Create a `Python` module in `C/C++`
+
+## Variant with keywords and default value: module's method table
+
+```C
+static PyMethodDef testmodMethods[] =
+  {
+    {
+      "countchars",
+      testmod_countchars,
+      METH_VARARGS,
+      "Count characters in the input string."
+    },
+    {
+      "countchars2",
+      (PyCFunction)testmod_countchars2,
+      METH_VARARGS | METH_KEYWORDS,
+      "Count characters in the input string and add 'other' value (keywords version)."
+    },
+*   {
+*     "countchars3",
+*     (PyCFunction)testmod_countchars3,
+*     METH_VARARGS | METH_KEYWORDS,
+*     "Count characters in the input string and add 'other' value (keywords and default value version)."
+*   },
+    { NULL, NULL, 0, NULL }
+  };
+```
+
+## Remarks
+
+* do not forget to **cast** your function pointer to a `PyCFunction` :warning:
 
 ---
 
-TODO Py_BuildValue
+# Create a `Python` module in `C/C++`
+
+## Variant with keywords and default value: compilation
+
+```shell
+$ python setup.py build
+```
+
+## Installation
+
+```shell
+$ python setup.py install --user
+```
+
+## Usage
+
+```Python
+import testmod
+
+dir(testmod)
+# Output:
+# ['__builtins__', '__doc__', '__file__', '__name__', '__package__', '__warningregistry__', 'countchars', 'countchars2', 'countchars3']
+
+print(testmod.countchars3.__doc__) # "Count characters in the input string and add 'other' value (keywords and default value version)."
+
+testmod.countchars3('some text')                   #  9
+testmod.countchars3('some text', -2)               #  7
+testmod.countchars3(text = 'some text')            #  9
+testmod.countchars3(text = 'some text', other = 2) # 11
+testmod.countchars3(other = 2, text = 'some text') # 11
+```
 
 ---
 
-TODO reference counts
+# Create a `Python` module in `C/C++`
+
+## function `PyArg_ParseTuple()`
+
+* Arguments:
+
+  1. `PyObject *args`
+  2. `const char *format`
+  3. `...`
+
+## function `PyArg_ParseTupleAndKeywords()`
+
+* Arguments:
+  1. `PyObject *args`
+  2. `PyObject *kw`
+  3. `const char *format`
+  4. `char *keywords[]`
+  5. `...`
+
+## function `Py_BuildValue()`
+
+* Arguments:
+  1. `const char *format`
+  2. `...`
+
+* build a `tuple` if 2+ format units
+* return a `PyObject*` or `None` if empty format string
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Format string used by `PyArg_ParseTuple[AndKeywords]()`
+
+* `c`, `s#`, `s*`: `string` of length 1 converted to `char`
+* `s`, `s#`, `s*`: `string` or `Unicode` converted to `const char*`
+* `z`, `z#`, `z*`: `string` or `Unicode` or `None` converted to `const char*` (`NULL` if `None`)
+* `u`, `u#`: `Unicode` converted to `const char*` containing `UTF-16` data
+* `es`, `es#`, `et`, `et#`: variants of `s` with encoding conversion
+* `b`, `B`: `integer` converted to `unsigned char`
+* `h`: `integer` converted to `short int`
+* `H`: `integer` converted to `unsigned short int`
+* `i`: `integer` converted to `int`
+* `I`: `integer` converted to `unsigned int`
+* `l`: `integer` converted to `long`
+* `k`: `integer` converted to `unsigned long`
+* `L`: `integer` converted to `long long`
+* `K`: `integer` converted to `unsigned long long`
+* `f`: `float` converted to `float`
+* `d`: `float` converted to `double`
+* `D`: `complex` converted to `Py_complex`
+* `|`: the following arguments are **optional**
+* ...
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Format string used by `Py_BuildValue()`
+
+* `c`: `char` converted to `string` of length 1
+* `s`, `s#`, `z`, `z#`: `const char*` converted to `string`
+* `u`, `u#`: `const char*` converted to `Unicode`
+* `i`: `int` converted to `integer`
+* `b`: `char` converted to `integer`
+* `h`: `short int` converted to `integer`
+* `l`: `long` converted to `integer`
+* `B`: `unsigned char` converted to `integer`
+* `H`: `unsigned short int` converted to `integer`
+* `I`: `unsigned int` converted to `integer`
+* `k`: `unsigned long` converted to `integer`
+* `L`: `long long` converted to `integer`
+* `K`: `unsigned long lon` converted to `integer`
+* `f`: `float` converted to `float`
+* `d`: `double` converted to `float`
+* `D`: `Py_complex` converted to `complex`
+* `(...)`: `C` values to `tuple`
+* `[...]`: `C` values to `list`
+* `{...}`: `C` key/value pairs to `dict`
+* ...
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Reference counting
+
+.alert[
+* each time a function receives a reference to an object, its reference counter is incremented
+* each time a function removes a reference to an object, its reference counter is decremented
+* if a reference counter is 0, **the object is deleted**
+]
+
+.vspace[]
+
+.block[
+* reference counting **avoids memory leaks**
+* the `Python` user should not deallocate memory
+* reference cycles are detected by `CPython`
+]
+
+:arrow_right: almost all methods in `Python` "borrow" references to objects, except `PyTuple_SetItem()` and `PyList_SetItem()` :warning:
+
+## Reference counting macros
+
+* `void Py_INCREF(PyObject*)`  
+  increment the reference count, the object must not be `NULL`
+* `void Py_DECREF(PyObject*)`  
+  decrement the reference count, the object must not be `NULL`
+* `void Py_XINCREF(PyObject*)`  
+  increment the reference count, in case of a `NULL` object, do nothing
+* `void Py_XDECREF(PyObject*)`  
+  decrement the reference count, in case of a `NULL` object, do nothing
+* `void Py_CLEAR(PyObject*)`  
+  decrement the reference count to 0, in case of a `NULL` object, do nothing
 
 ---
 
@@ -460,12 +654,16 @@ return Py_None;
 
 ---
 
-# use `Python` from `C/C++`
+# Use `Python` from `C/C++`
 
-TODO
+:arrow_right: create a `testmod.h` header with the declarations of `testmod.c`  
+:arrow_right: module initialization functions must be called manually
+
+## .hcenter[`[main.c]`]
 
 ```C
 #include <Python.h>
+#include "testmod.h"
 
 int main(int argc, char *argv[])
 {
@@ -477,8 +675,19 @@ int main(int argc, char *argv[])
 
   /* Add a static module */
   inittestmod();
+
+  [...]
 }
 ```
+
+## Compilation
+
+```shell
+$ gcc -I /usr/include/python2.7/ -c testmod.c
+$ gcc -I /usr/include/python2.7/ -c main.c
+$ gcc testmod.o main.o -o python_from_c -lpython2.7
+```
+
 
     </textarea>
 
