@@ -336,6 +336,8 @@ a:visited {
 
 .numbers .remark-code-line {
   counter-increment: line;
+  text-indent: -1.9em;
+  padding-left: 1.9em;
 }
 
 .numbers .remark-code-line::before {
@@ -407,7 +409,8 @@ div.remark-code-line:empty::before {
 }
 
 #terminal, code, .remark-code, .cinescript, .hljs.remark-code {
-  overflow: hidden;
+  word-wrap: break-word;
+  white-space: pre-wrap;
   box-sizing: border-box;
   padding: 0.3em;
 }
@@ -609,9 +612,16 @@ video {
 /* ======== mathjax ======== */
 /* ========================= */
 
+.MathJax_SVG_Display { 
+  margin: 0.2em 0 0.2em 0 !important;
+  display: flex;
+  font-size: 0.9em;
+}
+
 .MathJax_Display { 
   margin: 0.2em 0 0.2em 0 !important;
   display: flex;
+  font-size: 0.9em;
 }
 
 /* ======================== */

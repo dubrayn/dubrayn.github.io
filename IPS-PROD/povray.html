@@ -128,7 +128,7 @@ $ povray +A0.0001 -W800 -H600 +P +Q11 example_00.pov
 * **very close from `C`**
 * case-sensitive
 * whitespaces are ignored
-* **order of objects** is ignored (but not properties)
+* **order of objects** is ignored (but not order of properties)
 * comments use `/* ... */` and `//` like `C`
 * include other files with `#include "..."`
 
@@ -466,9 +466,7 @@ object
   {
     bumps
     warp
-    {
-      turbulence 0.5
-    }
+    { turbulence 0.5 }
     scale 0.2
   }
 }
@@ -478,9 +476,7 @@ object
   height_field
   {
     function 16, 16
-    {
-      fn_Hills (x, y, z).red
-    }
+    { fn_Hills (x, y, z).red }
 
   }
   pigment
@@ -522,9 +518,7 @@ object
   {
     bumps
     warp
-    {
-      turbulence 0.5
-    }
+    { turbulence 0.5 }
     scale 0.2
   }
 }
@@ -534,9 +528,7 @@ object
   height_field
   {
 *   function 100, 100
-    {
-      fn_Hills (x, y, z).red
-    }
+    { fn_Hills (x, y, z).red }
 *   smooth
   }
   pigment
@@ -919,9 +911,7 @@ box
  <0,0,0><1,1,1>
  hollow
  pigment
- {
-  rgbf 1
- }
+ { rgbf 1 }
  interior
  {
   media
@@ -982,12 +972,9 @@ std::string cubeToDf3(const arma::cube &m)
   int nx = m.n_rows;
   int ny = m.n_cols;
   int nz = m.n_slices;
-  ss.put(nx >> 8);
-  ss.put(nx & 0xff);
-  ss.put(ny >> 8);
-  ss.put(ny & 0xff);
-  ss.put(nz >> 8);
-  ss.put(nz & 0xff);
+  ss.put(nx >> 8); ss.put(nx & 0xff);
+  ss.put(ny >> 8); ss.put(ny & 0xff);
+  ss.put(nz >> 8); ss.put(nz & 0xff);
   double theMin = 0.0;
   double theMax = m.max();
 

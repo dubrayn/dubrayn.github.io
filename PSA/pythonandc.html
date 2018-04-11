@@ -83,7 +83,7 @@ testmod.countchars('some text')   # should return 9
 
 * the `Python.h` header comes with the `Python` development package  
 * for **debian** / **ubuntu**: package `libpython2.7-dev`  
-* :warning: the `Python.h` header must be included **before any other header**
+* the `Python.h` header must be included **before any other header** :warning:
 
 ---
 
@@ -210,7 +210,7 @@ PyMODINIT_FUNC inittestmod(void)
 
 # Create a `Python` module in `C/C++`
 
-## Compilation with `distutils`
+## Step 5: prepare the compilation with `distutils`
 
 :arrow_right: create a simple `setup.py` file
 
@@ -236,7 +236,7 @@ setup (name = 'TestPackage',
 
 # Create a `Python` module in `C/C++`
 
-## Compilation with `Setuptools`
+## Step 5: prepare the compilation with `Setuptools`
 
 :arrow_right: create a simple `setup.py` file
 
@@ -262,7 +262,7 @@ setup (name = 'TestPackage',
 
 # Create a `Python` module in `C/C++`
 
-## Compilation
+## Step 6: compilation
 
 ```shell
 *$ python setup.py build
@@ -271,23 +271,15 @@ running build_ext
 building 'testmod' extension
 creating build
 creating build/temp.linux-x86_64-2.7
-x86_64-linux-gnu-gcc -pthread -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fno-strict-aliasing -Wdate-time -D_
-FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat 
--Werror=format-security -fPIC -I/usr/include/python2.7 -c testmod.c -o build/temp.linux-x86_64-2.7/testmod.o
-creating build/lib.linux-x86_64-2.7
-x86_64-linux-gnu-gcc -pthread -shared -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro -fno-st
-rict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-ma
-p=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -Wl,-Bsymboli
-c-functions -Wl,-z,relro -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7
-.14=. -fstack-protector-strong -Wformat -Werror=format-security build/temp.linux-x86_64-2.7/testmod.o -o build/lib.l
-inux-x86_64-2.7/testmod.so
+  x86_64-linux-gnu-gcc -pthread -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fno-strict-aliasing -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -fPIC -I/usr/include/python2.7 -c testmod.c -o build/temp.linux-x86_64-2.7/testmod.o creating build/lib.linux-x86_64-2.7
+x86_64-linux-gnu-gcc -pthread -shared -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -Wl,-Bsymbolic-functions -Wl,-z,relro -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security build/temp.linux-x86_64-2.7/testmod.o -o build/lib.linux-x86_64-2.7/testmod.so
 ```
 
 ---
 
 # Create a `Python` module in `C/C++`
 
-## Installation
+## Step 7: installation
 
 ```shell
 *$ python setup.py install --user
@@ -329,11 +321,113 @@ Processing dependencies for TestPackage==1.0
 Finished processing dependencies for TestPackage==1.0
 ```
 
+---
+
+# Create a `Python` module in `C/C++`
+
+## Step 8: use your new module :v:
+
+```Python
+import testmod
+
+dir(testmod)
+# Output:
+# ['__builtins__', '__doc__', '__file__', '__name__', '__package__', '__warningregistry__', 'countchars']
+
+print(testmod.countchars.__doc__) # "Count characters in the input string."
+
+testmod.countchars('some text')   # 9
+```
 
 ---
 
-TODO: keywords
-METH_VARARGS | METH_KEYWORDS
+# Create a `Python` module in `C/C++`
+
+## Variant with keywords: the `C/C++` function
+
+```C
+static PyObject *testmod_countchars2(PyObject *self, PyObject *args, PyObject *keywords)
+{
+  const char *text;
+  const int other;
+  int res;
+  static char *kwlist[] = {"text", "other", NULL};
+
+  if (!PyArg_ParseTupleAndKeywords(args, keywords, "si", kwlist, &text, &other))
+    return NULL;
+
+* res = strlen(text) + other;
+
+  return Py_BuildValue("i", res);
+}
+```
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Variant with keywords: module's method table
+
+```C
+static PyMethodDef testmodMethods[] =
+  {
+    {
+      "countchars",
+      testmod_countchars,
+      METH_VARARGS,
+      "Count characters in the input string."
+    },
+*   {
+*     "countchars2",
+*     (PyCFunction)testmod_countchars2,
+*     METH_VARARGS | METH_KEYWORDS,
+*     "Count characters in the input string and add 'other' value (keywords version)."
+*   },
+    { NULL, NULL, 2, NULL }
+  };
+```
+
+## Remarks
+
+* do not forget to **cast** your function pointer to a `PyCFunction` :warning:
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Variant with keywords: compilation
+
+```shell
+$ python setup.py build
+```
+
+## Installation
+
+```shell
+$ python setup.py install --user
+```
+
+## Usage
+
+```Python
+import testmod
+
+dir(testmod)
+# Output:
+# ['__builtins__', '__doc__', '__file__', '__name__', '__package__', '__warningregistry__', 'countchars', 'countchars2']
+
+print(testmod.countchars2.__doc__) # "Count characters in the input string and add 'other' value (keywords version)."
+
+testmod.countchars2('some text', 3)                # 12
+testmod.countchars2(text = 'some text', other = 3) # 12
+testmod.countchars2(other = 3, text = 'some text') # 12
+
+testmod.countchars2(other = 'pipo', text = 'some text')
+# Output:
+# Traceback (most recent call last):
+#   File "<stdin>", line 1, in <module>
+# TypeError: an integer is required
+```
 
 ---
 
@@ -341,7 +435,15 @@ TODO PyArg_ParseTuple
 
 ---
 
+TODO PyArg_ParseTupleAndKeywords
+
+---
+
 TODO Py_BuildValue
+
+---
+
+TODO reference counts
 
 ---
 

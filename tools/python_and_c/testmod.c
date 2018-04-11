@@ -3,15 +3,32 @@
 static PyObject *testmod_countchars(PyObject *self, PyObject *args)
 {
   const char *text;
-  int sts;
+  int res;
 
   if (!PyArg_ParseTuple(args, "s", &text))
     return NULL;
 
-  sts = strlen(text);
+  res = strlen(text);
 
-  return Py_BuildValue("i", sts);
+  return Py_BuildValue("i", res);
 }
+
+
+static PyObject *testmod_countchars2(PyObject *self, PyObject *args, PyObject *keywords)
+{
+  const char *text;
+  const int other;
+  int res;
+  static char *kwlist[] = {"text", "other", NULL};
+
+  if (!PyArg_ParseTupleAndKeywords(args, keywords, "si", kwlist, &text, &other))
+    return NULL;
+
+  res = strlen(text) + other;
+
+  return Py_BuildValue("i", res);
+}
+
 
 static PyMethodDef testmodMethods[] =
   {
@@ -20,6 +37,12 @@ static PyMethodDef testmodMethods[] =
       testmod_countchars,
       METH_VARARGS,
       "Count characters in the input string."
+    },
+    {
+      "countchars2",
+      (PyCFunction)testmod_countchars2,
+      METH_VARARGS | METH_KEYWORDS,
+      "Count characters in the input string and add 'other' value (keywords version)."
     },
     { NULL, NULL, 0, NULL }
   };

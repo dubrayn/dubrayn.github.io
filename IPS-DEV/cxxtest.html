@@ -150,29 +150,28 @@ Running cxxtest tests (1 test).OK!
 class MyTestSuite2 : public CxxTest::TestSuite
 {
 public:
-    void testAddition(void)
-    {
-        TS_ASSERT(1 + 1 > 1);
-        TS_ASSERT_EQUALS(1 + 1, 2);
-    }
+  void testAddition(void)
+  {
+    TS_ASSERT(1 + 1 > 1);
+    TS_ASSERT_EQUALS(1 + 1, 2);
+  }
 
-    void testMultiplication(void)
-    {
-        TS_TRACE("Starting multiplication test");
-*       TS_ASSERT_EQUALS(2 * 2, 5);
-        TS_TRACE("Finishing multiplication test");
-    }
+  void testMultiplication(void)
+  {
+    TS_TRACE("Starting multiplication test");
+*   TS_ASSERT_EQUALS(2 * 2, 5);
+    TS_TRACE("Finishing multiplication test");
+  }
 };
 ```
 
 ## .hcenter[Shell session]
 ```shell
-$ cxxtestgen --error-printer -o tests.cpp MyTestSuite.h
+$ cxxtestgen --error-printer -o tests.cpp MyTestSuite2.h
 $ g++ -o tests tests.cpp
 $ ./tests
 Running cxxtest tests (2 tests).
-*In MyTestSuite2::testMultiplication:
-*/home/dubrayn/temp/test_cxxtest/MyTestSuite2.h:15: Error: Expected (2 * 2 == 5), found (4 != 5)
+*In MyTestSuite2::testMultiplication: */home/dubrayn/temp/test_cxxtest/MyTestSuite2.h:14: Error: Expected (2 * 2 == 5), found (4 != 5)
 Failed 1 and Skipped 0 of 2 tests
 Success rate: 50%
 ```
@@ -217,12 +216,12 @@ Success rate: 50%
 ```C++
 void throws_value(void)
 {
-    raise 1;
+  raise 1;
 }
 
 void test_assert_throws_assert(void)
 {
-    TS_ASSERT_THROWS_ASSERT(self.throws_value(), const Error & e, TS_ASSERT_EQUALS(e, 1));
+  TS_ASSERT_THROWS_ASSERT(self.throws_value(), const Error & e, TS_ASSERT_EQUALS(e, 1));
 }
 ```
 
