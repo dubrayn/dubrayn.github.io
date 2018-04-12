@@ -331,6 +331,59 @@ The corresponding eigenvalues are given by
 
 .w70.alert.hcenter[:warning: a plot without a label and a unit for each axis is **worthless** :warning:]
 
+---
+
+# Project - Derivation of the FTCS scheme
+
+## Explicit method (FTCS)
+
+* forward difference at time `\(t_n\)`
+* second-order central difference at position `\(x_i\)`
+
+## Evolution equation
+`$$i\hbar\frac{\partial}{\partial t}\psi(x,y,t) = \hat{\mathcal{H}}_{(x,y)}\psi(x,y,t)$$`
+with the 2D-Hamiltonian operator defined as
+`$$\hat{\mathcal{H}}_{(x,y)}\equiv \frac{\hat{p}_{(x)}^2}{2m} + \frac{\hat{p}_{(y)}^2}{2m} + \hat{V}(x,y),$$`
+and the momentum operators defined as
+`$$\forall u \in \{x,y\},\hspace{5mm}\hat{p}_{(u)}\equiv -i\hbar\frac{\partial}{\partial u}.$$`
+
+---
+
+# Project - Derivation of the BTCS scheme
+
+## Implicit method (BTCS)
+
+* backward difference at time `\(t_{n+1}\)`
+* second-order central difference at position `\(x_i\)`
+
+## Evolution equation
+`$$i\hbar\frac{\partial}{\partial t}\psi(x,y,t) = \hat{\mathcal{H}}_{(x,y)}\psi(x,y,t)$$`
+with the 2D-Hamiltonian operator defined as
+`$$\hat{\mathcal{H}}_{(x,y)}\equiv \frac{\hat{p}_{(x)}^2}{2m} + \frac{\hat{p}_{(y)}^2}{2m} + \hat{V}(x,y),$$`
+and the momentum operators defined as
+`$$\forall u \in \{x,y\},\hspace{5mm}\hat{p}_{(u)}\equiv -i\hbar\frac{\partial}{\partial u}.$$`
+
+---
+
+# Project - Derivation of the CTCS scheme
+
+## Crank-Nicolson method (CTCS)
+
+* central difference at time `\(t_{n+\frac{1}{2}}\)`
+* second-order central difference at position `\(x_i\)`
+
+## Evolution equation
+`$$i\hbar\frac{\partial}{\partial t}\psi(x,y,t) = \hat{\mathcal{H}}_{(x,y)}\psi(x,y,t)$$`
+with the 2D-Hamiltonian operator defined as
+`$$\hat{\mathcal{H}}_{(x,y)}\equiv \frac{\hat{p}_{(x)}^2}{2m} + \frac{\hat{p}_{(y)}^2}{2m} + \hat{V}(x,y),$$`
+and the momentum operators defined as
+`$$\forall u \in \{x,y\},\hspace{5mm}\hat{p}_{(u)}\equiv -i\hbar\frac{\partial}{\partial u}.$$`
+
+
+
+
+
+
     </textarea>
 
     <script src="core/javascript/remark.js"></script>
