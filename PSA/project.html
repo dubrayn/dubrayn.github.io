@@ -379,7 +379,17 @@ with the 2D-Hamiltonian operator defined as
 and the momentum operators defined as
 `$$\forall u \in \{x,y\},\hspace{5mm}\hat{p}_{(u)}\equiv -i\hbar\frac{\partial}{\partial u}.$$`
 
+---
 
+# Project - Derivation of the Crank-Nicolson scheme
+
+`$$\begin{eqnarray}\left(\frac{2i\hbar}{dt}-V(x,y)-\frac{\hbar^2}{m.dx^2}-\frac{\hbar^2}{m.dy^2}\right)\psi^{(t+dt)} &=&
+\frac{-\hbar^2}{2m.dx^2}\left(\psi_{x+dx}+\psi_{x-dx}\right)\\
+&-& \frac{\hbar^2}{2m.dy^2}\left(\psi_{y+dy}+\psi_{y-dy}\right)\\
+&-& \frac{\hbar^2}{2m.dx^2}\left(\psi^{(t+dt)}_{x+dx}+\psi^{(t+dt)}_{x-dx}\right)\\
+&-& \frac{\hbar^2}{2m.dy^2}\left(\psi^{(t+dt)}_{y+dy}+\psi^{(t+dt)}_{y-dy}\right)\\
+&+& \left(V(x,y) + \frac{2i\hbar}{dt}+\frac{\hbar^2}{m.dx^2}+\frac{\hbar^2}{m.dy^2}\right)\psi
+\end{eqnarray}$$`
 
 
 
