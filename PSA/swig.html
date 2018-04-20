@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PSA</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`PSA` - N. Dubray - ENSIIE - 2018 - [:book:](../index.html)
+]
+
+---
+
+# `Swig`
+
+.shadow.hcenter.w15[![](images/david_beazley.png)]
+
+
+## History
+* first author: **David Beazley**
+* started in **summer 1995** at LANL
+* first release: **Feb. 1996**
+* first paper: **June 1996** (`Python` Workshop)
+
+## Characteristics
+* **S**implified **W**rapper and **I**nterface **G**enerator
+* initial goal: *"make it easy for scientists to put scripting interfaces on physics software"*
+* today: **24+** supported languages (even non-scripting ones)
+
+
+.block[
+* Repository: [https://github.com/swig/swig](https://github.com/swig/swig)
+* Website: [http://swig.org)](http://swig.org)
+* License: `GPLv3`
+* These slides are inspired from [Reintroducing Swig](http://www.dabeaz.com/talks.html#reintroducing-swig) and [Swig master class](http://www.dabeaz.com/SwigMaster/SWIGMaster.pdf)
+]
+
+---
+
+# `Swig`: supported languages
+
+.hcenter[
+* `Tcl` >8.0 (swig-1.1)
+* `Python` >1.5 (swig-1.1)
+* `Perl` >5.003 (swig-1.1)
+* `Guile` >1.3.4 (swig-1.1)
+* `Java JDK` >1.1 (swig-1.3.6)
+* `Ruby` (swig-1.3.6)
+* `Mzscheme` (swig-1.3.6)
+* `PHP` (swig-1.3.11)
+* `Ocaml` (swig-1.3.14)
+* `Pike` (swig-1.3.14)
+* `C#` (swig-1.3.18)
+* `Chicken` scheme compiler (swig-1.3.18)
+* `Allegro CL` (swig-1.3.22)
+*  `Modula-3` (swig-1.3.22)
+* `Lua` (swig-1.3.26)
+* `CLISP` with UFFI (swig-1.3.26)
+* `Common Lisp` with UFFI (swig-1.3.26)
+* `Common Lisp` with CFFI (swig-1.3.28)
+* `R` (swig-1.3.30)
+* `Octave` (swig-1.3.35)
+* `Go` (swig-2.0.1)
+* `D` (swig-2.0.2)
+* `Javascript` (swig-3.0.1)
+* `Scilab` (swig-3.0.5)
+]
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## What ?
+:arrow_right: extend the `Python` language with pure `C/C++` modules  
+
+## Why ?
+:+: create new `Python` built-in types  
+:+: use `C/C++` library functions and system calls  
+:+: use optimized, vectorized, multi-thread `C/C++` code from `Python`
+
+## Warning
+:warning: only usable with the `C` extension interface, **specific to `CPython`**  
+:arrow_right: for a **portable solution** between `Python` implementations, prefer using `ctypes` or `CFFI` modules
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Example
+
+We want to write a `Python` module in `C/C++` and use it as
+
+```Python
+import testmod
+
+print(testmod.countchars.__doc__) # "Count characters in the input string."
+
+testmod.countchars('some text')   # should return 9
+```
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Step 1
+
+:arrow_right: create a `testmod.c` file and include the `Python.h` header
+
+```C
+#include <Python.h>
+```
+
+## Remarks
+
+* the `Python.h` header comes with the `Python` development package  
+* for **debian** / **ubuntu**: package `libpython2.7-dev`  
+* the `Python.h` header must be included **before any other header** :warning:
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Step 2
+
+:arrow_right: write the `C/C++` function
+
+```C
+static PyObject *testmod_countchars(PyObject *self, PyObject *args)
+{
+  const char *text;
+  int res;
+
+  if (!PyArg_ParseTuple(args, "s", &text))
+    return NULL;
+
+  res = strlen(text);
+
+  return Py_BuildValue("i", res);
+}
+```
+
+## Remarks
+
+* `Python` expects `C` functions to always have 2 arguments: `self`, `args`
+* `self` is `NULL` for modules
+* for methods, `self` is a pointer to the class instance
+* `args` is a pointer to a `Python` tuple containing the arguments
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Step 3
+
+:arrow_right: write the module's method table
+
+```C
+static PyMethodDef testmodMethods[] =
+  {
+    {
+      "countchars",
+      testmod_countchars,
+      METH_VARARGS,
+      "Count characters in the input string."
+    },
+    { NULL, NULL, 0, NULL }
+  };
+```
+
+## Remarks
+
+* list all methods of the module
+* format for each method: `{name, pointer, args_format, docstring}`
+* `METH_VARARGS` means that the `args` tuple is parsable by `PyArg_ParseTuple()`
+* docstring of the method: access with `help(countchars)` or `countchars.__doc__`
+* do not forget the special terminating struct :warning:
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Step 4
+
+:arrow_right: write the module's initialization function
+
+```C
+PyMODINIT_FUNC inittestmod(void)
+{
+  (void) Py_InitModule("testmod", testmodMethods);
+}
+```
+
+## Remarks
+
+* arguments of `Py_InitModule()`: name, pointer to the module's method table
+* must be named `initxxx()` with `xxx` the name of the module
+* `initxxx()` will be called when `Python` imports the module for the first time
+* `Py_InitModule()` creates a `Python` module object 
+* `PyMODINIT_FUNC` will include `extern "C"` in `C++`
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## .hcenter[`[testmod.c]`]
+
+```C
+#include <Python.h>
+
+static PyObject *testmod_countchars(PyObject *self, PyObject *args)
+{
+  const char *text;
+  int res;
+
+  if (!PyArg_ParseTuple(args, "s", &text))
+    return NULL;
+
+  res = strlen(text);
+
+  return Py_BuildValue("i", res);
+}
+
+static PyMethodDef testmodMethods[] =
+  {
+    {
+      "countchars",
+      testmod_countchars,
+      METH_VARARGS,
+      "Count characters in the input string."
+    },
+    { NULL, NULL, 0, NULL }
+  };
+
+PyMODINIT_FUNC inittestmod(void)
+{
+  (void) Py_InitModule("testmod", testmodMethods);
+}
+```
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Step 5: prepare the compilation with `distutils`
+
+:arrow_right: create a simple `setup.py` file
+
+## .hcenter[`[setup.py]`]
+
+```Python
+from distutils.core import setup, Extension
+
+module1 = Extension('testmod',
+                    sources = ['testmod.c'])
+
+setup (name = 'TestPackage',
+       version = '1.0',
+       description = 'This is a test package',
+       ext_modules = [module1])
+```
+
+## Remarks
+
+* `distutils` is **no more** the prefered method to build and install `Python` modules :warning:
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Step 5: prepare the compilation with `Setuptools`
+
+:arrow_right: create a simple `setup.py` file
+
+## .hcenter[`[setup.py]`]
+
+```Python
+from setuptools import setup, Extension
+
+module1 = Extension('testmod',
+                    sources = ['testmod.c'])
+
+setup (name = 'TestPackage',
+       version = '1.0',
+       description = 'This is a test package',
+       ext_modules = [module1])
+```
+
+## Remarks
+
+* `Setuptools` is a set of enhancements to the `distutils` module
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Step 6: compilation
+
+```shell
+*$ python setup.py build
+running build
+running build_ext
+building 'testmod' extension
+creating build
+creating build/temp.linux-x86_64-2.7
+  x86_64-linux-gnu-gcc -pthread -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fno-strict-aliasing -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -fPIC -I/usr/include/python2.7 -c testmod.c -o build/temp.linux-x86_64-2.7/testmod.o creating build/lib.linux-x86_64-2.7
+x86_64-linux-gnu-gcc -pthread -shared -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -Wl,-Bsymbolic-functions -Wl,-z,relro -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security build/temp.linux-x86_64-2.7/testmod.o -o build/lib.linux-x86_64-2.7/testmod.so
+```
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Step 7: installation
+
+```shell
+*$ python setup.py install --user
+running install
+running bdist_egg
+running egg_info
+creating TestPackage.egg-info
+writing TestPackage.egg-info/PKG-INFO
+writing top-level names to TestPackage.egg-info/top_level.txt
+writing dependency_links to TestPackage.egg-info/dependency_links.txt
+writing manifest file 'TestPackage.egg-info/SOURCES.txt'
+reading manifest file 'TestPackage.egg-info/SOURCES.txt'
+writing manifest file 'TestPackage.egg-info/SOURCES.txt'
+installing library code to build/bdist.linux-x86_64/egg
+running install_lib
+running build_ext
+creating build/bdist.linux-x86_64
+creating build/bdist.linux-x86_64/egg
+copying build/lib.linux-x86_64-2.7/testmod.so -> build/bdist.linux-x86_64/egg
+creating stub loader for testmod.so
+byte-compiling build/bdist.linux-x86_64/egg/testmod.py to testmod.pyc
+creating build/bdist.linux-x86_64/egg/EGG-INFO
+copying TestPackage.egg-info/PKG-INFO -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying TestPackage.egg-info/SOURCES.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying TestPackage.egg-info/dependency_links.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying TestPackage.egg-info/top_level.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+writing build/bdist.linux-x86_64/egg/EGG-INFO/native_libs.txt
+zip_safe flag not set; analyzing archive contents...
+creating dist
+creating 'dist/TestPackage-1.0-py2.7-linux-x86_64.egg' and adding 'build/bdist.linux-x86_64/egg' to it
+removing 'build/bdist.linux-x86_64/egg' (and everything under it)
+Processing TestPackage-1.0-py2.7-linux-x86_64.egg
+Removing /home/dubrayn/.local/lib/python2.7/site-packages/TestPackage-1.0-py2.7-linux-x86_64.egg
+Copying TestPackage-1.0-py2.7-linux-x86_64.egg to /home/dubrayn/.local/lib/python2.7/site-packages
+TestPackage 1.0 is already the active version in easy-install.pth
+
+Installed /home/dubrayn/.local/lib/python2.7/site-packages/TestPackage-1.0-py2.7-linux-x86_64.egg
+Processing dependencies for TestPackage==1.0
+Finished processing dependencies for TestPackage==1.0
+```
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Step 8: use your new module :v:
+
+```Python
+import testmod
+
+dir(testmod)
+# Output:
+# ['__builtins__', '__doc__', '__file__', '__name__', '__package__', '__warningregistry__', 'countchars']
+
+print(testmod.countchars.__doc__) # "Count characters in the input string."
+
+testmod.countchars('some text')   # 9
+```
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Variant with keywords: the `C/C++` function
+
+```C
+static PyObject *testmod_countchars2(PyObject *self, PyObject *args, PyObject *keywords)
+{
+  const char *text;
+  int other;
+  int res;
+  static char *kwlist[] = {"text", "other", NULL};
+
+  if (!PyArg_ParseTupleAndKeywords(args, keywords, "si", kwlist, &text, &other))
+    return NULL;
+
+* res = strlen(text) + other;
+
+  return Py_BuildValue("i", res);
+}
+```
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Variant with keywords: module's method table
+
+```C
+static PyMethodDef testmodMethods[] =
+  {
+    {
+      "countchars",
+      testmod_countchars,
+      METH_VARARGS,
+      "Count characters in the input string."
+    },
+*   {
+*     "countchars2",
+*     (PyCFunction)testmod_countchars2,
+*     METH_VARARGS | METH_KEYWORDS,
+*     "Count characters in the input string and add 'other' value (keywords version)."
+*   },
+    { NULL, NULL, 0, NULL }
+  };
+```
+
+## Remarks
+
+* do not forget to **cast** your function pointer to a `PyCFunction` :warning:
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Variant with keywords: compilation
+
+```shell
+$ python setup.py build
+```
+
+## Installation
+
+```shell
+$ python setup.py install --user
+```
+
+## Usage
+
+```Python
+import testmod
+
+dir(testmod)
+# Output:
+# ['__builtins__', '__doc__', '__file__', '__name__', '__package__', '__warningregistry__', 'countchars', 'countchars2']
+
+print(testmod.countchars2.__doc__) # "Count characters in the input string and add 'other' value (keywords version)."
+
+testmod.countchars2('some text', 3)                # 12
+testmod.countchars2(text = 'some text', other = 3) # 12
+testmod.countchars2(other = 3, text = 'some text') # 12
+
+testmod.countchars2(other = 'pipo', text = 'some text')
+# Output:
+# Traceback (most recent call last):
+#   File "<stdin>", line 1, in <module>
+# TypeError: an integer is required
+```
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Variant with keywords and default value: the `C/C++` function
+
+```C
+static PyObject *testmod_countchars3(PyObject *self, PyObject *args, PyObject *keywords)
+{
+  const char *text;
+  int other = 0;
+  int res;
+  static char *kwlist[] = {"text", "other", NULL};
+
+  if (!PyArg_ParseTupleAndKeywords(args, keywords, "s|i", kwlist, &text, &other))
+    return NULL;
+
+  res = strlen(text) + other;
+
+  return Py_BuildValue("i", res);
+}
+```
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Variant with keywords and default value: module's method table
+
+```C
+static PyMethodDef testmodMethods[] =
+  {
+    {
+      "countchars",
+      testmod_countchars,
+      METH_VARARGS,
+      "Count characters in the input string."
+    },
+    {
+      "countchars2",
+      (PyCFunction)testmod_countchars2,
+      METH_VARARGS | METH_KEYWORDS,
+      "Count characters in the input string and add 'other' value (keywords version)."
+    },
+*   {
+*     "countchars3",
+*     (PyCFunction)testmod_countchars3,
+*     METH_VARARGS | METH_KEYWORDS,
+*     "Count characters in the input string and add 'other' value (keywords and default value version)."
+*   },
+    { NULL, NULL, 0, NULL }
+  };
+```
+
+## Remarks
+
+* do not forget to **cast** your function pointer to a `PyCFunction` :warning:
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Variant with keywords and default value: compilation
+
+```shell
+$ python setup.py build
+```
+
+## Installation
+
+```shell
+$ python setup.py install --user
+```
+
+## Usage
+
+```Python
+import testmod
+
+dir(testmod)
+# Output:
+# ['__builtins__', '__doc__', '__file__', '__name__', '__package__', '__warningregistry__', 'countchars', 'countchars2', 'countchars3']
+
+print(testmod.countchars3.__doc__) # "Count characters in the input string and add 'other' value (keywords and default value version)."
+
+testmod.countchars3('some text')                   #  9
+testmod.countchars3('some text', -2)               #  7
+testmod.countchars3(text = 'some text')            #  9
+testmod.countchars3(text = 'some text', other = 2) # 11
+testmod.countchars3(other = 2, text = 'some text') # 11
+```
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## function `PyArg_ParseTuple()`
+
+* Arguments:
+
+  1. `PyObject *args`
+  2. `const char *format`
+  3. `...`
+
+## function `PyArg_ParseTupleAndKeywords()`
+
+* Arguments:
+  1. `PyObject *args`
+  2. `PyObject *kw`
+  3. `const char *format`
+  4. `char *keywords[]`
+  5. `...`
+
+## function `Py_BuildValue()`
+
+* Arguments:
+  1. `const char *format`
+  2. `...`
+
+* build a `tuple` if 2+ format units
+* return a `PyObject*` or `None` if empty format string
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Format string used by `PyArg_ParseTuple[AndKeywords]()`
+
+* `c`, `s#`, `s*`: `string` of length 1 converted to `char`
+* `s`, `s#`, `s*`: `string` or `Unicode` converted to `const char*`
+* `z`, `z#`, `z*`: `string` or `Unicode` or `None` converted to `const char*` (`NULL` if `None`)
+* `u`, `u#`: `Unicode` converted to `const char*` containing `UTF-16` data
+* `es`, `es#`, `et`, `et#`: variants of `s` with encoding conversion
+* `b`, `B`: `integer` converted to `unsigned char`
+* `h`: `integer` converted to `short int`
+* `H`: `integer` converted to `unsigned short int`
+* `i`: `integer` converted to `int`
+* `I`: `integer` converted to `unsigned int`
+* `l`: `integer` converted to `long`
+* `k`: `integer` converted to `unsigned long`
+* `L`: `integer` converted to `long long`
+* `K`: `integer` converted to `unsigned long long`
+* `f`: `float` converted to `float`
+* `d`: `float` converted to `double`
+* `D`: `complex` converted to `Py_complex`
+* `|`: the following arguments are **optional**
+* ...
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Format string used by `Py_BuildValue()`
+
+* `c`: `char` converted to `string` of length 1
+* `s`, `s#`, `z`, `z#`: `const char*` converted to `string`
+* `u`, `u#`: `const char*` converted to `Unicode`
+* `i`: `int` converted to `integer`
+* `b`: `char` converted to `integer`
+* `h`: `short int` converted to `integer`
+* `l`: `long` converted to `integer`
+* `B`: `unsigned char` converted to `integer`
+* `H`: `unsigned short int` converted to `integer`
+* `I`: `unsigned int` converted to `integer`
+* `k`: `unsigned long` converted to `integer`
+* `L`: `long long` converted to `integer`
+* `K`: `unsigned long lon` converted to `integer`
+* `f`: `float` converted to `float`
+* `d`: `double` converted to `float`
+* `D`: `Py_complex` converted to `complex`
+* `(...)`: `C` values to `tuple`
+* `[...]`: `C` values to `list`
+* `{...}`: `C` key/value pairs to `dict`
+* ...
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Reference counting
+
+.alert[
+* each time a function receives a reference to an object, its reference counter is incremented
+* each time a function removes a reference to an object, its reference counter is decremented
+* if a reference counter is 0, **the object is deleted**
+]
+
+.vspace[]
+
+.block[
+* reference counting **avoids memory leaks**
+* the `Python` user should not deallocate memory
+* reference cycles are detected by `CPython`
+]
+
+:arrow_right: almost all methods in `Python` "borrow" references to objects, except `PyTuple_SetItem()` and `PyList_SetItem()` :warning:
+
+## Reference counting macros
+
+* `void Py_INCREF(PyObject*)`  
+  increment the reference count, the object must not be `NULL`
+* `void Py_DECREF(PyObject*)`  
+  decrement the reference count, the object must not be `NULL`
+* `void Py_XINCREF(PyObject*)`  
+  increment the reference count, in case of a `NULL` object, do nothing
+* `void Py_XDECREF(PyObject*)`  
+  decrement the reference count, in case of a `NULL` object, do nothing
+* `void Py_CLEAR(PyObject*)`  
+  decrement the reference count to 0, in case of a `NULL` object, do nothing
+
+---
+
+# Create a `Python` module in `C/C++`
+
+## Return `void` (`None` in `Python`)
+
+```C
+Py_INCREF(Py_None);
+return Py_None;
+```
+
+:arrow_right: the special macro `Py_RETURN_NONE` does the same
+
+---
+
+# Use `Python` from `C/C++`
+
+:arrow_right: create a `testmod.h` header with the declarations of `testmod.c`  
+:arrow_right: module initialization functions must be called manually
+
+## .hcenter[`[main.c]`]
+
+```C
+#include <Python.h>
+#include "testmod.h"
+
+int main(int argc, char *argv[])
+{
+  /* Pass argv[0] to the Python interpreter */
+  Py_SetProgramName(argv[0]);
+
+  /* Initialize the Python interpreter.  Required. */
+  Py_Initialize();
+
+  /* Add a static module */
+  inittestmod();
+
+  [...]
+}
+```
+
+## Compilation
+
+```shell
+$ gcc -I /usr/include/python2.7/ -c testmod.c
+$ gcc -I /usr/include/python2.7/ -c main.c
+$ gcc testmod.o main.o -o python_from_c -lpython2.7
+```
+
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+  </body>
+</html>
+
