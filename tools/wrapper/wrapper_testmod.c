@@ -8,10 +8,11 @@ static PyObject *testmod_myfunc0(PyObject *self, PyObject *args)
   {
     return NULL;
   }
+
   result = myfunc0(x);
+
   return Py_BuildValue("d", result);
 }
-
 
 static PyMethodDef testmodMethods[] =
   {

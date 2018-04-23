@@ -84,7 +84,7 @@ class: top
 
 # Wrapping, binding, porting
 
-## Definition ?
+## Definitions ?
 
 --
 
@@ -96,8 +96,7 @@ class: top
 :arrow_right: use with a **different interface**  
 :+: same language as the original code  
 :+: no need to rewrite the original code  
-:+: easy to write  
-:+: easy to update if the original code changes  
+:+: easy to write and to update if the original code changes  
 :warning: tedious work
 
 --
@@ -105,8 +104,7 @@ class: top
 ## Binding
 :arrow_right: use from a **different language**  
 :+: no need to rewrite the original code  
-:warning: semi-easy to write  
-:+: easy to update if the original code changes  
+:warning: semi-easy to write and to update if the original code changes  
 :warning: may need to write some conversions (types, external libraries, exceptions, etc...)  
 :warning: tedious work  
 :warning: your code may take a performance hit, since there may be a overhead cost
@@ -115,8 +113,7 @@ class: top
 
 ## Porting
 :arrow_right: use in a **different environment**  
-:warning: semi-easy to write  
-:warning: semi-easy to update if the original code changes  
+:warning: semi-easy to write and to update if the original code changes  
 :warning: some rewriting **may be necessary** if some functionalities have changed or are missing
 
 ---
@@ -183,7 +180,7 @@ double myfunc0(double);
 ]
 ]
 
-## .hcenter[\[wrapper_myfunc0.c\]]
+## .hcenter[\[wrapper_testmod.c\]]
 ```C++
 #include <Python.h>
 #include "myfunc0.h"
@@ -206,7 +203,7 @@ static PyObject *testmod_myfunc0(PyObject *self, PyObject *args)
 
 ---
 
-# Wrapper function compilation
+# Wrapper function compilation preparation
 
 ## With `Setuptools`
 
@@ -217,34 +214,42 @@ static PyObject *testmod_myfunc0(PyObject *self, PyObject *args)
 ```Python
 from setuptools import setup, Extension
 
-module1 = Extension('_testmod',
-                    sources = ['wrapper_myfunc0.c', 'myfunc0.c'])
+module1 = Extension('testmod',
+                    sources = ['wrapper_testmod.c', 'myfunc0.c'])
 
-setup (name = 'TestPackage',
+setup (name = 'package_test',
+       py_modules = ['testmod'],
        version = '1.0',
        description = 'This is a test package',
        ext_modules = [module1])
 ```
 
+---
+
+# Wrapper function compilation
+
 ## .hcenter[Shell session]
 ```shell
 *$ python setup.py build
 running build
+running build_py
+file testmod.py (for module testmod) not found
+file testmod.py (for module testmod) not found
 running build_ext
-building '_testmod' extension
+building 'testmod' extension
 creating build
 creating build/temp.linux-x86_64-2.7
-gcc -pthread -fno-strict-aliasing -g -fPIC -O2 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/usr/include/python2.7 -c wrapper_myfunc0.c -o build/temp.linux-x86_64-2.7/wrapper_myfunc0.o
-gcc -pthread -fno-strict-aliasing -g -fPIC -O2 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/usr/include/python2.7 -c myfunc0.c -o build/temp.linux-x86_64-2.7/myfunc0.o
+x86_64-linux-gnu-gcc -pthread -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fno-strict-aliasing -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -fPIC -I/usr/include/python2.7 -c wrapper_testmod.c -o build/temp.linux-x86_64-2.7/wrapper_testmod.o
+x86_64-linux-gnu-gcc -pthread -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fno-strict-aliasing -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -fPIC -I/usr/include/python2.7 -c myfunc0.c -o build/temp.linux-x86_64-2.7/myfunc0.o
 creating build/lib.linux-x86_64-2.7
-gcc -pthread -shared build/temp.linux-x86_64-2.7/testmod.o build/temp.linux-x86_64-2.7/myfunc0.o -lpython2.7 -o build/lib.linux-x86_64-2.7/testmod.so
+x86_64-linux-gnu-gcc -pthread -shared -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -Wl,-Bsymbolic-functions -Wl,-z,relro -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security build/temp.linux-x86_64-2.7/wrapper_testmod.o build/temp.linux-x86_64-2.7/myfunc0.o -o build/lib.linux-x86_64-2.7/testmod.so
 ```
 
 ---
 
-# Wrapper function use
+# Wrapper function usage
 
-## Direct use
+## Direct usage
 
 :arrow_right: `CPython` can handle `.so` files directly.
 
@@ -264,9 +269,16 @@ running install
 running bdist_egg
 running egg_info
 [...]
-Installed /home/dubrayn/.local/lib/python2.7/site-packages/TestPackage-1.0-py2.7-linux-x86_64.egg
-Processing dependencies for TestPackage==1.0
-Finished processing dependencies for TestPackage==1.0
+creating dist
+creating 'dist/package_test-1.0-py2.7-linux-x86_64.egg' and adding 'build/bdist.linux-x86_64/egg' to it
+removing 'build/bdist.linux-x86_64/egg' (and everything under it)
+Processing package_test-1.0-py2.7-linux-x86_64.egg
+Copying package_test-1.0-py2.7-linux-x86_64.egg to /home/dubrayn/.local/lib/python2.7/site-packages
+Adding package-test 1.0 to easy-install.pth file
+
+Installed /home/dubrayn/.local/lib/python2.7/site-packages/package_test-1.0-py2.7-linux-x86_64.egg
+Processing dependencies for package-test==1.0
+Finished processing dependencies for package-test==1.0
 *$ python -c 'import testmod; print(testmod.myfunc0(5))'
 26.0
 ```
@@ -351,7 +363,17 @@ double myfunc0(double);
 
 ---
 
-# `Swig` example: compilation
+# `Swig` example: compilation preparation
+
+## Manual invocation of `Swig`
+
+```shell
+$ ls
+myfunc0.c  myfunc0.h  setup.py  testmod.i
+*$ swig -python testmod.i 
+$ ls
+myfunc0.c  myfunc0.h  setup.py  testmod.i  testmod.py  testmod_wrap.c
+```
 
 ## With `Setuptools`
 
@@ -365,26 +387,83 @@ from setuptools import setup, Extension
 module1 = Extension('_testmod',
                     sources = ['testmod.i', 'myfunc0.c'])
 
-setup (name = 'TestPackage',
+setup (name = 'package_test',
+       py_modules = ['testmod'],
        version = '1.0',
        description = 'This is a test package',
        ext_modules = [module1])
 ```
 
+---
+
+# `Swig` example: compilation
+
 ## .hcenter[Shell session]
 ```shell
 *$ python setup.py build
 running build
+running build_py
+file testmod.py (for module testmod) not found
+file testmod.py (for module testmod) not found
 running build_ext
-building 'testmod' extension
+building '_testmod' extension
+swigging testmod.i to testmod_wrap.c
+swig -python -o testmod_wrap.c testmod.i
 creating build
 creating build/temp.linux-x86_64-2.7
-gcc -pthread -fno-strict-aliasing -g -fPIC -O2 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/usr/include/python2.7 -c testmod.c -o build/temp.linux-x86_64-2.7/testmod.o
-gcc -pthread -fno-strict-aliasing -g -fPIC -O2 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/usr/include/python2.7 -c myfunc0.c -o build/temp.linux-x86_64-2.7/myfunc0.o
+x86_64-linux-gnu-gcc -pthread -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fno-strict-aliasing -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -fPIC -I/usr/include/python2.7 -c testmod_wrap.c -o build/temp.linux-x86_64-2.7/testmod_wrap.o
+x86_64-linux-gnu-gcc -pthread -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fno-strict-aliasing -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -fPIC -I/usr/include/python2.7 -c myfunc0.c -o build/temp.linux-x86_64-2.7/myfunc0.o
 creating build/lib.linux-x86_64-2.7
-gcc -pthread -shared build/temp.linux-x86_64-2.7/testmod.o build/temp.linux-x86_64-2.7/myfunc0.o -lpython2.7 -o build/lib.linux-x86_64-2.7/testmod.so
+x86_64-linux-gnu-gcc -pthread -shared -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -Wl,-Bsymbolic-functions -Wl,-z,relro -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security build/temp.linux-x86_64-2.7/testmod_wrap.o build/temp.linux-x86_64-2.7/myfunc0.o -o build/lib.linux-x86_64-2.7/_testmod.so
 ```
 
+---
+
+# `Swig` example: usage
+
+## Installation with `Setuptools`
+
+```shell
+*$ python setup.py install --user
+running install
+running bdist_egg
+running egg_info
+[...]
+creating dist
+creating 'dist/package_test-1.0-py2.7-linux-x86_64.egg' and adding 'build/bdist.linux-x86_64/egg' to it
+removing 'build/bdist.linux-x86_64/egg' (and everything under it)
+Processing package_test-1.0-py2.7-linux-x86_64.egg
+creating /home/dubrayn/.local/lib/python2.7/site-packages/package_test-1.0-py2.7-linux-x86_64.egg
+Extracting package_test-1.0-py2.7-linux-x86_64.egg to /home/dubrayn/.local/lib/python2.7/site-packages
+package-test 1.0 is already the active version in easy-install.pth
+
+Installed /home/dubrayn/.local/lib/python2.7/site-packages/package_test-1.0-py2.7-linux-x86_64.egg
+Processing dependencies for package-test==1.0
+Finished processing dependencies for package-test==1.0
+*$ python -c 'import testmod; print(testmod.myfunc0(5))'
+26.0
+```
+
+---
+
+# `Swig` generated files
+
+## `testmod.py`
+:arrow_right: the `Python` file that must be imported.
+
+## `testmod_wrap.c`
+:arrow_right: the `C` file containing the wrapper functions that must be compiled.  
+:warning: the compiled shared library must be called `_testmod.so`.  
+:warning: do **NOT** look at the content of this file (3812 lines of code **"not meant to be read"**) !  
+:arrow_right: this file includes a ~3000 lines runtime library (functions, macros, etc...) allowing to
+* wrap some `C++` black magic,
+* package modules the right way.
+
+## Important remark
+:arrow_right: **these files do not depend on the environment.**
+* the output of `Swig` is identical on all platforms,
+* the wrapper function files **have no dependencies** and can be distributed without `Swig`,
+* the final users do not need `Swig` to use the wrapper functions.
 
     </textarea>
 
