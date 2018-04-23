@@ -340,6 +340,12 @@ a:visited {
   padding-left: 1.9em;
 }
 
+/*
+.remark-code-line:nth-of-type(even) {
+      background-color:#222;
+}
+*/
+
 .numbers .remark-code-line::before {
   content: counter(line, decimal-leading-zero);
   border-right: 1px solid rgba(160, 100, 100, 1);
