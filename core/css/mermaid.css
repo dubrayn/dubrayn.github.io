@@ -32,6 +32,7 @@
 }
 .edgeLabel {
   background-color: #e8e8e8;
+  color: #000;
 }
 .cluster rect {
   fill: #cdffb2 !important;

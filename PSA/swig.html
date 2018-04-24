@@ -44,7 +44,6 @@ class: animated fadeIn middle numbers
 * Repository: [https://github.com/swig/swig](https://github.com/swig/swig)
 * Website: [http://swig.org)](http://swig.org)
 * License: `GPLv3`
-* These slides are inspired from [Reintroducing Swig](http://www.dabeaz.com/talks.html#reintroducing-swig) and [Swig master class](http://www.dabeaz.com/SwigMaster/SWIGMaster.pdf)
 ]
 
 ---
@@ -446,6 +445,45 @@ Finished processing dependencies for package-test==1.0
 
 ---
 
+# `Swig` interface file
+
+## .hcenter[\[testmod.i\]]
+```C++
+%module testmod
+%{
+#include "myfunc0.h"
+%}
+
+%include "myfunc0.h"
+```
+
+## Preamble
+:arrow_right: define the module's name and content that will be included in the file containing the wrapper functions.
+```C++
+%module testmod
+%{
+#include "myfunc0.h"
+#include "some_other_header.h"
+#include "some_other_header2.h"
+%}
+```
+
+## Declarations
+:arrow_right: define which wrapper functions or objects to generate.
+```C++
+#define PI 3.1415926535;
+int some_func(int);
+struct some_struct
+{
+  int a;
+  long double value;
+};
+
+%include "myfunc0.h"
+```
+
+---
+
 # `Swig` generated files
 
 ## `testmod.py`
@@ -454,7 +492,9 @@ Finished processing dependencies for package-test==1.0
 ## `testmod_wrap.c`
 :arrow_right: the `C` file containing the wrapper functions that must be compiled.  
 :warning: the compiled shared library must be called `_testmod.so`.  
+:arrow_right: contains the **list of methods** and the **module initializer**.  
 :warning: do **NOT** look at the content of this file (3812 lines of code **"not meant to be read"**) !  
+
 :arrow_right: this file includes a ~3000 lines runtime library (functions, macros, etc...) allowing to
 * wrap some `C++` black magic,
 * package modules the right way.
@@ -464,6 +504,438 @@ Finished processing dependencies for package-test==1.0
 * the output of `Swig` is identical on all platforms,
 * the wrapper function files **have no dependencies** and can be distributed without `Swig`,
 * the final users do not need `Swig` to use the wrapper functions.
+
+---
+
+# `Swig` `C++` example (manual)
+
+## .hcenter[\[testmod2.i\]]
+
+```C
+%module testmod2
+
+class myClass
+{
+  public:
+  int a, b;
+  int method0(int);
+  static int static0(void);
+};
+```
+
+## Manual invocation of Swig
+
+```shell
+$ ls
+testmod2.i
+$ swig -python testmod2.i
+testmod2.i:3: Warning 301: class keyword used, but not in C++ mode.
+$ swig -python -c++ testmod2.i
+$ ls
+testmod2.i  testmod2.py  testmod2_wrap.cxx
+```
+
+## Features
+:arrow_right: most `C++` features are supported.  
+:arrow_right: from `Python`'s POV, `C` and `C++` objects are equivalent.
+
+---
+
+# `Swig` `C++` example (`setuptools`)
+
+.row[
+.w48[
+## .hcenter[\[myclass.h\]]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+class Myclass
+{
+  public:
+  Myclass(int vala = 0); // constructor with default argument
+  double func0(double x); // calculate x * x + a
+  void print(int); // print an integer to stdout.
+  int a;
+};
+
+#endif
+```
+]
+.w48[
+## .hcenter[\[myclass.cpp\]]
+```C++
+#include "myclass.h"
+
+Myclass::Myclass(int vala)
+{
+  a = vala;
+}
+
+double Myclass::func0(double x)
+{
+  // calculate x * x + a.
+  return x * x + a;
+}
+
+void Myclass::print(int b)
+{
+  // print an integer to stdout.
+  std::cout << b << std::endl;
+}
+```
+]
+]
+
+.row[
+.w48[
+## .hcenter[\[testmod3.i\]]
+```C
+%module testmod3
+%{
+#include "myclass.h"
+%}
+
+%include "myclass.h"
+```
+]
+.w48[
+## .hcenter[\[setup.py\]]
+```Python
+from setuptools import setup, Extension
+
+module1 = Extension('_testmod3',
+                    sources = ['testmod3.i',
+                               'myclass.cpp'],
+                    swig_opts = ["-c++"])
+
+setup (name = 'package_test',
+       py_modules = ['testmod3'],
+       version = '1.0',
+       description = 'This is a test package',
+       ext_modules = [module1])
+```
+]
+]
+
+---
+
+# `Swig` `C++` example (`setuptools`)
+
+## Compilation
+
+```shell
+*$ python setup.py build
+running build
+running build_py
+file testmod3.py (for module testmod3) not found
+file testmod3.py (for module testmod3) not found
+running build_ext
+building '_testmod3' extension
+swigging testmod3.i to testmod3_wrap.cpp
+swig -python -c++ -o testmod3_wrap.cpp testmod3.i
+*myclass.h:9: Warning 314: 'print' is a python keyword, renaming to '_print'
+creating build
+creating build/temp.linux-x86_64-2.7
+gcc -pthread -fno-strict-aliasing -g -fPIC -O2 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/usr/include/python2.7 -c testmod3_wrap.cpp -o build/temp.linux-x86_64-2.7/testmod3_wrap.o
+cc1plus: warning: command line option '-Wstrict-prototypes' is valid for C/ObjC but not for C++
+gcc -pthread -fno-strict-aliasing -g -fPIC -O2 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/usr/include/python2.7 -c myclass.cpp -o build/temp.linux-x86_64-2.7/myclass.o
+cc1plus: warning: command line option '-Wstrict-prototypes' is valid for C/ObjC but not for C++
+creating build/lib.linux-x86_64-2.7
+g++ -pthread -shared build/temp.linux-x86_64-2.7/testmod3_wrap.o build/temp.linux-x86_64-2.7/myclass.o -lpython2.7 -o build/lib.linux-x86_64-2.7/_testmod3.so
+```
+
+---
+
+# `Swig` `C++` example (`setuptools`)
+
+## Installation
+
+```shell
+$ python setup.py install --user
+```
+
+## Usage
+
+```Python
+import testmod3
+
+mc = testmod3.Myclass()
+print(mc.a) # 0
+mc.a = 3
+print(mc.a) # 3
+
+mc = testmod3.Myclass(7)
+print(mc.a) # 7
+print(mc.func0(3.0)) # 16.0
+print(mc.func0(3)) # 16.0
+mc.print(3)
+# File "<stdin>", line 1
+#   mc.print(3)
+#          ^
+# SyntaxError: invalid syntax
+mc._print(4) # 4
+mc._print(4.0)
+# Traceback (most recent call last):
+#   File "<stdin>", line 1, in <module>
+#   File "testmod3.py", line 119, in _print
+#     return _testmod3.Myclass__print(self, arg2)
+# TypeError: in method 'Myclass__print', argument 2 of type 'int'
+mc._print(int(4.0)) # 4
+```
+
+---
+
+# `Swig` internals
+
+.alert.hcenter[
+:warning: this part is **heavily inspired** from [Swig master class](http://www.dabeaz.com/SwigMaster/SWIGMaster.pdf) :warning:
+]
+
+## `C/C++` declarations and statements
+
+:arrow_right: statements make up the implementation.
+```C
+a = a + b;
+func0(3, 4.8, &toto);
+if !func1(a, bool) c *= d.func2(e);
+```
+
+:arrow_right: declarations provide type information.
+```C
+int func3(double, double, const char*);
+double a;
+char t[25];
+```
+
+## `Swig` does not care about the implementation
+:warning: to build a `Python` module, statements are useless.  
+:warning: to build a `Python` module, private declarations are useless.  
+:arrow_right: `Swig` will only need **public declarations** (public API of a library).
+
+## `Swig` internal representation for declarations
+:arrow_right: `Swig` stores declarations in **declaration tables**.
+
+---
+
+# `Swig` declaration tables
+
+## What is a declaration ?
+
+:arrow_right: a link between an **identifier**, a **storage** and a **type**.
+
+## Example
+
+```C
+int a, *b;
+extern int foo(int x, int y);
+typedef int Integer;
+static void bar(int x);
+```
+
+.hcenter[
+| Name      | Storage | Type             |
+| :-------- | :------ | :--------------- |
+| `a`       | None    | `int`            |
+| `b`       | None    | `*.int`          |
+| `foo`     | extern  | `(int, int).int` |
+| `Integer` | typedef | `int`            |
+| `bar`     | static  | `(int).void`     |
+]
+
+---
+
+# `Swig` namespaces
+
+:arrow_right: the global declaration table **always exists** (called `::` in `Swig`).  
+:warning: some declarations can be made in collections (`struct`, `union`, `class`, `namespace`),  
+:arrow_right:  these collections are stored by `Swig` in **named declaration tables**.
+
+## Tree structure
+
+:arrow_right: nested collections and inheritance structure the set of named declaration tables **as a tree**.
+
+.row[
+.w48[
+```C
+// decls
+class A
+{
+  // decls
+};
+namespace B
+{
+  // decls
+  class C
+  { 
+    // decls
+  };
+  class D : public C
+  { 
+    // decls
+  };
+}
+```
+]
+.w48.mermaid.fshadow[
+    graph RL
+    A(A) --> X
+    B(B) --> X(::)
+    C(C) --> B
+    D(D) --> B
+    D -- public --> C
+]
+]
+
+---
+
+# `Swig` declaration tables
+
+## `C++` allows function and method overloading
+
+:warning: for a given name, **argument declaration must be unique**.  
+:arrow_right: **return type is irrelevant**.
+
+.row[
+.w48[
+```C
+int  foo(int x);
+int  foo(double x);
+int  foo(int x, int y);
+void foo(char *s, int n);
+```
+]
+.w48[
+.hcenter[
+| Name      | Storage | Type                 |
+| :-------- | :------ | :------------------- |
+| `foo`     | None    | `(int).int`          |
+| `foo`     | None    | `(double).int`       |
+| `foo`     | None    | `(int, int).int`     |
+| `foo`     | None    | `(*.char, int).void` |
+]
+]
+]
+
+---
+
+# `Swig` declaration tables
+
+## `C++` templates
+
+:arrow_right: a template is a declaration wich depends on parameters.
+
+:arrow_right: `Swig` stores the parameters in an extra column.
+
+## Example
+
+.row[
+.w40[
+```C
+int a;
+int foo(int x, int *y);
+template<class T> T max(T a, T b);
+```
+]
+.w55[
+.hcenter[
+| Name      | Storage | Template    | Type                 |
+| :-------- | :------ | :---------- | :------------------- |
+| `a`       | None    | None        | `int`                |
+| `foo`     | None    | None        | `(int,*.int).int`    |
+| `max`     | None    | `(class T)` | `(T,T).T`            |
+]
+]
+]
+
+---
+
+# `Swig` internals
+
+## To sum up...
+
+:arrow_right: `C/C++` header files define a tree of named declaration tables.  
+:arrow_right: these named declaration tables have a simple structure (even with templates).  
+:arrow_right: to generate wrappers, `Swig` "just" has to assemble the named declaration table tree.  
+
+## `Swig` internal workflow
+
+1. parse a `C++` header file,
+2. create named declaration tables,
+3. manipulate the declaration tables,
+4. generate wrapper code.
+
+## `Swig` architecture
+
+.mermaid.fshadow[
+    graph LR
+    A(sample.i) --> B
+    B(Preprocessor) --> C
+    C(C/C++ parser) --> D
+    D(Analysis modules) --> E(Code generator)
+    style A fill:#A22,stroke:#611
+]
+
+:arrow_right: to go further: [Reintroducing Swig](http://www.dabeaz.com/talks.html#reintroducing-swig) and [Swig master class](http://www.dabeaz.com/SwigMaster/SWIGMaster.pdf)
+
+---
+
+# Conclusions on `Swig`
+
+## `Swig` Usage
+:arrow_right: use `Swig` + `setuptools` to generate your bindings.  
+:warning: do not read `Swig` generated files.  
+:arrow_right: if you need to tweak the way `Swig` generates wrapper functions, use the [reference](http://swig.org/Doc3.0/Contents.html#Contents).
+
+## Other binding generators / tools
+
+* [Boost.Python](http://www.boost.org/doc/libs/1_58_0/libs/python/doc/)
+* [PyBind11](https://github.com/pybind/pybind11)
+* [ctypes](https://docs.python.org/3/library/ctypes.html)
+* [SIP](https://pypi.org/project/SIP/)
+* [pyfort](https://sourceforge.net/projects/pyfortran/) (for `Fortran`)
+* [Pyrex](http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/) (old)
+* etc...
+
+## Mandatory `xkcd` reference
+
+:arrow_right: [Python module of the year](https://pypi.org/project/xkcd/)
+
+---
+
+# `Swig` exercice #0
+
+* Language: `C`
+* Method name: `double euclid(double x, double y, double z)`
+* Goal: **calculate the euclidian norm `\(\sqrt{x^2 + y^2 + z^2}\)`**
+* `Python` module name: `exercice0`
+* Wrapper generator: `Swig`
+* Builder + installer: `Setuptools`
+
+---
+
+# `Swig` exercice #1
+
+* Language: `C`
+* Method name: `const char* concat(const char*, const char*)`
+* Goal: **concatenate two `C` strings**
+* `Python` module name: `exercice1`
+* Wrapper generator: `Swig`
+* Builder + installer: `Setuptools`
+
+---
+
+# `Swig` exercice #2
+
+* Language: `C++`
+* Class name: `myClass`
+* Method name: `double func0(int n)`
+* Goal: **calculate** `\(\left|\sum_i^1\frac{1}{i^2}, \ldots ,\sum_i^n\frac{1}{i^2} \right|\)`
+* External libraries: `armadillo`
+* `Python` module name: `exercice2`
+* Wrapper generator: `Swig`
+* Builder + installer: `Setuptools`
+
 
     </textarea>
 
