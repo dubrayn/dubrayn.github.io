@@ -84,11 +84,230 @@ if modifying a "working" program leads to a bad behavior, then **there must be a
 
 # Errors and exceptions
 
+## Error codes
+:arrow_right: returning an error code in case of a runtime error may seem to be a good solution, **but**
+* each library may define its own error codes,
+* every function call should be followed by a test to know if an error happened, to break the program's flow,
+* the return value of a function may be used to do something else than returning error codes,
+* separating the handling of runtime errors and the implementation is hard.
+
 ## `C++` Exceptions
 
-:arrow_right: 
+:arrow_right: provide a **standard** mechanism to handle runtime errors.
+
+:+: very important when mixing libraries,  
+:+: allow to break the program's flow on runtime errors,  
+:warning: may induce an overhead if exceptions are frequent.
+
+---
+
+# Exception handling in `C++`
+
+## The four parts of exception handling mechanism
+1. Identify a runtime problem (**hit** the exception)
+2. Inform your calling function (**throw** the exception)
+3. Receive the error information (**catch** the exception)
+4. Decide what to do (**handle** the exception)
+
+## `try`
+:arrow_right: defines a **code block** from which some exceptions should be catched.
+
+## `throw`
+:arrow_right: throw an exception of a given type, then jump to the **first corresponding `catch` block** (if any).
+
+## `catch`
+:arrow_right: defines a **code block** to handle a given exception type thrown from the `try` code block.
+
+---
+
+# Exception handling in `C++`
+
+## .hcenter[\[example0.cpp\]]
+```C++
+double func0(int a, int b)
+{
+  if (b == 0) // hit
+  {
+    throw b;  // throw
+  }
+}
+
+try
+{
+  double v0 = func0(3, 1);
+  double v1 = func0(2, 0);
+  double v2 = func0(5, 0);
+}
+
+catch(int a)  // catch
+{
+  std::cout << "division by zero error" << std::endl; // handle
+}
+```
+
+## .hcenter[Shell session]
+```shell
+$ g++ example0.cpp -o example0
+$ ./example0
+division by zero error
+```
+
+---
+
+# Exception handling in `C++`
+
+## Catch several exceptions
+
+:arrow_right: provide several `catch` blocks with different types.
+
+```C++
+try                   { do_something(); }
+catch (int i)         { handle0();      }
+*catch (double v)      { handle1();      }
+*catch (std::string s) { handle2();      }
+```
+
+:arrow_right: allows to handle different exceptions differently.
+
+## Catch all exceptions
+
+:arrow_right: provide a special `catch(...)` block.
+
+```C++
+try                   { do_something(); }
+catch (int i)         { handle0();      }
+catch (double v)      { handle1();      }
+catch (std::string s) { handle2();      }
+*catch (...)           { handle3();      }
+```
+
+:arrow_right: can be used as a "default" catch.
+
+---
+
+# Exception handling in `C++`
+
+## Exception rethrowing
+
+:arrow_right: when throwing an exception from a `catch` block.  
+:arrow_right: simply use `throw` to rethrow the exception.
+
+```C++
+try
+{
+  do_something0();
+
+  try
+  {
+    do_something1();
+  }
+  catch (myType a)
+  {
+    handle0();
+*   throw;
+  }
+}
+catch (myType b)
+{
+  handle1();
+}
+```
+
+---
+
+# Exception handling in `C++`
+
+## .hcenter[\[example1.cpp\]]
+```C++
+#include <iostream>
+
+double func0(int a, int b) { if (a == 0) throw 3; return 0.0; }
+
+double func1(int a, int b)
+{
+  double r = 0.0;
+  try
+  {
+    r = func0(0, b);
+    std::cout << "normal execution" << std::endl;
+  }
+  catch(int i)
+  {
+    std::cout << "catch in func1" << std::endl;
+*   throw;
+  }
+  return r;
+}
+
+int main(int argc, char ** argv)
+{
+  try { func1(0,1); }
+  catch(int) { std::cout << "catch in main" << std::endl; }
+  return 0;
+}
+```
+
+## .hcenter[Shell session]
+```shell
+$ g++ example1.cpp -o example1
+$ ./example1
+catch in func0
+catch in main
+```
 
 
+---
+
+# Exception handling in `C++`
+
+## Restricting exception types
+
+:arrow_right: it is possible to specify the exception types a function can throw.
+
+```C++
+int func0(double a) throw(int, double)
+{
+  if (a < 0.0) throw 2; // int
+  else throw 3.0; // double
+  return 0.0; // good luck with that...
+}
+```
+
+---
+
+TODO
+
+default exception types
+
+---
+
+TODO
+
+custom exception types
+
+---
+
+TODO
+
+inheritance and custom exception types
+
+---
+
+TODO
+
+:warning: Do NOT test parameters with exceptions
+
+---
+
+TODO
+
+exceptions in python
+
+---
+
+TODO
+
+exception through swig
 
     </textarea>
 
