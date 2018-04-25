@@ -541,7 +541,7 @@ testmod2.i  testmod2.py  testmod2_wrap.cxx
 
 ---
 
-# `Swig` `C++` example (`setuptools`)
+# `Swig` `C++` example (`Setuptools`)
 
 .row[
 .w48[
@@ -620,7 +620,7 @@ setup (name = 'package_test',
 
 ---
 
-# `Swig` `C++` example (`setuptools`)
+# `Swig` `C++` example (`Setuptools`)
 
 ## Compilation
 
@@ -647,7 +647,7 @@ g++ -pthread -shared build/temp.linux-x86_64-2.7/testmod3_wrap.o build/temp.linu
 
 ---
 
-# `Swig` `C++` example (`setuptools`)
+# `Swig` `C++` example (`Setuptools`)
 
 ## Installation
 
@@ -883,11 +883,18 @@ template<class T> T max(T a, T b);
 # Conclusions on `Swig`
 
 ## `Swig` Usage
-:arrow_right: use `Swig` + `setuptools` to generate your bindings.  
+:arrow_right: use `Swig` + `Setuptools` to generate your bindings.  
 :warning: do not read `Swig` generated files.  
 :arrow_right: if you need to tweak the way `Swig` generates wrapper functions, use the [reference](http://swig.org/Doc3.0/Contents.html#Contents).
 
+.noflex[
 ## Other binding generators / tools
+
+.rightf.animated.fadeInRight.wait1s.w30[
+.fshadow[![](images/xkcd-1984-misinterpretation.png)]
+.hcenter[[source: xkcd](https://xkcd.com/1984)]
+]
+
 
 * [Boost.Python](http://www.boost.org/doc/libs/1_58_0/libs/python/doc/)
 * [PyBind11](https://github.com/pybind/pybind11)
@@ -899,7 +906,20 @@ template<class T> T max(T a, T b);
 
 ## Mandatory `xkcd` reference
 
-:arrow_right: [Python module of the year](https://pypi.org/project/xkcd/)
+
+
+.w65[
+:arrow_right: [https://github.com/TC01/python-xkcd](https://github.com/TC01/python-xkcd)
+
+```Python
+import xkcd
+
+c = xkcd.getLatestComic()
+print(c.title) # Misinterpretation
+c.download() # u'/home/dubrayn/Downloads/xkcd-1984-misinterpretation.png'
+```
+]
+]
 
 ---
 
