@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PSA</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`PSA` - N. Dubray - ENSIIE - 2018 - [:book:](../index.html)
+]
+
+---
+
+# Errors and exceptions
+
+.shadow.hcenter.w45[![](images/null-pointer-exception.png)]
+.hcenter[[source: thomaskausch.wordpress.com](https://thomaskausch.wordpress.com/2017/07/13/nil-null-nsnull-optionals/)]
+
+---
+
+# Errors and exceptions
+
+## Runtime errors
+:arrow_right: when a program encounters unusual execution conditions, errors can happen **at runtime**.
+
+## Examples: external causes
+* the system runs out of memory,
+* a file can not be opened because it has been deleted,
+* hardware error,
+* etc...
+
+## Examples: internal causes
+* a division by zero occurs during the evaluation of an expression,
+* "double free",
+* **error-prone implementation**,
+* etc...
+
+## Severity level
+* a **benign error** should not perturb the program final output, should spawn an **info message**,
+* a **small error** may perturb the program final output, should spawn a **warning message**,
+* a **serious error** will perturb the program final output, should spawn an **error message**,
+* a **disastrous error** prevents the program from continuing, should spawn a .red.bold[critical error message].
+
+---
+
+# Errors and exceptions
+
+## Possible ways to react to a runtime error
+
+1. **do nothing**: the program will have an **unexpected behavior** (result OK, segfault, etc...),
+2. print an error message on `stderr` and exit,
+3. set a flag or return an **error code**, try to continue the program execution if possible.
+
+:warning: runtime errors will not always cause visible effects.
+
+## Common misconception
+.alert[
+if modifying a "working" program leads to a bad behavior, then **there must be a bug in the modified parts of the code**.
+]
+
+:warning: This deduction is **NOT ALWAYS TRUE**.  
+
+* some runtime errors have no visible side effect until a different portion of the code is reached.
+* you never know when a program is "working".
+
+## Golden rules
+
+:arrow_right: consider that no program is bug-free,  
+:arrow_right: remember that some runtime errors may not have side effects **NOW**.
+
+---
+
+# Errors and exceptions
+
+## `C++` Exceptions
+
+:arrow_right: 
+
+
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+  </body>
+</html>
+
