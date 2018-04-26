@@ -12,4 +12,4 @@ except RuntimeError as e:
 except:
   print("other error: %s" % (sys.exc_info()[1]))
 
-print('OK')
+print('normal program end')

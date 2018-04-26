@@ -10,7 +10,7 @@ double Myclass::func0(double x)
 {
   if (x < 0.0)
   {
-   throw std::runtime_error("EXCEPTION !!!");
+    throw std::runtime_error("EXCEPTION !!!");
   }
   return x * x + a;
 }

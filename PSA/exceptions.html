@@ -73,12 +73,13 @@ If modifying a "working" program leads to a bad behavior, then **there must be a
 :warning: This deduction is **NOT ALWAYS TRUE**.  
 
 * some runtime errors have no visible side effect until a different portion of the code is reached.
-* you never know when a program is "working".
+* some runtime errors have no visible side effect until a change in the environment occurs.
+* **you never know when a program is "working"**.
 
 ## Golden rules
 
 :arrow_right: consider that no program is bug-free,  
-:arrow_right: remember that some runtime errors may not have side effects **NOW**.
+:arrow_right: remember that runtime errors may have no side effects **for a long time** before crashing a program.
 
 ---
 
@@ -804,6 +805,8 @@ do_something1()
 
 ---
 
+class: top
+
 # Exception handling in `Python`
 
 ## Create a custom exception class
@@ -825,11 +828,15 @@ except:
   print("generic catch")
 ```
 
+--
+
 ## .hcenter[Shell session]
 ```shell
 $ python example10.py
 catch myLookupErrorClass: custom message
 ```
+
+--
 
 :warning: Don't raise generic exceptions, you may miss specific ones.
 
@@ -854,7 +861,7 @@ Caught this error: ValueError('Represents a hidden bug, do not catch this',)
 .vspace[]
 
 .row[
-.hcenter.tree[
+.alert.hcenter.tree[
 BaseException
 * SystemExit
 * KeyboardInterrupt
@@ -866,7 +873,7 @@ BaseException
     * Warning
         * [...]
 ]
-.hcenter.tree[
+.block.hcenter.tree[
 Warning
 * DeprecationWarning
 * PendingDeprecationWarning
@@ -886,10 +893,8 @@ Warning
 
 ## .hcenter[Default exceptions 2/2]
 
-.vspace[]
-
 .row[
-.hcenter.tree[
+.block.hcenter.tree[
 StandardError
 * BufferError
 * ArithmeticError
@@ -909,7 +914,7 @@ StandardError
     * IndexError
     * KeyError
 ]
-.hcenter.tree[
+.block.hcenter.tree[
 StandardError
 * MemoryError
 * NameError
@@ -934,34 +939,300 @@ StandardError
 
 # Exception handling in `Python`
 
-## `KeyboardInterrupt` is raised when the signal `SIGINT` is received.
+## Special exception
+:arrow_right: `KeyboardInterrupt` is raised when `SIGINT` is received.  
+:warning: this is not the case in `C++`.
 
-TODO
+## .hcenter[\[example10.py\]]
+```Python
+#!/usr/bin/env python
+
+try:
+  print('press Ctrl-C')
+  while True:
+    pass
+except KeyboardInterrupt:
+  print('SIGINT received')
+```
+
+## .hcenter[Shell session]
+```shell
+$ python example11.py
+press Ctrl-C
+^CSIGINT received
+```
 
 ---
 
-TODO exception chaining
+# Exception handling in `Python`
 
-raise RuntimeError('specific message') from error
+## Exception chaining in `Pyhton3`
 
-Be aware:
+:arrow_right: change the exception type,  
+:arrow_right: keep the traceback,  
+:arrow_right: make a full exception chain if needed.  
+:warning: **not compatible with `Python2`**.
 
-this does allow changing the error type raised, and
-this is not compatible with Python 2.
+```Python
+try:
+  do_something()
+except KeyError as e:
+  raise RuntimeError('custom message') from e
+```
+
+## Workaround in `Python2`
+
+:arrow_right: it is possible to add information to an exception.
+
+```Python
+class MyError(Exception):
+  def __init__(self, message, cause):
+    super(MyError, self).__init__(message + u', caused by ' + repr(cause))
+    self.cause = cause
+
+try:
+  v = {}['a'] # will throw a KeyError exception
+except KeyError as e:
+  raise MyError('failed', e)
+```
 
 ---
 
-TODO python 2 -> 3
-raise ValueError, 'message' # Don't do this, it's deprecated!
+# Exception handling in `Python`
 
-OLD OLD Python 2
-raise 'message' # really really wrong. don't do this.
+## Deprecated exception raising syntaxes
+
+```Python
+raise ValueError, 'message'
+```
+:arrow_right: valid in `Python2` only, deprecated in `Python3`.
+
+```Python
+raise 'message'
+```
+:arrow_right: valid in very old `Python2` (<2.4), deprecated in recent `Python2` and `Python3`.
+
+.hcenter.shadow.w60[![](images/commodore64.png)]
 
 ---
 
-TODO
+# Exception handling in `C++` and `Python`
 
-exception through swig
+.row[
+.w48[
+## .hcenter[\[myclass.h\]]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+class Myclass
+{
+  public:
+  Myclass(int vala = 0);
+  double func0(double x); // calculate x * x + a
+  void print(int);
+  int a;
+};
+
+#endif
+```
+]
+.w48[
+## .hcenter[\[myclass.cpp\]]
+```C++
+#include <iostream>
+#include "myclass.h"
+
+Myclass::Myclass(int vala)
+{
+  a = vala;
+}
+
+double Myclass::func0(double x)
+{
+  if (x < 0.0)
+  {
+    throw std::runtime_error("EXCEPTION !!!");
+  }
+  return x * x + a;
+}
+
+void Myclass::print(int i)
+{
+  std::cout << i << std::endl;
+}
+```
+]
+]
+
+---
+
+# Exception handling in `C++` and `Python`
+
+.row[
+.w48[
+## .hcenter[\[testmod3.i\]]
+```C
+%module testmod3
+%{
+#include "myclass.h"
+%}
+
+%include "exception.i"
+%exception
+{
+  try
+  {
+    $action
+  }
+  catch (const std::runtime_error& e)
+  {
+    SWIG_exception(SWIG_RuntimeError, e.what());
+  } 
+  catch (const std::invalid_argument& e)
+  {
+    SWIG_exception(SWIG_ValueError, e.what());
+  }
+  catch (const std::out_of_range& e)
+  {
+    SWIG_exception(SWIG_IndexError, e.what());
+  }
+  catch (...)
+  { 
+    SWIG_exception(SWIG_RuntimeError, "unknown exception");
+  } 
+}
+
+%include "myclass.h"
+```
+]
+.w48[
+## .hcenter[\[setup.py\]]
+```Python
+from setuptools import setup, Extension
+
+module1 = Extension('_testmod3',
+                    sources = ['testmod3.i',
+                               'myclass.cpp'],
+                    swig_opts = ["-c++"])
+
+setup (name = 'package_test',
+       py_modules = ['testmod3'],
+       version = '1.0',
+       description = 'This is a test package',
+       ext_modules = [module1])
+```
+
+.vspace[]
+
+.w100.hcenter[![](images/swig.png)]
+]
+]
+
+---
+
+# Exception handling in `C++` and `Python`
+
+## Compilation (`Setuptools`)
+
+```shell
+*$ python setup.py build
+running build
+running build_py
+file testmod3.py (for module testmod3) not found
+file testmod3.py (for module testmod3) not found
+running build_ext
+building '_testmod3' extension
+swigging testmod3.i to testmod3_wrap.cpp
+swig -python -c++ -o testmod3_wrap.cpp testmod3.i
+myclass.h:9: Warning 314: 'print' is a python keyword, renaming to '_print'
+creating build
+creating build/temp.linux-x86_64-2.7
+x86_64-linux-gnu-gcc -pthread -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fno-strict-aliasing -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -fPIC -I/usr/include/python2.7 -c testmod3_wrap.cpp -o build/temp.linux-x86_64-2.7/testmod3_wrap.o
+cc1plus: warning: command line option ‘-Wstrict-prototypes’ is valid for C/ObjC but not for C++
+x86_64-linux-gnu-gcc -pthread -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fno-strict-aliasing -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -fPIC -I/usr/include/python2.7 -c myclass.cpp -o build/temp.linux-x86_64-2.7/myclass.o
+cc1plus: warning: command line option ‘-Wstrict-prototypes’ is valid for C/ObjC but not for C++
+creating build/lib.linux-x86_64-2.7
+x86_64-linux-gnu-g++ -pthread -shared -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -Wl,-Bsymbolic-functions -Wl,-z,relro -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security build/temp.linux-x86_64-2.7/testmod3_wrap.o build/temp.linux-x86_64-2.7/myclass.o -o build/lib.linux-x86_64-2.7/_testmod3.so
+```
+
+---
+
+# Exception handling in `C++` and `Python`
+
+## Installation
+
+```shell
+$ python setup.py install --user
+```
+
+## Usage
+
+## .hcenter[\[test.py\]]
+```Python
+#!/usr/bin/env python
+
+import sys
+import testmod3
+
+a = testmod3.Myclass()
+try:
+  a.func0(-2.0)
+
+except RuntimeError as e:
+  print("runtime error '%s'" % (e))
+except:
+  print("other error: %s" % (sys.exc_info()[1]))
+
+print('normal program end')
+```
+
+## .hcenter[Shell session]
+```shell
+$ python test.py
+runtime error 'EXCEPTION !!!'
+normal program end
+```
+
+---
+
+# Errors and exceptions
+
+## Main thing to remember
+
+:arrow_right: **There are different ways to use exceptions**:
+
+* exceptions must be raised exceptionnaly,
+* exceptions may be used for a lot of things (type checking, communication, etc...),
+* every intermediate usage,
+* exceptions **must be ignored**.
+
+
+.noflex[
+.rightf.animated.fadeInRight.wait1s.w30[
+.fshadow[![](images/obiwan.png)]
+]
+
+## What to catch ?
+
+* catch everything,
+* catch what you throw,
+* catch what you can handle,
+* catch nothing,
+* Obi-Wan Kenobi
+
+]
+
+## My golden rule
+
+* raise an exception if a runtime error must not be ignored.
+
+* `C++` and `Python` exception usages may be slightly different (philosophical reasons).
+* there are no widely accepted guidelines on the good usage of exceptions.
+
+## Conclusion
+
+* use exceptions as you see fit.
 
     </textarea>
 
