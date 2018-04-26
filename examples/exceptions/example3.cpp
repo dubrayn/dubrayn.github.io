@@ -1,6 +1,6 @@
 #include <iostream>
 
-double func0(int a, int b) throw(int, char, double)
+double func0(int a, int b) throw(int, double)
 {
   if (b == 0) // hit
   {

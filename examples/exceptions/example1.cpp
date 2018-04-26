@@ -10,7 +10,7 @@ double func0(int a, int b)
     r = func1(0, b);
     std::cout << "normal execution" << std::endl;
   }
-  catch(int i)
+  catch(int &i)
   {
     std::cout << "catch in func0" << std::endl;
     throw;
@@ -24,7 +24,7 @@ int main(int argc, char ** argv)
   {
     func0(0,1);
   }
-  catch(int)
+  catch(int &i)
   {
     std::cout << "catch in main" << std::endl;
   }

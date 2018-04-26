@@ -17,7 +17,7 @@ int main(int argc, char ** argv)
     double v2 = func0(5, 2);
   }
   
-  catch(int a)  // catch
+  catch(int &a)  // catch
   {
     std::cout << "division by zero error" << std::endl; // handle
   }

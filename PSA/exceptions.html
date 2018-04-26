@@ -67,7 +67,7 @@ class: animated fadeIn middle numbers
 
 ## Common misconception
 .alert[
-if modifying a "working" program leads to a bad behavior, then **there must be a bug in the modified parts of the code**.
+If modifying a "working" program leads to a bad behavior, then **there must be a bug in the modified parts of the code**.
 ]
 
 :warning: This deduction is **NOT ALWAYS TRUE**.  
@@ -99,6 +99,12 @@ if modifying a "working" program leads to a bad behavior, then **there must be a
 :+: allow to break the program's flow on runtime errors,  
 :warning: may induce an overhead if exceptions are frequent.
 
+.vspace[]
+
+.hcenter[.red.bold[:warning:Exceptions in `C++` should be used for "exceptional" conditions.:warning:]]
+
+:arrow_right: do not throw exceptions for parsing errors, invalid function parameters, etc...
+
 ---
 
 # Exception handling in `C++`
@@ -116,9 +122,12 @@ if modifying a "working" program leads to a bad behavior, then **there must be a
 :arrow_right: throw an exception of a given type, then jump to the **first corresponding `catch` block** (if any).
 
 ## `catch`
-:arrow_right: defines a **code block** to handle a given exception type thrown from the `try` code block.
+:arrow_right: defines a **code block** to handle a given exception type thrown from the `try` code block.  
+:warning: whenever possible (always ?), `catch` **references**.
 
 ---
+
+class: top
 
 # Exception handling in `C++`
 
@@ -139,11 +148,13 @@ try
   double v2 = func0(5, 0);
 }
 
-catch(int a)  // catch
+catch(int &a)  // catch
 {
   std::cout << "division by zero error" << std::endl; // handle
 }
 ```
+
+--
 
 ## .hcenter[Shell session]
 ```shell
@@ -162,9 +173,9 @@ division by zero error
 
 ```C++
 try                   { do_something(); }
-catch (int i)         { handle0();      }
-*catch (double v)      { handle1();      }
-*catch (std::string s) { handle2();      }
+catch(int &i)         { handle0();      }
+*catch(double &v)      { handle1();      }
+*catch(std::string &s) { handle2();      }
 ```
 
 :arrow_right: allows to handle different exceptions differently.
@@ -175,10 +186,10 @@ catch (int i)         { handle0();      }
 
 ```C++
 try                   { do_something(); }
-catch (int i)         { handle0();      }
-catch (double v)      { handle1();      }
-catch (std::string s) { handle2();      }
-*catch (...)           { handle3();      }
+catch(int &i)         { handle0();      }
+catch(double &v)      { handle1();      }
+catch(std::string &s) { handle2();      }
+*catch(...)            { handle3();      }
 ```
 
 :arrow_right: can be used as a "default" catch.
@@ -201,19 +212,21 @@ try
   {
     do_something1();
   }
-  catch (myType a)
+  catch(myType &a)
   {
     handle0();
 *   throw;
   }
 }
-catch (myType b)
+catch(myType &b)
 {
   handle1();
 }
 ```
 
 ---
+
+class: top
 
 # Exception handling in `C++`
 
@@ -231,7 +244,7 @@ double func1(int a, int b)
     r = func0(0, b);
     std::cout << "normal execution" << std::endl;
   }
-  catch(int i)
+  catch(int &i)
   {
     std::cout << "catch in func1" << std::endl;
 *   throw;
@@ -242,10 +255,12 @@ double func1(int a, int b)
 int main(int argc, char ** argv)
 {
   try { func1(0,1); }
-  catch(int) { std::cout << "catch in main" << std::endl; }
+  catch(int &i) { std::cout << "catch in main" << std::endl; }
   return 0;
 }
 ```
+
+--
 
 ## .hcenter[Shell session]
 ```shell
@@ -264,44 +279,683 @@ catch in main
 
 :arrow_right: it is possible to specify the exception types a function can throw.
 
+:warning: this mechanism has been **deprecated** since `C++11` (still supported though).
+
 ```C++
-int func0(double a) throw(int, double)
+int func0(int a, int b) throw() // all exceptions from this function will trigger std::unexpected.
 {
-  if (a < 0.0) throw 2; // int
-  else throw 3.0; // double
-  return 0.0; // good luck with that...
+  [...]
+}
+
+int func1(int a, int b) throw(int, char) // all exceptions from this function, except int and char ones, will trigger std::unexpected.
+{
+  [...]
+}
+```
+
+## Customize `std::unexpected`
+
+```C++
+#include <iostream>
+#include <exception>
+
+void customUnexpected(void)
+{
+  std::cerr << "unexpected called" << std::endl;
+  throw 0; // must throw something or terminate the program
+}
+
+int main (void){
+{
+* std::set_unexpected(customUnexpected);
+
+  [...]
 }
 ```
 
 ---
 
-TODO
+class: top
 
-default exception types
+# Exception handling in `C++`
+
+## .hcenter[\[example2.cpp\]]
+```C++
+#include <iostream>
+
+*double func0(int a, int b) throw(int, char, double)
+{
+  if (b == 0) // hit
+  {
+    throw 'b';  // throw a char
+  }
+  return (double)a / (double)b;
+}
+
+int main(int argc, char ** argv)
+{
+  try
+  {
+    double v1 = func0(2, 0);
+  }
+
+  catch(char &c)  // catch
+  {
+    std::cout << "catch char exception" << std::endl; // handle
+  }
+  return 0;
+}
+```
+
+--
+
+## .hcenter[Shell session]
+```shell
+$ g++ example2.cpp -o example2
+$ ./example2
+catch char exception
+```
 
 ---
 
-TODO
+class: top
 
-custom exception types
+# Exception handling in `C++`
+
+## .hcenter[\[example3.cpp\]]
+```C++
+#include <iostream>
+
+*double func0(int a, int b) throw(int, double)
+{
+  if (b == 0) // hit
+  {
+    throw 'b';  // throw a char
+  }
+  return (double)a / (double)b;
+}
+
+int main(int argc, char ** argv)
+{
+  try
+  {
+    double v1 = func0(2, 0);
+  }
+
+  catch(char &c)  // catch
+  {
+    std::cout << "catch char exception" << std::endl; // handle
+  }
+  return 0;
+}
+```
+
+--
+
+## .hcenter[Shell session]
+```shell
+$ g++ example3.cpp -o example3
+$ ./example3
+*terminate called after throwing an instance of 'char'
+*Aborted
+```
 
 ---
 
-TODO
+# Exception handling in `C++`
 
-inheritance and custom exception types
+## The `noexcept` specifier (since `C++11`)
+
+:arrow_right: used to specify that a function should not throw exceptions.
+
+```C++
+int func0(int a, int b) noexcept;        // can not throw
+int func1(int a, int b) noexcept(true);  // can not throw
+int func2(int a, int b) noexcept(false); // can throw
+```
+
+:arrow_right: If a `noexcept` function throws any exception, it triggers `std::terminate`.
 
 ---
 
-TODO
+class: top
 
-:warning: Do NOT test parameters with exceptions
+# Exception handling in `C++`
+
+## .hcenter[\[example4.cpp\]]
+```C++
+#include <iostream>
+#include <exception>
+
+*int func0(int a, int b) noexcept
+{
+  throw 42;
+}
+
+int main(int argc, char ** argv)
+{
+  try
+  {
+    func0(0, 0);
+  }
+  catch(int &i)
+  {
+    std::cout << "catch int exception" << std::endl;
+  }
+  return 0;
+}
+```
+
+--
+
+## .hcenter[Shell session]
+```shell
+$ g++ --std=c++11 example4.cpp -o example4
+*example4.cpp: In function 'int func0(int, int)':
+*example4.cpp:6:9: warning: throw will always call terminate() [-Wterminate]
+*  throw 42;
+*        ^~
+$ ./example4
+*terminate called after throwing an instance of 'int'
+*Aborted
+```
 
 ---
 
+# Exception handling in `C++`
+
+## Standard exception types
+
+:arrow_right: derived from the `exception` class.  
+:arrow_right: the `exception` class provides a `what()` method which returns a `const char *`.  
+:warning: these types have been **deprecated** since `C++11` (still supported though).
+
+.row[
+.w48.hcenter[
+| Exception              | Derived from    |
+| :--------------------- | :-------------- |
+| `bad_alloc`            | `exception`     |
+| `bad_cast`             | `exception`     |
+| `bad_exception`        | `exception`     |
+| `bad_typeid`           | `exception`     |
+| `bad_function_call`    | `exception`     |
+| `bad_weak_ptr`         | `exception`     |
+| `logic_error`          | `exception`     |
+| `runtime_error`        | `exception`     |
+]
+.w48.hcenter[
+| Exception              | Derived from    |
+| :--------------------- | :-------------- |
+| `domain_error`         | `logic_error`   |
+| `future_error`         | `logic_error`   |
+| `invalid_argument`     | `logic_error`   |
+| `length_error`         | `logic_error`   |
+| `out_of_range`         | `logic_error`   |
+| `overflow_error`       | `runtime_error` |
+| `range_error`          | `runtime_error` |
+| `system_error`         | `runtime_error` |
+| `underflow_error`      | `runtime_error` |
+| `bad_array_new_length` | `bad_alloc`     |
+| `ios_base::failure`    | `system_error`  |
+]
+]
+
+---
+
+class: top
+
+# Exception handling in `C++`
+
+## .hcenter[\[example5.cpp\]]
+```C++
+#include <iostream>
+#include <exception>
+
+int main(int argc, char ** argv)
+{
+  try
+  {
+    int* myarray= new int[10000000000];
+  }
+* catch(std::exception &e)
+  {
+*   std::cout << "catch exception, what(): " << e.what() << std::endl;
+  }
+  return 0;
+}
+```
+
+--
+
+## .hcenter[Shell session]
+```shell
+$ g++ example5.cpp -o example5
+$ ./example5
+catch exception, what(): std::bad_alloc
+```
+
+---
+
+# Exception handling in `C++`
+
+## Custom exception type
+
+:arrow_right: create your own exception class derived from `std::exception`.  
+:arrow_right: if needed, overload `what()` and the constructor.
+
+```C++
+class myException: public std::exception
+{
+  public:
+  myException(std::string _mesg = "")
+  {
+    mesg = _mesg;
+  }
+  const char * what(void)
+  {
+    return mesg.c_str();    
+  }
+  std::string mesg;
+}
+```
+
+---
+
+class: top
+
+# Exception handling in `C++`
+
+## .hcenter[\[example6.cpp\]]
+```C++
+#include <iostream>
+#include <exception>
+
+class myException: public std::exception
+{
+  public:
+  myException(std::string _mesg = "")
+  {
+    mesg = _mesg;
+  }
+  const char * what(void)
+  {
+    return mesg.c_str();    
+  }
+  std::string mesg;
+};
+
+int main(int argc, char ** argv)
+{
+  try
+  {
+    throw myException("custom text");
+  }
+  catch(myException &e)
+  {
+    std::cout << "catch custom exception, what(): " << e.what() << std::endl;
+  }
+  return 0;
+}
+```
+
+--
+
+## .hcenter[Shell session]
+```shell
+$ g++ example6.cpp -o example6
+$ ./example6
+catch custom exception, what(): custom text
+```
+
+---
+
+class: top
+
+# Exception handling in `C++`
+
+## .hcenter[\[example7.cpp\]]
+```C++
+#include <iostream>
+#include <exception>
+#include <stdexcept>
+
+class A {};
+ 
+class myException: public A, public std::runtime_error
+{
+  public:
+  myException(std::string _mesg = "") : std::runtime_error(_mesg) {};
+};
+
+int main(int argc, char ** argv)
+{
+  try
+  {
+    throw myException("custom text");
+  }
+  catch(myException &e)
+  {
+    std::cout << "catch custom exception, what(): " << e.what() << std::endl;
+  }
+  return 0;
+}
+
+```
+
+--
+
+## .hcenter[Shell session]
+```shell
+$ g++ example7.cpp -o example7
+$ ./example7
+catch custom exception, what(): custom text
+```
+
+---
+
+class: top
+
+# Exception handling in `C++`
+
+## Derived exception type
+
+:arrow_right: you can catch the derived exception type or one of its ancestors.
+
+--
+
+## .hcenter[\[example8.cpp\]]
+```C++
+#include <iostream>
+#include <exception>
+#include <stdexcept>
+
+class A {};
+ 
+class myException: public A, public std::runtime_error
+{
+  public:
+  myException(std::string _mesg = "") : std::runtime_error(_mesg) {};
+};
+
+int main(int argc, char ** argv)
+{
+  try
+  {
+    throw myException("custom text");
+  }
+* catch(std::runtime_error &e)
+  {
+    std::cout << "catch std::runtime_error exception, what(): " << e.what() << std::endl;
+  }
+  return 0;
+}
+```
+
+--
+
+## .hcenter[Shell session]
+```shell
+$ g++ example8.cpp -o example8
+$ ./example8
+catch std::runtime_error, what(): custom text
+```
+
+---
+
+class: top
+
+# Exception handling in `C++`
+
+:warning: if you mix `catch` blocks for derived exception types, catch any exception type **before** its ancestors.
+
+## .hcenter[\[example9.cpp\]]
+```C++
+#include <iostream>
+#include <exception>
+#include <stdexcept>
+
+class A {};
+ 
+class myException: public A, public std::runtime_error
+{
+  public:
+  myException(std::string _mesg = "") : std::runtime_error(_mesg) {};
+};
+
+int main(int argc, char ** argv)
+{
+  try { throw myException("custom text"); }
+* catch(std::runtime_error &e) { std::cout << "catch std::runtime_error, what(): " << e.what() << std::endl; }
+* catch(myException &e) { std::cout << "catch custom exception, what(): " << e.what() << std::endl; }
+  return 0;
+}
+```
+
+--
+
+## .hcenter[Shell session]
+```shell
+$ g++ example9.cpp -o example9
+*example9.cpp: In function 'int main(int, char**)':
+*example9.cpp:23:3: warning: exception of type 'myException' will be caught
+*  catch(myException &e)
+*  ^~~~~
+*example9.cpp:19:3: warning:    by earlier handler for 'std::runtime_error'
+*  catch(std::runtime_error &e)
+*  ^~~~~
+$ ./example9
+catch std::runtime_error, what(): custom text
+```
+
+---
+
+# Exception handling in `Python`
+
+:arrow_right: exceptions in `Python` are **almost identical** as exceptions in `C++`.
+
+.row[
+.w48[
+## .hcenter[`C++`]
+```C++
+try
+{
+  do_something0()
+}
+catch (int a)
+{
+  handle0(a);
+}
+catch (double b)
+{
+  handle1(b);
+  throw;
+}
+catch (...)
+{
+  handle2();
+}
+do_something1()
+```
+]
+.w48[
+## .hcenter[`Python`]
+```Python
+try:
+
+  do_something0()
+
+except int as a:
+
+  handle0(a)
+
+except float as b:
+
+  handle1(b)
+  raise
+
+except:
+
+  handle2()
+
+do_something1()
+```
+]
+]
+
+---
+
+# Exception handling in `Python`
+
+## Create a custom exception class
+
+:arrow_right: derivate from one of `Python` error classes.
+
+## .hcenter[\[example10.py\]]
+```Python
+#!/usr/bin/env python
+
+class myLookupErrorClass(LookupError):
+  '''raise this class in case of a lookup error'''
+
+try:
+  raise myLookupErrorClass('custom message')
+except myLookupErrorClass as e:
+  print("catch myLookupErrorClass: %s" % (str(e)))
+except:
+  print("generic catch")
+```
+
+## .hcenter[Shell session]
+```shell
+$ python example10.py
+catch myLookupErrorClass: custom message
+```
+
+:warning: Don't raise generic exceptions, you may miss specific ones.
+
+```Python
+def demo_bad_catch():
+  try:
+    raise ValueError('Represents a hidden bug, do not catch this')
+    raise Exception('This is the exception you expect to handle')
+  except Exception as error:
+    print('Caught this error: ' + repr(error))
+
+>>> demo_bad_catch()
+Caught this error: ValueError('Represents a hidden bug, do not catch this',)
+```
+
+---
+
+# Exception handling in `Python`
+
+## .hcenter[Default exceptions 1/2]
+
+.vspace[]
+
+.row[
+.hcenter.tree[
+BaseException
+* SystemExit
+* KeyboardInterrupt
+* GeneratorExit
+* Exception
+    * StopIteration
+    * StandardError
+        * [...]
+    * Warning
+        * [...]
+]
+.hcenter.tree[
+Warning
+* DeprecationWarning
+* PendingDeprecationWarning
+* RuntimeWarning
+* SyntaxWarning
+* UserWarning
+* FutureWarning
+* ImportWarning
+* UnicodeWarning
+* BytesWarning
+]
+]
+
+---
+
+# Exception handling in `Python`
+
+## .hcenter[Default exceptions 2/2]
+
+.vspace[]
+
+.row[
+.hcenter.tree[
+StandardError
+* BufferError
+* ArithmeticError
+    * FloatingPointError
+    * OverflowError
+    * ZeroDivisionError
+* AssertionError
+* AttributeError
+* EnvironmentError
+    * IOError
+    * OSError
+         * WindowsError (Windows)
+         * VMSError (VMS)
+* EOFError
+* ImportError
+* LookupError
+    * IndexError
+    * KeyError
+]
+.hcenter.tree[
+StandardError
+* MemoryError
+* NameError
+    * UnboundLocalError
+* ReferenceError
+* RuntimeError
+    * NotImplementedError
+* SyntaxError
+    * IndentationError
+         * TabError
+* SystemError
+* TypeError
+* ValueError
+     * UnicodeError
+          * UnicodeDecodeError
+          * UnicodeEncodeError
+          * UnicodeTranslateError
+]
+]
+
+---
+
+# Exception handling in `Python`
+
+## `KeyboardInterrupt` is raised when the signal `SIGINT` is received.
+
 TODO
 
-exceptions in python
+---
+
+TODO exception chaining
+
+raise RuntimeError('specific message') from error
+
+Be aware:
+
+this does allow changing the error type raised, and
+this is not compatible with Python 2.
+
+---
+
+TODO python 2 -> 3
+raise ValueError, 'message' # Don't do this, it's deprecated!
+
+OLD OLD Python 2
+raise 'message' # really really wrong. don't do this.
 
 ---
 
