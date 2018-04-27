@@ -323,7 +323,7 @@ Finished processing dependencies for package-test==1.0
 
 ---
 
-# `Swig` example: initialization
+# `Swig` example: source and interface file
 
 .row[
 .w48[
@@ -527,9 +527,9 @@ class myClass
 
 ```shell
 $ ls
-testmod2.i
+*testmod2.i
 $ swig -python testmod2.i
-testmod2.i:3: Warning 301: class keyword used, but not in C++ mode.
+*testmod2.i:3: Warning 301: class keyword used, but not in C++ mode.
 $ swig -python -c++ testmod2.i
 $ ls
 testmod2.i  testmod2.py  testmod2_wrap.cxx
@@ -553,9 +553,9 @@ testmod2.i  testmod2.py  testmod2_wrap.cxx
 class Myclass
 {
   public:
-  Myclass(int vala = 0); // constructor with default argument
+  Myclass(int vala = 0); // constructor
   double func0(double x); // calculate x * x + a
-  void print(int); // print an integer to stdout.
+* void print(int); // print an integer to stdout.
   int a;
 };
 
@@ -578,7 +578,7 @@ double Myclass::func0(double x)
   return x * x + a;
 }
 
-void Myclass::print(int b)
+*void Myclass::print(int b)
 {
   // print an integer to stdout.
   std::cout << b << std::endl;
