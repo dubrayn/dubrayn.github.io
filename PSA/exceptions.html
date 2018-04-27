@@ -55,6 +55,8 @@ class: animated fadeIn middle numbers
 
 ---
 
+class: top
+
 # Errors and exceptions
 
 ## Possible ways to react to a runtime error
@@ -65,16 +67,24 @@ class: animated fadeIn middle numbers
 
 :warning: runtime errors will not always cause visible effects.
 
+--
+
 ## Common misconception
 .alert[
 If modifying a "working" program leads to a bad behavior, then **there must be a bug in the modified parts of the code**.
 ]
 
+--
+
 :warning: This deduction is **NOT ALWAYS TRUE**.  
+
+--
 
 * some runtime errors have no visible side effect until a different portion of the code is reached.
 * some runtime errors have no visible side effect until a change in the environment occurs.
 * **you never know when a program is "working"**.
+
+--
 
 ## Golden rules
 
@@ -134,6 +144,8 @@ class: top
 
 ## .hcenter[\[example0.cpp\]]
 ```C++
+#include <iostream>
+
 double func0(int a, int b)
 {
   if (b == 0) // hit
@@ -142,16 +154,20 @@ double func0(int a, int b)
   }
 }
 
-try
+int main(int argc, char ** argv)
 {
-  double v0 = func0(3, 1);
-  double v1 = func0(2, 0);
-  double v2 = func0(5, 0);
-}
-
-catch(int &a)  // catch
-{
-  std::cout << "division by zero error" << std::endl; // handle
+  try
+  {
+    double v0 = func0(3, 1);
+    double v1 = func0(2, 0);
+    double v2 = func0(5, 2);
+  }
+  
+  catch(int &a)  // catch
+  {
+    std::cout << "division by zero error" << std::endl; // handle
+  }
+  return 0;
 }
 ```
 
