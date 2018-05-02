@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PSA</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`PSA` - N. Dubray - ENSIIE - 2018 - [:book:](../index.html)
+]
+
+---
+
+# Multiprocessing
+
+## Scope
+
+:arrow_right: During this session, some ways to use multiprocessing in `Python` will be introduced.  
+:warning: The associated concepts are the same in `C/C++`, but some limitations only exist in `Python`.
+
+## `Python` modules
+
+The following `Python` modules will be presented:
+
+* `threading`
+* `pymp`
+* `multiprocessing`
+* `mpi4py`
+
+---
+
+# Multiprocessing: introduction
+
+.block[
+## Definition ([wikipedia](https://en.wikipedia.org/wiki/Multiprocessing))
+*Multiprocessing is the use of two or more central processing units (CPUs) within a single computer system. [...] the definition of multiprocessing can vary with context, mostly as a function of how CPUs are defined.*
+]
+
+.vspace[]
+
+.hcenter[
+:warning: The available architecture (hard and soft) imposes the multiprocessing capabilities.
+]
+
+---
+
+# Multiprocessing: introduction
+
+.row[
+.w40[
+## Example of a *computer system*
+
+.tree[
+*computer system*
+* `center` "north america"
+* `center` "europe"
+    * `rack 03`
+    * `rack 04`
+        * `node 02`
+        * `node 03`
+            * `socket 00`
+            * `socket 01`
+                * `processor 00`
+                * `processor 01`
+                    * `core 12`
+                    * `core 13`
+                    * `core 14`
+    * `rack 05`
+* `center` "asia"
+]
+]
+.w55[
+## Examples of multiprocessing
+
+:arrow_right: a task is run on all cores of a given processor.  
+:arrow_right: a task is run on all cores of a given socket.  
+:arrow_right: a task is run on all cores of a given node.  
+:arrow_right: a task is run on all cores of a given rack.  
+:arrow_right: a task is run on all cores of a given center.  
+:arrow_right: a task is run on all cores.  
+
+.vspace[]
+
+## Examples of communication
+
+:arrow_right: two cores of the same processor can communicate.  
+:arrow_right: two cores of the same socket can communicate.  
+:arrow_right: two cores of the same node can communicate.  
+:arrow_right: two cores of the same rack can communicate.  
+:arrow_right: two cores of the same center can communicate.  
+:arrow_right: two cores can communicate.
+]
+]
+
+---
+
+# Multiprocessing: introduction
+
+## Real-life example
+
+:arrow_right: Calculate some heavy linear algebra problem.
+
+### Multiprocessing and communication scheme
+
+.tree[
+`scientific code run` - `KMS` job (1 job)
+* `Python` + `MPI` - process (32 nodes)
+    * `OpenBLAS` + `OpenMP` - thread (2 * 28 cores)
+] 
+
+:arrow_right: Total: **1792 cores** using `MPI` and `OpenMP` communications between `process` and `thread` objects.
+
+---
+
+# Multiprocessing: thread / process
+
+.block[
+## Definition ([wikipedia](https://en.wikipedia.org/wiki/Process))
+A **process** is an instance of a computer program that is being executed.
+]
+
+* Different `processes` can share processor(s) and/or resources (multitasking).
+* Different `processes` have their own **memory**.
+
+.vspace[]
+
+.block[
+## Definition ([wikipedia](https://en.wikipedia.org/wiki/Thread))
+A **thread of execution** is the smallest sequence of programmed instructions that can be managed independently by a scheduler.
+]
+
+* A `thread` always belongs to a `process`.
+* A `process` can spawn multiple `threads`.
+* Multiple `threads` of the same `process` share resources (**memory**, IO, etc...).
+
+## Communications
+
+* `process`-to-`process`: Inter-Process Communication (IPC)
+* `thread`-to-`thread`: Shared memory
+
+---
+
+# Multiprocessing: `threading` module
+
+## .hcenter[\[example0.py\]]
+```Python
+#!/usr/bin/env python
+
+import threading
+
+def worker():
+  print('new worker')
+
+for i in range(8):
+  threading.Thread(target = worker).start()
+```
+
+## .hcenter[Shell session]
+
+```shell
+$ ./example0.py
+new worker
+new worker
+new workernew worker
+
+new worker
+ new worker
+ new worker
+new worker
+```
+
+:arrow_right: Why is the output mangled ?
+
+---
+
+# Multiprocessing: `threading` module
+
+## Create and launch a `Thread` object
+
+There are two ways to specify which code to run:
+1. give a function to the constructor, or
+2. override the `run()` method.
+
+:arrow_right: The `thread` must be started by calling the `start()` method.
+
+---
+
+# Multiprocessing: `threading` module
+
+## .hcenter[\[example1.py\]]
+```Python
+#!/usr/bin/env python
+
+import threading
+import time
+
+def worker():
+  print('new worker')
+  time.sleep(0.5)
+  print('end of worker')
+
+*t0 = threading.Thread(target = worker)
+*t1 = threading.Thread()
+*t1.run = worker
+
+print('before')
+*t0.start()
+time.sleep(0.1)
+*t1.start()
+print('after')
+```
+
+## .hcenter[Shell session]
+
+```shell
+$ ./example1.py
+before
+new worker
+new worker
+after
+end of worker
+end of worker
+```
+
+:arrow_right: Why does the program does not terminate right after the **"after"** message ?
+
+---
+
+# Multiprocessing: `threading` module
+
+## .hcenter[\[example2.py\]]
+```Python
+#!/usr/bin/env python
+
+import threading
+import time
+
+def worker():
+  print('new worker')
+  time.sleep(0.5)
+  print('end of worker')
+
+t0 = threading.Thread(target = worker)
+t1 = threading.Thread()
+*t0.daemon = t1.daemon = True
+t1.run = worker
+
+print('before')
+t0.start()
+time.sleep(0.1)
+t1.start()
+print('after')
+```
+
+## .hcenter[Shell session]
+
+```shell
+$ ./example2.py
+before
+new worker
+new worker
+after
+```
+
+:arrow_right: A `Python` program exits if all the remaining threads are `daemon` threads.  
+:arrow_right: The `daemon` property value is inherited from the creating thread.
+
+---
+
+# Multiprocessing: `threading` module
+
+## Wait for a daemon thread to finish
+
+:arrow_right: Use the `join()` method.  
+:arrow_right: This blocks the calling thread until the other thread terminates or raises an exception.  
+:arrow_right: An optional timeout value can be specified (`join(3.2)` will wait for 3.2s).
+
+---
+
+# Multiprocessing: `threading` module
+
+## .hcenter[\[example3.py\]]
+```Python
+#!/usr/bin/env python
+
+import threading
+import time
+
+def worker():
+  print('new worker')
+  time.sleep(0.5)
+  print('end of worker')
+
+t0 = threading.Thread(target = worker)
+t1 = threading.Thread(target = worker)
+t0.daemon = t1.daemon = True
+
+print('before')
+t0.start()
+time.sleep(0.1)
+t1.start()
+print('after')
+*t0.join()
+```
+
+## .hcenter[Shell session]
+
+```shell
+$ ./example3.py
+before
+new worker
+new worker
+after
+*end of worker
+```
+
+
+---
+
+# Multiprocessing: `threading` module
+
+## Pass arguments to a `Thread` object
+
+:arrow_right: Use the `args` keyword of the `Thread` constructor.  
+:warning: Pass a `tuple` object.
+
+## .hcenter[\[example4.py\]]
+```Python
+#!/usr/bin/env python
+
+import threading
+
+def worker(n):
+  print('new worker: %d' % (n))
+
+for i in range(8):
+* threading.Thread(target = worker, args = (i,)).start()
+```
+
+## .hcenter[Shell session]
+
+```shell
+$ ./example4.py
+new worker: 0new worker: 1
+
+ new worker: 2
+new worker: 3
+ new worker: 5new worker: 4
+ new worker: 6
+
+new worker: 7
+
+```
+
+:warning: No *nice* way to pass arguments when overriding the `run()` method.
+
+---
+
+# Multiprocessing: `threading` module
+
+## Mangled output ?
+
+```shell
+$ ./example4.py
+new worker: 0new worker: 1
+
+ new worker: 2
+new worker: 3
+ new worker: 5new worker: 4
+ new worker: 6
+
+new worker: 7
+
+```
+
+## Do not use `print()`
+
+:arrow_right: Use the `logging` module.  
+:arrow_right: Customize the log format to show the thread's name.
+
+Check [`logging` documentation](https://docs.python.org/2/library/logging.html) for details and examples.
+
+---
+
+# Multiprocessing: `threading` module
+
+## .hcenter[\[example5.py\]]
+```Python
+#!/usr/bin/env python
+
+*import logging
+import threading
+
+*logging.basicConfig(level = logging.DEBUG,
+*                   format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s',
+*                   datefmt='%Y-%m-%d %H:%M:%S',
+*                  )
+
+def worker(n):
+* logging.debug('new worker: %d' % (n))
+
+*logging.debug("start")
+for i in range(8):
+  threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
+```
+
+## .hcenter[Shell session]
+
+```shell
+$ ./example5.py
+2018-05-02 15:57:24.697 [DEBUG] (MainThread) start
+2018-05-02 15:57:24.698 [DEBUG] (THREAD-0) new worker: 0
+2018-05-02 15:57:24.698 [DEBUG] (THREAD-1) new worker: 1
+2018-05-02 15:57:24.698 [DEBUG] (THREAD-3) new worker: 3
+2018-05-02 15:57:24.699 [DEBUG] (THREAD-2) new worker: 2
+2018-05-02 15:57:24.699 [DEBUG] (THREAD-4) new worker: 4
+2018-05-02 15:57:24.699 [DEBUG] (THREAD-5) new worker: 5
+2018-05-02 15:57:24.699 [DEBUG] (THREAD-6) new worker: 6
+2018-05-02 15:57:24.700 [DEBUG] (THREAD-7) new worker: 7
+```
+
+---
+
+# Multiprocessing: `threading` module
+
+## Enumerate current threads
+
+:arrow_right: List the current `Thread` instances with `threading.enumerate()`.  
+:warning: Threads not created by `threading.Thread` will not appear.
+
+## .hcenter[\[example6.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import threading
+import time
+
+logging.basicConfig(level = logging.DEBUG,
+                    format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S',
+                   )
+
+def worker(n):
+  time.sleep(1.0)
+
+for i in range(3):
+  threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
+
+logging.debug(str([t.name for t in threading.enumerate()]))
+```
+
+## .hcenter[Shell session]
+
+```shell
+$ ./example6.py
+2018-05-02 16:20:31.045 [DEBUG] (MainThread) ['MainThread', 'THREAD-0', 'THREAD-2', 'THREAD-1']
+```
+
+---
+
+
+
+TODO: special threading classes (Timer...)
+---
+TODO: GIL
+---
+TODO: `import pymp`
+---
+TODO: `import multiprocessing`
+---
+TODO: `import mpi4py`
+---
+TODO: Conclusion
+
+* `import threading` OK if IO-intensive stuff
+
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+  </body>
+</html>
+
