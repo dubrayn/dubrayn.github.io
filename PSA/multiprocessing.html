@@ -473,10 +473,364 @@ $ ./example6.py
 
 # Multiprocessing: `threading` module
 
-TODO: special threading class `Timer`
+## `Timer` class
+
+:arrow_right: Launch a function after a specified delay.
+
+## .hcenter[\[example7.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import threading
+import time
+
+logging.basicConfig(level = logging.DEBUG,
+                    format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S',
+                   )
+
+def worker(n):
+  logging.debug("worker %d" % (n))
+
+logging.debug("start")
+for i in range(3):
+  threading.Timer(i + 1.0, worker, args = (i,)).start()
+logging.debug("stop ?")
+```
+
+## .hcenter[Shell session]
+
+```shell
+$ ./example7.py
+2018-05-02 21:07:23.248 [DEBUG] (MainThread) start
+2018-05-02 21:07:23.249 [DEBUG] (MainThread) stop ?
+2018-05-02 21:07:24.249 [DEBUG] (Thread-1) worker 0
+2018-05-02 21:07:25.249 [DEBUG] (Thread-2) worker 1
+2018-05-02 21:07:26.249 [DEBUG] (Thread-3) worker 2
+```
+
+:arrow_right: The "countdown" can be canceled with the `cancel()` method.
 
 ---
-TODO: thread synchronization methods (lock, rlock, semaphore...)
+
+# Multiprocessing: `threading` module
+
+## Accesses to shared resources
+
+* Unprotected accesses ?
+
+## .hcenter[\[example8.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import threading
+import time
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+a = 0
+def worker(n):
+  global a
+  b = a
+  time.sleep(0.0001)
+  a = b + 1
+  logging.debug("worker %d: a = %d" % (n, a))
+
+logging.debug("start")
+for i in range(3):
+  threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
+```
+
+## .hcenter[Shell session]
+
+```shell
+$ ./example8.py
+2018-05-02 21:23:46.490 [DEBUG] (MainThread) start
+2018-05-02 21:23:46.491 [DEBUG] (THREAD-0) worker 0: a = 1
+2018-05-02 21:23:46.491 [DEBUG] (THREAD-1) worker 1: a = 1
+2018-05-02 21:23:46.491 [DEBUG] (THREAD-2) worker 2: a = 2
+```
+
+---
+
+# Multiprocessing: `threading` module
+
+:arrow_right: To protect accesses to shared resources, **synchronization** must be used.
+
+## Thread synchronization methods
+
+* `threading.Lock`: basis lock mechanism,
+* `threading.RLock`: re-entrant lock mechanism,
+* `threading.Event`: send and receive signals,
+* `threading.Condition`: wait for a given state and access a shared resource.
+* `threading.Semaphore`: limit the number of concurrent accesses to a resource.
+
+---
+
+# Multiprocessing: `threading` module
+
+## `threading.Lock`
+
+:arrow_right: Allows to protect shared resources from simultaneous (nefarious) accesses.
+
+## .hcenter[\[example9.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import threading
+import time
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+l = threading.Lock()
+a = 0
+def worker(n):
+  global a, l
+  logging.debug("lock.acquire()")
+  l.acquire()
+  logging.debug(" lock acquired !")
+  b = a
+  time.sleep(0.0001)
+  a = b + 1
+  logging.debug("  worker %d: a = %d" % (n, a))
+  logging.debug("   lock.release()")
+  l.release()
+  logging.debug("    lock released !")
+
+logging.debug("start")
+for i in range(3):
+  threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
+```
+
+---
+
+# Multiprocessing: `threading` module
+
+## .hcenter[Shell session]
+
+```shell
+$ ./example9.py
+2018-05-02 21:59:01.323 [DEBUG] (MainThread) start
+2018-05-02 21:59:01.324 [DEBUG] (THREAD-0) lock.acquire()
+2018-05-02 21:59:01.324 [DEBUG] (THREAD-0)  lock acquired !
+2018-05-02 21:59:01.324 [DEBUG] (THREAD-1) lock.acquire()
+2018-05-02 21:59:01.324 [DEBUG] (THREAD-0)   worker 0: a = 1
+2018-05-02 21:59:01.324 [DEBUG] (THREAD-2) lock.acquire()
+2018-05-02 21:59:01.324 [DEBUG] (THREAD-0)    lock.release()
+2018-05-02 21:59:01.324 [DEBUG] (THREAD-0)     lock released !
+2018-05-02 21:59:01.325 [DEBUG] (THREAD-1)  lock acquired !
+2018-05-02 21:59:01.325 [DEBUG] (THREAD-1)   worker 1: a = 2
+2018-05-02 21:59:01.325 [DEBUG] (THREAD-1)    lock.release()
+2018-05-02 21:59:01.325 [DEBUG] (THREAD-1)     lock released !
+2018-05-02 21:59:01.325 [DEBUG] (THREAD-2)  lock acquired !
+2018-05-02 21:59:01.325 [DEBUG] (THREAD-2)   worker 2: a = 3
+2018-05-02 21:59:01.325 [DEBUG] (THREAD-2)    lock.release()
+2018-05-02 21:59:01.325 [DEBUG] (THREAD-2)     lock released !
+```
+
+## To sum up
+
+.hcenter[
+| Lock state  | released  | acquired |
+| :---------: | :-------: | :------: |
+| `acquire()` | OK        | wait     |
+| `release()` | Exception | OK       |
+]
+
+:arrow_right: A **timeout** can be specified for `acquire()`.
+To know if the lock has been acquired,
+check the return value of the method (`True` means acquired).  
+:bulb: To check if a lock is released **without acquiring it**, use `acquire(0)`.
+
+---
+
+# Multiprocessing: `threading` module
+
+## `threading.RLock`
+
+:arrow_right: Allows threads to acquire a **lock** more than once.  
+
+## .hcenter[\[example10.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import threading
+import time
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+l = threading.Lock()
+def worker(n):
+  global l
+  logging.debug("lock.acquire()")
+  l.acquire()
+  logging.debug(" lock acquired !")
+  logging.debug("  lock.acquire() again ?")
+  l.acquire()
+  logging.debug("   lock acquired !")
+  logging.debug("    lock.release()")
+  l.release()
+  logging.debug("     lock released !")
+
+logging.debug("start")
+for i in range(3):
+  threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
+```
+
+---
+
+# Multiprocessing: `threading` module
+
+## .hcenter[Shell session]
+```shell
+$ ./example10.py
+2018-05-02 22:22:10.405 [DEBUG] (MainThread) start
+2018-05-02 22:22:10.405 [DEBUG] (THREAD-0) lock.acquire()
+2018-05-02 22:22:10.405 [DEBUG] (THREAD-0)  lock acquired !
+2018-05-02 22:22:10.405 [DEBUG] (THREAD-0)   lock.acquire() again ?
+2018-05-02 22:22:10.406 [DEBUG] (THREAD-1) lock.acquire()
+2018-05-02 22:22:10.406 [DEBUG] (THREAD-2) lock.acquire()
+*[DEADLOCK]
+```
+
+:warning: Trying to acquire an acquired lock **by the same thread** will result in a **deadlock** most of the time.  
+:arrow_right: Use `threading.RLock` objects instead.
+
+---
+
+# Multiprocessing: `threading` module
+
+## .hcenter[\[example11.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import threading
+import time
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+*l = threading.RLock()
+def worker(n):
+  global l
+  logging.debug("lock.acquire()")
+  l.acquire()
+  logging.debug(" lock acquired !")
+  logging.debug("  lock.acquire() again ?")
+  l.acquire()
+  logging.debug("   lock acquired !")
+  logging.debug("    lock.release()")
+* try:
+*   while True:
+*     l.release()
+* except:
+*   pass
+  logging.debug("     lock released !")
+
+logging.debug("start")
+for i in range(3):
+  threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
+```
+
+---
+
+# Multiprocessing: `threading` module
+
+## .hcenter[Shell session]
+```shell
+$ ./example11.py
+2018-05-02 22:40:39.877 [DEBUG] (MainThread) start
+2018-05-02 22:40:39.877 [DEBUG] (THREAD-0) lock.acquire()
+2018-05-02 22:40:39.877 [DEBUG] (THREAD-0)  lock acquired !
+2018-05-02 22:40:39.878 [DEBUG] (THREAD-0)   lock.acquire() again ?
+2018-05-02 22:40:39.878 [DEBUG] (THREAD-1) lock.acquire()
+2018-05-02 22:40:39.878 [DEBUG] (THREAD-0)    lock acquired !
+2018-05-02 22:40:39.878 [DEBUG] (THREAD-2) lock.acquire()
+2018-05-02 22:40:39.878 [DEBUG] (THREAD-0)     lock.release()
+2018-05-02 22:40:39.878 [DEBUG] (THREAD-0)      lock released !
+2018-05-02 22:40:39.878 [DEBUG] (THREAD-1)  lock acquired !
+2018-05-02 22:40:39.878 [DEBUG] (THREAD-1)   lock.acquire() again ?
+2018-05-02 22:40:39.878 [DEBUG] (THREAD-1)    lock acquired !
+2018-05-02 22:40:39.878 [DEBUG] (THREAD-1)     lock.release()
+2018-05-02 22:40:39.879 [DEBUG] (THREAD-1)      lock released !
+2018-05-02 22:40:39.879 [DEBUG] (THREAD-2)  lock acquired !
+2018-05-02 22:40:39.879 [DEBUG] (THREAD-2)   lock.acquire() again ?
+2018-05-02 22:40:39.879 [DEBUG] (THREAD-2)    lock acquired !
+2018-05-02 22:40:39.879 [DEBUG] (THREAD-2)     lock.release()
+2018-05-02 22:40:39.879 [DEBUG] (THREAD-2)      lock released !
+```
+
+:arrow_right: At any time, an `RLock` object belongs to 1 or 0 thread.  
+:arrow_right: Only the owner thread can increment / decrement the `RLock`'s acquiring counter.  
+:arrow_right: When the `RLock`'s acquiring counter reaches 0, the lock is released.  
+:bulb: Use `RLock` for recursive functions or when there is a need for a lock to have an owner.
+
+---
+
+# Multiprocessing: `threading` module
+
+## `threading.Event`
+
+:arrow_right: Very simple to use: one thread sends a signal, some other thread(s) wait for it.
+
+## .hcenter[\[example12.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import threading
+import time
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+s = threading.Event()
+def worker(n):
+  global s
+  logging.debug("waiting for signal")
+  s.wait()
+  logging.debug("signal received")
+
+logging.debug("start")
+for i in range(3):
+  threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
+logging.debug("send signal")
+s.set()
+```
+
+---
+
+# Multiprocessing: `threading` module
+
+## .hcenter[Shell session]
+```
+$ ./example12.py
+2018-05-02 23:07:27.170 [DEBUG] (MainThread) start
+2018-05-02 23:07:27.170 [DEBUG] (THREAD-0) waiting for signal
+2018-05-02 23:07:27.171 [DEBUG] (THREAD-1) waiting for signal
+2018-05-02 23:07:27.171 [DEBUG] (THREAD-2) waiting for signal
+2018-05-02 23:07:27.171 [DEBUG] (MainThread) send signal
+2018-05-02 23:07:27.171 [DEBUG] (THREAD-0) signal received
+2018-05-02 23:07:27.171 [DEBUG] (THREAD-2) signal received
+2018-05-02 23:07:27.171 [DEBUG] (THREAD-1) signal received
+```
+
+:arrow_right: A **timeout** can be specified for `wait()`.
+To know if the event has been sent,
+check the return value of the method (`True` means sent).  
+
+---
+
+# Multiprocessing: `threading` module
+
+## `threading.Condition`
+
+
+
+
 ---
 TODO: GIL
 ---
