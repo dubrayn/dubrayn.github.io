@@ -1129,13 +1129,87 @@ $ ./example16.py
 :warning: Do not forget to call the `task_done()` method when the work associated with an item is done (allows to `join()` properly).
 
 ---
-TODO: GIL
+
+# Multiprocessing: `Python` GIL
+
+## OS Scheduler
+
+:arrow_right: Multithreaded `C++` code using 2 threads on 2 cores:
+
+.vspace[]
+
+.hcenter.w80[![](images/multithread.png)]
+
+.vspace[]
+
+:arrow_right: Multithreaded `Python` code using 2 threads on 2 cores:
+
+.vspace[]
+
+.hcenter.w80[![](images/multithread_gil.png)]
+
+:arrow_right: Thanks to `CPython`'s **G**lobal **I**nterpreter **L**ock.
+
+---
+
+# Multiprocessing: `Python` GIL
+
+## What ?
+
+* There is a **lock mechanism** in `CPython` to ensure that **only one** thread runs at a time.
+
+## Why ?
+
+* Because it is **very difficult** to do otherwise and keep good performances for single-threaded code.
+
+## How to use multiple cores for multithreaded `Python` code then ?
+
+* Most IO operations release the GIL.
+* Most `Python` libraries performing computationally-intensive calculations release the GIL.
+
+:arrow_right: **In these cases**, multithreaded `Python` code should run simultaneously on multiple cores.
+
+## What about the other cases ?
+
+:arrow_right: Multithreaded `Python` code **will not run simultaneously on multiple cores**.
+
+## .red[However,]
+
+* one can spawn threads from a `C++` module,
+* one can use **something else than threads**...
+
+---
+
+# Multiprocessing: `multiprocessing` module
+
+## Use the `multiprocessing` module :v:
+
+:arrow_right: Spawn **processes** instead of **threads**.  
+
+.vspace[]
+
+## OK, so everything we've seen until now is useless ?
+
+:arrow_right: Not at all, simply replace `threading.Thread` objects by `multiprocessing.Process` objects.  
+
+```shell
+$ cd examples/threading/
+$ for i in *py; do sed 's/threading/multiprocessing/g' $i | sed 's/Thread/Process/g' > ../multiprocessing/$i; done
+```
+
+.vspace[]
+
+:arrow_right: **Every example** seen in this session (except examples 6 and 7) should work and use multiple cores.
+
+
+
+
+
 ---
 TODO `asyncio`
 ---
 TODO: `import pymp`
 ---
-TODO: `import multiprocessing`
 ---
 TODO: `import mpi4py`
 ---
