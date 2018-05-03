@@ -4,10 +4,7 @@ import logging
 import threading
 import time
 
-logging.basicConfig(level = logging.DEBUG,
-                    format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S',
-                   )
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 def worker(n):
   time.sleep(1.0)

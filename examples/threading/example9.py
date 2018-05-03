@@ -9,7 +9,7 @@ logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(
 l = threading.Lock()
 a = 0
 def worker(n):
-  global a, l
+  global a
   logging.debug("lock.acquire()")
   l.acquire()
   logging.debug(" lock acquired !")

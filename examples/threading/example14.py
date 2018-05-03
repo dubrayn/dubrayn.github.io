@@ -6,18 +6,18 @@ import time
 
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
-l = threading.Lock()
+c = threading.Semaphore(2)
+a = 0
 def worker(n):
-  logging.debug("lock.acquire()")
-  l.acquire()
-  logging.debug(" lock acquired !")
-  logging.debug("  lock.acquire() again ?")
-  l.acquire()
-  logging.debug("   lock acquired !")
-  logging.debug("    lock.release()")
-  l.release()
-  logging.debug("     lock released !")
+  global a
+  logging.debug("wait")
+  c.acquire()
+  time.sleep(0.1)
+  logging.debug("received !")
+  c.release()
+  logging.debug("release")
 
 logging.debug("start")
-for i in range(3):
+for i in range(10):
   threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
+

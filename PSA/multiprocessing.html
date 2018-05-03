@@ -234,7 +234,7 @@ end of worker
 end of worker
 ```
 
-:arrow_right: Why does the program does not terminate right after the **"after"** message ?
+:arrow_right: Why doesn't the program terminate right after the **"after"** message ?
 
 ---
 
@@ -364,7 +364,7 @@ new worker: 7
 
 ```
 
-:warning: No *nice* way to pass arguments when overriding the `run()` method.
+:warning: There is no *nice* way to pass arguments when overriding the `run()` method.
 
 ---
 
@@ -448,10 +448,7 @@ import logging
 import threading
 import time
 
-logging.basicConfig(level = logging.DEBUG,
-                    format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S',
-                   )
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 def worker(n):
   time.sleep(1.0)
@@ -459,7 +456,7 @@ def worker(n):
 for i in range(3):
   threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
 
-logging.debug(str([t.name for t in threading.enumerate()]))
+*logging.debug(str([t.name for t in threading.enumerate()]))
 ```
 
 ## .hcenter[Shell session]
@@ -485,10 +482,7 @@ import logging
 import threading
 import time
 
-logging.basicConfig(level = logging.DEBUG,
-                    format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S',
-                   )
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 def worker(n):
   logging.debug("worker %d" % (n))
@@ -530,12 +524,12 @@ import time
 
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
-a = 0
+*a = 0
 def worker(n):
-  global a
-  b = a
-  time.sleep(0.0001)
-  a = b + 1
+* global a
+* b = a
+* time.sleep(0.0001)
+* a = b + 1
   logging.debug("worker %d: a = %d" % (n, a))
 
 logging.debug("start")
@@ -588,7 +582,7 @@ logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(
 l = threading.Lock()
 a = 0
 def worker(n):
-  global a, l
+  global a
   logging.debug("lock.acquire()")
   l.acquire()
   logging.debug(" lock acquired !")
@@ -665,7 +659,6 @@ logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(
 
 l = threading.Lock()
 def worker(n):
-  global l
   logging.debug("lock.acquire()")
   l.acquire()
   logging.debug(" lock acquired !")
@@ -716,7 +709,6 @@ logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(
 
 *l = threading.RLock()
 def worker(n):
-  global l
   logging.debug("lock.acquire()")
   l.acquire()
   logging.debug(" lock acquired !")
@@ -764,7 +756,7 @@ $ ./example11.py
 2018-05-02 22:40:39.879 [DEBUG] (THREAD-2)      lock released !
 ```
 
-:arrow_right: At any time, an `RLock` object belongs to 1 or 0 thread.  
+:arrow_right: At any time, an `RLock` object belongs to 0 or 1 thread.  
 :arrow_right: Only the owner thread can increment / decrement the `RLock`'s acquiring counter.  
 :arrow_right: When the `RLock`'s acquiring counter reaches 0, the lock is released.  
 :bulb: Use `RLock` for recursive functions or when there is a need for a lock to have an owner.
@@ -789,7 +781,6 @@ logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(
 
 s = threading.Event()
 def worker(n):
-  global s
   logging.debug("waiting for signal")
   s.wait()
   logging.debug("signal received")
@@ -828,11 +819,319 @@ check the return value of the method (`True` means sent).
 
 ## `threading.Condition`
 
+:arrow_right: A `Condition` object is like an `Event` with an associated `Lock`.  
+:arrow_right: It is meant to be used e.g. in "producer to consumers" schemes.  
 
+## Typical example
+
+1. Some thread(s) wait for a resource to be available,
+2. one thread produces or prepares the resource,  
+3. then **notifies one or all of the waiting thread(s)**,
+4. **one of the waiting thread(s)** gets exclusive access to the resource (lock).
+
+---
+
+# Multiprocessing: `threading` module
+
+## .hcenter[\[example13.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import threading
+import time
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+c = threading.Condition()
+def worker(n):
+  logging.debug("wait")
+  c.acquire()
+  c.wait()
+  logging.debug("received !")
+  c.release()
+
+logging.debug("start")
+for i in range(3):
+  threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
+logging.debug("set condition")
+
+for i in range(3):
+  time.sleep(1.0)
+  c.acquire()
+  logging.debug("notify one thread")
+  c.notify()
+  c.release()
+```
+
+---
+
+# Multiprocessing: `threading` module
+
+## .hcenter[Shell session]
+```shell
+$ ./example13.py
+2018-05-03 13:19:34.204 [DEBUG] (MainThread) start
+2018-05-03 13:19:34.204 [DEBUG] (THREAD-0) wait
+2018-05-03 13:19:34.205 [DEBUG] (THREAD-1) wait
+2018-05-03 13:19:34.205 [DEBUG] (THREAD-2) wait
+2018-05-03 13:19:34.205 [DEBUG] (MainThread) set condition
+2018-05-03 13:19:35.206 [DEBUG] (MainThread) notify one thread
+2018-05-03 13:19:35.207 [DEBUG] (THREAD-0) received !
+2018-05-03 13:19:36.208 [DEBUG] (MainThread) notify one thread
+2018-05-03 13:19:36.208 [DEBUG] (THREAD-1) received !
+2018-05-03 13:19:37.209 [DEBUG] (MainThread) notify one thread
+2018-05-03 13:19:37.209 [DEBUG] (THREAD-2) received !
+```
+
+:warning: A `Condition`'s lock must be acquired before using `wait()`.  
+:arrow_right: A **timeout** can be specified for `wait()`.  
+:arrow_right: A `wait_for()` method has been introduced in `Python3.2`, allowing to wait for a specific expression to become `True` before waking up a thread.
+
+---
+
+# Multiprocessing: `threading` module
+
+## `threading.Semaphore`
+
+:arrow_right: One of the earliest synchronization mechanisms in computer science.  
+:arrow_right: Allows a given **maximum number of threads to simultaneously access a resource**.
+
+## .hcenter[\[example14.py\]]
+
+```Python
+#!/usr/bin/env python
+
+import logging
+import threading
+import time
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+*c = threading.Semaphore(2)
+a = 0
+def worker(n):
+  global a
+  logging.debug("wait")
+  c.acquire()
+  time.sleep(0.1)
+  logging.debug("received !")
+  c.release()
+  logging.debug("release")
+
+logging.debug("start")
+for i in range(10):
+  threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
+```
+
+---
+
+# Multiprocessing: `threading` module
+
+## .hcenter[Shell session]
+```shell
+$ ./example14.py
+2018-05-03 14:30:34.591 [DEBUG] (MainThread) start
+2018-05-03 14:30:34.592 [DEBUG] (THREAD-0) wait
+2018-05-03 14:30:34.592 [DEBUG] (THREAD-1) wait
+2018-05-03 14:30:34.592 [DEBUG] (THREAD-2) wait
+2018-05-03 14:30:34.592 [DEBUG] (THREAD-3) wait
+2018-05-03 14:30:34.593 [DEBUG] (THREAD-4) wait
+2018-05-03 14:30:34.593 [DEBUG] (THREAD-5) wait
+2018-05-03 14:30:34.593 [DEBUG] (THREAD-6) wait
+2018-05-03 14:30:34.594 [DEBUG] (THREAD-7) wait
+2018-05-03 14:30:34.594 [DEBUG] (THREAD-8) wait
+2018-05-03 14:30:34.594 [DEBUG] (THREAD-9) wait
+2018-05-03 14:30:34.692 [DEBUG] (THREAD-0) received !
+2018-05-03 14:30:34.693 [DEBUG] (THREAD-1) received !
+2018-05-03 14:30:34.693 [DEBUG] (THREAD-0) release
+2018-05-03 14:30:34.693 [DEBUG] (THREAD-1) release
+2018-05-03 14:30:34.793 [DEBUG] (THREAD-3) received !
+2018-05-03 14:30:34.793 [DEBUG] (THREAD-3) release
+2018-05-03 14:30:34.793 [DEBUG] (THREAD-2) received !
+2018-05-03 14:30:34.794 [DEBUG] (THREAD-2) release
+2018-05-03 14:30:34.893 [DEBUG] (THREAD-4) received !
+2018-05-03 14:30:34.894 [DEBUG] (THREAD-4) release
+2018-05-03 14:30:34.894 [DEBUG] (THREAD-5) received !
+2018-05-03 14:30:34.894 [DEBUG] (THREAD-5) release
+2018-05-03 14:30:34.994 [DEBUG] (THREAD-6) received !
+2018-05-03 14:30:34.994 [DEBUG] (THREAD-6) release
+2018-05-03 14:30:34.995 [DEBUG] (THREAD-7) received !
+2018-05-03 14:30:34.995 [DEBUG] (THREAD-7) release
+2018-05-03 14:30:35.094 [DEBUG] (THREAD-8) received !
+2018-05-03 14:30:35.095 [DEBUG] (THREAD-8) release
+2018-05-03 14:30:35.095 [DEBUG] (THREAD-9) received !
+2018-05-03 14:30:35.095 [DEBUG] (THREAD-9) release
+```
+
+:arrow_right: Use `BoundedSemaphore` for a variant that can not exceed its initial maximum value.
+
+---
+
+# Multiprocessing: `threading` module
+
+## Using `with` syntax for `Lock`, `RLock`, `Condition` and `Semaphore`
+
+:arrow_right: Used as context managers for a `with` block, these objects will start the block with `acquire()` and end it with `release()`.
+
+.row[
+.column.w47.middle[
+```Python
+l = threading.Lock()
+
+l.acquire()
+do_something()
+l.release()
+```
+]
+.column.w5.middle[$$\Leftrightarrow$$]
+.column.w47.middle[
+```Python
+l = threading.Lock()
+
+with l:
+  do_something()
+```
+]
+]
+
+---
+
+# Multiprocessing: `threading` module
+
+:arrow_right: Using `with` syntax to rewrite `example13.py`:
+
+## .hcenter[\[example15.py\]]
+
+```Python
+#!/usr/bin/env python
+
+import logging
+import threading
+import time
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+c = threading.Condition()
+def worker(n):
+  logging.debug("wait")
+* with c:
+    c.wait()
+    logging.debug("received !")
+
+logging.debug("start")
+for i in range(3):
+  threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
+logging.debug("set condition")
+
+for i in range(3):
+  time.sleep(1.0)
+* with c:
+    logging.debug("notify one thread")
+    c.notify()
+```
+
+---
+
+# Multiprocessing: `Queue` module
+
+## `Queue.Queue`
+
+:arrow_right: Implement **thread-safe queue objects**.  
+:arrow_right: Allows **multiple threads** to **push** and **pop** from queue objects.  
+:arrow_right: Deals with the internal synchronization mechanisms.  
+:arrow_right: Queue objects can be bounded if needed.
+
+## Three types of queues are provided:
+
+1. FIFO (`Queue.Queue`)
+2. LIFO (`Queue.LifoQueue`)
+3. "priority queue" (`Queue.PriorityQueue`)
+
+## Variant
+
+:bulb: See `collections.deque` for a variant of unbounded queues with **atomic** `append()` and `popleft()` methods (no lock required).
 
 
 ---
+
+# Multiprocessing: `threading` module
+
+## .hcenter[\[example16.py\]]
+
+```Python
+#!/usr/bin/env python
+
+import logging
+import threading
+import time
+import Queue
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+*q = Queue.Queue()
+def worker(n):
+  while True:
+    logging.debug("wait for item")
+*   item = q.get()
+    logging.debug("received item %d" % (item))
+    time.sleep(0.2) # do something
+*   q.task_done()
+    logging.debug("task done")
+
+logging.debug("start")
+for i in range(3):
+  t = threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,))
+* t.daemon = True
+  t.start()
+
+time.sleep(1.0)
+for i in range(5):
+  logging.debug("append item %d to queue" % (i))
+* q.put(i)
+
+time.sleep(2.0)
+```
+
+---
+
+# Multiprocessing: `threading` module
+
+## .hcenter[Shell session]
+```shell
+$ ./example16.py
+2018-05-03 15:00:45.381 [DEBUG] (MainThread) start
+2018-05-03 15:00:45.382 [DEBUG] (THREAD-0) wait for item
+2018-05-03 15:00:45.382 [DEBUG] (THREAD-1) wait for item
+2018-05-03 15:00:45.382 [DEBUG] (THREAD-2) wait for item
+2018-05-03 15:00:46.384 [DEBUG] (MainThread) append item 0 to queue
+2018-05-03 15:00:46.384 [DEBUG] (MainThread) append item 1 to queue
+2018-05-03 15:00:46.384 [DEBUG] (MainThread) append item 2 to queue
+2018-05-03 15:00:46.384 [DEBUG] (MainThread) append item 3 to queue
+2018-05-03 15:00:46.384 [DEBUG] (THREAD-1) received item 1
+2018-05-03 15:00:46.384 [DEBUG] (THREAD-0) received item 0
+2018-05-03 15:00:46.385 [DEBUG] (THREAD-2) received item 2
+2018-05-03 15:00:46.385 [DEBUG] (MainThread) append item 4 to queue
+2018-05-03 15:00:46.585 [DEBUG] (THREAD-1) task done
+2018-05-03 15:00:46.585 [DEBUG] (THREAD-1) wait for item
+2018-05-03 15:00:46.586 [DEBUG] (THREAD-0) task done
+2018-05-03 15:00:46.586 [DEBUG] (THREAD-1) received item 3
+2018-05-03 15:00:46.586 [DEBUG] (THREAD-2) task done
+2018-05-03 15:00:46.586 [DEBUG] (THREAD-0) wait for item
+2018-05-03 15:00:46.586 [DEBUG] (THREAD-2) wait for item
+2018-05-03 15:00:46.586 [DEBUG] (THREAD-0) received item 4
+2018-05-03 15:00:46.786 [DEBUG] (THREAD-1) task done
+2018-05-03 15:00:46.786 [DEBUG] (THREAD-1) wait for item
+2018-05-03 15:00:46.787 [DEBUG] (THREAD-0) task done
+2018-05-03 15:00:46.787 [DEBUG] (THREAD-0) wait for item
+```
+
+:warning: Do not forget to call the `task_done()` method when the work associated with an item is done (allows to `join()` properly).
+
+---
 TODO: GIL
+---
+TODO `asyncio`
 ---
 TODO: `import pymp`
 ---

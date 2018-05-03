@@ -8,7 +8,6 @@ logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(
 
 s = threading.Event()
 def worker(n):
-  global s
   logging.debug("waiting for signal")
   s.wait()
   logging.debug("signal received")
