@@ -3,18 +3,17 @@
 import logging
 import multiprocessing
 import time
-import Queue
 
-logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(process)d) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
-q = Queue.Queue()
+q = multiprocessing.Queue()
 def worker(n):
   while True:
     logging.debug("wait for item")
     item = q.get()
     logging.debug("received item %d" % (item))
     time.sleep(0.2) # do something
-    q.task_done()
+    # q.task_done()
     logging.debug("task done")
 
 logging.debug("start")

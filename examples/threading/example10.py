@@ -18,6 +18,6 @@ def worker(n):
   l.release()
   logging.debug("     lock released !")
 
-logging.debug("start")
+logging.debug("start - this program should result in a deadlock")
 for i in range(3):
   threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()

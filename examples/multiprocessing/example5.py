@@ -4,7 +4,7 @@ import logging
 import multiprocessing
 
 logging.basicConfig(level = logging.DEBUG,
-                    format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s',
+                    format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(process)d) %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S',
                    )
 

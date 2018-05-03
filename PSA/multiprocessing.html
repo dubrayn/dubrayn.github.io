@@ -35,8 +35,11 @@ class: animated fadeIn middle numbers
 The following `Python` modules will be presented:
 
 * `threading`
-* `pymp`
 * `multiprocessing`
+
+The following `Python` modules will **not** be presented (in these slides):
+
+* `pymp`
 * `mpi4py`
 
 ---
@@ -154,7 +157,7 @@ A **thread of execution** is the smallest sequence of programmed instructions th
 
 # Multiprocessing: `threading` module
 
-## .hcenter[\[example0.py\]]
+## .hcenter[\[threading/example0.py\]]
 ```Python
 #!/usr/bin/env python
 
@@ -170,7 +173,7 @@ for i in range(8):
 ## .hcenter[Shell session]
 
 ```shell
-$ ./example0.py
+$ threading/example0.py
 new worker
 new worker
 new workernew worker
@@ -199,7 +202,7 @@ There are two ways to specify which code to run:
 
 # Multiprocessing: `threading` module
 
-## .hcenter[\[example1.py\]]
+## .hcenter[\[threading/example1.py\]]
 ```Python
 #!/usr/bin/env python
 
@@ -225,7 +228,7 @@ print('after')
 ## .hcenter[Shell session]
 
 ```shell
-$ ./example1.py
+$ threading/example1.py
 before
 new worker
 new worker
@@ -240,7 +243,7 @@ end of worker
 
 # Multiprocessing: `threading` module
 
-## .hcenter[\[example2.py\]]
+## .hcenter[\[threading/example2.py\]]
 ```Python
 #!/usr/bin/env python
 
@@ -267,7 +270,7 @@ print('after')
 ## .hcenter[Shell session]
 
 ```shell
-$ ./example2.py
+$ threading/example2.py
 before
 new worker
 new worker
@@ -291,7 +294,7 @@ after
 
 # Multiprocessing: `threading` module
 
-## .hcenter[\[example3.py\]]
+## .hcenter[\[threading/example3.py\]]
 ```Python
 #!/usr/bin/env python
 
@@ -318,7 +321,7 @@ print('after')
 ## .hcenter[Shell session]
 
 ```shell
-$ ./example3.py
+$ threading/example3.py
 before
 new worker
 new worker
@@ -336,7 +339,7 @@ after
 :arrow_right: Use the `args` keyword of the `Thread` constructor.  
 :warning: Pass a `tuple` object.
 
-## .hcenter[\[example4.py\]]
+## .hcenter[\[threading/example4.py\]]
 ```Python
 #!/usr/bin/env python
 
@@ -352,7 +355,7 @@ for i in range(8):
 ## .hcenter[Shell session]
 
 ```shell
-$ ./example4.py
+$ threading/example4.py
 new worker: 0new worker: 1
 
  new worker: 2
@@ -373,7 +376,7 @@ new worker: 7
 ## Mangled output ?
 
 ```shell
-$ ./example4.py
+$ threading/example4.py
 new worker: 0new worker: 1
 
  new worker: 2
@@ -396,7 +399,7 @@ Check [`logging` documentation](https://docs.python.org/2/library/logging.html) 
 
 # Multiprocessing: `threading` module
 
-## .hcenter[\[example5.py\]]
+## .hcenter[\[threading/example5.py\]]
 ```Python
 #!/usr/bin/env python
 
@@ -419,7 +422,7 @@ for i in range(8):
 ## .hcenter[Shell session]
 
 ```shell
-$ ./example5.py
+$ threading/example5.py
 2018-05-02 15:57:24.697 [DEBUG] (MainThread) start
 2018-05-02 15:57:24.698 [DEBUG] (THREAD-0) new worker: 0
 2018-05-02 15:57:24.698 [DEBUG] (THREAD-1) new worker: 1
@@ -440,7 +443,7 @@ $ ./example5.py
 :arrow_right: List the current `Thread` instances with `threading.enumerate()`.  
 :warning: Threads not created by `threading.Thread` will not appear.
 
-## .hcenter[\[example6.py\]]
+## .hcenter[\[threading/example6.py\]]
 ```Python
 #!/usr/bin/env python
 
@@ -462,7 +465,7 @@ for i in range(3):
 ## .hcenter[Shell session]
 
 ```shell
-$ ./example6.py
+$ threading/example6.py
 2018-05-02 16:20:31.045 [DEBUG] (MainThread) ['MainThread', 'THREAD-0', 'THREAD-2', 'THREAD-1']
 ```
 
@@ -474,7 +477,7 @@ $ ./example6.py
 
 :arrow_right: Launch a function after a specified delay.
 
-## .hcenter[\[example7.py\]]
+## .hcenter[\[threading/example7.py\]]
 ```Python
 #!/usr/bin/env python
 
@@ -496,7 +499,7 @@ logging.debug("stop ?")
 ## .hcenter[Shell session]
 
 ```shell
-$ ./example7.py
+$ threading/example7.py
 2018-05-02 21:07:23.248 [DEBUG] (MainThread) start
 2018-05-02 21:07:23.249 [DEBUG] (MainThread) stop ?
 2018-05-02 21:07:24.249 [DEBUG] (Thread-1) worker 0
@@ -514,7 +517,7 @@ $ ./example7.py
 
 * Unprotected accesses ?
 
-## .hcenter[\[example8.py\]]
+## .hcenter[\[threading/example8.py\]]
 ```Python
 #!/usr/bin/env python
 
@@ -540,7 +543,7 @@ for i in range(3):
 ## .hcenter[Shell session]
 
 ```shell
-$ ./example8.py
+$ threading/example8.py
 2018-05-02 21:23:46.490 [DEBUG] (MainThread) start
 2018-05-02 21:23:46.491 [DEBUG] (THREAD-0) worker 0: a = 1
 2018-05-02 21:23:46.491 [DEBUG] (THREAD-1) worker 1: a = 1
@@ -569,7 +572,7 @@ $ ./example8.py
 
 :arrow_right: Allows to protect shared resources from simultaneous (nefarious) accesses.
 
-## .hcenter[\[example9.py\]]
+## .hcenter[\[threading/example9.py\]]
 ```Python
 #!/usr/bin/env python
 
@@ -582,7 +585,7 @@ logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(
 l = threading.Lock()
 a = 0
 def worker(n):
-  global a
+* global a
   logging.debug("lock.acquire()")
   l.acquire()
   logging.debug(" lock acquired !")
@@ -599,6 +602,8 @@ for i in range(3):
   threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
 ```
 
+:moneybag: Bonus question: Why "`global a`" and not "`global a, l`" or "" ?
+
 ---
 
 # Multiprocessing: `threading` module
@@ -606,7 +611,7 @@ for i in range(3):
 ## .hcenter[Shell session]
 
 ```shell
-$ ./example9.py
+$ threading/example9.py
 2018-05-02 21:59:01.323 [DEBUG] (MainThread) start
 2018-05-02 21:59:01.324 [DEBUG] (THREAD-0) lock.acquire()
 2018-05-02 21:59:01.324 [DEBUG] (THREAD-0)  lock acquired !
@@ -647,7 +652,7 @@ check the return value of the method (`True` means acquired).
 
 :arrow_right: Allows threads to acquire a **lock** more than once.  
 
-## .hcenter[\[example10.py\]]
+## .hcenter[\[threading/example10.py\]]
 ```Python
 #!/usr/bin/env python
 
@@ -669,7 +674,7 @@ def worker(n):
   l.release()
   logging.debug("     lock released !")
 
-logging.debug("start")
+logging.debug("start - this program should result in a deadlock")
 for i in range(3):
   threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
 ```
@@ -680,8 +685,8 @@ for i in range(3):
 
 ## .hcenter[Shell session]
 ```shell
-$ ./example10.py
-2018-05-02 22:22:10.405 [DEBUG] (MainThread) start
+$ threading/example10.py
+2018-05-02 22:22:10.405 [DEBUG] (MainThread) start - this program should result in a deadlock
 2018-05-02 22:22:10.405 [DEBUG] (THREAD-0) lock.acquire()
 2018-05-02 22:22:10.405 [DEBUG] (THREAD-0)  lock acquired !
 2018-05-02 22:22:10.405 [DEBUG] (THREAD-0)   lock.acquire() again ?
@@ -697,7 +702,7 @@ $ ./example10.py
 
 # Multiprocessing: `threading` module
 
-## .hcenter[\[example11.py\]]
+## .hcenter[\[threading/example11.py\]]
 ```Python
 #!/usr/bin/env python
 
@@ -734,7 +739,7 @@ for i in range(3):
 
 ## .hcenter[Shell session]
 ```shell
-$ ./example11.py
+$ threading/example11.py
 2018-05-02 22:40:39.877 [DEBUG] (MainThread) start
 2018-05-02 22:40:39.877 [DEBUG] (THREAD-0) lock.acquire()
 2018-05-02 22:40:39.877 [DEBUG] (THREAD-0)  lock acquired !
@@ -769,7 +774,7 @@ $ ./example11.py
 
 :arrow_right: Very simple to use: one thread sends a signal, some other thread(s) wait for it.
 
-## .hcenter[\[example12.py\]]
+## .hcenter[\[threading/example12.py\]]
 ```Python
 #!/usr/bin/env python
 
@@ -798,7 +803,7 @@ s.set()
 
 ## .hcenter[Shell session]
 ```
-$ ./example12.py
+$ threading/example12.py
 2018-05-02 23:07:27.170 [DEBUG] (MainThread) start
 2018-05-02 23:07:27.170 [DEBUG] (THREAD-0) waiting for signal
 2018-05-02 23:07:27.171 [DEBUG] (THREAD-1) waiting for signal
@@ -833,7 +838,7 @@ check the return value of the method (`True` means sent).
 
 # Multiprocessing: `threading` module
 
-## .hcenter[\[example13.py\]]
+## .hcenter[\[threading/example13.py\]]
 ```Python
 #!/usr/bin/env python
 
@@ -870,7 +875,7 @@ for i in range(3):
 
 ## .hcenter[Shell session]
 ```shell
-$ ./example13.py
+$ threading/example13.py
 2018-05-03 13:19:34.204 [DEBUG] (MainThread) start
 2018-05-03 13:19:34.204 [DEBUG] (THREAD-0) wait
 2018-05-03 13:19:34.205 [DEBUG] (THREAD-1) wait
@@ -897,7 +902,7 @@ $ ./example13.py
 :arrow_right: One of the earliest synchronization mechanisms in computer science.  
 :arrow_right: Allows a given **maximum number of threads to simultaneously access a resource**.
 
-## .hcenter[\[example14.py\]]
+## .hcenter[\[threading/example14.py\]]
 
 ```Python
 #!/usr/bin/env python
@@ -930,7 +935,7 @@ for i in range(10):
 
 ## .hcenter[Shell session]
 ```shell
-$ ./example14.py
+$ threading/example14.py
 2018-05-03 14:30:34.591 [DEBUG] (MainThread) start
 2018-05-03 14:30:34.592 [DEBUG] (THREAD-0) wait
 2018-05-03 14:30:34.592 [DEBUG] (THREAD-1) wait
@@ -1001,7 +1006,7 @@ with l:
 
 :arrow_right: Using `with` syntax to rewrite `example13.py`:
 
-## .hcenter[\[example15.py\]]
+## .hcenter[\[threading/example15.py\]]
 
 ```Python
 #!/usr/bin/env python
@@ -1033,6 +1038,28 @@ for i in range(3):
 
 ---
 
+# Multiprocessing: `threading` module
+
+## .hcenter[Shell session]
+```shell
+$ threading/example15.py
+2018-05-03 21:55:01.672 [DEBUG] (MainThread) start
+2018-05-03 21:55:01.672 [DEBUG] (THREAD-0) wait
+2018-05-03 21:55:01.673 [DEBUG] (THREAD-1) wait
+2018-05-03 21:55:01.673 [DEBUG] (THREAD-2) wait
+2018-05-03 21:55:01.673 [DEBUG] (MainThread) set condition
+2018-05-03 21:55:02.674 [DEBUG] (MainThread) notify one thread
+2018-05-03 21:55:02.675 [DEBUG] (THREAD-0) received !
+2018-05-03 21:55:03.676 [DEBUG] (MainThread) notify one thread
+2018-05-03 21:55:03.676 [DEBUG] (THREAD-1) received !
+2018-05-03 21:55:04.677 [DEBUG] (MainThread) notify one thread
+2018-05-03 21:55:04.678 [DEBUG] (THREAD-2) received !
+```
+
+:arrow_right: Same output as `threading/example13.py` (fortunately) :v:
+
+---
+
 # Multiprocessing: `Queue` module
 
 ## `Queue.Queue`
@@ -1057,7 +1084,7 @@ for i in range(3):
 
 # Multiprocessing: `threading` module
 
-## .hcenter[\[example16.py\]]
+## .hcenter[\[threading/example16.py\]]
 
 ```Python
 #!/usr/bin/env python
@@ -1099,7 +1126,7 @@ time.sleep(2.0)
 
 ## .hcenter[Shell session]
 ```shell
-$ ./example16.py
+$ threading/example16.py
 2018-05-03 15:00:45.381 [DEBUG] (MainThread) start
 2018-05-03 15:00:45.382 [DEBUG] (THREAD-0) wait for item
 2018-05-03 15:00:45.382 [DEBUG] (THREAD-1) wait for item
@@ -1130,6 +1157,8 @@ $ ./example16.py
 
 ---
 
+class: top
+
 # Multiprocessing: `Python` GIL
 
 ## OS Scheduler
@@ -1138,17 +1167,31 @@ $ ./example16.py
 
 .vspace[]
 
+--
+
 .hcenter.w80[![](images/multithread.png)]
 
 .vspace[]
+
+--
 
 :arrow_right: Multithreaded `Python` code using 2 threads on 2 cores:
 
 .vspace[]
 
+--
+
 .hcenter.w80[![](images/multithread_gil.png)]
 
+--
+
 :arrow_right: Thanks to `CPython`'s **G**lobal **I**nterpreter **L**ock.
+
+---
+
+# Multiprocessing: `Python` GIL
+
+.hcenter.w100[![](images/wait.png)]
 
 ---
 
@@ -1180,6 +1223,8 @@ $ ./example16.py
 
 ---
 
+class: top
+
 # Multiprocessing: `multiprocessing` module
 
 ## Use the `multiprocessing` module :v:
@@ -1188,35 +1233,500 @@ $ ./example16.py
 
 .vspace[]
 
-## OK, so everything we've seen until now is useless ?
+--
+
+## OK, so everything we've seen about threads in `Python` is useless ?
+
+--
 
 :arrow_right: Not at all, simply replace `threading.Thread` objects by `multiprocessing.Process` objects.  
+
+--
 
 ```shell
 $ cd examples/threading/
 $ for i in *py; do sed 's/threading/multiprocessing/g' $i | sed 's/Thread/Process/g' > ../multiprocessing/$i; done
 ```
 
+:bulb: The logging format should also been changed to show PIDs instead of thread names.
+
 .vspace[]
 
-:arrow_right: **Every example** seen in this session (except examples 6 and 7) should work and use multiple cores.
+--
 
+:arrow_right: **Almost all previous examples** (except 6, 7, 8, 9 and 16) should work **out of the box**.
 
+.vspace[]
 
+.hcenter.w80[![](images/multithread.png)]
+
+:arrow_right: Let's now check why examples 6, 7, 8, 9 and 16 do not work.
+---
+
+# Multiprocessing: `multiprocessing` module
+
+## .hcenter[\[threading/example6.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import threading
+import time
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+def worker(n):
+  time.sleep(1.0)
+
+for i in range(3):
+  threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
+
+*logging.debug(str([t.name for t in threading.enumerate()]))
+```
+
+.vspace[]
+
+:warning: No `enumerate()` method in `multiprocessing` module.
+
+---
+
+# Multiprocessing: `multiprocessing` module
+
+## .hcenter[\[threading/example7.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import threading
+import time
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+def worker(n):
+  logging.debug("worker %d" % (n))
+
+logging.debug("start")
+for i in range(3):
+* threading.Timer(i + 1.0, worker, args = (i,)).start()
+logging.debug("stop ?")
+```
+
+.vspace[]
+
+:warning: No `Timer` object in `multiprocessing` module.
+
+---
+
+# Multiprocessing: `multiprocessing` module
+
+## .hcenter[\[threading/example8.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import threading
+import time
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+a = 0
+def worker(n):
+  global a
+  b = a
+  time.sleep(0.0001)
+  a = b + 1
+  logging.debug("worker %d: a = %d" % (n, a))
+
+logging.debug("start")
+for i in range(3):
+  threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
+```
+
+---
+
+class: top
+
+# Multiprocessing: `multiprocessing` module
+
+## .hcenter[\[multiprocessing/example8.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import multiprocessing
+import time
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(process)d) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+a = 0
+def worker(n):
+  global a
+  b = a
+  time.sleep(0.0001)
+  a = b + 1
+  logging.debug("worker %d: a = %d" % (n, a))
+
+logging.debug("start")
+for i in range(3):
+  multiprocessing.Process(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
+```
+
+--
+
+## .hcenter[Shell session]
+```shell
+$ multiprocessing/example8.py
+2018-05-03 21:28:18.889 [DEBUG] (6156) start
+2018-05-03 21:28:18.890 [DEBUG] (6157) worker 0: a = 1
+2018-05-03 21:28:18.890 [DEBUG] (6158) worker 1: a = 1
+2018-05-03 21:28:18.892 [DEBUG] (6159) worker 2: a = 1
+```
+
+--
+
+:warning: Memory is not shared for processes.
+
+:arrow_right: Create a **value in shared memory** using `multiprocessing.Value`. 
 
 
 ---
-TODO `asyncio`
----
-TODO: `import pymp`
----
----
-TODO: `import mpi4py`
----
-TODO: Conclusion
 
-* `import threading` OK if IO-intensive stuff
+# Multiprocessing: `multiprocessing` module
 
+## .hcenter[\[multiprocessing/example8b.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import multiprocessing
+import time
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(process)d) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+def worker(n, a):
+  b = a.value
+  time.sleep(0.0001)
+  a.value = b + 1
+  logging.debug("worker %d: a = %d" % (n, a.value))
+
+logging.debug("start")
+*a = multiprocessing.Value('i', 0)
+
+for i in range(3):
+  multiprocessing.Process(name = 'THREAD-%01d' % (i), target = worker, args = (i, a)).start()
+```
+
+## .hcenter[Shell session]
+```shell
+$ multiprocessing/example8b.py
+2018-05-03 21:30:49.498 [DEBUG] (6200) start
+2018-05-03 21:30:49.507 [DEBUG] (6201) worker 0: a = 1
+2018-05-03 21:30:49.508 [DEBUG] (6202) worker 1: a = 2
+2018-05-03 21:30:49.508 [DEBUG] (6203) worker 2: a = 2
+```
+
+---
+
+# Multiprocessing: `multiprocessing` module
+
+## .hcenter[\[threading/example9.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import threading
+import time
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+*l = threading.Lock()
+*a = 0
+def worker(n):
+* global a
+  logging.debug("lock.acquire()")
+  l.acquire()
+  logging.debug(" lock acquired !")
+  b = a
+  time.sleep(0.0001)
+  a = b + 1
+  logging.debug("  worker %d: a = %d" % (n, a))
+  logging.debug("   lock.release()")
+  l.release()
+  logging.debug("    lock released !")
+
+logging.debug("start")
+for i in range(3):
+  threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
+```
+
+:arrow_right: Create a **value in shared memory** using `multiprocessing.Value`. 
+
+:arrow_right: Use a `multiprocessing.Lock` object.
+
+---
+
+# Multiprocessing: `multiprocessing` module
+
+## .hcenter[\[multiprocessing/example9.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import multiprocessing
+import time
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(process)d) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+*def worker(n, a, l):
+  logging.debug("lock.acquire()")
+  l.acquire()
+  logging.debug(" lock acquired !")
+  b = a.value
+  time.sleep(0.2)
+  a.value = b + 1
+  logging.debug("  worker %d: a = %d" % (n, a.value))
+  logging.debug("   lock.release()")
+  l.release()
+  logging.debug("    lock released !")
+
+logging.debug("start")
+*lock = multiprocessing.Lock()
+*a = multiprocessing.Value('i', 0, lock = False)
+
+for i in range(3):
+* multiprocessing.Process(name = 'THREAD-%01d' % (i), target = worker, args = (i, a, lock)).start()
+```
+
+---
+
+# Multiprocessing: `multiprocessing` module
+
+## .hcenter[Shell session]
+```shell
+$ multiprocessing/example9.py
+2018-05-03 21:36:46.551 [DEBUG] (6313) start
+2018-05-03 21:36:46.560 [DEBUG] (6314) lock.acquire()
+2018-05-03 21:36:46.560 [DEBUG] (6314)  lock acquired !
+2018-05-03 21:36:46.560 [DEBUG] (6315) lock.acquire()
+2018-05-03 21:36:46.560 [DEBUG] (6316) lock.acquire()
+2018-05-03 21:36:46.761 [DEBUG] (6314)   worker 0: a = 1
+2018-05-03 21:36:46.761 [DEBUG] (6314)    lock.release()
+2018-05-03 21:36:46.761 [DEBUG] (6314)     lock released !
+2018-05-03 21:36:46.761 [DEBUG] (6315)  lock acquired !
+2018-05-03 21:36:46.961 [DEBUG] (6315)   worker 1: a = 2
+2018-05-03 21:36:46.962 [DEBUG] (6315)    lock.release()
+2018-05-03 21:36:46.962 [DEBUG] (6315)     lock released !
+2018-05-03 21:36:46.962 [DEBUG] (6316)  lock acquired !
+2018-05-03 21:36:47.162 [DEBUG] (6316)   worker 2: a = 3
+2018-05-03 21:36:47.163 [DEBUG] (6316)    lock.release()
+2018-05-03 21:36:47.163 [DEBUG] (6316)     lock released !
+```
+
+:arrow_right: Exactly the same behavior as `threading/example9.py` :v:
+
+---
+
+# Multiprocessing: `multiprocessing` module
+
+## .hcenter[\[threading/example16.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import threading
+import time
+import Queue
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+*q = Queue.Queue()
+def worker(n):
+  while True:
+    logging.debug("wait for item")
+    item = q.get()
+    logging.debug("received item %d" % (item))
+    time.sleep(0.2) # do something
+    q.task_done()
+    logging.debug("task done")
+
+logging.debug("start")
+for i in range(3):
+  t = threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,))
+  t.daemon = True
+  t.start()
+
+time.sleep(1.0)
+for i in range(5):
+  logging.debug("append item %d to queue" % (i))
+  q.put(i)
+
+time.sleep(2.0)
+```
+
+:warning: `Queue.Queue` is not **process-safe**, use `multiprocessing.Queue` instead.
+
+---
+
+# Multiprocessing: `multiprocessing` module
+
+## .hcenter[\[multiprocessing/example16.py\]]
+```Python
+#!/usr/bin/env python
+
+import logging
+import multiprocessing
+import time
+
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(process)d) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+*q = multiprocessing.Queue()
+def worker(n):
+  while True:
+    logging.debug("wait for item")
+    item = q.get()
+    logging.debug("received item %d" % (item))
+    time.sleep(0.2) # do something
+*   # q.task_done()
+    logging.debug("task done")
+
+logging.debug("start")
+for i in range(3):
+  t = multiprocessing.Process(name = 'THREAD-%01d' % (i), target = worker, args = (i,))
+  t.daemon = True
+  t.start()
+
+time.sleep(1.0)
+for i in range(5):
+  logging.debug("append item %d to queue" % (i))
+  q.put(i)
+
+time.sleep(2.0)
+```
+
+---
+
+# Multiprocessing: `multiprocessing` module
+
+## .hcenter[Shell session]
+```shell
+$ multiprocessing/example16.py
+2018-05-03 22:35:08.504 [DEBUG] (9399) start
+2018-05-03 22:35:08.506 [DEBUG] (9400) wait for item
+2018-05-03 22:35:08.507 [DEBUG] (9401) wait for item
+2018-05-03 22:35:08.507 [DEBUG] (9402) wait for item
+2018-05-03 22:35:09.506 [DEBUG] (9399) append item 0 to queue
+2018-05-03 22:35:09.507 [DEBUG] (9399) append item 1 to queue
+2018-05-03 22:35:09.507 [DEBUG] (9399) append item 2 to queue
+2018-05-03 22:35:09.507 [DEBUG] (9400) received item 0
+2018-05-03 22:35:09.507 [DEBUG] (9401) received item 1
+2018-05-03 22:35:09.507 [DEBUG] (9399) append item 3 to queue
+2018-05-03 22:35:09.507 [DEBUG] (9399) append item 4 to queue
+2018-05-03 22:35:09.507 [DEBUG] (9402) received item 2
+2018-05-03 22:35:09.707 [DEBUG] (9401) task done
+2018-05-03 22:35:09.707 [DEBUG] (9400) task done
+2018-05-03 22:35:09.708 [DEBUG] (9401) wait for item
+2018-05-03 22:35:09.708 [DEBUG] (9401) received item 3
+2018-05-03 22:35:09.708 [DEBUG] (9402) task done
+2018-05-03 22:35:09.708 [DEBUG] (9402) wait for item
+2018-05-03 22:35:09.708 [DEBUG] (9402) received item 4
+2018-05-03 22:35:09.708 [DEBUG] (9400) wait for item
+2018-05-03 22:35:09.908 [DEBUG] (9401) task done
+2018-05-03 22:35:09.908 [DEBUG] (9402) task done
+2018-05-03 22:35:09.908 [DEBUG] (9402) wait for item
+2018-05-03 22:35:09.908 [DEBUG] (9401) wait for item
+```
+
+:arrow_right: Exactly the same behavior as `threading/example16.py` :v:
+
+---
+
+# Multiprocessing: `multiprocessing` module
+
+:arrow_right: The `multiprocessing` module can do a lot more than "emulating" the `threading` module:
+* `multiprocessing.Pool` object:
+
+```Python
+from multiprocessing import Pool
+
+def f(x):
+  return x*x
+
+p = Pool(5)
+print(p.map(f, [1, 2, 3])) # [1, 4, 9]
+```
+
+* `multiprocessing.Pipe`: thread- and process-safe **duplex pipe**,
+* local and **remote** multiprocessing,
+
+---
+
+# Multiprocessing: `multiprocessing` module
+
+.hcenter.w100[![](images/remote_multiprocessing.png)]
+
+---
+
+# Multiprocessing: `multiprocessing` module
+
+## Remote multiprocessing !
+
+## .hcenter[\[multiprocessing/server.py\]]
+```Python
+#!/usr/bin/env python
+from multiprocessing.managers import BaseManager
+import Queue
+queue = Queue.Queue()
+class QueueManager(BaseManager): pass
+QueueManager.register('get_queue', callable=lambda:queue)
+m = QueueManager(address=('', 50000), authkey='abracadabra')
+s = m.get_server()
+s.serve_forever()
+```
+
+## .hcenter[\[multiprocessing/client.py\]]
+```Python
+#!/usr/bin/env python
+from multiprocessing.managers import BaseManager
+class QueueManager(BaseManager): pass
+QueueManager.register('get_queue')
+m = QueueManager(address=('127.0.0.1', 50000), authkey='abracadabra')
+m.connect()
+queue = m.get_queue()
+queue.put('hello')
+print(queue.get())
+```
+
+## .hcenter[Shell session]
+```shell
+$ multiprocessing/server.py &
+[1] 10929
+$ multiprocessing/client.py 
+hello
+```
+
+---
+
+# Multiprocessing: Conclusions
+
+## `threading` module
+
+:arrow_right: It is **possible and easy** to use **multithreading** in `Python`  
+:warning: Beware of the GIL in your multithreaded code !
+:arrow_right: OK if IO-intensive functions.
+
+## `multiprocessing` module - local usage
+:arrow_right: It is **possible and easy** to use **multiple processes** in `Python`  
+
+## `multiprocessing` module - remote usage
+:arrow_right: It is **possible and easy** to use **multiple remote processes** in `Python`  
+
+## Other modules
+:arrow_right: Some specialized modules may be **more efficient** for local or remote multiprocessing in `Python`:
+* `mpi4py`: MPI for `Python`
+* `pymp`: OpenMP-like for `Python`
+* `asyncio`: single-threaded concurrent code
+* `multiprocessing.Pool`: easily distribute function evaluation
+* etc...
 
     </textarea>
 

@@ -4,7 +4,7 @@ import logging
 import multiprocessing
 import time
 
-logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(process)d) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 l = multiprocessing.Lock()
 def worker(n):
@@ -18,6 +18,6 @@ def worker(n):
   l.release()
   logging.debug("     lock released !")
 
-logging.debug("start")
+logging.debug("start - this program should result in a deadlock")
 for i in range(3):
   multiprocessing.Process(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
