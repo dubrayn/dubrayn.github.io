@@ -261,8 +261,7 @@ Project:
 
 ---- Session 4 ----
 
- * threads / OpenMP
- * MPI master / slaves
+ * Python threading and multiprocessing
 
 ---- Session 5 ----
 
@@ -270,11 +269,13 @@ Project:
 
 ---- Session 6 ----
 
+ * MPI master / slaves
+
  * live monitoring
   * JSON
   * with a database (rdd, *SQL, mongo...)
   * socket / named pipe
-  * REST API
+  * API
 
  * restart mechanism
 
