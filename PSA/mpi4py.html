@@ -166,15 +166,45 @@ global rank: 09 local rank: 01
 
 :arrow_right: `Split()` creates new communicators for processes sharing the same "color".
 
+---
 
+# `mpi4py` module
+
+:arrow_right: Use `Barrier()` to wait for all processes to reach a barrier.
+
+## .hcenter[\[example2.py\]]
+```Python
+#!/usr/bin/env python
+
+import time
+from mpi4py import MPI
+
+time0 = time.time()
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+time.sleep(rank)
+comm.Barrier()
+
+time1 = time.time()
+
+print('rank: %d, elapsed time: %fs' % (rank, time1 - time0))```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 4 example2.py
+rank: 1, elapsed time: 3.000270s
+rank: 3, elapsed time: 3.000497s
+rank: 0, elapsed time: 3.002678s
+rank: 2, elapsed time: 3.002674s
+```
+
+:bulb: There exists a non-blocking version `Ibarrier()`.
 
 ---
 
-# Barrier()
-
----
-
-# synchronous / asynchronous
+# blocking / non-blocking
 
 ---
 
@@ -269,6 +299,24 @@ SUM, PROD, MAX, MIN, MAXLOC, MINLOC...
 ---
 
 # `mpi4py` Conclusions
+
+
+---
+
+# `mpi4py` module
+
+:arrow_right: TODO
+
+## .hcenter[\[TODO.py\]]
+```Python
+```
+
+## .hcenter[Shell session]
+```shell
+$ TODO
+```
+
+:arrow_right: TODO
 
     </textarea>
 

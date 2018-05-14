@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PSA</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`PSA` - N. Dubray - ENSIIE - 2018 - [:book:](../index.html)
+]
+
+---
+
+# `VTK`
+
+.hcenter.w20[![](images/vtk.png)]
+
+## History
+* started in **1993** as companion software for the book *"The Visualization Toolkit: An Object-Oriented Approach to 3D Graphics"* by Will Schroeder, Ken Martin and Bill Lorensen.
+* creation of Kitware Inc. in 1998
+* main private contributors: LANL, LLNL, SNL, ARL, NCSA...
+* **most used visualization system in the world** (science, industry, medical, big data...)
+
+## Characteristics
+* **3177 `C++` classes** (05/14/2018)
+* built on top of `OpenGL`
+* **multiprocess** and/or **multithread** and/or **`CUDA`** and/or **`OpenCL`**...
+
+.block[
+* Repository: [https://gitlab.kitware.com/vtk/vtk](https://gitlab.kitware.com/vtk/vtk)
+* Website: [https://www.vtk.org](https://www.vtk.org)
+* License: `BSD`
+]
+
+---
+
+# `VTK`
+
+.noflex[
+.rightf.w30[![](images/vtk_book.png)]
+
+## Information sources
+* reference manual: [https://www.vtk.org/documentation/](https://www.vtk.org/documentation/)
+* local manual pages: package `vtk6-doc` in `ubuntu`
+
+## Examples
+* [https://lorensen.github.io/VTKExamples/site/](https://lorensen.github.io/VTKExamples/site/)
+
+## Textbook
+* `VTK` Textbook (available in [**free pdf**](https://www.kitware.com/products/books/VTKTextbook.pdf))
+
+## Tutorials
+:arrow_right: some of the following slides have been inspired by
+* [`VTK` tutorial by Dave Semeraro](http://www.ncsa.illinois.edu/People/semeraro/PPT/VTK_TUTORIAL/v3_document.htm)
+]
+
+---
+
+# `VTK`
+
+## Languages
+* `VTK` is a library of object-oriented classes
+* pure `C++` core
+* bindings available for `Tcl`, **`Python`**, and `Java`
+	
+## File formats
+* multiple file formats can be read/written
+* it is **fairly easy** to write s custom reader/writer
+
+---
+
+# `VTK`
+
+## Workflow
+
+.hcenter.w60.mermaid.fshadow[
+    graph LR
+    A(user data) --> B
+    B(geometry) --> C(image)
+]
+
+## Usual **user data**
+* field data on a regular grid
+* field data on an irregular grid
+* polygonal data
+
+---
+
+# `VTK`
+
+## `VTK` main parts
+
+:arrow_right: Graphics Model
+* Abstract layer above OpenGL
+* Geometry to Image
+
+:arrow_right: Visualization Model
+* Visualization Pipeline
+* Data to Geometry
+
+:arrow_right: Imaging Model
+
+---
+
+# `VTK`
+
+## Graphics Model Classes
+* `vtkRenderWindow`: a usual window, may contain several renderers,
+* `vtkRenderer`: an OpenGL context, belongs to a window,
+* `vtkActor`: an object rendered in the scene,
+* `vtkMapper`: geometric representation of an actor,
+* `vtkCamera`: a camera in the scene,
+* `vtkLight`: a light source in the scene,
+* `vtkProperty`: control the color, transparency and lighting properties of an object.
+
+:arrow_right: Some objects may be automatically created by others:  
+:bulb: For example, a `vtkRenderer` creates an instance of a `vtkCamera`.
+
+---
+
+# `VTK`
+
+## .hcenter[\[vtk/example0.py\]]
+```Python
+#!/usr/bin/env python
+
+import vtk
+
+# source
+cylinder = vtk.vtkCylinderSource()
+
+# mapper
+cylinderMapper = vtk.vtkPolyDataMapper()
+cylinderMapper.SetInputConnection(cylinder.GetOutputPort())
+
+# actor
+cylinderActor = vtk.vtkActor()
+cylinderActor.SetMapper(cylinderMapper)
+cylinderActor.RotateX(30.0)
+
+# renderer
+ren = vtk.vtkRenderer()
+
+# window
+renWin = vtk.vtkRenderWindow()
+renWin.AddRenderer(ren)
+
+# interactor
+iren = vtk.vtkRenderWindowInteractor()
+iren.SetRenderWindow(renWin)
+iren.Initialize()
+
+# add actor to renderer
+ren.AddActor(cylinderActor)
+
+# set window size and render
+renWin.SetSize(300, 300)
+renWin.Render()
+
+# start interactor loop
+iren.Start()
+```
+
+---
+
+# `VTK`
+
+## Default interactor events
+
+:arrow_right: Keypresses  
+* `j` / `t`: toggle between **joystick** or **trackball** modes.
+* `c` / `a`: toggle between **camera** or **actor** modes.
+* `3`: toggle **stereo** mode.
+* `e`: **exit** the application.
+* `f`: **fly** to the selected point.
+* `p`: select (**pick**) using the current `vtkCellPicker` instance.
+* `r`: **reset** the camera.
+* `s` / `w`: toggle between **surface** and **wireframe** modes.
+* `u`: launch a *user-defined** function.
+
+:arrow_right: Mouse buttons
+* `left`: **rotate**.
+* `middle`: **translate** (actor) or **pan** (camera).
+* `right`: **scale** (actor) or **zoom** (camera).
+
+
+</textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+  </body>
+</html>
+

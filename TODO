@@ -269,35 +269,33 @@ Project:
 
 ---- Session 6 ----
 
- * MPI master / slaves
-
- * live monitoring
-  * JSON
-  * with a database (rdd, *SQL, mongo...)
-  * socket / named pipe
-  * API
-
- * restart mechanism
+* data visualization
+ * VTK
 
 ---- Session 7 ----
+
+ * paraview
+
+---- Session 8 ----
 
 * data persistence
  * JSON
  * pickle
- * MPI-IO
-
----- Session 8 ----
-
  * mongoDB
+ * restart mechanism
 
 ---- Session 9 ----
 
-* data visualization
- * VTK
+ * live monitoring
+  * JSON
+  * with a database (rdd, *SQL, mongo...)
+  * named pipe
+  * socket
 
 ---- Session 10 ----
 
- * paraview
+ * mpi4py
+ * MPI-IO
 
 ---- Session 11 ----
 
