@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+# generate 'mandel_image.vti' first !
 import vtk
 
 # source
@@ -37,7 +38,7 @@ im.BorderOn()
 ia = vtk.vtkImageSlice()
 ia.SetMapper(im)
 
-ren.AddViewProp(ia)
+ren.AddActor(ia)
 ren.SetBackground(1, 1, 1)
 
 # set window size and render

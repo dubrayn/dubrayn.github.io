@@ -394,12 +394,522 @@ iren.Start()
 
 ---
 
-# `VTK`: `PyEVTK` module
+# `VTK` - Mandelbrot set
+
+## Definition
+
+Let us define the function `\(f_c(z)\)` as
+
+`$$\forall (z, c) \in \mathbb{C}^2,\, f_c(z) \equiv z^2 + c.$$`
+
+We then define the series `\(z^{(c)}_n\)` as
+
+`$$\forall (n, c) \in \mathbb{N}^* \times \mathbb{C},\, z^{(c)}_n \equiv f_c(z_{n-1}) \textrm{ and } z^{(c)}_0 \equiv 0.$$`
+
+The set of `\(c\)` complex numbers for which the `\(z^{(c)}_n\)` series **does not diverge** is called the **Mandelbrot set**.
+
+.hcenter.shadow.w40[![](images/mandelbrot_set.png)]
+
+---
+
+# `VTK` - `PyEVTK` module
 
 ## .hcenter[\[vtk/pyevtk_image.py\]]
 ```Python
+#!/usr/bin/env python
+
+import numpy as np
+from pyevtk.hl import imageToVTK
+
+def mandelbrot_set(X, Y, maxiter, horizon = 2.0):
+  C = X + Y[:, None] * 1j
+  N = np.zeros(C.shape, dtype = int)
+  Z = np.zeros(C.shape, np.complex64)
+  for n in range(maxiter):
+    if n % (maxiter / 10) == 0:
+      print('progress: %d/%d' % (n, maxiter))
+    I = np.less(abs(Z), horizon)
+    N[I] = n
+    Z[I] = Z[I] ** 2 + C[I]
+  N[N == maxiter - 1] = 0
+  return Z.transpose(), N.transpose()
+
+nx = 800
+ny = 600
+x = np.linspace(-2.25, 0.75, nx, dtype=np.float32)
+y = np.linspace(-1.25, 1.25, ny, dtype=np.float32)
+z = np.linspace(0.0, 1.0, 1, dtype=np.float32)
+
+Z, N = mandelbrot_set(x, y, 2000, 2.0 ** 40)
+
+filename = 'mandel_image'
+
+*imageToVTK(filename, pointData = {'N': N.astype(np.float32).reshape((nx, ny, 1), order = 'C')})
+
+print('%s.vti generated' % (filename))
+```
+
+---
+
+# `VTK` - `PyEVTK` module
+
+## .hcenter[Shell session]
+
+```shell
+$ ./pyevtk_image.py 
+progress: 0/2000
+progress: 200/2000
+progress: 400/2000
+progress: 600/2000
+progress: 800/2000
+progress: 1000/2000
+progress: 1200/2000
+progress: 1400/2000
+progress: 1600/2000
+progress: 1800/2000
+mandel_image.vti generated
+```
+
+:arrow_right: The generated file `mandel_image.vti` is of type `XML` with binary data:
+
+##.hcenter[\[mandel_image.vti\]]
+
+```xml
+<?xml version="1.0"?>
+<VTKFile byte_order="LittleEndian" version="1.0" type="ImageData" header_type="UInt64">
+<ImageData Origin="0.0 0.0 0.0 " WholeExtent="0 799 0 599 0 0" Spacing="1.0 1.0 1.0 ">
+<Piece Extent="0 799 0 599 0 0">
+<PointData scalars="N">
+<DataArray NumberOfComponents="1" offset="0" type="Float32" Name="N" format="appended"/>
+</PointData>
+</Piece>
+</ImageData>
+<AppendedData encoding="raw">
+[...]
+</AppendedData>
+</VTKFile>
+```
+
+---
+
+# `VTK` - `PyEVTK` module
+
+:arrow_right: The file `mandel_image.vti` can now be opened by the corresponding `Reader`.
+
+## .hcenter[\[vtk/vtk_load_image.py\]]
+
+.row[
+.column.w48[
+```Python
+#!/usr/bin/env python
+
+# generate 'mandel_image.vti' first !
+import vtk
+
+# source
+*reader = vtk.vtkXMLImageDataReader()
+*reader.SetFileName('mandel_image.vti')
+*reader.Update()
+
+# Set active scalars
+pointData = reader.GetOutput().GetPointData()
+pointData.SetActiveScalars('N')
+
+# renderer
+ren = vtk.vtkRenderer()
+
+# window
+renWin = vtk.vtkRenderWindow()
+renWin.AddRenderer(ren)
+
+# interactor style
+styleImage = vtk.vtkInteractorStyleImage()
+styleImage.SetInteractionModeToImage3D()
 
 ```
+]
+.column.w48[
+```Python
+# interactor
+iren = vtk.vtkRenderWindowInteractor()
+iren.SetRenderWindow(renWin)
+iren.SetInteractorStyle(styleImage)
+iren.Initialize()
+
+im = vtk.vtkImageResliceMapper()
+im.SetInputConnection(reader.GetOutputPort())
+im.SliceFacesCameraOn()
+im.SliceAtFocalPointOn()
+im.BorderOn()
+
+ia = vtk.vtkImageSlice()
+ia.SetMapper(im)
+
+ren.AddActor(ia)
+ren.SetBackground(1, 1, 1)
+
+# set window size and render
+renWin.SetSize(300, 300)
+renWin.Render()
+
+# start interactor loop
+iren.Start()
+```
+]
+]
+
+:arrow_right: A specific interactor style `vtkInteractorStyleImage` is used in this example.
+
+---
+
+# `VTK` - `PyEVTK` module
+
+## .hcenter[\[vtk/pyevtk_grid.py\]]
+```Python
+#!/usr/bin/env python
+
+import numpy as np
+from pyevtk.hl import gridToVTK
+
+def mandelbrot_set(X, Y, maxiter, horizon = 2.0):
+  C = X + Y[:, None] * 1j
+  N = np.zeros(C.shape, dtype = int)
+  Z = np.zeros(C.shape, np.complex64)
+  for n in range(maxiter):
+    if n % (maxiter / 10) == 0:
+      print('progress: %d/%d' % (n, maxiter))
+    I = np.less(abs(Z), horizon)
+    N[I] = n
+    Z[I] = Z[I] ** 2 + C[I]
+  N[N == maxiter - 1] = 0
+  return Z.transpose(), N.transpose()
+
+nx = 800
+ny = 600
+x = np.linspace(-2.25, 0.75, nx, dtype=np.float32)
+y = np.linspace(-1.25, 1.25, ny, dtype=np.float32)
+z = np.linspace(0.0, 1.0, 1, dtype=np.float32)
+
+Z, N = mandelbrot_set(x, y, 2000, 2.0 ** 40)
+
+filename = 'mandel_grid'
+
+gridToVTK(filename, x, y, z, pointData = {'N': N.reshape((nx, ny, 1), order = 'C')})
+
+print('%s.vtr generated' % (filename))
+```
+
+---
+
+# `VTK` - `PyEVTK` module
+
+## .hcenter[Shell session]
+
+```shell
+$ ./pyevtk_grid.py 
+progress: 0/2000
+progress: 200/2000
+progress: 400/2000
+progress: 600/2000
+progress: 800/2000
+progress: 1000/2000
+progress: 1200/2000
+progress: 1400/2000
+progress: 1600/2000
+progress: 1800/2000
+mandel_grid.vtr generated
+```
+
+:arrow_right: The generated file `mandel_grid.vtr` is of type `XML` with binary data:
+
+##.hcenter[\[mandel_grid.vtr\]]
+
+```xml
+<?xml version="1.0"?>
+<VTKFile byte_order="LittleEndian" version="1.0" type="RectilinearGrid" header_type="UInt64">
+<RectilinearGrid WholeExtent="0 799 0 599 0 0">
+<Piece Extent="0 799 0 599 0 0">
+<Coordinates>
+<DataArray NumberOfComponents="1" offset="0" type="Float32" Name="x_coordinates" format="appended"/>
+<DataArray NumberOfComponents="1" offset="3208" type="Float32" Name="y_coordinates" format="appended"/>
+<DataArray NumberOfComponents="1" offset="5616" type="Float32" Name="z_coordinates" format="appended"/>
+</Coordinates>
+<PointData scalars="N">
+<DataArray NumberOfComponents="1" offset="5628" type="Int64" Name="N" format="appended"/>
+</PointData>
+</Piece>
+</RectilinearGrid>
+<AppendedData encoding="raw">
+[...]
+</AppendedData>
+</VTKFile>
+```
+
+---
+
+# `VTK` - `PyEVTK` module
+
+:arrow_right: The file `mandel_grid.vtr` can now be opened by the corresponding `Reader`.
+
+## .hcenter[\[vtk/vtk_load_grid.py\]]
+
+.row[
+.column.w48[
+```Python
+#!/usr/bin/env python
+
+# generate 'mandel_grid.vtr' first !
+import vtk
+
+# source
+reader = vtk.vtkXMLRectilinearGridReader()
+reader.SetFileName('mandel_grid.vtr')
+
+# store output port
+outputPort = reader.GetOutputPort()
+
+# mapper
+mandelMapper = vtk.vtkDataSetMapper()
+mandelMapper.SetInputConnection(outputPort)
+mandelMapper.SetScalarModeToUsePointFieldData()
+mandelMapper.SelectColorArray('N')
+
+# actor
+mandelActor = vtk.vtkActor()
+mandelActor.SetMapper(mandelMapper)
+
+```
+]
+.column.w48[
+```Python
+# renderer
+ren = vtk.vtkRenderer()
+
+# window
+renWin = vtk.vtkRenderWindow()
+renWin.AddRenderer(ren)
+
+# interactor
+iren = vtk.vtkRenderWindowInteractor()
+iren.SetRenderWindow(renWin)
+iren.Initialize()
+
+# add actor to renderer
+ren.AddActor(mandelActor)
+
+# set window size and render
+renWin.SetSize(300, 300)
+renWin.Render()
+
+# start interactor loop
+iren.Start()
+```
+]
+]
+
+:arrow_right: Note the differences between `vtk_load_image.py` and `vtk_load_grid.py`.
+
+---
+
+# `VTK` - `vtkXMLPolyDataWriter`
+
+:arrow_right: In this example, we use a `Writer` instead of the `PyEVTK` module.
+
+## .hcenter[\[vtk/vtk_save_polydata.py\]]
+
+.row[
+.column.w48[
+```Python
+#!/usr/bin/env python
+
+import numpy as np
+import vtk
+
+def mandelbrot_set(X, Y, maxiter, horizon=2.0):
+  C = X + Y[:, None]*1j
+  N = np.zeros(C.shape, dtype=int)
+  Z = np.zeros(C.shape, np.complex64)
+  for n in range(maxiter):
+    if n % (maxiter / 10) == 0:
+      print('progress: %d/%d' % (n, maxiter))
+    I = np.less(abs(Z), horizon)
+    N[I] = n
+    Z[I] = Z[I]**2 + C[I]
+  N[N == maxiter-1] = 0
+  return Z.transpose(), N.transpose()
+
+nx = 800
+ny = 600
+x = np.linspace(-2.25, 0.75, nx, dtype=np.float32)
+y = np.linspace(-1.25, 1.25, ny, dtype=np.float32)
+
+Z, N = mandelbrot_set(x, y, 2000, 2.0 ** 40)
+
+filename = 'mandel_polydata'
+
+points = vtk.vtkPoints()
+vertices = vtk.vtkCellArray()
+d0 = vtk.vtkFloatArray()
+d0.SetName('N')
+```
+]
+.column.w48[
+```Python
+d0.SetNumberOfTuples(nx * ny)
+d0.SetNumberOfComponents(1)
+
+n = 0
+for ix, vx in enumerate(x):
+  if ix % (nx / 10) == 0:
+    print('saving: %d/%d' % (ix, nx))
+
+  for iy, vy in enumerate(y):
+    id = points.InsertNextPoint(vx, vy, 0)
+    d0.SetComponent(n, 0, N[(ix, iy)])
+    vertices.InsertNextCell(1)
+    vertices.InsertCellPoint(id)
+    n += 1
+
+polydata = vtk.vtkPolyData()
+polydata.SetPoints(points)
+polydata.GetPointData().AddArray(d0)
+polydata.GetPointData().SetScalars(d0)
+polydata.SetVerts(vertices)
+
+delaunay = vtk.vtkDelaunay2D()
+delaunay.SetInputData(polydata)
+delaunay.Update()
+
+writer = vtk.vtkXMLPolyDataWriter()
+writer.SetFileName('%s.vtp' % (filename))
+writer.SetInputData(delaunay.GetOutput())
+writer.Write()
+
+print('%s.vtp generated' % (filename))
+```
+]
+]
+
+---
+
+# `VTK` - `vtkXMLPolyDataWriter`
+
+:arrow_right: A **Delaunay triangulation** is used to generate the mesh topology.
+
+## .hcenter[Shell session]
+```shell
+$ ./vtk_save_polydata.py
+progress: 0/2000
+progress: 200/2000
+progress: 400/2000
+progress: 600/2000
+progress: 800/2000
+progress: 1000/2000
+progress: 1200/2000
+progress: 1400/2000
+progress: 1600/2000
+progress: 1800/2000
+saving: 0/800
+saving: 80/800
+saving: 160/800
+saving: 240/800
+saving: 320/800
+saving: 400/800
+saving: 480/800
+saving: 560/800
+saving: 640/800
+saving: 720/800
+mandel_polydata.vtp generated
+```
+
+---
+
+# `VTK` - `vtkXMLPolyDataWriter`
+
+:arrow_right: The file `mandel_polydata.vtp` can now be opened by the corresponding `Reader`.
+
+## .hcenter[\[vtk/vtk_load_polydata.py\]]
+
+.row[
+.column.w48[
+```Python
+#!/usr/bin/env python
+
+# generate 'mandel_polydata.vtp' first !
+import vtk
+
+# source
+*reader = vtk.vtkXMLPolyDataReader()
+*reader.SetFileName('mandel_polydata.vtp')
+
+# store output port
+outputPort = reader.GetOutputPort()
+
+# mapper
+mandelMapper = vtk.vtkDataSetMapper()
+mandelMapper.SetInputConnection(outputPort)
+mandelMapper.SetScalarModeToUsePointFieldData()
+mandelMapper.SelectColorArray('N')
+
+# actor
+mandelActor = vtk.vtkActor()
+mandelActor.SetMapper(mandelMapper)
+```
+]
+.column.w48[
+```Python
+# renderer
+ren = vtk.vtkRenderer()
+
+# window
+renWin = vtk.vtkRenderWindow()
+renWin.AddRenderer(ren)
+
+# interactor
+iren = vtk.vtkRenderWindowInteractor()
+iren.SetRenderWindow(renWin)
+iren.Initialize()
+
+# add actor to renderer
+ren.AddActor(mandelActor)
+
+# set window size and render
+renWin.SetSize(300, 300)
+renWin.Render()
+
+# start interactor loop
+iren.Start()```
+]
+]
+
+:arrow_right: Except from the `Reader`, the code is **the same** as in `vtk_load_polydata.py`.
+
+---
+
+# `VTK` - `PyEVTK` module vs. `VTK` `Writer`
+
+## Using a `VTK` `Writer`
+:+: allows to use `Filters` for data processing (delaunay...)  
+:+: allows to use custom data format  
+:warning: is complex and error-prone  
+:warning: introduces a dependency to `VTK`  
+
+## Using the `PyEVTK` module
+:+: is easy and robust  
+:+: does not introduce a dependency to `VTK`  
+:warning: does not allow to use `Filters` for data processing  
+:warning: does not allow to use custom data format  
+
+## Conclusion
+:arrow_right: If there is no need to perform some processing in the calculation code, prefer the use of the `PyEVTK` module to export data using standard `VTK` dataset types.
+
+
+---
+
+# TODO
+
+vtk can be integrated to Qt, GTK+, etc...
+
 
 </textarea>
 

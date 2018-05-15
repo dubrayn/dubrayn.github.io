@@ -1,14 +1,18 @@
 #!/usr/bin/env python
 
+# generate 'mandel_grid.vtr' first !
 import vtk
 
 # source
 reader = vtk.vtkXMLRectilinearGridReader()
 reader.SetFileName('mandel_grid.vtr')
 
+# store output port
+outputPort = reader.GetOutputPort()
+
 # mapper
 mandelMapper = vtk.vtkDataSetMapper()
-mandelMapper.SetInputConnection(reader.GetOutputPort())
+mandelMapper.SetInputConnection(outputPort)
 mandelMapper.SetScalarModeToUsePointFieldData()
 mandelMapper.SelectColorArray('N')
 
