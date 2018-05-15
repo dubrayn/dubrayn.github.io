@@ -29,7 +29,7 @@ class: animated fadeIn middle numbers
 
 ## History
 * started in **1993** as companion software for the book *"The Visualization Toolkit: An Object-Oriented Approach to 3D Graphics"* by Will Schroeder, Ken Martin and Bill Lorensen.
-* creation of Kitware Inc. in 1998
+* creation of Kitware Inc. in **1998**
 * main private contributors: LANL, LLNL, SNL, ARL, NCSA...
 * **most used visualization system in the world** (science, industry, medical, big data...)
 
@@ -46,12 +46,18 @@ class: animated fadeIn middle numbers
 
 ---
 
-# `VTK`
+# `VTK` - Information sources
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
 
 .noflex[
 .rightf.w30[![](images/vtk_book.png)]
 
-## Information sources
+## Manuals
 * reference manual: [https://www.vtk.org/documentation/](https://www.vtk.org/documentation/)
 * local manual pages: package `vtk6-doc` in `ubuntu`
 
@@ -68,20 +74,23 @@ class: animated fadeIn middle numbers
 
 ---
 
-# `VTK`
+# `VTK` - Library
 
 ## Languages
-* `VTK` is a library of object-oriented classes
+* `VTK` is a library of **object-oriented** classes
 * pure `C++` core
+* uses a lot of OO-programming techniques
 * bindings available for `Tcl`, **`Python`**, and `Java`
-	
-## File formats
-* multiple file formats can be read/written
-* it is **fairly easy** to write s custom reader/writer
+
+## Collaboration diagram for `vtkFieldData`
+
+.vspace[]
+
+.hcenter.w40[![](images/vtk_graph.png)]	
 
 ---
 
-# `VTK`
+# `VTK` - Overview
 
 ## Workflow
 
@@ -95,44 +104,78 @@ class: animated fadeIn middle numbers
 * field data on a regular grid
 * field data on an irregular grid
 * polygonal data
+* ...
 
 ---
 
-# `VTK`
+# `VTK` - Models
 
 ## `VTK` main parts
 
-:arrow_right: Graphics Model
+:arrow_right: **Graphics Model**
 * Abstract layer above OpenGL
 * Geometry to Image
 
-:arrow_right: Visualization Model
-* Visualization Pipeline
+:arrow_right: **Visualization Model**
+* Visualization **Pipeline**
 * Data to Geometry
 
-:arrow_right: Imaging Model
+:arrow_right: **Imaging Model**
+* Image processing
 
 ---
 
-# `VTK`
+# `VTK` - Models
 
-## Graphics Model Classes
+## Main Graphics Model Classes
 * `vtkRenderWindow`: a usual window, may contain several renderers,
 * `vtkRenderer`: an OpenGL context, belongs to a window,
 * `vtkActor`: an object rendered in the scene,
-* `vtkMapper`: geometric representation of an actor,
+* `vtkMapper`: constructs an object from data,
 * `vtkCamera`: a camera in the scene,
 * `vtkLight`: a light source in the scene,
-* `vtkProperty`: control the color, transparency and lighting properties of an object.
+* `vtkProperty`: appearance of an actor (color, transparency, light properties...),
+* `vtkRenderWindowInteractor`: how the user interacts with the scene.
 
 :arrow_right: Some objects may be automatically created by others:  
 :bulb: For example, a `vtkRenderer` creates an instance of a `vtkCamera`.
 
 ---
 
-# `VTK`
+# `VTK` - Models
 
-## .hcenter[\[vtk/example0.py\]]
+## Visualization Model pipeline
+
+.hcenter.w75.mermaid.fshadow[
+    graph LR
+    A(source) --> B
+    B(filter) --> Y
+    C(source) --> D
+    D(filter) --> E
+    E(filter) --> Y
+    Y(filter) --> Z(graphics model)
+    style A fill:#2A2
+    style C fill:#2A2
+    style Z fill:#A22
+]
+
+:arrow_right: `Source` objects have 0 input, 1+ output(s)  
+:arrow_right: `Filter` objects have 1+ input(s), 1+ output(s)  
+:arrow_right: `Mapper` objects have 1+ input(s), 0 output  
+:arrow_right: The pipeline implements an **implicit execution** mechanism
+
+ .vspace[]
+
+## Main Visualization Model Classes
+* `vtkDataObject`: contains generic data,
+* `vtkDataSet`: contains **geometry + topology + attribute data**,
+* `vtkProcessObject`: transforms a `vtkDataObject` into another `vtkDataObject`.
+
+---
+
+# `VTK` - Hello world !
+
+## .hcenter[\[vtk/vtk_hello_world.py\]]
 ```Python
 #!/usr/bin/env python
 
@@ -175,7 +218,7 @@ iren.Start()
 
 ---
 
-# `VTK`
+# `VTK` - Cheatsheet
 
 ## Default interactor events
 
@@ -195,6 +238,168 @@ iren.Start()
 * `middle`: **translate** (actor) or **pan** (camera).
 * `right`: **scale** (actor) or **zoom** (camera).
 
+---
+
+# `VTK` - External data
+
+## `vtkDataObject` conversion and I/O
+:arrow_right: `Source` objects produce `vtkDataObject` instances of given types  
+:arrow_right: `Filter` objects can **change the type** of a `vtkDataObject`  
+:arrow_right: A `Source` object which reads external data is called a **`Reader`**  
+:arrow_right: A `Mapper` object which exports data is called a **`Writer`**  
+
+:bulb: Some `Source` objects do not need external data  
+
+.vspace[]
+
+## `vtkDataSet` objects
+:arrow_right: Different object types depending on the dataset properties:
+* type of the data
+* structured / unstructured nature of the data (mesh topology ?)
+* (un)regularity of the mesh
+* ...
+
+---
+
+# `VTK` - `vtkDataSet` classes
+
+.hcenter.w100.mermaid.fshadow[
+    graph RL
+    B(vtkHyperTreeGrid) --> A(vtkDataSet)
+    A --> Z(vtkDataObject)
+    C(vtkImageData) --> A
+    D(vtkRectilinearGrid) --> A
+    E(vtkPointSet) --> A
+    F(vtkStructuredPoints) --> C
+    G(vtkUniformGrid) --> C
+    H(vtkLabelHierarchy) --> E
+    I(vtkPath) --> E
+    J(vtkPolyData) --> E
+    K(vtkStructuredGrid) --> E
+    L(vtkUnstructuredGridBase) --> E
+    M(vtkMappedUnstructuredGrid) --> L
+    N(vtkUnstructuredGrid) --> L
+    style A fill:#2A2
+]
+
+---
+
+# `VTK` - File formats
+
+:arrow_right: [Reference document](https://www.vtk.org/wp-content/uploads/2015/04/file-formats.pdf) on `VTK` file formats.
+
+.vspace[]
+
+.hcenter[
+| Name              | Extension | Type     | Resulting class       | Structured ? |
+| :---------------- | :-------: | :------: | :-------------------- | :----------: |
+| ImageData         | `.vti`    | Serial   | `vtkImageData`        | yes          |
+| PolyData          | `.vtp`    | Serial   | `vtkPolyData`         | no           |
+| RectilinearGrid   | `.vtr`    | Serial   | `vtkRectilinearGrid`  | yes          |
+| StructuredGrid    | `.vts`    | Serial   | `vtkStructuredGrid`   | yes          |
+| UnstructuredGrid  | `.vtu`    | Serial   | `vtkUnstructuredGrid` | no           |
+| PImageData        | `.pvti`   | Parallel | `vtkImageData`        | yes          |
+| PPolyData         | `.pvtp`   | Parallel | `vtkPolyData`         | no           |
+| PRectilinearGrid  | `.pvtr`   | Parallel | `vtkRectilinearGrid`  | yes          |
+| PUnstructuredGrid | `.pvtu`   | Parallel | `vtkUnstructuredGrid` | no           |
+| PStructuredGrid   | `.pvts`   | Parallel | `vtkStructuredGrid`   | yes          |
+]
+
+## Versions
+
+:arrow_right: For each format, two versions are available: **Legacy** and **`XML`**  
+:arrow_right: **Legacy** versions **are easy** to write but slightly verbose  
+:arrow_right: **`XML`** versions are **difficult to write** but less (**or more**) verbose  
+:bulb: XML versions can be **parallelized**
+
+---
+
+# `VTK` - `vtkDataSet` classes with a corresponding `Reader`
+
+.hcenter.w100.mermaid.fshadow[
+    graph RL
+    B(vtkHyperTreeGrid) --> A(vtkDataSet)
+    A --> Z(vtkDataObject)
+    C(vtkImageData) --> A
+    D(vtkRectilinearGrid) --> A
+    E(vtkPointSet) --> A
+    F(vtkStructuredPoints) --> C
+    G(vtkUniformGrid) --> C
+    H(vtkLabelHierarchy) --> E
+    I(vtkPath) --> E
+    J(vtkPolyData) --> E
+    K(vtkStructuredGrid) --> E
+    L(vtkUnstructuredGridBase) --> E
+    M(vtkMappedUnstructuredGrid) --> L
+    N(vtkUnstructuredGrid) --> L
+    style A fill:#2A2
+    style C fill:#A22
+    style D fill:#A22
+    style J fill:#A22
+    style K fill:#A22
+    style N fill:#A22
+]
+
+---
+
+# `VTK`
+
+.noflex[
+.rightf.shadow.w30[![](images/salvation.png)]
+
+## `PyEVTK` module
+
+:arrow_right: Allows to **easily** write `VTK` files for the main `vtkDataSet` classes:
+* points
+* structured grid
+* rectilinear grid
+* image
+
+:arrow_right: **directly from numpy arrays**  
+:arrow_right: **no `VTK` dependency**  
+:arrow_right: good performances
+]
+
+.block[
+* Repository: [https://bitbucket.org/pauloh/pyevtk/src/default/](https://bitbucket.org/pauloh/pyevtk/src/default/)
+* License: `GPL`-compatible ?
+]
+
+---
+
+# `VTK` - `PyEVTK` supported `vtkDataSet` classes
+
+.hcenter.w100.mermaid.fshadow[
+    graph RL
+    B(vtkHyperTreeGrid) --> A(vtkDataSet)
+    A --> Z(vtkDataObject)
+    C(vtkImageData) --> A
+    D(vtkRectilinearGrid) --> A
+    E(vtkPointSet) --> A
+    F(vtkStructuredPoints) --> C
+    G(vtkUniformGrid) --> C
+    H(vtkLabelHierarchy) --> E
+    I(vtkPath) --> E
+    J(vtkPolyData) --> E
+    K(vtkStructuredGrid) --> E
+    L(vtkUnstructuredGridBase) --> E
+    M(vtkMappedUnstructuredGrid) --> L
+    N(vtkUnstructuredGrid) --> L
+    style A fill:#2A2
+    style C fill:#A22
+    style D fill:#A22
+    style J fill:#A22
+    style K fill:#A22
+]
+
+---
+
+# `VTK`: `PyEVTK` module
+
+## .hcenter[\[vtk/pyevtk_image.py\]]
+```Python
+
+```
 
 </textarea>
 
