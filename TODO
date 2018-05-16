@@ -275,6 +275,30 @@ Project:
 ---- Session 7 ----
 
  * paraview
+  * cow.vtp
+   * generate normals
+   * plot with normal.y
+   * plot normal glyphs
+   * see all normals
+   * add axes
+   * change color map
+   * edit color map
+  * wind.vtk
+   * volume visualization
+   * isosurfaces
+   * streamlines
+  * foot.vtk
+   * volume
+   * isosurfaces
+   * clip
+  * brain.vtk
+   * volume
+   * change color
+   * slice
+  * TODO: image animation
+
+
+
 
 ---- Session 8 ----
 

@@ -100,6 +100,17 @@ class: animated fadeIn middle numbers
     B(geometry) --> C(image)
 ]
 
+.row.hcenter.w60[
+.column.w20[
+![](images/cow0.png)]
+.column.w10[ ]
+.column.w30[
+![](images/cow1.png)]
+.column.w10[ ]
+.column.w30[
+![](images/cow2.png)]
+]
+
 ## Usual **user data**
 * field data on a regular grid
 * field data on an irregular grid
@@ -175,6 +186,85 @@ class: animated fadeIn middle numbers
 
 # `VTK` - Hello world !
 
+## .hcenter[\[vtk/vtk_hello_world.cpp\]]
+```C++
+#include <vtkCylinderSource.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkActor.h>
+#include <vtkRenderer.h>
+#include <vtkRenderWindow.h>
+#include <vtkRenderWindowInteractor.h>
+#include <vtkProperty.h>
+#include <vtkSmartPointer.h>
+
+int main(int, char *[])
+{
+  // source
+  vtkSmartPointer<vtkCylinderSource> cylinder = vtkSmartPointer<vtkCylinderSource>::New();
+  // mapper
+  vtkSmartPointer<vtkPolyDataMapper> cylinderMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+  cylinderMapper->SetInputConnection(cylinder->GetOutputPort());
+  // actor
+  vtkSmartPointer<vtkActor> cylinderActor = vtkSmartPointer<vtkActor>::New();
+  cylinderActor->SetMapper(cylinderMapper);
+  cylinderActor->RotateX(30.0);
+  // renderer
+  vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
+  // window
+  vtkSmartPointer<vtkRenderWindow> renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
+  renderWindow->AddRenderer(renderer);
+  // interactor
+  vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+  renderWindowInteractor->SetRenderWindow(renderWindow);
+  // add actor to renderer
+  renderer->AddActor(cylinderActor);
+  // set window size and render
+  renderWindow->SetSize(200, 200);
+  // start interactor loop
+  renderWindowInteractor->Start();
+  return EXIT_SUCCESS;
+}
+```
+
+---
+
+# `VTK` - Hello world !
+
+:arrow_right: The prefered way to compile `VTK` code in `C++` is to use `CMake` ([website](https://cmake.org/)).
+
+## .hcenter[\[vtk/vtk_hello_world_cpp/CMakeLists.txt\]]
+```CMake
+cmake_minimum_required(VERSION 2.8.5 FATAL_ERROR)
+if(POLICY CMP0025)
+  cmake_policy(SET CMP0025 NEW) # CMake 3.0
+endif()
+if(POLICY CMP0053)
+  cmake_policy(SET CMP0053 NEW) # CMake 3.1
+endif()
+
+project (ENSIIE-PSA)
+
+find_package(VTK 6.0 REQUIRED NO_MODULE) 
+
+include(${VTK_USE_FILE})
+
+add_executable(vtk_hello_world MACOSX_BUNDLE vtk_hello_world.cpp)
+target_link_libraries(vtk_hello_world ${VTK_LIBRARIES})
+```
+
+---
+
+# `VTK` - Hello world !
+
+## .hcenter[Shell session]
+.hcenter[
+<div data-dir='scripts/vtk_hello_world_cpp' class='cinescript'></div>
+]
+
+---
+
+# `VTK` - Hello world !
+
 ## .hcenter[\[vtk/vtk_hello_world.py\]]
 ```Python
 #!/usr/bin/env python
@@ -240,7 +330,7 @@ iren.Start()
 
 ---
 
-# `VTK` - External data
+# `VTK` - External data / Datasets
 
 ## `vtkDataObject` conversion and I/O
 :arrow_right: `Source` objects produce `vtkDataObject` instances of given types  
@@ -255,9 +345,33 @@ iren.Start()
 ## `vtkDataSet` objects
 :arrow_right: Different object types depending on the dataset properties:
 * type of the data
-* structured / unstructured nature of the data (mesh topology ?)
+* (un)structured nature of the data
 * (un)regularity of the mesh
 * ...
+
+---
+
+# `VTK` - `vtkDataSet` classes
+
+## `VTK` main datasets
+
+.hcenter.w90[![](images/datasets.png)]
+
+.hcenter[
+| Class                 | Topology | Geometry       | Defined by             |
+| :-------------------- | :------- | :------------- | :--------------------- |
+| `vtkImageData`        | regular  | regular        | dimensions             |
+| `vtkRectilinearGrid`  | regular  | semi-regular   | x- and y- values       |
+| `vtkStructuredGrid`   | regular  | unregular      | points + neighbors     |
+| `vtkPolyData`         | cells    | polys + points | points + polys + cells |
+| `vtkUnstructuredGrid` | cells    | points         | points + cells         |
+]
+
+---
+
+# `VTK` - Cell types
+
+.hcenter.w50[![](images/vtk_cells.png)]
 
 ---
 
@@ -342,7 +456,7 @@ iren.Start()
 
 ---
 
-# `VTK`
+# `VTK` - `PyEVTK` module
 
 .noflex[
 .rightf.shadow.w30[![](images/salvation.png)]
@@ -394,9 +508,15 @@ iren.Start()
 
 ---
 
+class: top
+
+.vspace[]
+
 # `VTK` - Mandelbrot set
 
 ## Definition
+
+--
 
 Let us define the function `\(f_c(z)\)` as
 
@@ -906,9 +1026,78 @@ iren.Start()```
 
 ---
 
-# TODO
+# `VTK` - `Qt` integration
 
-vtk can be integrated to Qt, GTK+, etc...
+## .hcenter[\[vtk/vtk_qt.py\]]
+```Python
+#!/usr/bin/env python
+import sys
+import vtk
+from PyQt5 import QtCore, QtGui
+from PyQt5 import Qt
+
+from vtk.qt.QVTKRenderWindowInteractor import QVTKRenderWindowInteractor
+
+class MainWindow(Qt.QMainWindow):
+  def __init__(self, parent = None):
+    Qt.QMainWindow.__init__(self, parent)
+
+    self.frame = Qt.QFrame()
+    self.vl = Qt.QVBoxLayout()
+    self.vtkWidget = QVTKRenderWindowInteractor(self.frame)
+*   self.vl.addWidget(self.vtkWidget)
+
+    self.ren = vtk.vtkRenderer()
+    self.vtkWidget.GetRenderWindow().AddRenderer(self.ren)
+    self.iren = self.vtkWidget.GetRenderWindow().GetInteractor()
+
+    [...]
+
+*   self.frame.setLayout(self.vl)
+*   self.setCentralWidget(self.frame)
+*   self.show()
+*   self.iren.Initialize()
+*   self.iren.Start()
+
+app = Qt.QApplication(sys.argv)
+window = MainWindow()
+sys.exit(app.exec_())
+```
+
+---
+
+# `VTK` - Conclusions
+
+## To sum up...
+:+: Writing a `VTK` `Writer` in `Python` with the `PyEVTK` module is **easy**  
+:+: Writing a `VTK` `Writer` in `Python` is **rather easy**  
+:+: Writing a `VTK` visualization pipeline in `Python` is **rather easy**  
+:warning: Using `VTK` in `C++` **may be complex**  
+:warning: Integrating `VTK` in an application in `Qt` **may be complex**  
+:warning: Knowing how to manage `VTK` objects, methods and datatypes is **difficult**:
+* `VTK` documentation may be hard to find and understand
+* several versions of `VTK` exist and are not compatible  
+* working `VTK` examples may be hard to find
+
+.vspace[]
+
+.block[
+## My opinion as a scientist
+
+For a scientist, playing with the visualization pipeline to post-process results is a **never-ending game**.  
+Re-writing a program (even in a nice language like `Python`) to change the pipeline is **not convenient**.  
+:arrow_right: This is why using a `VTK` front-end is preferable when exploring the pipeline possibilities.
+
+When a pipeline has been found for a given post-processing or visualization, then the corresponding `C++` or `Python` code can be written.
+]
+
+---
+
+# `VTK` - Front-ends
+
+TODO
+
+
 
 
 </textarea>
