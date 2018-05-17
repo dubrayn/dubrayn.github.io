@@ -295,10 +295,9 @@ Project:
    * volume
    * change color
    * slice
-  * TODO: image animation
-
-
-
+  * pyevtk_anim_images.py / pyevtk_anim_grids.py
+   * warp by scalar
+   * plotSelectionOverTime
 
 ---- Session 8 ----
 
