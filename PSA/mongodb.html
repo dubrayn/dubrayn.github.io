@@ -33,36 +33,212 @@ class: animated fadeIn middle numbers
 * **10gen software** renamed to **MongoDB inc.** in **2013**
 * October 2017, publicly-traded company (`MDB`)
 
-## Characteristics
-* **NoSQL** database program
-* field, range, regexp, javascript-containing queries
-* queries can return a random sample of results
-* fields can be indexed with primary and secondary indices
-* possible replication
-
+## In an nutshell
+* is a **NoSQL** database program (document database)
+* can use schemas **or not**
+* is **scalable** and **replicable** (with load-balancing)
+* can execute javascript **server-side** (e.g. `mapreduce`)
+* can do **transactions** (02/2018)
+* one of the main databases for **Big Data**
 
 .block[
-* Repository: [https://github.com/swig/swig](https://github.com/swig/swig)
-* Website: [http://swig.org](http://swig.org)
-* License: `GPLv3`
+* Repository: [https://github.com/mongodb/mongo](https://github.com/mongodb/mongo)
+* Website: [https://www.mongodb.com](https://www.mongodb.com)
+* License: `AGPLv3` + `Apache`
 ]
-
 
 ---
 
-# MongoDB - Presentation
+# MongoDB - Characteristics
+
+## Built-in capabilities
+
+:+: Queries: field, range, regexp, javaScript (server-side)...  
+:+: Indexing: **optional**, primary and secondary keys  
+:+: Replication: **automatic election** of a new master in case of failure  
+:+: Load balancing: **sharding** uses a **shard key** to distribute data over `MongoDB` instances  
+:+: File storage: `MongoDB` can act as a **load-balanced**, **replicated** file system (`GridFS`)  
+:+: Aggregation: allows to perform e.g. `mapreduce` operations  
+:+: Capped collections: some collections can be capped and become **circular queues** when filled  
+:+: Transactions: **almost there !** (`ACID` planned for `v4.0`)
+
+---
+
+# MongoDB - Scalability
+
+:arrow_right: How to increase the performances of a given `DBMS` ?
+
+.row[
+.column.w65[
+## Vertical scaling
+:arrow_right: **Add resources to existing servers**  
+:+: nothing to change in the servers config  
+:warning: may cause some indisponibility  
+:warning: is limited by the hardware  
+]
+.column.w30[
+.mermaid[
+  graph TD
+  A(Master) --> B(Slave 0)
+  A(Master) --> C(Slave 1)
+  A(Master) --> D(Slave 2)
+  style A fill:#2A2
+  style B fill:#2A2
+  style C fill:#2A2
+  style D fill:#2A2
+]
+]
+]
+
+.row[
+.column.w55[
+## Horizontal scaling
+:arrow_right: **Add more servers**  
+:+: nothing to change in the servers config  
+:+: can be transparent  
+:+: is not limited by the hardware  
+]
+.column.w40[
+.mermaid[
+  graph TD
+  A(Master) --> B(Slave 0)
+  A(Master) --> C(Slave 1)
+  A(Master) --> D(Slave 2)
+  A(Master) -.-> E(Slave 3)
+  style E fill:#2A2
+]
+]
+]
+
+
+## Horizontal scaling with `SQL`-type `DBMS`
+:warning: is often manual  
+:warning: may break transactions
+
+## Horizontal scaling with `MongoDB` (**sharding**)
+:+: is a built-in mechanism  
+:+: is almost transparent to the admin  
+:+: can use different hardware  
+
+---
+
+# MongoDB - Schemas ?
+
+## `SQL`-type `DBMS`
+:warning: a schema has to be defined **before inserting data**  
+:warning: **new data has to follow the existing schema**  
+:warning: to change the schema, existing data must be **migrated**
+
+.vspace[]
+
+## `MongoDB`
+:+: schemas can be used **or not**  
+:+: if no schema is used, new data can have **any attributes**  
+:+: a schema can be created, changed or removed at any time, **no migration needed**  
 
 ---
 
 # MongoDB - Overview
 
+## Data hierarchy
+.mermaid[
+  graph LR
+  A(MongoDB instance) --> B
+  B(Database) --> C
+  C(Collection) --> D
+  D(Document) --> E(Field)
+]
+
+## Example
+.tree.hcenter[
+`MongoDB` instance
+* Database: `privateBase`
+   * Collection: `MusicRecords`
+      * Document:
+         * Field `"_id"`: `10A5F24771`
+         * Field `"band"`: `"Pink Floyd"`
+         * Field `"song"`: `"Wish You Were Here"`
+      * Document:
+         * Field `"_id"`: `10A5F264EC`
+         * Field `"band"`: `"Pink Floyd"`
+         * Field `"song"`: `"Have a Cigar"`
+   * Collection: `Books`
+* Database: `proBase`
+
+]
+
 ---
 
 # MongoDB - Installation
 
+## Ubuntu 17.10
+
+```shell
+*$ apt update
+Hit:1 http://fr.archive.ubuntu.com/ubuntu artful InRelease
+Hit:2 http://fr.archive.ubuntu.com/ubuntu artful-updates InRelease      
+Hit:3 http://security.ubuntu.com/ubuntu artful-security InRelease       
+Hit:4 http://fr.archive.ubuntu.com/ubuntu artful-backports InRelease
+Reading package lists... Done                     
+Building dependency tree       
+Reading state information... Done
+All packages are up to date.
+*$ apt install mongodb-server
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following additional packages will be installed:
+  libboost-chrono1.62.0 mongo-tools mongodb-clients
+The following NEW packages will be installed:
+  libboost-chrono1.62.0 mongo-tools mongodb-clients mongodb-server
+0 upgraded, 4 newly installed, 0 to remove and 3 not upgraded.
+Need to get 47.8 MB of archives.
+After this operation, 207 MB of additional disk space will be used.
+Do you want to continue? [Y/n] 
+Get:1 http://fr.archive.ubuntu.com/ubuntu artful/main amd64 libboost-chrono1.62.0 amd64 1.62.0+dfsg-4build3 [11.8 kB]
+Get:2 http://fr.archive.ubuntu.com/ubuntu artful/universe amd64 mongo-tools amd64 3.2.11-1 [9,993 kB]
+Get:3 http://fr.archive.ubuntu.com/ubuntu artful/universe amd64 mongodb-clients amd64 1:3.4.7-1 [18.7 MB]
+Get:4 http://fr.archive.ubuntu.com/ubuntu artful/universe amd64 mongodb-server amd64 1:3.4.7-1 [19.2 MB]
+Fetched 47.8 MB in 20s (2,293 kB/s)                                                           
+[...]
+Setting up libboost-chrono1.62.0:amd64 (1.62.0+dfsg-4build3) ...
+Setting up mongo-tools (3.2.11-1) ...
+Setting up mongodb-clients (1:3.4.7-1) ...
+Setting up mongodb-server (1:3.4.7-1) ...
+Processing triggers for libc-bin (2.26-0ubuntu2.1) ...
+```
+
 ---
 
 # MongoDB - Configuration
+
+## .hcenter[\[/etc/mongodb.conf\]]
+```ini
+# mongodb.conf
+
+# Where to store the data.
+*dbpath=/home/mongodb
+
+#where to log
+*logpath=/home/mongodb/mongodb.log
+
+logappend=true
+
+bind_ip = 127.0.0.1
+#port = 27017
+
+# Enable journaling, http://www.mongodb.org/display/DOCS/Journaling
+*journal=false
+
+# Enables periodic logging of CPU utilization and I/O wait
+#cpu = true
+
+# Turn on/off security.  Off is currently the default
+#noauth = true
+#auth = true
+
+[...]
+```
 
 ---
 
@@ -114,6 +290,10 @@ Successfully added user: { "user" : "user0", "roles" : [ "readWrite" ] }
 ---
 
 # MongoDB - Logs
+
+---
+
+# MongoDB - `GUI` ?
 
 ---
 
@@ -170,6 +350,12 @@ Successfully added user: { "user" : "user0", "roles" : [ "readWrite" ] }
 ---
 
 # `PyMongo` - Numpy arrays
+
+---
+
+# `PyMongo` - `GridFS`
+
+
 
 
 </textarea>
