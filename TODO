@@ -298,26 +298,28 @@ Project:
   * pyevtk_anim_images.py / pyevtk_anim_grids.py
    * warp by scalar
    * plotSelectionOverTime
+   * save animation
+   * view animation
 
 ---- Session 8 ----
 
 * data persistence
+ * mongoDB
  * JSON
  * pickle
- * mongoDB
  * restart mechanism
 
 ---- Session 9 ----
 
- * live monitoring
-  * JSON
-  * with a database (rdd, *SQL, mongo...)
-  * named pipe
-  * socket
+* live monitoring
+ * JSON
+ * with a database (rdd, *SQL, mongo...)
+ * named pipe
+ * socket
 
 ---- Session 10 ----
 
- * mpi4py
+* mpi4py
  * MPI-IO
 
 ---- Session 11 ----
