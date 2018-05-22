@@ -252,13 +252,13 @@ bind_ip = 127.0.0.1
 ## .hcenter[\[/etc/mongodb.conf\]]
 ```ini
 storage:
-* dbpath: "/home/mongodb"
+* dbPath: "/home/mongodb"
   journal:
 *   enabled: false
 systemLog:
   destination: file
 * path: "/home/mongodb/mongodb.log"
-  logappend: true
+  logAppend: true
 net:
   bindIp: 127.0.0.1
   port: 27017
@@ -271,16 +271,26 @@ security:
 
 ---
 
-# MongoDB - Start a server
+# MongoDB - Start a server instance
 
-## With `Systemd`
+:arrow_right: With `Systemd`, use `systemctl start unit.service`.
 
+## .hcenter[\[Shell session\]]
 ```shell
-$ systemctl start mongodb.service
-$ systemctl status mongodb.service
-TODO
-$ journalctl -u mongodb
-TODO
+*$ systemctl start mongodb.service
+*$ systemctl status mongodb.service
+● mongodb.service - An object/document-oriented database
+   Loaded: loaded (/lib/systemd/system/mongodb.service; enabled; vendor preset: enabled)
+   Active: active (running) since Tue 2018-05-22 21:12:24 CEST; 55s ago
+     Docs: man:mongod(1)
+ Main PID: 748 (mongod)
+    Tasks: 16 (limit: 4915)
+   CGroup: /system.slice/mongodb.service
+           └─748 /usr/bin/mongod --unixSocketPrefix=/run/mongodb --config /etc/mongodb.conf
+
+May 22 21:12:24 dell-e5450 systemd[1]: Started An object/document-oriented database.
+*$ journalctl -u mongodb
+May 22 21:12:24 dell-e5450 systemd[1]: Started An object/document-oriented database.
 ```
 
 ---
@@ -422,13 +432,13 @@ journal=false
 ## .hcenter[\[/etc/mongodb.conf\]]
 ```ini
 storage:
-  dbpath: "/home/mongodb"
+  dbPath: "/home/mongodb"
   journal:
     enabled: false
 systemLog:
   destination: file
   path: "/home/mongodb/mongodb.log"
-  logappend: true
+  logAppend: true
 net:
   bindIp: 127.0.0.1
   port: 27017
@@ -441,16 +451,29 @@ security:
 
 ---
 
-# MongoDB - Restart a server
+# MongoDB - Restart a server instance
 
-## With `Systemd`
+:arrow_right: With `Systemd`, use `systemctl restart unit.service`.
 
+## .hcenter[\[Shell session\]]
 ```shell
-$ systemctl restart mongodb.service
-$ systemctl status mongodb.service
-TODO
-$ journalctl -u mongodb
-TODO (montrer auth active)
+*$ systemctl restart mongodb.service
+*$ systemctl status mongodb.service
+● mongodb.service - An object/document-oriented database
+   Loaded: loaded (/lib/systemd/system/mongodb.service; enabled; vendor preset: enabled)
+   Active: active (running) since Tue 2018-05-22 23:21:40 CEST; 2s ago
+     Docs: man:mongod(1)
+ Main PID: 5868 (mongod)
+    Tasks: 16 (limit: 4915)
+   CGroup: /system.slice/mongodb.service
+           └─5868 /usr/bin/mongod --unixSocketPrefix=/run/mongodb --config /etc/mongodb.conf
+
+May 22 23:21:40 dell-e5450 systemd[1]: Started An object/document-oriented database.
+*$ journalctl -u mongodb
+May 22 21:12:24 dell-e5450 systemd[1]: Started An object/document-oriented database.
+May 22 23:21:40 dell-e5450 systemd[1]: Stopping An object/document-oriented database...
+May 22 23:21:40 dell-e5450 systemd[1]: Stopped An object/document-oriented database.
+May 22 23:21:40 dell-e5450 systemd[1]: Started An object/document-oriented database.
 ```
 
 ---
@@ -531,9 +554,39 @@ Error: Authentication failed.
 
 # MongoDB - Multiple authentications
 
-:arrow_right: It is possible to authenticate as different users at the same time.
+:arrow_right: It is possible to authenticate as **different users at the same time**.
 
 :arrow_right: Display connectionStatus with `db.runcommand({connectionStatus: 1})`.
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo mongodb://toto:toto123@127.0.0.1/admin
+MongoDB shell version v3.4.7
+connecting to: mongodb://toto:toto123@127.0.0.1/admin
+MongoDB server version: 3.4.7
+> db.runCommand({connectionStatus: 1})
+{
+        "authInfo" : {
+                "authenticatedUsers" : [
+                        {
+*                               "user" : "toto",
+                                "db" : "admin"
+                        }
+                ],
+                "authenticatedUserRoles" : [
+                        {
+                                "role" : "root",
+                                "db" : "admin"
+                        }
+                ]
+        },
+        "ok" : 1
+}
+```
+
+---
+
+# MongoDB - Multiple authentications
 
 ## .hcenter[\[Shell session\]]
 ```shell
@@ -550,11 +603,11 @@ switched to db test_db
         "authInfo" : {
                 "authenticatedUsers" : [
                         {
-                                "user" : "toto",
+*                               "user" : "toto",
                                 "db" : "admin"
                         },
                         {
-                                "user" : "user0",
+*                               "user" : "user0",
                                 "db" : "test_db"
                         }
                 ],
@@ -571,38 +624,336 @@ switched to db test_db
         },
         "ok" : 1
 }
->
 ```
 
-TODO mise en page
+---
+
+# MongoDB - List users
+
+:arrow_right: Use `show users` to list users of a given database.
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo mongodb://user0:pwd0@127.0.0.1/test_db
+MongoDB shell version v3.4.7
+connecting to: mongodb://user0:pwd0@127.0.0.1/test_db
+MongoDB server version: 3.4.7
+> show users
+2018-05-22T23:44:56.226+0200 E QUERY    [thread1] Error: not authorized on test_db to execute command { usersInfo: 1.0 } :
+_getErrorWithCode@src/mongo/shell/utils.js:25:13
+DB.prototype.getUsers@src/mongo/shell/db.js:1539:1
+shellHelper.show@src/mongo/shell/utils.js:752:9
+shellHelper@src/mongo/shell/utils.js:659:15
+@(shellhelp2):1:1
+```
+
+:warning: Not authorized !
+
+---
+
+# MongoDB - List users
+
+:arrow_right: Recreate user `user0` with `dbOwner` role.  
+:arrow_right: Use command `db.dropUser('username')` to remove a user.
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo mongodb://toto:toto123@127.0.0.1/admin
+MongoDB shell version v3.4.7
+connecting to: mongodb://toto:toto123@127.0.0.1/admin
+MongoDB server version: 3.4.7
+> use test_db
+switched to db test_db
+> db.dropUser('user0')
+true
+> db.createUser({user:'user0', pwd:'pwd0', roles:["dbOwner"]})
+Successfully added user: { "user" : "user0", "roles" : [ "dbOwner" ] }
+> exit
+bye
+*$ mongo mongodb://user0:pwd0@127.0.0.1/test_db
+MongoDB shell version v3.4.7
+connecting to: mongodb://user0:pwd0@127.0.0.1/test_db
+MongoDB server version: 3.4.7
+> show users
+{
+        "_id" : "test_db.user0",
+        "user" : "user0",
+        "db" : "test_db",
+        "roles" : [
+                {
+                        "role" : "dbOwner",
+                        "db" : "test_db"
+                }
+        ]
+}
+```
 
 ---
 
 # MongoDB - View user's roles
 
-TODO: view roles (`db.getRoles()`)
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo mongodb://user0:pwd0@127.0.0.1/test_db
+MongoDB shell version v3.4.7
+connecting to: mongodb://user0:pwd0@127.0.0.1/test_db
+MongoDB server version: 3.4.7
+> show roles
+{
+        "role" : "dbAdmin",
+        "db" : "test_db",
+        "isBuiltin" : true,
+        "roles" : [ ],
+        "inheritedRoles" : [ ]
+}
+{
+        "role" : "dbOwner",
+        "db" : "test_db",
+        "isBuiltin" : true,
+        "roles" : [ ],
+        "inheritedRoles" : [ ]
+}
+[...]
+{
+        "role" : "readWrite",
+        "db" : "test_db",
+        "isBuiltin" : true,
+        "roles" : [ ],
+        "inheritedRoles" : [ ]
+}
+{
+        "role" : "userAdmin",
+        "db" : "test_db",
+        "isBuiltin" : true,
+        "roles" : [ ],
+        "inheritedRoles" : [ ]
+}
+```
+
+---
+
+# MongoDB - View user's roles (other way)
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo mongodb://toto:toto123@127.0.0.1/admin
+MongoDB shell version v3.4.7
+connecting to: mongodb://user0:pwd0@127.0.0.1/test_db
+MongoDB server version: 3.4.7
+> use test_db
+switched to db test_db
+> db.auth({user:'user0',pwd:'pwd0'})
+1
+> db.getRoles()
+[ ]
+> db.getRoles({showBuiltinRoles: true})
+[
+        {
+                "role" : "__system",
+                "db" : "admin",
+                "isBuiltin" : true,
+                "roles" : [ ],
+                "inheritedRoles" : [ ]
+        },
+[...]
+]
+> use test_db
+switched to db test_db
+> db.getRoles({showBuiltinRoles: true})
+[
+        {
+                "role" : "dbAdmin",
+                "db" : "test_db",
+                "isBuiltin" : true,
+                "roles" : [ ],
+                "inheritedRoles" : [ ]
+        },
+[...]
+]
+```
+
 
 ---
 
 # MongoDB - View user's privileges
 
-TODO: view privileges (`db.getRole('read', {showPrivileges: true})`)
+:arrow_right: Use command `db.getRole('read', {showPrivileges: true})` to get privileges.
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo mongodb://user0:pwd0@127.0.0.1/test_db
+MongoDB shell version v3.4.7
+connecting to: mongodb://user0:pwd0@127.0.0.1/test_db
+MongoDB server version: 3.4.7
+> db.getRole('read', {showPrivileges: true})
+{
+        "role" : "read",
+        "db" : "test_db",
+        "isBuiltin" : true,
+        "roles" : [ ],
+        "inheritedRoles" : [ ],
+        "privileges" : [
+[...]
+                {
+                        "resource" : {
+                                "db" : "test_db",
+                                "collection" : "system.indexes"
+                        },
+                        "actions" : [
+                                "collStats",
+                                "dbHash",
+                                "dbStats",
+                                "find",
+                                "killCursors",
+                                "listCollections",
+                                "listIndexes",
+                                "planCacheRead"
+                        ]
+                },
+[...]
+```
 
 ---
 
 # MongoDB - Change user's password
 
+:arrow_right: Use command `db.changeUserPassword` to change a password.
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo mongodb://toto:toto123@127.0.0.1/admin
+MongoDB shell version v3.4.7
+connecting to: mongodb://user0:pwd0@127.0.0.1/test_db
+MongoDB server version: 3.4.7
+> use test_db
+switched to db test_db
+*> db.changeUserPassword("user0", "plop")
+> db.auth({user:'user0', pwd:'pwd0'})
+Error: Authentication failed.
+0
+> db.auth({user:'user0', pwd:'plop'})
+1
+```
+
 ---
 
 # MongoDB - Logs
+
+:arrow_right: The path for the log file is specified in the `systemLog` section of the config file.
+
+## .hcenter[\[/etc/mongodb.conf\]]
+```json
+storage:
+  dbPath: "/home/mongodb"
+  journal:
+    enabled: false
+systemLog:
+  destination: file
+* path: "/home/mongodb/mongodb.log"
+  logAppend: true
+net:
+  bindIp: 127.0.0.1
+  port: 27017
+  maxIncomingConnections: 20000
+security:
+  authorization: enabled
+```
+
+---
+
+# MongoDB - Logs
+
+
+## .hcenter[\[/home/mongodb/mongodb.log\]]
+```accesslog
+2018-05-21T00:02:48.089+0200 I CONTROL  [initandlisten] MongoDB starting : pid=3882 port=27017 dbpath=/home/mongodb 64-bit host=dell-e5450
+2018-05-21T00:02:48.090+0200 I CONTROL  [initandlisten] db version v3.4.7
+2018-05-21T00:02:48.090+0200 I CONTROL  [initandlisten] git version: cf38c1b8a0a8dca4a11737581beafef4fe120bcd
+2018-05-21T00:02:48.090+0200 I CONTROL  [initandlisten] OpenSSL version: OpenSSL 1.0.2g  1 Mar 2016
+2018-05-21T00:02:48.090+0200 I CONTROL  [initandlisten] allocator: tcmalloc
+2018-05-21T00:02:48.090+0200 I CONTROL  [initandlisten] modules: none
+2018-05-21T00:02:48.090+0200 I CONTROL  [initandlisten] build environment:
+2018-05-21T00:02:48.090+0200 I CONTROL  [initandlisten]     distarch: x86_64
+2018-05-21T00:02:48.090+0200 I CONTROL  [initandlisten]     target_arch: x86_64
+2018-05-21T00:02:48.090+0200 I CONTROL  [initandlisten] options: { config: "/etc/mongodb.conf", net: { bindIp: "127.0.0.1", unixDomainSocket: { pathPrefix: "/run/mongodb" } }, storage: { dbPath: "/home/mongodb", journal: { enabled: true } }, systemLog: { destination: "file", logAppend: true, path: "/home/mongodb/mongodb.log" } }
+[...]
+2018-05-23T00:15:20.591+0200 I NETWORK  [thread1] connection accepted from 127.0.0.1:35158 #21 (1 connection now open)
+2018-05-23T00:15:20.591+0200 I NETWORK  [conn21] received client metadata from 127.0.0.1:35158 conn21: { application: { name: "MongoDB Shell" }, driver: { name: "MongoDB Internal Client", version: "3.4.7" }, os: { type: "Linux", name: "Ubuntu", architecture: "x86_64", version: "17.10" } }
+2018-05-23T00:15:20.603+0200 I ACCESS   [conn21] Successfully authenticated as principal toto on admin
+2018-05-23T00:15:20.604+0200 I ACCESS   [conn21] Unauthorized: not authorized on admin to execute command { getLog: "startupWarnings" }
+2018-05-23T00:15:20.606+0200 I ACCESS   [conn21] Unauthorized: not authorized on admin to execute command { replSetGetStatus: 1.0, forShell: 1.0 }
+2018-05-23T00:15:27.230+0200 I ACCESS   [conn21] Unauthorized: not authorized on test_db to execute command { listCollections: 1.0, filter: {} }
+2018-05-23T00:16:14.463+0200 I ACCESS   [conn21] SCRAM-SHA-1 authentication failed for user0 on test_db from client 127.0.0.1:35158 ; AuthenticationFailed: SCRAM-SHA-1 authentication failed, storedKey mismatch
+2018-05-23T00:16:26.888+0200 I ACCESS   [conn21] Successfully authenticated as principal user0 on test_db
+2018-05-23T00:16:26.889+0200 I ACCESS   [conn21] Unauthorized: not authorized on admin to execute command { replSetGetStatus: 1.0, forShell: 1.0 }
+2018-05-23T00:18:23.326+0200 I -        [conn21] end connection 127.0.0.1:35158 (1 connection now open)
+```
 
 ---
 
 # MongoDB - `GUI` ?
 
+:arrow_right: Several MongoDB GUI exist.
+* [`robo3t`](https://github.com/Studio3T/robomongo) (former `Robomongo`): `GPLv3`, enhanced shell.
+* [`studio3t`](https://studio3t.com/) (former `MongoChef`): **free for non-commercial use**, full GUI.
+* [`adminMongo`](https://adminmongo.markmoffat.com/): `MIT` license, web-interface.
+* many others (non-free, windows or macOS only, etc...)
+
+---
+
+# MongoDB - `adminMongo`
+
+.hcenter.shadow.w100[![](images/adminMongo0.png)]
+
+---
+
+# MongoDB - `adminMongo`
+
+.hcenter.shadow.w100[![](images/adminMongo1.png)]
+
+---
+
+# MongoDB - `adminMongo`
+
+.hcenter.shadow.w100[![](images/adminMongo2.png)]
+
+---
+
+# MongoDB - `adminMongo`
+
+.hcenter.shadow.w100[![](images/adminMongo3.png)]
+
+---
+
+class: top
+
+# MongoDB - Conclusions
+
+.hcenter.w40[![](images/mongodb_logo.svg)]
+
+:arrow_right: We have just seen a **tiny part** of what MongoDB is capable of.  
+:bulb: Browse more doc/examples/tutorials at [https://www.mongodb.com](https://www.mongodb.com).
+
+## Interactive use
+There are two ways to **interactively** use a MongoDB database:
+* connect with the mongo shell CLI tool, or
+* use a GUI/webGUI.
+
+## Non-interactive use
+How to let a **`Python` program** use a MongoDB database ?  
+:arrow_right: Connect to the server listening socket, write mongo shell commands and parse results
+
+--
+? :warning: **NO** :warning:  
+:arrow_right: Use MongoDB `Python` bindings ? :v: **YES** :v:  
+:bulb: Can even work with interactive use from `Python`...
+
 ---
 
 # `PyMongo`
+
+:arrow_right: Full-featured MongoDB `Python` bindings.
+:arrow_right: Other Python bindings exist (TODO)
 
 ---
 
