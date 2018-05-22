@@ -112,8 +112,8 @@ class: animated fadeIn middle numbers
 
 
 ## Horizontal scaling with `SQL`-type `DBMS`
-:warning: is often manual  
-:warning: may break transactions
+:warning: is often done **manualy**  
+:warning: **may break transactions integrity**
 
 ## Horizontal scaling with `MongoDB` (**sharding**)
 :+: is a built-in mechanism  
@@ -135,6 +135,7 @@ class: animated fadeIn middle numbers
 :+: schemas can be used **or not**  
 :+: if no schema is used, new data can have **any attributes**  
 :+: a schema can be created, changed or removed at any time, **no migration needed**  
+:arrow_right: a schema can be used for **updating** or **inserting** data
 
 ---
 
@@ -162,7 +163,7 @@ class: animated fadeIn middle numbers
          * Field `"_id"`: `10A5F264EC`
          * Field `"band"`: `"Pink Floyd"`
          * Field `"song"`: `"Have a Cigar"`
-   * Collection: `Books`
+         * Field `"year"`: `1975`
 * Database: `proBase`
 
 ]
@@ -210,7 +211,11 @@ Processing triggers for libc-bin (2.26-0ubuntu2.1) ...
 
 ---
 
-# MongoDB - Configuration
+# MongoDB - Configuration file
+
+.row[
+.column.w48[
+:arrow_right: **Old format**
 
 ## .hcenter[\[/etc/mongodb.conf\]]
 ```ini
@@ -239,20 +244,135 @@ bind_ip = 127.0.0.1
 
 [...]
 ```
+]
+
+.column.w48[
+:arrow_right: **New format**
+
+## .hcenter[\[/etc/mongodb.conf\]]
+```ini
+storage:
+* dbpath: "/home/mongodb"
+  journal:
+*   enabled: false
+systemLog:
+  destination: file
+* path: "/home/mongodb/mongodb.log"
+  logappend: true
+net:
+  bindIp: 127.0.0.1
+  port: 27017
+* maxIncomingConnections: 20000
+security:
+  authorization: disabled
+```
+]
+]
 
 ---
 
 # MongoDB - Start a server
 
+## With `Systemd`
+
+```shell
+$ systemctl start mongodb.service
+$ systemctl status mongodb.service
+TODO
+$ journalctl -u mongodb
+TODO
+```
+
+---
+
+# MongoDB - Users
+
+## Database user
+:arrow_right: Several users can be defined **for each database**  
+:warning: Different users with the same name can exist for different databases  
+:arrow_right: A user will have to be identified **for a given database**
+
+.vspace[]
+
+## User's roles
+:arrow_right: User permitted actions are defined in **`roles`**  
+:warning: Some roles can allow modifications **to other databases**  
+:arrow_right: Several **built-in roles** exist, but **custom roles** can be constructed
+
+.vspace[]
+
+## Privileges
+:arrow_right: A role is a set of **privileges**  
+:arrow_right: Example of privileges for the `read` built-in role in database `test_db`:  
+* `collStats`, `dbHash`, `dbStats`, `find`, `killCursors`, `listCollections`, `listIndexes`, `planCacheRead` for `test_db.*` collections.
+
+---
+
+# MongoDB - Built-in roles
+
+.row[
+.column.w48[
+## Database User Roles
+* `read`
+* `readWrite`
+
+## Database Administration Roles
+* `dbAdmin`
+* `dbOwner`
+* `userAdmin`
+
+## Cluster Administration Roles
+* `clusterAdmin`
+* `clusterManager`
+* `clusterMonitor`
+* `hostManager`
+]
+
+.column.w48[
+## Backup and Restoration Roles
+* `backup`
+* `restore`
+
+## :warning: All-Database Roles
+* `readAnyDatabases`
+* `readWriteAnyDatabase`
+* `userAdminAnyDatabase`
+* `dbAdminAnyDatabase`
+
+## :warning: Superuser Roles
+* `root`
+
+## Internal Role
+* `__system`: do not use :warning:
+]
+]
+
 ---
 
 # MongoDB - Admin user
 
-```mongo
+:warning: **Disable authorization** in the configuration file first !  
+
+:arrow_right: Create a `root` user with `db.createUser()`.
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo
 > use admin
 switched to db admin
-> db.auth("toto", "toto123")
-1
+> db.createUser({user:"toto", pwd: "toto123", roles: ["root"]})
+Successfully added user: { "user" : "toto", "roles" : [ "root" ] }
+```
+
+---
+
+# MongoDB - Database user
+
+:arrow_right: Create a user with `readWrite` built-in role.
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo
 > use test_db
 switched to db test_db
 > db.createUser({user:"user0", pwd: "pwd0", roles: ["readWrite"]})
@@ -261,27 +381,212 @@ Successfully added user: { "user" : "user0", "roles" : [ "readWrite" ] }
 
 ---
 
-# MongoDB - Users
+# MongoDB - Configuration file with authorization
+
+.row[
+.column.w48[
+:arrow_right: **Old format**
+
+## .hcenter[\[/etc/mongodb.conf\]]
+```ini
+# mongodb.conf
+
+# Where to store the data.
+dbpath=/home/mongodb
+
+#where to log
+logpath=/home/mongodb/mongodb.log
+
+logappend=true
+
+bind_ip = 127.0.0.1
+#port = 27017
+
+# Enable journaling, http://www.mongodb.org/display/DOCS/Journaling
+journal=false
+
+# Enables periodic logging of CPU utilization and I/O wait
+#cpu = true
+
+# Turn on/off security.  Off is currently the default
+#noauth = true
+*auth = true
+
+[...]
+```
+]
+
+.column.w48[
+:arrow_right: **New format**
+
+## .hcenter[\[/etc/mongodb.conf\]]
+```ini
+storage:
+  dbpath: "/home/mongodb"
+  journal:
+    enabled: false
+systemLog:
+  destination: file
+  path: "/home/mongodb/mongodb.log"
+  logappend: true
+net:
+  bindIp: 127.0.0.1
+  port: 27017
+  maxIncomingConnections: 20000
+security:
+* authorization: enabled
+```
+]
+]
 
 ---
 
-# MongoDB - Roles
+# MongoDB - Restart a server
+
+## With `Systemd`
+
+```shell
+$ systemctl restart mongodb.service
+$ systemctl status mongodb.service
+TODO
+$ journalctl -u mongodb
+TODO (montrer auth active)
+```
 
 ---
 
 # MongoDB - Login as admin
 
+## Using CLI options
+
+:arrow_right: Syntax: `mongo mongodb://user:passwd@host/db`
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo mongodb://toto:toto123@127.0.0.1/admin
+MongoDB shell version v3.4.7
+connecting to: mongodb://toto:toto123@127.0.0.1/admin
+MongoDB server version: 3.4.7
+> 
+```
+
+## Using `mongo` commands
+
+:arrow_right: Command: `db.auth({user: 'user', pwd: 'pwd'})`
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo mongodb://127.0.0.1
+MongoDB shell version v3.4.7
+connecting to: mongodb://127.0.0.1
+MongoDB server version: 3.4.7
+> use admin
+switched to db admin
+> db.auth({user:'toto', pwd:'WRONGPASSWORD'})
+Error: Authentication failed.
+0
+> db.auth({user:'toto', pwd:'toto123'})
+1
+>
+```
+
 ---
 
 # MongoDB - Login as user
+
+## Using CLI options
+
+:arrow_right: Syntax: `mongo mongodb://user:passwd@host/db`
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo mongodb://user0:pwd0@127.0.0.1/test_db
+MongoDB shell version v3.4.7
+connecting to: mongodb://toto:toto123@127.0.0.1/admin
+MongoDB server version: 3.4.7
+> 
+```
+
+## Using `mongo` commands
+
+:arrow_right: Command: `db.auth({user: 'user', pwd: 'pwd'})`
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo mongodb://127.0.0.1
+MongoDB shell version v3.4.7
+connecting to: mongodb://127.0.0.1
+MongoDB server version: 3.4.7
+> use test_db
+switched to db test_db
+> db.auth({user:'user0', pwd:'WRONGPASSWORD'})
+Error: Authentication failed.
+0
+> db.auth({user:'user0', pwd:'pwd0'})
+1
+>
+```
+
+---
+
+# MongoDB - Multiple authentications
+
+:arrow_right: It is possible to authenticate as different users at the same time.
+
+:arrow_right: Display connectionStatus with `db.runcommand({connectionStatus: 1})`.
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo mongodb://toto:toto123@127.0.0.1/admin
+MongoDB shell version v3.4.7
+connecting to: mongodb://toto:toto123@127.0.0.1/admin
+MongoDB server version: 3.4.7
+> use test_db
+switched to db test_db
+> db.auth({user:'user0', pwd:'pwd0'})
+1
+> db.runCommand({connectionStatus: 1})
+{
+        "authInfo" : {
+                "authenticatedUsers" : [
+                        {
+                                "user" : "toto",
+                                "db" : "admin"
+                        },
+                        {
+                                "user" : "user0",
+                                "db" : "test_db"
+                        }
+                ],
+                "authenticatedUserRoles" : [
+                        {
+                                "role" : "root",
+                                "db" : "admin"
+                        },
+                        {
+                                "role" : "read",
+                                "db" : "test_db"
+                        }
+                ]
+        },
+        "ok" : 1
+}
+>
+```
+
+TODO mise en page
 
 ---
 
 # MongoDB - View user's roles
 
+TODO: view roles (`db.getRoles()`)
+
 ---
 
 # MongoDB - View user's privileges
+
+TODO: view privileges (`db.getRole('read', {showPrivileges: true})`)
 
 ---
 
@@ -306,6 +611,8 @@ Successfully added user: { "user" : "user0", "roles" : [ "readWrite" ] }
 ---
 
 # `PyMongo` - Hello world
+
+TODO: equivalent in pure mongo language
 
 ---
 
