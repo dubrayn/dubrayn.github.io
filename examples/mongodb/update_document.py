@@ -10,8 +10,10 @@ client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname
 try:
   db = client.test_db
   pycollection = db['pycollection']
-  myId = ObjectId('5b052f7bbead9cca40fdd453')
-  print(pycollection.find_one({'_id': myId}))
-
+  pycollection.update_one({'time': 0.01}, {'$inc': {'run': 3}})
+  for d in pycollection.find(): print(str(d))
+  pycollection.update_one({'time': 0.01}, {'$inc': {'run': -3}})
+  print('after...')
+  for d in pycollection.find(): print(str(d))
 except pymongo.errors.OperationFailure as e:
   print("ERROR: %s" % (e))

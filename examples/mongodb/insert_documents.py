@@ -8,14 +8,12 @@ client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname
 
 try:
   db = client.test_db
-  pycollection = db.pycollection
-
-  for i in range(3):
-    data = [
-             { "run": "0000", "time": 0.01 * i, "norm": 1.0},
-             { "run": "0000", "time": 0.01 * i, "norm": 1.0}
-           ]
-    data_id = pydb.insert(data).inserted_id
-    print("id: %s" % (str(data_id)))
+  pycollection = db['pycollection']
+  data = [{"pipo": i} for i in range(3)]
+  pycollection.insert(data)
+  for d in pycollection.find(): print(str(d))
+  for i in range(3): pycollection.remove({"pipo": i})
+  print("after...")
+  for d in pycollection.find(): print(str(d))
 except pymongo.errors.OperationFailure as e:
   print("ERROR: %s" % (e))

@@ -2,16 +2,17 @@
 
 from pymongo import MongoClient
 import pymongo.errors
-from bson.objectid import ObjectId
 
 username, password, host, dbname = 'user0', 'pwd0', '127.0.0.1', 'test_db'
 client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname))
 
 try:
   db = client.test_db
-  pycollection = db['pycollection']
-  myId = ObjectId('5b052f7bbead9cca40fdd453')
-  print(pycollection.find_one({'_id': myId}))
+  pycollection = db.pycollection
+
+  pycollection.create_index('time', unique = True)
+
+  pycollection.insert_one({'time': 0.01})
 
 except pymongo.errors.OperationFailure as e:
   print("ERROR: %s" % (e))

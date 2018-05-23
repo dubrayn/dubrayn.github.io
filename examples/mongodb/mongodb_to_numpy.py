@@ -2,16 +2,20 @@
 
 from pymongo import MongoClient
 import pymongo.errors
-from bson.objectid import ObjectId
+import numpy as np
+import bson
+import pickle
 
 username, password, host, dbname = 'user0', 'pwd0', '127.0.0.1', 'test_db'
 client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname))
 
 try:
-  db = client.test_db
-  pycollection = db['pycollection']
-  myId = ObjectId('5b052f7bbead9cca40fdd453')
-  print(pycollection.find_one({'_id': myId}))
-
+  for data in client['test_db']['numpy_test'].find():
+    bindat = data["mat"]
+    data_id = data["_id"]
+    mat = pickle.loads(bindat)
+    print("id: %s" % (str(data_id)))
+    print(mat)
 except pymongo.errors.OperationFailure as e:
   print("ERROR: %s" % (e))
+
