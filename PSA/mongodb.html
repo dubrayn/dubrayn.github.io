@@ -44,7 +44,7 @@ class: animated fadeIn middle numbers
 .block[
 * Repository: [https://github.com/mongodb/mongo](https://github.com/mongodb/mongo)
 * Website: [https://www.mongodb.com](https://www.mongodb.com)
-* License: `AGPLv3` + `Apache`
+* License: `AGPLv3` + `Apache` license
 ]
 
 ---
@@ -153,18 +153,18 @@ class: animated fadeIn middle numbers
 ## Example
 .tree.hcenter[
 `MongoDB` instance
-* Database: `privateBase`
+* Database: `test_db`
    * Collection: `MusicRecords`
       * Document:
-         * Field `"_id"`: `10A5F24771`
+         * Field `"_id"`: `ObjectId("5b052572a4a348698c31aa67")`
          * Field `"band"`: `"Pink Floyd"`
          * Field `"song"`: `"Wish You Were Here"`
       * Document:
-         * Field `"_id"`: `10A5F264EC`
+         * Field `"_id"`: `ObjectId("5b052572a4a348698c31aa68")`
          * Field `"band"`: `"Pink Floyd"`
          * Field `"song"`: `"Have a Cigar"`
          * Field `"year"`: `1975`
-* Database: `proBase`
+* Database: `other_db`
 
 ]
 
@@ -291,6 +291,70 @@ security:
 May 22 21:12:24 dell-e5450 systemd[1]: Started An object/document-oriented database.
 *$ journalctl -u mongodb
 May 22 21:12:24 dell-e5450 systemd[1]: Started An object/document-oriented database.
+```
+
+---
+
+# MongoDB - Insert some documents
+
+:arrow_right: To use a database: `use dbName`  
+:arrow_right: To create a collection: `db.createCollection('collectionName')`  
+:arrow_right: To remove a collection: `db.dbName.drop()`  
+:arrow_right: To insert a document: `db.dbName.insertOne(document)`  
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo mongodb://127.0.0.1
+MongoDB shell version v3.4.7
+connecting to: mongodb://127.0.0.1
+MongoDB server version: 3.4.7
+> use test_db
+switched to db test_db
+> db.createCollection('MusicRecords')
+{ "ok": 1 }
+> db.createCollection('Movies')
+{ "ok": 1 }
+> db.Movies.drop()
+true
+> db.MusicRecords.insertOne({band:'Pink Floyd', song:'Wish You Were Here'})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("5b052572a4a348698c31aa67")
+}
+> db.MusicRecords.insertOne({band:'Pink Floyd', song:'Have a Cigar', year: 1975})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("5b052572a4a348698c31aa68")
+}
+```
+
+---
+
+# MongoDB - Retrieve some documents
+
+:arrow_right: To retrieve one document: `db.dbName.findOne()`  
+:arrow_right: To retrieve all documents: `db.dbName.find()`  
+:arrow_right: To retrieve all documents matching a query: `db.dbName.find(query)`  
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo mongodb://127.0.0.1
+MongoDB shell version v3.4.7
+connecting to: mongodb://127.0.0.1
+MongoDB server version: 3.4.7
+> use test_db
+switched to db test_db
+> db.MusicRecords.findOne()
+{
+        "_id" : ObjectId("5b052572a4a348698c31aa67"),
+        "band" : "Pink Floyd",
+        "song" : "Wish You Were Here"
+}
+> db.MusicRecords.find()
+{ "_id" : ObjectId("5b052572a4a348698c31aa67"), "band" : "Pink Floyd", "song" : "Wish You Were Here" }
+{ "_id" : ObjectId("5b052572a4a348698c31aa68"), "band" : "Pink Floyd", "song" : "Have a Cigar", "year" : 1975 }
+> db.MusicRecords.find({year: 1975})
+{ "_id" : ObjectId("5b052572a4a348698c31aa68"), "band" : "Pink Floyd", "song" : "Have a Cigar", "year" : 1975 }
 ```
 
 ---
@@ -525,7 +589,7 @@ Error: Authentication failed.
 ```shell
 *$ mongo mongodb://user0:pwd0@127.0.0.1/test_db
 MongoDB shell version v3.4.7
-connecting to: mongodb://toto:toto123@127.0.0.1/admin
+connecting to: mongodb://user0:pwd0@127.0.0.1/test_db
 MongoDB server version: 3.4.7
 > 
 ```
@@ -674,7 +738,7 @@ bye
 MongoDB shell version v3.4.7
 connecting to: mongodb://user0:pwd0@127.0.0.1/test_db
 MongoDB server version: 3.4.7
-> show users
+*> show users
 {
         "_id" : "test_db.user0",
         "user" : "user0",
@@ -690,6 +754,35 @@ MongoDB server version: 3.4.7
 
 ---
 
+# MongoDB - List databases / collections
+
+:arrow_right: Use command `show databases` to list databases.  
+:arrow_right: Use command `show collections` to list collections of the current database.  
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo mongodb://toto:toto123@127.0.0.1/admin
+MongoDB shell version v3.4.7
+connecting to: mongodb://toto:toto123@127.0.0.1/admin
+MongoDB server version: 3.4.7
+*> show databases
+admin         0.000GB
+local         0.000GB
+test_db       0.000GB
+```
+
+## .hcenter[\[Shell session\]]
+```shell
+*$ mongo mongodb://user0:pwd0@127.0.0.1/test_db
+MongoDB shell version v3.4.7
+connecting to: mongodb://user0:pwd0@127.0.0.1/test_db
+MongoDB server version: 3.4.7
+*> show collections
+MusicRecords
+```
+
+---
+
 # MongoDB - View user's roles
 
 ## .hcenter[\[Shell session\]]
@@ -698,7 +791,7 @@ MongoDB server version: 3.4.7
 MongoDB shell version v3.4.7
 connecting to: mongodb://user0:pwd0@127.0.0.1/test_db
 MongoDB server version: 3.4.7
-> show roles
+*> show roles
 {
         "role" : "dbAdmin",
         "db" : "test_db",
@@ -746,7 +839,7 @@ switched to db test_db
 1
 > db.getRoles()
 [ ]
-> db.getRoles({showBuiltinRoles: true})
+*> db.getRoles({showBuiltinRoles: true})
 [
         {
                 "role" : "__system",
@@ -759,7 +852,7 @@ switched to db test_db
 ]
 > use test_db
 switched to db test_db
-> db.getRoles({showBuiltinRoles: true})
+*> db.getRoles({showBuiltinRoles: true})
 [
         {
                 "role" : "dbAdmin",
@@ -863,7 +956,6 @@ security:
 
 # MongoDB - Logs
 
-
 ## .hcenter[\[/home/mongodb/mongodb.log\]]
 .nowrap[
 ```accesslog
@@ -895,7 +987,7 @@ security:
 
 # MongoDB - `GUI` ?
 
-:arrow_right: Several MongoDB GUI exist.
+:arrow_right: Several MongoDB GUIs exist.
 * [`robo3t`](https://github.com/Studio3T/robomongo) (former `Robomongo`): `GPLv3`, enhanced shell.
 * [`studio3t`](https://studio3t.com/) (former `MongoChef`): **free for non-commercial use**, full GUI.
 * [`adminMongo`](https://adminmongo.markmoffat.com/): `MIT` license, web-interface.
@@ -929,6 +1021,10 @@ security:
 
 class: top
 
+.vspace[]
+
+.vspace[]
+
 # MongoDB - Conclusions
 
 .hcenter.w40[![](images/mongodb_logo.svg)]
@@ -954,38 +1050,157 @@ How to let a **`Python` program** use a MongoDB database ?
 
 # `PyMongo`
 
-:arrow_right: Full-featured MongoDB `Python` bindings.
-:arrow_right: Other Python bindings exist (TODO)
+## In a nutshell
+:arrow_right: Full-featured MongoDB `Python` bindings  
+:+: The recommended way to use MongoDB from `Python`  
+:+: Compatible with `CPython` `2.6`, `2.7`, `3.4+`, `PyPy`, and `PyPy3`
 
----
+.vspace[]
 
-# `PyMongo` - Features
+.block[
+* Repository: [https://github.com/mongodb/mongo-python-driver](https://github.com/mongodb/mongo-python-driver)
+* Website: [http://api.mongodb.com/python/current/](http://api.mongodb.com/python/current/)
+* License: `Apache` license
+]
 
 ---
 
 # `PyMongo` - Hello world
 
-TODO: equivalent in pure mongo language
+## .hcenter[\[mongodb/hello_world.py\]]
+```Python
+#!/usr/bin/env python
+
+from pymongo import MongoClient
+import pymongo.errors
+
+username, password, host, dbname = 'toto', 'toto123', '127.0.0.1', 'admin'
+client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname))
+
+try:
+  print(client.database_names()) # list databases
+
+  db = client.test_db
+  print(db.collection_names()) # list collections
+except pymongo.errors.OperationFailure as e:
+  print("ERROR: %s" % (e))
+```
+
+## .hcenter[\[Shell session\]]
+```shell
+$ mongodb/hello_world.py
+[u'admin', u'local', u'test_db']
+[u'MusicRecords']
+```
 
 ---
 
-# `PyMongo` - Database
+# `PyMongo` - Insert document
+
+## .hcenter[\[mongodb/insert_document.py\]]
+```Python
+#!/usr/bin/env python
+
+from pymongo import MongoClient
+import pymongo.errors
+
+username, password, host, dbname = 'user0', 'pwd0', '127.0.0.1', 'test_db'
+client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname))
+
+try:
+  db = client.test_db
+  pycollection = db.pycollection
+  for i in range(3):
+    data = { "run": "0000", "time": 0.01 * i, "norm": 1.0}
+    data_id = pydb.insert_one(data).inserted_id
+    print("id: %s" % (str(data_id)))
+except pymongo.errors.OperationFailure as e:
+  print("ERROR: %s" % (e))
+```
+
+## .hcenter[\[Shell session\]]
+```shell
+$ mongodb/insert_documents.py
+id: 5b052f7bbead9cca40fdd452
+id: 5b052f7bbead9cca40fdd453
+id: 5b052f7bbead9cca40fdd454
+```
 
 ---
 
-# `PyMongo` - Collection
+# `PyMongo` - Retrieve documents
+
+## .hcenter[\[mongodb/retrieve_documents.py\]]
+```Python
+#!/usr/bin/env python
+
+from pymongo import MongoClient
+import pymongo.errors
+
+username, password, host, dbname = 'user0', 'pwd0', '127.0.0.1', 'test_db'
+client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname))
+
+try:
+  db = client.test_db
+  pycollection = db.pycollection
+
+  print("### find_one()")
+* print(pycollection.find_one())
+  print("### find()")
+* for document in pycollection.find(): print(document)
+  print("### find({'time': 0.01})")
+* for document in pycollection.find({'time': 0.01}): print(document)
+
+except pymongo.errors.OperationFailure as e:
+  print("ERROR: %s" % (e))
+```
+
+## .hcenter[\[Shell session\]]
+```shell
+$ mongodb/retrieve_documents.py
+### find_one()
+{u'_id': ObjectId('5b052f7bbead9cca40fdd452'), u'run': u'0000', u'norm': 1.0, u'time': 0.0}
+### find()
+{u'_id': ObjectId('5b052f7bbead9cca40fdd452'), u'run': u'0000', u'norm': 1.0, u'time': 0.0}
+{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': u'0000', u'norm': 1.0, u'time': 0.1}
+{u'_id': ObjectId('5b052f7bbead9cca40fdd454'), u'run': u'0000', u'norm': 1.0, u'time': 0.2}
+### find({'time': 0.01})
+{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': u'0000', u'norm': 1.0, u'time': 0.1}
+```
 
 ---
 
-# `PyMongo` - Insert data
+# `PyMongo` - Search document by `_id`
 
----
+:arrow_right: Construct an `ObjectId` instance from the `_id` string value.
 
-# `PyMongo` - Find data
+## .hcenter[\[mongodb/retrieve_by_id.py\]]
+```Python
+#!/usr/bin/env python
 
----
+from pymongo import MongoClient
+import pymongo.errors
+*from bson.objectid import ObjectId
 
-# `PyMongo` - Find data from `_id`
+username, password, host, dbname = 'user0', 'pwd0', '127.0.0.1', 'test_db'
+client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname))
+
+try:
+  db = client.test_db
+  pycollection = db.pycollection
+
+* myId = ObjectId('5b052f7bbead9cca40fdd453')
+* print(pycollection.find_one({'_id': myId}))
+
+except pymongo.errors.OperationFailure as e:
+  print("ERROR: %s" % (e))
+```
+
+## .hcenter[\[Shell session\]]
+```shell
+$ mongodb/retrieve_by_id.py
+{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': u'0000', u'norm': 1.0, u'time': 0.1}
+```
 
 ---
 
