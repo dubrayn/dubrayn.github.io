@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PSA</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`PSA` - N. Dubray - ENSIIE - 2018 - [:book:](../index.html)
+]
+
+---
+
+# Monitoring
+
+.hcenter.w40[![](images/progress_bar.png)]
+
+.hcenter[:arrow_right: How to know what a program is doing without perturbing it ?]
+
+---
+
+# Monitoring - Overview
+
+## What to monitor ?
+* some quantities (progress bar...)  
+* large data (live visualization...)
+
+## How to monitor ?
+* read-only or read/write ?
+* delayed or real-time ?
+
+## 1. Access the internal state of the program
+
+:+: get tiny or large data  
+:+: get **real-time information**  
+:warning: **may disturb** the program  
+:+: **may allow** to modify the program's flow (read/write)  
+:warning: is **only available during a run**
+
+## 2. Let the program publish partial results
+
+:+: get tiny or large data
+:warning: get **delayed information**  
+:warning: **may disturb** the program  
+:+: **does not allow** to modify the program's flow (read-only)  
+:+: is **available during and after a run**
+
+---
+
+# Monitoring - Internal state
+
+:arrow_right: The program should run with or without a connected monitor **with the same performances**.  
+:warning: The program will have to spend resources to treat monitoring requests (RPC).
+
+## 1. RPC on a named pipe
+
+:arrow_right: Create a **thread** which receives requests and posts data through a **named pipe**.  
+:warning: The monitoring program must have access to the named pipe.  
+:warning: **At most one** monitoring client at any time.  
+:warning: Need to define an API.
+
+## 2. RPC through a network socket
+
+:arrow_right: Create a **thread** which receives requests and posts data through a **network socket**.  
+:warning: The monitoring program must have access to the socket.  
+:warning: Possible **multiple** monitoring clients at any time.  
+:warning: Need to define an API.
+
+## 3. `xmlrpclib` `Python` module ([webpage](https://docs.python.org/2/library/xmlrpclib.html))
+
+:arrow_right: **Standard** RPC module for `Python`.  
+:warning: Python only.  
+
+## 4. `rfoo` `Python` module ([webpage](https://code.google.com/archive/p/rfoo/))
+
+:arrow_right: Simple and fast RPC module for `Python`.  
+:warning: Python only.  
+:bulb: For **interactive use**: `rconsole`.
+
+---
+
+# Monitoring - Internal state
+
+## Limitations
+:warning: To avoid race conditions, `locks` can be used between threads, but  
+:arrow_right: this may affect the calculating thread's performances.  
+
+.vspace[]
+
+:warning: On most supercomputers,
+* **users can not connect to the nodes through SSH** (no named pipe),
+* **users can not connect to the nodes through HTTP** (no `xmlrpclib` / `rfoo`),
+* **users can not connect to the nodes through TCP** (no network socket).
+
+.hcenter.shadow.w30[![](images/rage.png)]
+
+---
+
+# Monitoring - Partial results
+
+## Store a single document ?
+:warning: There is a possible **race condition** (read while write).  
+:warning: **No access to calculation history** or **document growing bigger and bigger**.  
+:arrow_right: Store partial results in documents with an increasing index.
+
+## Data validity ?
+:warning: Documents may be truncated, empty, etc...  
+:arrow_right: If needed, check document integrity with **checksums**.  
+
+## Shared filesystem or DBMS ?
+:+: A shared filesystem will **always be available** on a supercomputer.  
+:warning: The shared directory must be **synced** between the calculating node and the monitoring node.  
+:warning: A DBMS might **not be reachable** from the nodes of a supercomputer.  
+:+: **A DBMS enforces data integrity** (no manual checksum needed).  
+:+: A shared filesystem **should have good performances and good reliability**.  
+:+: A DBMS **should have good performances and good reliability**.  
+:warning: A DBMS might impose **technical constraints** (use of a schema, types of data, etc...).  
+:arrow_right: For storing **huge** data quantities, prefer **distributed datafile formats** (`MPI-IO`, `HDF5`...).  
+
+## Polling frequency ?
+:arrow_right: Adjust the polling frequency to the data production frequency, or  
+:arrow_right: **Do not use polling** (wait for user request).
+
+---
+
+# Monitoring - Partial results
+
+## Possible solutions
+* Save `JSON` files in a **shared directory**.  
+* Save `pickle` files in a **shared directory**.  
+* Save `JSON` files in a **gridFS** instance.  
+* Save `pickle` files in **gridFS** instance.  
+* Save documents in a **mongoDB** instance.
+* Save documents in a **distributed datafile format**.
+* Use the supercomputer's prefered storage solution (**ask IT staff**).
+* ... (be creative ?)
+
+## Ideal solution
+:arrow_right: **There is no ideal solution**.
+
+## Adapt your data persistence model to:
+* the **available** data storing technologies,
+* the **expected volume** of your produced data,
+* the **expected rate** of your data production,
+* the possibility for monitoring tools to **reach the stored data**,
+* the desired data storing **properties** (performances, reliability, capacity, latency, etc...)
+* etc...
+
+---
+
+# Monitoring - Conclusions
+
+## Best-case scenario
+:arrow_right: If possible, prefer storing **partial results** and use them to **monitor** the progress of a calculation.  
+:arrow_right: At the end of a calculation, keep **all or some** of the partial results to construct the **final result**.  
+:arrow_right: Use a reasonable polling frequency for the monitoring tool.  
+:warning: If the saving of a partial result is not **atomic**, use **checksums** to validate data.  
+
+## Worst-case scenario
+:arrow_right: If the calculating and the monitoring nodes can not communicate, no monitoring is possible.
+
+---
+
+# Bonus
+
+.hcenter.w60[![](images/present.png)]
+
+---
+
+class: top
+
+# Bonus - restart mechanism
+
+## Bonus 1: use partial results to continue a calculation
+
+--
+
+If there is **enough information** in a partial result to **continue** a calculation,  
+:arrow_right: allow the code to restart **from the most recent valid partial result**.  
+
+.vspace[]
+
+:warning: Be sure to check if the input quantities have not changed before restarting (**use checksums**).  
+
+.vspace[]
+
+If partial and final results **share the same format and location**,  
+:arrow_right: the monitoring and the post-processing can be done by **the exact same code**
+
+--
+
+## Bonus 2: use partial results to start and continue a calculation
+
+--
+
+:arrow_right: The **very first input file** can also be constructed as a **partial result**.  
+
+--
+
+## Possible workflow for the project
+.mermaid.hcenter[
+  graph LR
+  A(User) --JSON--> B
+  B(Generator) -- partial --> D
+  C(Solver) -- partial --> D
+  D(MongoDB) -- partial --> E
+  E(Monitor) -- vtk --> F(Paraview)
+  D -- partial --> C
+]
+
+--
+
+:bulb: Store in every partial result for `\(t\ne 0\)` the checksum of the partial result for `\(t=0\)`.
+
+</textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/plotly.js" type="text/javascript"></script>
+    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script src="core/javascript/emojify.js" type="text/javascript"></script>
+    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
+    <script src="core/javascript/term.js" type="text/javascript"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
+    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
+    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true,
+      highlightInlineCode: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === MathJax.js initialization ===
+    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
+    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
+    MathJax.Hub.Configured();
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    </script>
+  </body>
+</html>
+

@@ -1358,13 +1358,13 @@ except pymongo.errors.OperationFailure as e:
 ## .hcenter[\[Shell session\]]
 ```shell
 $ mongodb/update_document.py
-{u'_id': ObjectId('5b05e9efc6256b42f0edc748'), u'run': 0, u'norm': 1.0, u'time': 0.0}
-{u'_id': ObjectId('5b05e9efc6256b42f0edc749'), u'run': 3, u'norm': 1.0, u'time': 0.01}
-{u'_id': ObjectId('5b05e9efc6256b42f0edc74a'), u'run': 0, u'norm': 1.0, u'time': 0.02}
+{u'_id': ObjectId('5b052f7bbead9cca40fdd452'), u'run': 0, u'norm': 1.0, u'time': 0.0}
+{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': 3, u'norm': 1.0, u'time': 0.01}
+{u'_id': ObjectId('5b052f7bbead9cca40fdd454'), u'run': 0, u'norm': 1.0, u'time': 0.02}
 after...
-{u'_id': ObjectId('5b05e9efc6256b42f0edc748'), u'run': 0, u'norm': 1.0, u'time': 0.0}
-{u'_id': ObjectId('5b05e9efc6256b42f0edc749'), u'run': 0, u'norm': 1.0, u'time': 0.01}
-{u'_id': ObjectId('5b05e9efc6256b42f0edc74a'), u'run': 0, u'norm': 1.0, u'time': 0.02}
+{u'_id': ObjectId('5b052f7bbead9cca40fdd452'), u'run': 0, u'norm': 1.0, u'time': 0.0}
+{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': 0, u'norm': 1.0, u'time': 0.01}
+{u'_id': ObjectId('5b052f7bbead9cca40fdd454'), u'run': 0, u'norm': 1.0, u'time': 0.02}
 ```
 
 ---
@@ -1606,7 +1606,7 @@ from pymongo import MongoClient
 import pymongo.errors
 from bson.objectid import ObjectId
 import hashlib
-import gridfs
+*import gridfs
 
 def hash_content(content):
   m = hashlib.md5()
@@ -1617,19 +1617,19 @@ username, password, host, dbname = 'admin0', 'pwd0', '127.0.0.1', 'admin'
 client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname))
 
 try:
-  db = client['test_gridfs']
-  gridfs = gridfs.GridFS(db)
+* db = client['test_gridfs']
+* gridfs = gridfs.GridFS(db)
 
   filename = 'toto'
   content = '12f18481bh192d0 08 d h2j011jp'
   print(hash_content(content))
 
   # save content as a GridFS file
-  gridfs.put(content, filename = filename)
+* gridfs.put(content, filename = filename)
 
   # load content from a GridFS file
-  fp = gridfs.get_last_version(filename = filename)
-  print(hash_content(fp.read()))
+* fp = gridfs.get_last_version(filename = filename)
+* print(hash_content(fp.read()))
 
 except pymongo.errors.OperationFailure as e:
   print("ERROR: %s" % (e))

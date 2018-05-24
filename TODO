@@ -303,19 +303,22 @@ Project:
 
 ---- Session 8 ----
 
-* data persistence
- * mongoDB
- * JSON
- * pickle
- * restart mechanism
+* mongoDB
 
 ---- Session 9 ----
 
 * live monitoring
- * JSON
- * with a database (rdd, *SQL, mongo...)
- * named pipe
- * socket
+ * internal data
+  * named pipe
+  * socket
+  * limitations (network issues, node access, limited data, locks...)
+ * external data
+  * JSON
+  * pickle
+  * mongoDB
+  * limitations (corrupted file, polling...)
+  * check data integrity
+* restart mechanism
 
 ---- Session 10 ----
 
