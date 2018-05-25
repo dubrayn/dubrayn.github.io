@@ -937,16 +937,16 @@ Error: Authentication failed.
 ## .hcenter[\[Shell session\]]
 ```shell
 $ # put a file
-$ mongofiles --verboe=-1 -u user0 -p pwd0 -d test_db put test_numpy.py
+$ mongofiles --verbose=-1 -u user0 -p pwd0 -d test_db put test_numpy.py
 added file: test_numpy.py
 $ # list files (and sizes)
-$ mongofiles --verboe=-1 -u user0 -p pwd0 -d test_db list
+$ mongofiles --verbose=-1 -u user0 -p pwd0 -d test_db list
 test_numpy.py   976
 $ # get a file
-$ mongofiles --verboe=-1 -u user0 -p pwd0 -d test_db get test_numpy.py
+$ mongofiles --verbose=-1 -u user0 -p pwd0 -d test_db get test_numpy.py
 finished writing to test_numpy.py
 $ # delete a file
-$ mongofiles --verboe=-1 -u user0 -p pwd0 -d test_db delete test_numpy.py
+$ mongofiles --verbose=-1 -u user0 -p pwd0 -d test_db delete test_numpy.py
 successfully deleted all instances of 'test_numpy.py' from GridFS
 ```
 
