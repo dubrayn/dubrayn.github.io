@@ -1155,7 +1155,7 @@ try:
   pycollection = db['pycollection']
 
   for i in range(3):
-    data = { "run": "0000", "time": 0.01 * i, "norm": 1.0}
+    data = { "run": 0, "time": 0.01 * i, "norm": 1.0}
 *   data_id = pycollection.insert_one(data).inserted_id
 
     print("id: %s" % (str(data_id)))
@@ -1207,10 +1207,10 @@ $ mongodb/retrieve_documents.py
 {u'_id': ObjectId('5b052f7bbead9cca40fdd452'), u'run': 0, u'norm': 1.0, u'time': 0.0}
 ### find()
 {u'_id': ObjectId('5b052f7bbead9cca40fdd452'), u'run': 0, u'norm': 1.0, u'time': 0.0}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': 0, u'norm': 1.0, u'time': 0.1}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd454'), u'run': 0, u'norm': 1.0, u'time': 0.2}
+{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': 0, u'norm': 1.0, u'time': 0.01}
+{u'_id': ObjectId('5b052f7bbead9cca40fdd454'), u'run': 0, u'norm': 1.0, u'time': 0.02}
 ### find({'time': 0.01})
-{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': 0, u'norm': 1.0, u'time': 0.1}
+{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': 0, u'norm': 1.0, u'time': 0.01}
 ```
 
 ---
