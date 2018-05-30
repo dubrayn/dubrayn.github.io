@@ -65,6 +65,9 @@ class: animated fadeIn middle numbers
 
 # `mpi4py` -  presentation
 
+.noflex[
+.rightf.shadow.w30[![](images/salvation.png)]
+
 ## `MPI` for `Python` !
 
 :arrow_right: Full-featured `MPI` bindings for `Python`.  
@@ -72,8 +75,8 @@ class: animated fadeIn middle numbers
 :+: **Almost all `MPI-2` functions** are supported.  
 :+: Works with `MPI-1` and `MPI-2` implementations.  
 :bulb: Can be used with `logging` using a [custom handler](https://groups.google.com/forum/#!topic/mpi4py/SaNzc8bdj6U).  
-:arrow_right: Send and receive `numpy` arrays.  
-:arrow_right: Send and receive generic `Python` objects.
+
+.vspace[]
 
 ## Other `MPI` `Python` bindings/implementations
 
@@ -82,22 +85,7 @@ class: animated fadeIn middle numbers
 * `MPI` submodule in [`ScientificPython`](https://sourcesup.renater.fr/projects/scientific-py/).
 * Bindings in `Boost::MPI` (`C++`).
 * ...
-
----
-
-# `mpi4py` - communications
-
-:arrow_right: `mpi4py` provides two classes of communication methods:
-
-## Sending and receiving generic `Python` objects
-:arrow_right: Method names start with a **lowercase letter** (`send()`, `recv()`, `isend()`, `irecv()`...).  
-:+: Allows to send almost all types of `Python` objects (using `pickle`).  
-:warning: Does not reach the same performances as `C`.  
-
-## Sending and receiving `C`-like arrays
-:arrow_right: Method names start with an **uppercase letter** (`Send()`, `Recv()`, `Isend()`, `Irecv()`...).  
-:warning: Can only send `C`-type arrays (`numpy` arrays).  
-:+: Can reach the same performances as `C`.  
+]
 
 ---
 
@@ -105,15 +93,21 @@ class: animated fadeIn middle numbers
 
 ## Communicators
 
-:arrow_right: Defines a set of processes which can communicate.  
-:+: May be used for **limited broadcast operations**.  
-:bulb: Most of the time, only `COMM_WORLD` is needed.
+:arrow_right: A **communicator** defines a set of processes which can communicate.  
+:+: **Broadcast operations** allow all processes of a given communicator to communicate simultaneously.  
+:+: Only **processes of the same communicator** can communicate.  
+
+.vspace[]
 
 ## Standard pre-defined communicators
 
 * `COMM_WORLD`: all processes created by `mpiexec`.
 * `COMM_SELF`: only the current process.
 * `COMM_NONE`: empty set.
+
+.vspace[]
+
+:bulb: Most of the time, only `COMM_WORLD` is needed.
 
 ---
 
@@ -135,24 +129,17 @@ print("Hello world ! My rank: %d" % (rank))
 
 ## .hcenter[Shell session]
 ```shell
-*$ mpiexec -np 16 mpi4py/hello_world.py
-Hello world ! My rank: 13
+*$ mpiexec -np 5 mpi4py/hello_world.py
 Hello world ! My rank: 0
-Hello world ! My rank: 11
-Hello world ! My rank: 14
 Hello world ! My rank: 4
-Hello world ! My rank: 5
-Hello world ! My rank: 10
-Hello world ! My rank: 15
-Hello world ! My rank: 8
-Hello world ! My rank: 9
-Hello world ! My rank: 7
-Hello world ! My rank: 12
-Hello world ! My rank: 6
 Hello world ! My rank: 1
 Hello world ! My rank: 2
 Hello world ! My rank: 3
 ```
+
+:arrow_right: "`mpiexec -np 5 prog`" launches 5 instances of `prog` (possibly on different nodes).  
+:warning: A **race condition** in the standard output causes the **random order** of messages.  
+:warning: Depending on the `MPI` implementation, standard output can be garbled or not.  
 
 ---
 
@@ -194,8 +181,27 @@ global rank: 09 local rank: 01
 
 ---
 
-# `mpi4py` - blocking / non-blocking
+# `mpi4py` - communications
 
+:arrow_right: `mpi4py` provides two classes of communication methods:
+
+.vspace[]
+
+## Sending and receiving generic `Python` objects
+:arrow_right: Method names start with a **lowercase letter** (`send()`, `recv()`, `isend()`, `irecv()`...).  
+:+: Allows to send almost all types of `Python` objects (using `pickle`).  
+:warning: Does not reach the same performances as `C`.  
+
+.vspace[]
+
+## Sending and receiving `C`-like arrays
+:arrow_right: Method names start with an **uppercase letter** (`Send()`, `Recv()`, `Isend()`, `Irecv()`...).  
+:warning: Can only send `C`-type arrays (`numpy` arrays).  
+:+: Can reach the same performances as `C`.  
+
+---
+
+# `mpi4py` - blocking / non-blocking
 
 ## Blocking communication methods
 :arrow_right: **`Blocking`** communication methods **wait** until the communication has completed.  
@@ -212,10 +218,6 @@ global rank: 09 local rank: 01
 :warning: Using non-blocking communication methods requires more **complex code and logic**.  
 :+: These methods allow **to do something instead of waiting** for a communication to complete.  
 :+: There are some methods to **wait**, **test** and **cancel** a non-blocking communication.
-
----
-
-TODO wait test cancel
 
 ---
 
@@ -255,24 +257,11 @@ rank: 2, elapsed time: 3.002674s
 
 ---
 
-# `mpi4py` - point-to-point communication
+# `mpi4py` - p2p blocking `Python` object
 
-:arrow_right: A process can send data to another process of the **same communicator** with `Send()` or `send()`.
+:arrow_right: Process 0 sends a `Python` object to process 1.
 
-## .hcenter[\[TODO.py\]]
-```Python
-```
-
-## .hcenter[Shell session]
-```shell
-$ TODO
-```
-
----
-
-# `mpi4py` - point-to-point communications
-
-## .hcenter[\[example0.py\]]
+## .hcenter[\[mpi4py/p2p_blocking_python.py\]]
 ```Python
 #!/usr/bin/env python
 
@@ -283,27 +272,238 @@ rank = comm.Get_rank()
 
 if rank == 0:
   data = 'Hello COMM_WORLD !'
-  comm.send(data, dest = 1)
+* comm.send(data, dest = 1)
 elif rank == 1:
-  data = comm.recv(source = 0)
+* data = comm.recv(source = 0)
   print("Received '%s'" % (data))
 ```
 
 ## .hcenter[Shell session]
 ```shell
-$ mpiexec -np 2 example0.py
+$ mpiexec -np 2 mpi4py/p2p_blocking_python.py
 Received 'Hello COMM_WORLD !'
 ```
 
-:arrow_right: "`mpiexec -np 2 prog`" launches 2 instances of `prog` (possibly on different nodes).
+---
+
+# `mpi4py` - p2p non-blocking `Python` object
+
+:arrow_right: Process 0 sends a `Python` object to process 1 in a non-blocking way.
+
+## .hcenter[\[mpi4py/p2p_nonblocking_python.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+if rank == 0:
+  data = 'Hello COMM_WORLD !'
+* req = comm.isend(data, dest = 1)
+* req.wait()
+elif rank == 1:
+* req = comm.irecv(source = 0)
+* data = req.wait()
+  print("Received '%s'" % (data))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 2 mpi4py/p2p_nonblocking_python.py
+Received 'Hello COMM_WORLD !'
+```
+
+:arrow_right: This code is equivalent to `mpi4py/p2p_blocking_python.py`.
 
 ---
 
-# point-to-point blocking Python object
+# `mpi4py` - p2p non-blocking `Python` object (v2)
+
+## .hcenter[\[mpi4py/p2p_nonblocking_python_v2.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+import time
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+if rank == 0:
+  time.sleep(0.3)
+  data = 'Hello COMM_WORLD !'
+  req = comm.send(data, dest = 1)
+elif rank == 1:
+  req = comm.irecv(source = 0)
+* flag, data = req.test()
+* while not flag:
+*   print("waiting (irecv)")
+*   time.sleep(0.1)
+*   flag, data = req.test()
+  print("Received '%s'" % (data))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 2 mpi4py/p2p_nonblocking_python_v2.py
+waiting (irecv)
+waiting (irecv)
+waiting (irecv)
+Received 'Hello COMM_WORLD !'
+```
 
 ---
 
-# point-to-point non-blocking Python object
+# `mpi4py` - p2p non-blocking `Python` object (v3)
+
+## .hcenter[\[mpi4py/p2p_nonblocking_python_v3.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+import time
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+if rank == 0:
+  time.sleep(0.3)
+  data = 'Hello COMM_WORLD !'
+  req = comm.send(data, dest = 1)
+elif rank == 1:
+  req = comm.irecv(source = 0)
+  flag, data = req.test()
+* if not flag:
+*   req.Cancel()
+*   print("cancelled")
+  req = comm.irecv(source = 0)
+  flag, data = req.test()
+  while not flag:
+    print("waiting (irecv)")
+    time.sleep(0.5)
+    flag, data = req.test()
+  print("Received '%s'" % (data))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 2 mpi4py/p2p_nonblocking_python_v3.py
+cancelled
+waiting (irecv)
+Received 'Hello COMM_WORLD !'
+```
+
+---
+
+class: top
+
+# `mpi4py` - `MPI.ANY_SOURCE`
+
+## .hcenter[\[mpi4py/source.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+import time
+import random
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+size = comm.Get_size()
+
+if rank == 0:
+  for i in range(1, size):
+*   data = comm.recv(source = i)
+    print(data)
+  for i in range(1, size):
+*   data = comm.recv(source = MPI.ANY_SOURCE)
+    print(data)
+else:
+  data = 'Hello from rank %d' % (rank)
+* comm.send(data, dest = 0)
+  time.sleep(random.random())
+* comm.send(data, dest = 0)```
+
+--
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 4 mpi4py/source.py
+Hello from rank 1
+Hello from rank 2
+Hello from rank 3
+Hello from rank 2
+Hello from rank 1
+Hello from rank 3
+```
+
+---
+
+# `mpi4py` - p2p blocking `numpy` array
+
+## .hcenter[\[mpi4py/p2p_blocking_numpy.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+import numpy as np
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+# passing MPI datatypes explicitly
+if rank == 0:
+  data = np.arange(1000, dtype = 'i')
+* comm.Send([data, MPI.INT], dest = 1)
+  print("send: %f" % (np.linalg.norm(data)))
+elif rank == 1:
+  data = np.empty(1000, dtype = 'i')
+* comm.Recv([data, MPI.INT], source = 0)
+  print("recv: %f" % (np.linalg.norm(data)))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 2 mpi4py/p2p_blocking_numpy.py
+send: 18243.724949
+recv: 18243.724949
+```
+
+---
+
+# `mpi4py` - p2p blocking `numpy` array (v2)
+
+:arrow_right: The data type can be infered automatically.
+
+## .hcenter[\[mpi4py/p2p_blocking_numpy_v2.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+import numpy as np
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+# automatic MPI datatype discovery
+if rank == 0:
+  data = np.arange(100, dtype = np.float64)
+* comm.Send(data, dest = 1)
+  print("send: %f" % (np.linalg.norm(data)))
+elif rank == 1:
+  data = np.empty(100, dtype = np.float64)
+* comm.Recv(data, source = 0)
+  print("recv: %f" % (np.linalg.norm(data)))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 2 mpi4py/p2p_blocking_numpy_v2.py
+send: 573.018324
+recv: 573.018324
+```
 
 ---
 
