@@ -36,7 +36,7 @@ class: animated fadeIn middle numbers
 
 ---
 
-# `MPI` versions
+# `MPI` - versions
 
 ## Version `MPI-1.x`
 
@@ -57,13 +57,13 @@ class: animated fadeIn middle numbers
 
 ---
 
-# `MPI`
+# `MPI` - `Python` ?
 
 .hcenter[:arrow_right: Is it possible to use `MPI` from `Python` programs ?]
 
 ---
 
-# `mpi4py` module
+# `mpi4py` -  presentation
 
 ## `MPI` for `Python` !
 
@@ -85,7 +85,192 @@ class: animated fadeIn middle numbers
 
 ---
 
-# `mpi4py` module
+# `mpi4py` - communications
+
+:arrow_right: `mpi4py` provides two classes of communication methods:
+
+## Sending and receiving generic `Python` objects
+:arrow_right: Method names start with a **lowercase letter** (`send()`, `recv()`, `isend()`, `irecv()`...).  
+:+: Allows to send almost all types of `Python` objects (using `pickle`).  
+:warning: Does not reach the same performances as `C`.  
+
+## Sending and receiving `C`-like arrays
+:arrow_right: Method names start with an **uppercase letter** (`Send()`, `Recv()`, `Isend()`, `Irecv()`...).  
+:warning: Can only send `C`-type arrays (`numpy` arrays).  
+:+: Can reach the same performances as `C`.  
+
+---
+
+# `mpi4py` - communicators
+
+## Communicators
+
+:arrow_right: Defines a set of processes which can communicate.  
+:+: May be used for **limited broadcast operations**.  
+:bulb: Most of the time, only `COMM_WORLD` is needed.
+
+## Standard pre-defined communicators
+
+* `COMM_WORLD`: all processes created by `mpiexec`.
+* `COMM_SELF`: only the current process.
+* `COMM_NONE`: empty set.
+
+---
+
+# `mpi4py` - hello world
+
+:arrow_right: Get the **rank** of a process in a given **communicator** with `Get_rank()`.
+
+## .hcenter[\[mpi4py/hello_world.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+print("Hello world ! My rank: %d" % (rank))
+```
+
+## .hcenter[Shell session]
+```shell
+*$ mpiexec -np 16 mpi4py/hello_world.py
+Hello world ! My rank: 13
+Hello world ! My rank: 0
+Hello world ! My rank: 11
+Hello world ! My rank: 14
+Hello world ! My rank: 4
+Hello world ! My rank: 5
+Hello world ! My rank: 10
+Hello world ! My rank: 15
+Hello world ! My rank: 8
+Hello world ! My rank: 9
+Hello world ! My rank: 7
+Hello world ! My rank: 12
+Hello world ! My rank: 6
+Hello world ! My rank: 1
+Hello world ! My rank: 2
+Hello world ! My rank: 3
+```
+
+---
+
+# `mpi4py` - custom communicator
+
+:arrow_right: Create a custom communicator with `Split()`.
+
+## .hcenter[\[mpi4py/custom_communicator.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+comm2 = comm.Split(color = rank / 4)
+rank2 = comm2.Get_rank()
+
+print('global rank: %02d local rank: %02d' % (rank, rank2))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 10 mpi4py/custom_communicator.py | sort -n
+global rank: 00 local rank: 00
+global rank: 01 local rank: 01
+global rank: 02 local rank: 02
+global rank: 03 local rank: 03
+global rank: 04 local rank: 00
+global rank: 05 local rank: 01
+global rank: 06 local rank: 02
+global rank: 07 local rank: 03
+global rank: 08 local rank: 00
+global rank: 09 local rank: 01
+```
+
+:arrow_right: `Split()` creates new communicators for processes sharing the same "color".
+
+---
+
+# `mpi4py` - blocking / non-blocking
+
+
+## Blocking communication methods
+:arrow_right: **`Blocking`** communication methods **wait** until the communication has completed.  
+:+: These methods ensure that a communication has completed.  
+:+: Using blocking communication methods often leads to **simpler code and logic**.  
+:warning: Waiting time could be used to do something else.  
+
+.vspace[]
+
+## Non-blocking communication methods
+:arrow_right: **`Non-blocking`** communication methods **return immediately**.  
+:arrow_right: **`Non-blocking`** communication method names start with `I` or `i`.  
+:warning: It is **up to the user** of these methods to check that a communication has completed.  
+:warning: Using non-blocking communication methods requires more **complex code and logic**.  
+:+: These methods allow **to do something instead of waiting** for a communication to complete.  
+:+: There are some methods to **wait**, **test** and **cancel** a non-blocking communication.
+
+---
+
+TODO wait test cancel
+
+---
+
+# `mpi4py` - `Barrier`
+
+:arrow_right: Use `Barrier()` to wait for all processes to reach a barrier.
+
+## .hcenter[\[mpi4py/barrier.py\]]
+```Python
+#!/usr/bin/env python
+
+import time
+from mpi4py import MPI
+
+time0 = time.time()
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+time.sleep(rank)
+comm.Barrier()
+
+time1 = time.time()
+
+print('rank: %d, elapsed time: %fs' % (rank, time1 - time0))```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 4 mpi4py/barrier.py
+rank: 1, elapsed time: 3.000270s
+rank: 3, elapsed time: 3.000497s
+rank: 0, elapsed time: 3.002678s
+rank: 2, elapsed time: 3.002674s
+```
+
+:bulb: There exists a non-blocking version `Ibarrier()`.
+
+---
+
+# `mpi4py` - point-to-point communication
+
+:arrow_right: A process can send data to another process of the **same communicator** with `Send()` or `send()`.
+
+## .hcenter[\[TODO.py\]]
+```Python
+```
+
+## .hcenter[Shell session]
+```shell
+$ TODO
+```
+
+---
+
+# `mpi4py` - point-to-point communications
 
 ## .hcenter[\[example0.py\]]
 ```Python
@@ -111,104 +296,6 @@ Received 'Hello COMM_WORLD !'
 ```
 
 :arrow_right: "`mpiexec -np 2 prog`" launches 2 instances of `prog` (possibly on different nodes).
-
----
-
-# `mpi4py` module
-
-## Communicators
-
-:arrow_right: A set of processes which can communicate.  
-:+: May be used for **limited broadcast operations**.  
-:arrow_right: Most of the time, only `COMM_WORLD` is needed.
-
-## Standard pre-defined communicators
-
-* `COMM_WORLD`: all processes created by `mpiexec`.
-* `COMM_SELF`: only the current process.
-* `COMM_NONE`: empty set.
-
----
-
-# `mpi4py` module
-
-:arrow_right: Create a custom communicator with `split()`.
-
-## .hcenter[\[example1.py\]]
-```Python
-#!/usr/bin/env python
-
-from mpi4py import MPI
-
-comm = MPI.COMM_WORLD
-rank = comm.Get_rank()
-
-comm2 = comm.Split(color = rank / 4)
-rank2 = comm2.Get_rank()
-
-print('global rank: %02d local rank: %02d' % (rank, rank2))
-```
-
-## .hcenter[Shell session]
-```shell
-$ mpiexec -np 10 example1.py | sort -n
-global rank: 00 local rank: 00
-global rank: 01 local rank: 01
-global rank: 02 local rank: 02
-global rank: 03 local rank: 03
-global rank: 04 local rank: 00
-global rank: 05 local rank: 01
-global rank: 06 local rank: 02
-global rank: 07 local rank: 03
-global rank: 08 local rank: 00
-global rank: 09 local rank: 01
-```
-
-:arrow_right: `Split()` creates new communicators for processes sharing the same "color".
-
----
-
-# `mpi4py` module
-
-:arrow_right: Use `Barrier()` to wait for all processes to reach a barrier.
-
-## .hcenter[\[example2.py\]]
-```Python
-#!/usr/bin/env python
-
-import time
-from mpi4py import MPI
-
-time0 = time.time()
-
-comm = MPI.COMM_WORLD
-rank = comm.Get_rank()
-
-time.sleep(rank)
-comm.Barrier()
-
-time1 = time.time()
-
-print('rank: %d, elapsed time: %fs' % (rank, time1 - time0))```
-
-## .hcenter[Shell session]
-```shell
-$ mpiexec -np 4 example2.py
-rank: 1, elapsed time: 3.000270s
-rank: 3, elapsed time: 3.000497s
-rank: 0, elapsed time: 3.002678s
-rank: 2, elapsed time: 3.002674s
-```
-
-:bulb: There exists a non-blocking version `Ibarrier()`.
-
----
-
-# blocking / non-blocking
-
----
-
-# point-to-point 
 
 ---
 

@@ -10,7 +10,7 @@ rank = comm.Get_rank()
 
 time.sleep(rank)
 if rank == 0:
-  comm.Ibarrier()
+  comm.Barrier()
 else:
   comm.Barrier()
 
