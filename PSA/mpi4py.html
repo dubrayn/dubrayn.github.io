@@ -221,42 +221,6 @@ global rank: 09 local rank: 01
 
 ---
 
-# `mpi4py` - `Barrier`
-
-:arrow_right: Use `Barrier()` to wait for all processes to reach a barrier.
-
-## .hcenter[\[mpi4py/barrier.py\]]
-```Python
-#!/usr/bin/env python
-
-import time
-from mpi4py import MPI
-
-time0 = time.time()
-
-comm = MPI.COMM_WORLD
-rank = comm.Get_rank()
-
-time.sleep(rank)
-comm.Barrier()
-
-time1 = time.time()
-
-print('rank: %d, elapsed time: %fs' % (rank, time1 - time0))```
-
-## .hcenter[Shell session]
-```shell
-$ mpiexec -np 4 mpi4py/barrier.py
-rank: 1, elapsed time: 3.000270s
-rank: 3, elapsed time: 3.000497s
-rank: 0, elapsed time: 3.002678s
-rank: 2, elapsed time: 3.002674s
-```
-
-:bulb: There exists a non-blocking version `Ibarrier()`.
-
----
-
 # `mpi4py` - p2p blocking `Python` object
 
 :arrow_right: Process 0 sends a `Python` object to process 1.
@@ -507,43 +471,573 @@ recv: 573.018324
 
 ---
 
-# point-to-point blocking numpy array
+# `mpi4py` - p2p non-blocking `numpy` array
+
+## .hcenter[\[mpi4py/p2p_nonblocking_numpy.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+import numpy as np
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+# automatic MPI datatype discovery
+if rank == 0:
+  data = np.arange(100, dtype = np.float64)
+  comm.Send(data, dest = 1)
+  print("send: %f" % (np.linalg.norm(data)))
+elif rank == 1:
+  data = np.empty(100, dtype = np.float64)
+* req = comm.Irecv(data, source = 0)
+* req.Wait()
+  print("recv: %f" % (np.linalg.norm(data)))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 2 mpi4py/p2p_nonblocking_numpy.py
+send: 573.018324
+recv: 573.018324
+```
 
 ---
 
-# collective communication
+# `mpi4py` - p2p non-blocking `numpy` array (v2)
+
+## .hcenter[\[mpi4py/p2p_nonblocking_numpy_v2.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+import numpy as np
+import time
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+# automatic MPI datatype discovery
+if rank == 0:
+  data = np.arange(100, dtype = np.float64)
+  time.sleep(0.3)
+  comm.Send(data, dest = 1)
+  print("send: %f" % (np.linalg.norm(data)))
+elif rank == 1:
+  data = np.empty(100, dtype = np.float64)
+* req = comm.Irecv(data, source = 0)
+* while not req.Test():
+*   print("waiting (irecv)")
+*   time.sleep(0.1)
+  print("recv: %f" % (np.linalg.norm(data)))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 2 mpi4py/p2p_nonblocking_numpy_v2.py
+waiting (irecv)
+waiting (irecv)
+waiting (irecv)
+waiting (irecv)
+send: 573.018324
+recv: 573.018324
+```
 
 ---
 
-# collective communication dict broadcast
+# `mpi4py` - p2p non-blocking `numpy` array (v3)
+
+## .hcenter[\[mpi4py/p2p_nonblocking_numpy_v3.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+import numpy as np
+import time
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+# automatic MPI datatype discovery
+if rank == 0:
+  data = np.arange(100, dtype = np.float64)
+  time.sleep(0.2)
+  comm.Send(data, dest = 1)
+  print("send: %f" % (np.linalg.norm(data)))
+elif rank == 1:
+  data = np.empty(100, dtype = np.float64)
+  req = comm.Irecv(data, source = 0)
+* if not req.Test():
+*   req.Cancel()
+*   print("cancelled")
+    req = comm.Irecv(data, source = 0)
+  while not req.Test():
+    print("waiting (irecv)")
+    time.sleep(0.1)
+  print("recv: %f" % (np.linalg.norm(data)))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 2 mpi4py/p2p_nonblocking_numpy_v3.py
+cancelled
+waiting (irecv)
+waiting (irecv)
+send: 573.018324
+recv: 573.018324
+```
 
 ---
 
-# collective communication list scatter
+# `mpi4py` - collective communications
+
+:arrow_right: `MPI` provides several methods to allow 2+ processes to communicate "simultaneously".  
+:warning: These methods exist in **blocking** mode only (except `Barrier()`).  
+
+## Main `MPI` collective communication methods
+1. **Barrier** synchronization.
+1. **Broadcast** data: one-to-many, same data.
+1. **Gather** data: many-to-one, individual data.
+1. **Scatter** data: one-to-many, individual data.
+1. **Reduction** operations: many-to-one, individual data **with reduction operation** (sum, min, max...).
+
+## Methods using generic `Python` objects
+:arrow_right: They start with a **lowercase letter**.  
+:warning: Reduction operations using `Python` objects perform the reduction in a single process.  
+
+## Methods using `C`-like arrays
+:arrow_right: They start with an **uppercase letter**.  
+:arrow_right: **vector variants** exist for these methods to send data of different size to different processes.  
 
 ---
 
-# collective communication Python object gather
+# `mpi4py` - collective communications
+
+.row[
+.column.w48[
+## .hcenter[Broadcast]
+.hcenter.w65[ ![](images/broadcast.png)]
+
+.vspace[]
+
+## .hcenter[Gather]
+.hcenter.w65[ ![](images/gather.png)]
+]
+.column.w48[
+## .hcenter[Scatter]
+.hcenter.w65[ ![](images/scatter.png)]
+
+.vspace[]
+
+## .hcenter[Allgather]
+.hcenter.w65[ ![](images/allgather.png)]
+]
+]
 
 ---
 
-# collective communication numpy broadcast
+# `mpi4py` - collective communications
+
+## .hcenter[Alltoall]
+.hcenter.w60[ ![](images/alltoall.png)]
 
 ---
 
-# collective communication numpy scatter
+# `mpi4py` - `Barrier`
+
+:arrow_right: Use `Barrier()` to wait for all processes to reach a barrier.
+
+## .hcenter[\[mpi4py/barrier.py\]]
+```Python
+#!/usr/bin/env python
+
+import time
+from mpi4py import MPI
+
+time0 = time.time()
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+time.sleep(rank)
+comm.Barrier()
+
+time1 = time.time()
+
+print('rank: %d, elapsed time: %fs' % (rank, time1 - time0))```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 4 mpi4py/barrier.py
+rank: 1, elapsed time: 3.000270s
+rank: 3, elapsed time: 3.000497s
+rank: 0, elapsed time: 3.002678s
+rank: 2, elapsed time: 3.002674s
+```
+
+:bulb: There exists a non-blocking version `Ibarrier()`.
 
 ---
 
-# collective communication numpy gather
+# `mpi4py` - `Broadcast` a `Python` object
+
+## .hcenter[\[mpi4py/broadcast_python.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+if rank == 0:
+    data = {'school' : 'ENSIIE', 'numbers': [2 + 1j, 3.1415]}
+else:
+    data = None
+
+*data = comm.bcast(data, root = 0)
+
+print("rank: %1d, recv: %s" % (rank, str(data)))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 10 mpi4py/broadcast_python.py
+rank: 0, recv: {'school': 'ENSIIE', 'numbers': [(2+1j), 3.1415]}
+rank: 1, recv: {'school': 'ENSIIE', 'numbers': [(2+1j), 3.1415]}
+rank: 9, recv: {'school': 'ENSIIE', 'numbers': [(2+1j), 3.1415]}
+rank: 5, recv: {'school': 'ENSIIE', 'numbers': [(2+1j), 3.1415]}
+rank: 8, recv: {'school': 'ENSIIE', 'numbers': [(2+1j), 3.1415]}
+rank: 4, recv: {'school': 'ENSIIE', 'numbers': [(2+1j), 3.1415]}
+rank: 2, recv: {'school': 'ENSIIE', 'numbers': [(2+1j), 3.1415]}
+rank: 3, recv: {'school': 'ENSIIE', 'numbers': [(2+1j), 3.1415]}
+rank: 6, recv: {'school': 'ENSIIE', 'numbers': [(2+1j), 3.1415]}
+rank: 7, recv: {'school': 'ENSIIE', 'numbers': [(2+1j), 3.1415]}
+```
 
 ---
 
-# collective communication numpy allgather
+# `mpi4py` - `Scatter` a `Python` object
+
+## .hcenter[\[mpi4py/scatter_python.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+size = comm.Get_size()
+
+if rank == 0:
+    data = [(i + 1)**2 for i in range(size)]
+else:
+    data = None
+
+*data = comm.scatter(data, root = 0)
+
+print("rank: %1d, recv: %s" % (rank, str(data)))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 10 mpi4py/scatter_python.py
+rank: 0, recv: 1
+rank: 9, recv: 100
+rank: 6, recv: 49
+rank: 2, recv: 9
+rank: 4, recv: 25
+rank: 7, recv: 64
+rank: 3, recv: 16
+rank: 8, recv: 81
+rank: 1, recv: 4
+rank: 5, recv: 36
+```
 
 ---
 
-# collective communication numpy alltoall
+# `mpi4py` - `Gather` a `Python` object
+
+## .hcenter[\[mpi4py/gather_python.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+size = comm.Get_size()
+
+data = (rank + 1)**2
+
+*data = comm.gather(data, root = 0)
+
+print("rank: %1d, recv: %s" % (rank, str(data)))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 10 mpi4py/gather_python.py
+rank: 7, recv: None
+rank: 8, recv: None
+rank: 2, recv: None
+rank: 6, recv: None
+rank: 1, recv: None
+rank: 5, recv: None
+rank: 3, recv: None
+rank: 4, recv: None
+rank: 9, recv: None
+rank: 0, recv: [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+```
+
+---
+
+# `mpi4py` - `Allgather` a `Python` object
+
+## .hcenter[\[mpi4py/allgather_python.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+size = comm.Get_size()
+
+data = (rank + 1)**2
+
+*data = comm.allgather(data)
+
+print("rank: %1d, recv: %s" % (rank, str(data)))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 6 mpi4py/allgather_python.py
+rank: 2, recv: [1, 4, 9, 16, 25, 36]
+rank: 3, recv: [1, 4, 9, 16, 25, 36]
+rank: 5, recv: [1, 4, 9, 16, 25, 36]
+rank: 0, recv: [1, 4, 9, 16, 25, 36]
+rank: 1, recv: [1, 4, 9, 16, 25, 36]
+rank: 4, recv: [1, 4, 9, 16, 25, 36]
+```
+
+---
+
+# `mpi4py` - `Alltoall` a `Python` object
+
+## .hcenter[\[mpi4py/alltoall_python.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+size = comm.Get_size()
+
+data = [i + rank * size for i in range(size)]
+
+*data = comm.alltoall(data)
+
+print("rank: %1d, recv: %s" % (rank, str(data)))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 3 mpi4py/alltoall_python.py
+rank: 0, recv: [0, 3, 6]
+rank: 1, recv: [1, 4, 7]
+rank: 2, recv: [2, 5, 8]
+```
+
+---
+
+# `mpi4py` - `Broadcast` a `numpy` object
+
+## .hcenter[\[mpi4py/broadcast_numpy.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+import numpy as np
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+if rank == 0:
+  data = np.arange(100, dtype = 'i')
+else:
+  data = np.empty(100, dtype = 'i')
+
+*comm.Bcast(data, root = 0)
+
+print("rank: %1d, recv: %f" % (rank, np.linalg.norm(data)))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 10 mpi4py/broadcast_numpy.py
+rank: 0, recv: 573.018324
+rank: 8, recv: 573.018324
+rank: 2, recv: 573.018324
+rank: 6, recv: 573.018324
+rank: 1, recv: 573.018324
+rank: 9, recv: 573.018324
+rank: 5, recv: 573.018324
+rank: 3, recv: 573.018324
+rank: 7, recv: 573.018324
+rank: 4, recv: 573.018324
+```
+
+---
+
+# `mpi4py` - `Scatter` a `numpy` object
+
+## .hcenter[\[mpi4py/scatter_numpy.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+import numpy as np
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+size = comm.Get_size()
+
+sendbuf = None
+if rank == 0:
+  sendbuf = np.empty([size, 100], dtype = 'i')
+  sendbuf.T[:, :] = range(size)
+
+recvbuf = np.empty(100, dtype = 'i')
+
+*comm.Scatter(sendbuf, recvbuf, root = 0)
+
+print("rank: %1d, recv: %f" % (rank, np.linalg.norm(recvbuf)))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 10 mpi4py/scatter_numpy.py
+rank: 0, recv: 0.000000
+rank: 5, recv: 50.000000
+rank: 9, recv: 90.000000
+rank: 1, recv: 10.000000
+rank: 3, recv: 30.000000
+rank: 8, recv: 80.000000
+rank: 2, recv: 20.000000
+rank: 4, recv: 40.000000
+rank: 7, recv: 70.000000
+rank: 6, recv: 60.000000
+```
+
+---
+
+# `mpi4py` - `Gather` a `numpy` object
+
+## .hcenter[\[mpi4py/gather_numpy.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+import numpy as np
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+size = comm.Get_size()
+
+sendbuf = np.zeros(5, dtype = 'i') + rank
+recvbuf = None
+if rank == 0:
+  recvbuf = np.empty([size, 5], dtype = 'i')
+
+*comm.Gather(sendbuf, recvbuf, root = 0)
+
+print("rank: %1d, recv: %s" % (rank, str(recvbuf)))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 4 mpi4py/gather_numpy.py
+rank: 1, recv: None
+rank: 3, recv: None
+rank: 2, recv: None
+rank: 0, recv: [[0 0 0 0 0]
+ [1 1 1 1 1]
+ [2 2 2 2 2]
+ [3 3 3 3 3]]
+```
+
+---
+
+# `mpi4py` - `Allgather` a `numpy` object
+
+## .hcenter[\[mpi4py/allgather_numpy.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+import numpy as np
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+size = comm.Get_size()
+
+sendbuf = np.zeros(5, dtype = 'i') + rank
+recvbuf = np.empty([size, 5], dtype = 'i')
+
+*comm.Allgather(sendbuf, recvbuf, root = 0)
+
+print("rank: %1d, recv: %s" % (rank, str(recvbuf)))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 3 mpi4py/allgather_numpy.py
+rank: 1, recv: [[0 0 0 0 0]
+ [1 1 1 1 1]
+ [2 2 2 2 2]]
+rank: 0, recv: [[0 0 0 0 0]
+ [1 1 1 1 1]
+ [2 2 2 2 2]]
+rank: 2, recv: [[0 0 0 0 0]
+ [1 1 1 1 1]
+ [2 2 2 2 2]]
+```
+
+---
+
+# `mpi4py` - `Alltoall` a `numpy` object
+
+## .hcenter[\[mpi4py/alltoall_numpy.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+import numpy as np
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+size = comm.Get_size()
+
+sendbuf = np.arange(size, dtype = 'i') + rank * size
+recvbuf = np.empty([size], dtype = 'i')
+
+*comm.Alltoall(sendbuf, recvbuf)
+
+print("rank: %1d, recv: %s" % (rank, str(recvbuf)))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 5 mpi4py/alltoall_numpy.py
+rank: 0, recv: [ 0  5 10 15 20]
+rank: 2, recv: [ 2  7 12 17 22]
+rank: 4, recv: [ 4  9 14 19 24]
+rank: 3, recv: [ 3  8 13 18 23]
+rank: 1, recv: [ 1  6 11 16 21]
+```
 
 ---
 
