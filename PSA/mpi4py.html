@@ -1041,63 +1041,274 @@ rank: 1, recv: [ 1  6 11 16 21]
 
 ---
 
-# collective communication numpy reduce
+# `mpi4py` - `Reduce` a `Python` object
 
----
-
-# collective communication numpy allreduce
-
-SUM, PROD, MAX, MIN, MAXLOC, MINLOC...
-
----
-
-# collective communication example matvec
-
----
-
-# MPI-IO
-
----
-
-# MPI-IO Write_at_all
-
----
-
-# dynamic process management
-
----
-
-# dynamic process management Spawn() / Get_parent() / Merge() / Disconnect()
-
----
-
-# Wrapping with `SWIG`
-
----
-
-# mpi4py performances
-
----
-
-# `mpi4py` Conclusions
-
-
----
-
-# `mpi4py` module
-
-:arrow_right: TODO
-
-## .hcenter[\[TODO.py\]]
+## .hcenter[\[mpi4py/reduce_python.py\]]
 ```Python
+#!/usr/bin/env python
+
+import mpi4py.MPI as mpi
+
+rank = mpi.COMM_WORLD.rank
+
+*result = mpi.COMM_WORLD.reduce(rank, mpi.SUM, root = 0)
+
+print("rank: %1d, y: %s" % (rank, str(result)))
 ```
 
 ## .hcenter[Shell session]
 ```shell
-$ TODO
+$ mpiexec -np 10 mpi4py/reduce_python.py
+rank: 9, result: None
+rank: 8, result: None
+rank: 6, result: None
+rank: 7, result: None
+rank: 5, result: None
+rank: 2, result: None
+rank: 4, result: None
+rank: 1, result: None
+rank: 3, result: None
+rank: 0, result: 45
 ```
 
-:arrow_right: TODO
+---
+
+# `mpi4py` - `Allreduce` a `Python` object
+
+## .hcenter[\[mpi4py/allreduce_python.py\]]
+```Python
+#!/usr/bin/env python
+
+import mpi4py.MPI as mpi
+
+rank = mpi.COMM_WORLD.rank
+
+*result = mpi.COMM_WORLD.allreduce(rank, mpi.SUM)
+
+print("rank: %1d, result: %d" % (rank, result))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 10 mpi4py/allreduce_python.py
+rank: 0, result: 45
+rank: 1, result: 45
+rank: 8, result: 45
+rank: 3, result: 45
+rank: 9, result: 45
+rank: 2, result: 45
+rank: 6, result: 45
+rank: 4, result: 45
+rank: 5, result: 45
+rank: 7, result: 45
+```
+
+
+---
+
+# `mpi4py` - `Reduce` a `numpy` object
+
+## .hcenter[\[mpi4py/reduce_numpy.py\]]
+```Python
+#!/usr/bin/env python
+
+import mpi4py.MPI as mpi
+import numpy as np
+
+rank = mpi.COMM_WORLD.rank
+
+sendbuf = np.zeros([1], dtype = 'i') + rank
+
+recvbuf = None
+if rank == 0:
+  recvbuf = np.empty([1], dtype = 'i')
+
+*mpi.COMM_WORLD.Reduce(sendbuf, recvbuf, mpi.SUM, root = 0)
+
+if rank == 0:
+  print("rank: %1d, result: %d" % (rank, recvbuf[0]))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 10 mpi4py/reduce_numpy.py
+rank: 0, result: 45
+```
+
+---
+
+# `mpi4py` - `Allreduce` a `numpy` object
+
+## .hcenter[\[mpi4py/allreduce_numpy.py\]]
+```Python
+#!/usr/bin/env python
+
+import mpi4py.MPI as mpi
+import numpy as np
+
+rank = mpi.COMM_WORLD.rank
+
+sendbuf = np.zeros([1], dtype = 'i') + rank
+recvbuf = np.empty([1], dtype = 'i')
+
+*mpi.COMM_WORLD.Allreduce(sendbuf, recvbuf, mpi.SUM)
+
+print("rank: %1d, result: %d" % (rank, recvbuf[0]))
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 10 mpi4py/allreduce_numpy.py
+rank: 0, result: 45
+rank: 1, result: 45
+rank: 8, result: 45
+rank: 3, result: 45
+rank: 9, result: 45
+rank: 2, result: 45
+rank: 6, result: 45
+rank: 4, result: 45
+rank: 5, result: 45
+rank: 7, result: 45
+```
+
+:arrow_right: Some possible reduction operations: `SUM`, `PROD`, `MAX`, `MIN`, `MAXLOC`, `MINLOC`...
+
+---
+
+# `mpi4py` - `MPI-IO` `Write_at_all`
+
+## .hcenter[\[mpi4py/mpiio_numpy.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+import numpy as np
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+
+*fp = MPI.File.Open(comm, "/tmp/test_mpiio.dat", MPI.MODE_WRONLY | MPI.MODE_CREATE)
+
+buffer = np.zeros(16, dtype=np.int8)
+*buffer[0] = rank
+*buffer[1:16] = [ord(i) for i in 'string in ascii']
+
+offset = rank * buffer.nbytes
+*fp.Write_at_all(offset, buffer)
+
+*fp.Close()
+```
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 10 mpi4py/mpiio_numpy.py
+$ hexdump -C /tmp/test_mpiio.dat
+00000000  00 73 74 72 69 6e 67 20  69 6e 20 61 73 63 69 69  |.string in ascii|
+00000010  01 73 74 72 69 6e 67 20  69 6e 20 61 73 63 69 69  |.string in ascii|
+00000020  02 73 74 72 69 6e 67 20  69 6e 20 61 73 63 69 69  |.string in ascii|
+00000030  03 73 74 72 69 6e 67 20  69 6e 20 61 73 63 69 69  |.string in ascii|
+00000040  04 73 74 72 69 6e 67 20  69 6e 20 61 73 63 69 69  |.string in ascii|
+00000050  05 73 74 72 69 6e 67 20  69 6e 20 61 73 63 69 69  |.string in ascii|
+00000060  06 73 74 72 69 6e 67 20  69 6e 20 61 73 63 69 69  |.string in ascii|
+00000070  07 73 74 72 69 6e 67 20  69 6e 20 61 73 63 69 69  |.string in ascii|
+00000080  08 73 74 72 69 6e 67 20  69 6e 20 61 73 63 69 69  |.string in ascii|
+00000090  09 73 74 72 69 6e 67 20  69 6e 20 61 73 63 69 69  |.string in ascii|
+000000a0
+```
+
+---
+
+# `mpi4py` - `spawn` `MPI` processes
+
+.row[
+.column.w48[
+## .hcenter[\[mpi4py/spawn_master.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+import numpy
+import sys
+
+nbprocs = 100
+
+*comm = MPI.COMM_SELF.Spawn(sys.executable, args = ['spawn_slave.py'], maxprocs = nbprocs)
+
+N = numpy.array(nbprocs, 'i')
+comm.Bcast([N, MPI.INT], root = MPI.ROOT)
+PI = numpy.array(0.0, 'd')
+comm.Reduce(None, [PI, MPI.DOUBLE], op = MPI.SUM, root = MPI.ROOT)
+
+print(PI)
+
+*comm.Disconnect()
+```
+]
+.column.w48[
+## .hcenter[\[mpi4py/spawn_slave.py\]]
+```Python
+#!/usr/bin/env python
+
+from mpi4py import MPI
+import numpy
+
+*comm = MPI.Comm.Get_parent()
+size = comm.Get_size()
+rank = comm.Get_rank()
+
+N = numpy.array(0, dtype = 'i')
+comm.Bcast([N, MPI.INT], root = 0)
+h = 1.0 / N
+s = 0.0
+for i in range(rank, N, size):
+  x = h * (i + 0.5)
+  s += 4.0 / (1.0 + x**2)
+
+PI = numpy.array(s * h, dtype='d')
+comm.Reduce([PI, MPI.DOUBLE], None, op = MPI.SUM, root=0)
+
+*comm.Disconnect()
+```
+]
+]
+
+## .hcenter[Shell session]
+```shell
+$ mpiexec -np 1 mpi4py/spawn_master.py
+3.141600986923125
+```
+
+---
+
+# `mpi4py` - conclusions
+
+## To sum up
+:arrow_right: Only a small subset of `MPI-2` capabilities has been presented.  
+:arrow_right: `mpi4py` makes `MPI` methods easier to call.  
+:warning: communicating generic `Python` objects is **convenient** but **not efficient**.  
+:arrow_right: `MPI` method names and organization is highly reminiscent of `Fortran` or `C` code.  
+
+.vspace[]
+
+## To go further
+:arrow_right: To write efficient `MPI` code, it is **mandatory** to dive into **lower-level programming**:
+ * buffers
+ * `C`-types
+ * memory layout
+ * network topology / latencies
+ * IO caches
+ * etc...
+
+.vspace[]
+
+## In case of serious `MPI` usage
+* debugger: [`totalview`](https://www.roguewave.com/products-services/totalview) (commercial product)
+
+---
+
+# Bonus
+
+.hcenter[[The list](https://www.top500.org/list/2017/11/)]
 
     </textarea>
 
