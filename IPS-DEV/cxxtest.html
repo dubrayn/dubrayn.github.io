@@ -253,19 +253,20 @@ void test_assert_throws_assert(void)
 
 .row[
 .column.w48[
-## .hcenter[`myclass.cpp`]
+## .hcenter[`test_myclass.h`]
 ```C++
+#include <cxxtest/TestSuite.h>
 #include "myclass.h"
 
-MyClass::MyClass(int _a) : a(_a)
+class TestMyClass : public CxxTest::TestSuite
 {
-// possible other ways: "a = int(_a);" or "a = _a;"
-}
-
-int MyClass::myFunc(int b)
-{
-  return a + b; // "a" is the same as "this->a" in C++
-}
+  public:
+  void testMyFunc(void)
+  {
+    MyClass myClass(2);
+    TS_ASSERT_EQUALS(myClass.myFunc(3), 5);
+  }
+};
 ```
 ]
 
@@ -289,6 +290,23 @@ class MyClass
 
 .row[
 .column.w48[
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int _a) : a(_a)
+{
+// possible other ways: "a = int(_a);" or "a = _a;"
+}
+
+int MyClass::myFunc(int b)
+{
+  return a + b; // "a" is the same as "this->a" in C++
+}
+```
+]
+
+.column.w48[
 ## .hcenter[`main.cpp`]
 ```C++
 #include "myclass.h"
@@ -303,24 +321,6 @@ int main(int charc, char** argv)
   std::cout << std::endl;
   return 0;
 }
-```
-]
-
-.column.w48[
-## .hcenter[`test_myclass.h`]
-```C++
-#include <cxxtest/TestSuite.h>
-#include "myclass.h"
-
-class TestMyClass : public CxxTest::TestSuite
-{
-  public:
-  void testMyFunc(void)
-  {
-    MyClass myClass(2);
-    TS_ASSERT_EQUALS(myClass.myFunc(3), 5);
-  }
-};
 ```
 ]
 ]
