@@ -155,7 +155,6 @@ public:
     TS_ASSERT(1 + 1 > 1);
     TS_ASSERT_EQUALS(1 + 1, 2);
   }
-
   void testMultiplication(void)
   {
     TS_TRACE("Starting multiplication test");
@@ -171,7 +170,16 @@ $ cxxtestgen --error-printer -o tests.cpp MyTestSuite2.h
 $ g++ -o tests tests.cpp
 $ ./tests
 Running cxxtest tests (2 tests).
-*In MyTestSuite2::testMultiplication: */home/dubrayn/temp/test_cxxtest/MyTestSuite2.h:14: Error: Expected (2 * 2 == 5), found (4 != 5)
+In MyTestSuite2::testMultiplication:
+*MyTestSuite2.h:14: Error: Expected (2 * 2 == 5), found (4 != 5)
+Failed 1 and Skipped 0 of 2 tests
+Success rate: 50%
+$ ./tests -v
+Running cxxtest tests (2 tests).
+In MyTestSuite2::testMultiplication:
+MyTestSuite2.h:13: Trace: Starting multiplication test
+*MyTestSuite2.h:14: Error: Expected (2 * 2 == 5), found (4 != 5)
+MyTestSuite2.h:15: Trace: Finishing multiplication test
 Failed 1 and Skipped 0 of 2 tests
 Success rate: 50%
 ```
