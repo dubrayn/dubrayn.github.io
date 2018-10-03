@@ -10,134 +10,40 @@ Project:
 
 ---- WEEK0 ----
 
-* These slides
-* (Introduction)
- * Lecturer
- * Modules
- * GNU/Linux quick howto
- * Scientific method
- * Good development practices
-* Development tools
- * Version control system: `git`
-  * `git` workflow
-  * Creation of a `git` repo from scratch
-  * Main `git` commands
-  * Typical `git` workflow
-  * `git` history
-  * GUI tool `gitk`
-  * GUI tool `gitg`
-  * `git` branches
-  * How to use `git` branches
-  * Remote repositories
-  * Conclusions on `git`
- * Build system: `GNU Make`
-  * `GNU Make` workflow
-  * Using `GNU Make`
-  * Writing clean `Makefiles`
-  * `Makefile` wizardry
-  * `Makefile` transformation
-  * Recursive `Makefiles`
+* introduction
+* project
+* git
 
--> project initialization
 === TP0
 
 ---- WEEK1 ----
 
- * Doxygen
-  * Example of a documented code
-  * Generate the documentation
-  * Browse the documentation
-  * Configure `Doxygen`
-  * Undocumented function
-  * `Doxygen` output
-  * `Doxygen` syntax
-  * Some `Doxygen` commands
-  * Conclusion on `Doxygen`
- * Unit tests
-  * What is unit testing ?
-  * Why write unit tests ?
-  * Why *not* write unit tests ?
-  * `CxxTest`
-  * Example of a failed test
-  * Main assertions
-  * Exception-related assertions
-  * Special assertions
-  * Conclusion on unit testing
- * Scientific programming
- * Let your code do some linear algebra
- * Armadillo
-  * Armadillo example
-  * Manipulate rows/columns
-  * Element-wise functions
-  * Standard linear algebra operations
-  * Object initialisation
-  * `Armadillo` documentation
+* make
+* Armadillo
+* Doxygen
 
--> project presentation
 === TP1
 
 ---- WEEK2 ----
 
- * Artistic Style (`astyle`)
-  * `astyle` usage
-  * Usage with a default options file
-  * Disable formatting
-  * Brace styles
-  * Brace styles (continued)
-  * Brace styles (continued)
-  * Tab options
-  * Conclusion on `astyle`
+* CxxTest
+* C++ headers
+* astyle
 
-* Results presentation
- * .latex[L<sup>a</sup>T<sub>e</sub>X]
-  * The .latex[L<sup>a</sup>T<sub>e</sub>X] workflow
-  * .latex[L<sup>a</sup>T<sub>e</sub>X] example
-  * Remarks on the usual .latex[L<sup>a</sup>T<sub>e</sub>X] workflow
-  * .latex[L<sup>a</sup>T<sub>e</sub>X] math syntax
- * `Markdown`
-  * `Markdown` example
-  * These slides use `remark.js`
-
--> project discussion
 === TP2
 
 ---- WEEK3 ----
 
-* Python
- * Python core philosophy
- * Python `helloworld`
- * Python indentation
- * Python identifiers
- * Functions and classes
- * Modules
- * Custom modules
- * Module search path
- * The `dir()` built-in function
- * Built-in types
- * Containers mutability
- * Numeric types
- * Specific operations on `int` and `float` numbers
- * Using `list` objects
- * Using `list` elements and ranges
- * Loops and iterators
- * `filter`, `map`, `reduce`
- * List comprehensions
- * Using `string` objects
- * Using `dict` objects
- * Using `set` objects
- * File IO
- * Module `pickle`
- * `True`, `False`, `not`, `and`, `or` keywords
- * `None` keyword
+* latex
+* markdown
+* quadratures
 
--> project discussion
 === TP3
 
 ---- WEEK4 ----
 
- * quadratures
+* Python
 
--> presentation directives
 === TP4
 
 ---- WEEK5 ----
@@ -156,63 +62,34 @@ Project:
 
 ---- WEEK0 ----
 
-* project presentation
-
-* These slides
-* (Introduction)
- * Lecturer
- * Modules
-* IPS-DEV-TP debriefing
-* Unit tests: real example
-* C++ headers: main rules
+* introduction
+* project
+* POVray
 
 === TP0
 
 ---- WEEK1 ----
 
-* data visualization
- * POVray
-  * .df3 writer
- * Blender
- --> live demo
-  * .raw writer
+* blender
 
 === TP1
 
 ---- WEEK2 ----
 
-* optimizations
- * vectorization
- * loops / sums / pre-sums
+* sum optimization
 
 === TP2
 
 ---- WEEK3 ----
 
-* debug / profiling
- * gdb
- * valgrind
+* valgrind
+* gdb
 
 === TP3
 
 ---- WEEK4 ----
 
 * python numpy
-
-
-* DIY timers
-* ParaView ?
-* python as a glue
- * numpy
- * matplotlib
-
- * bindings
-* numerical techniques
- * eigenvalue problems
-
-* data storage
- * mongoDB
- * MPI-IO
 
 === TP4
 
@@ -237,31 +114,24 @@ Project:
 
 ---- Session 0 ----
 
-* Project presentation
- * TD Schrödinger equation
- * FDM
- * special physical cases
+* introduction
+* project
 
 ---- Session 1 ----
 
-* programming techniques
- * python bindings
-  * manual
+* python bindings - manual
 
 ---- Session 2 ----
 
-  * swig
+* python bindins - swig
 
 ---- Session 3 ----
 
  * errors / exceptions
-  * C++
-  * python
-  * with swig
 
 ---- Session 4 ----
 
- * Python threading and multiprocessing
+* multiprocessing
 
 ---- Session 5 ----
 
@@ -269,37 +139,36 @@ Project:
 
 ---- Session 6 ----
 
-* data visualization
- * VTK
+* VTK
 
 ---- Session 7 ----
 
- * paraview
-  * cow.vtp
-   * generate normals
-   * plot with normal.y
-   * plot normal glyphs
-   * see all normals
-   * add axes
-   * change color map
-   * edit color map
-  * wind.vtk
-   * volume visualization
-   * isosurfaces
-   * streamlines
-  * foot.vtk
-   * volume
-   * isosurfaces
-   * clip
-  * brain.vtk
-   * volume
-   * change color
-   * slice
-  * pyevtk_anim_images.py / pyevtk_anim_grids.py
-   * warp by scalar
-   * plotSelectionOverTime
-   * save animation
-   * view animation
+* paraview
+ * cow.vtp
+  * generate normals
+  * plot with normal.y
+  * plot normal glyphs
+  * see all normals
+  * add axes
+  * change color map
+  * edit color map
+ * wind.vtk
+  * volume visualization
+  * isosurfaces
+  * streamlines
+ * foot.vtk
+  * volume
+  * isosurfaces
+  * clip
+ * brain.vtk
+  * volume
+  * change color
+  * slice
+ * pyevtk_anim_images.py / pyevtk_anim_grids.py
+  * warp by scalar
+  * plotSelectionOverTime
+  * save animation
+  * view animation
 
 ---- Session 8 ----
 
@@ -308,34 +177,14 @@ Project:
 ---- Session 9 ----
 
 * live monitoring
- * internal data
-  * named pipe
-  * socket
-  * limitations (network issues, node access, limited data, locks...)
- * external data
-  * JSON
-  * pickle
-  * mongoDB
-  * limitations (corrupted file, polling...)
-  * check data integrity
-* restart mechanism
 
 ---- Session 10 ----
 
 * mpi4py
- * MPI-IO
 
 ---- Session 11 ----
 
 ===> Final project presentation
-
-
-
-
-
-
-
-
 
 # IPS project goals:
 
