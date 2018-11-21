@@ -301,9 +301,9 @@ $$`
 
 The quantum number values are the **integers** verifying
 `$$\begin{eqnarray}
-0 &\le m \le& m^\textrm{max}-1\\
-0 &\le n \le& \frac{1}{2}(m^\textrm{max}-m-1)\\
-0 &\le n_z \le& n_z^\textrm{max}(m+2n+1)-1.
+0 &\le m \lt& \textrm{mMax} \equiv m^\textrm{max}\\
+0 &\le n \lt& \textrm{nMax[m]} \equiv \frac{1}{2}(m^\textrm{max}-m-1) + 1\\
+0 &\le n_z \lt& \textrm{n_zMax[m, n]} \equiv n_z^\textrm{max}(m+2n+1).
 \end{eqnarray}$$`
 
 Parameters: `\(N, Q\)`.
