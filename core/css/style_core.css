@@ -619,22 +619,6 @@ video {
   font-size: 0.1em;
 }
 
-/* ========================= */
-/* ======== mathjax ======== */
-/* ========================= */
-
-.MathJax_SVG_Display { 
-  margin: 0.2em 0 0.2em 0 !important;
-  display: flex;
-  font-size: 0.9em;
-}
-
-.MathJax_Display { 
-  margin: 0.2em 0 0.2em 0 !important;
-  display: flex;
-  font-size: 0.9em;
-}
-
 /* ======================== */
 /* ======== tables ======== */
 /* ======================== */

@@ -14,7 +14,7 @@ The presentations use original or slightly modified versions of the following op
 * [cinescript.js](https://github.com/arnehilmann/cinescript)
 * [highlight.js](https://highlightjs.org)
 * [gitgraph.js](http://gitgraphjs.com)
-* [mathjax](https://mathjax.org)
+* [katex](https://katex.org)
 * [emojify.js](https://github.com/emojione/emojify.js)
 * [term.js](https://github.com/chjj/term.js)
 * [plotly.js](https://plot.ly/javascript)
