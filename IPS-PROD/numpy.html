@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
   </head>
   <body>
     <textarea id="source" readonly>
@@ -1409,24 +1410,24 @@ result    : 6.17895105956707e+10
 ]
 
     </textarea>
+
     <script src="core/javascript/remark.js"></script>
-    <script src="core/javascript/plotly.js" type="text/javascript"></script>
-    <script src="core/javascript/MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML&delayStartupUntil=configured" type="text/javascript"></script>
-    <script src="core/javascript/emojify.js" type="text/javascript"></script>
-    <script src="core/javascript/mermaid.js" type="text/javascript"></script>
-    <script src="core/javascript/term.js" type="text/javascript"></script>
-    <script src="core/javascript/jquery-2.1.1.min.js" type="text/javascript"></script>
-    <script src="core/javascript/extend-jquery.js" type="text/javascript"></script>
-    <script src="core/javascript/cinescript.js" type="text/javascript"></script>
-    <script src="core/javascript/gitgraph.js" type="text/javascript"></script>
+    <script src="core/javascript/katex.min.js"></script>
+    <script src="core/javascript/auto-render.min.js"></script>
+    <script src="core/javascript/emojify.js"></script>
+    <script src="core/javascript/mermaid.js"></script>
+    <script src="core/javascript/term.js"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js"></script>
+    <script src="core/javascript/extend-jquery.js"></script>
+    <script src="core/javascript/cinescript.js"></script>
+    <script src="core/javascript/gitgraph.js"></script>
     <script>
 
     // === Remark.js initialization ===
     var slideshow = remark.create({
       highlightStyle: 'monokai',
       countIncrementalSlides: false,
-      highlightLines: true,
-      highlightInlineCode: false
+      highlightLines: false
     });
 
     // === Mermaid.js initialization ===
@@ -1455,16 +1456,14 @@ result    : 6.17895105956707e+10
     slideshow.on('afterShowSlide', initMermaid);
     initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
 
-    // === MathJax.js initialization ===
-    MathJax.Hub.Config({ tex2jax: { skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } }); 
-    MathJax.Hub.Queue(function() { $(MathJax.Hub.getAllJax()).map(function(index, elem) { return(elem.SourceElement()); }).parent().addClass('has-jax'); });
-    MathJax.Hub.Configured();
-
+    
     // === Emojify.js initialization ===
     emojify.run();
 
     // === Cinescript initialization ===
     $(document).ready(init_cinescripts);
+
+    renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "\\(", right: "\\)", display: false}], ignoredTags: [] });
 
     </script>
   </body>

@@ -482,7 +482,7 @@ h1 > code.remark-inline-code.has-jax {
 /* ======================== */
 
 p span {
-  display: block;
+/*  display: block; */
 }
 
 img {
