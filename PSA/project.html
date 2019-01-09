@@ -18,7 +18,7 @@ class: titlepage numbers
 
 .title[Advanced Scientific Programming - Project :notebook:]
 
-.subtitle[`PSA` - N. Dubray - ENSIIE - 2018]
+.subtitle[`PSA` - N. Dubray - ENSIIE - 2019]
 
 .wauto[
 ```C++
@@ -41,7 +41,7 @@ static PyObject * calc_system(PyObject *self, PyObject *args)
 ]
 
 .footnote[
-[:book:](../index.html)
+`PSA` - N. Dubray - ENSIIE - 2019 - [:book:](../index.html)
 ]
 
 ---
@@ -50,7 +50,7 @@ layout: true
 class: animated fadeIn middle numbers
 
 .footnote[
-`PSA` - N. Dubray - ENSIIE - 2018 - [:book:](../index.html)
+`PSA` - N. Dubray - ENSIIE - 2019 - [:book:](../index.html)
 ]
 
 ---
@@ -386,13 +386,15 @@ and the momentum operators defined as
 
 ## Solution (to be demonstrated)
 
-`$$\begin{eqnarray}\left(\frac{2i\hbar}{dt}-V(x,y)-\frac{\hbar^2}{m.dx^2}-\frac{\hbar^2}{m.dy^2}\right)\psi^{(t+dt)} &=&
-\frac{-\hbar^2}{2m.dx^2}\left(\psi_{x+dx}+\psi_{x-dx}\right)\\
-&-& \frac{\hbar^2}{2m.dy^2}\left(\psi_{y+dy}+\psi_{y-dy}\right)\\
-&-& \frac{\hbar^2}{2m.dx^2}\left(\psi^{(t+dt)}_{x+dx}+\psi^{(t+dt)}_{x-dx}\right)\\
-&-& \frac{\hbar^2}{2m.dy^2}\left(\psi^{(t+dt)}_{y+dy}+\psi^{(t+dt)}_{y-dy}\right)\\
-&+& \left(V(x,y) + \frac{2i\hbar}{dt}+\frac{\hbar^2}{m.dx^2}+\frac{\hbar^2}{m.dy^2}\right)\psi
-\end{eqnarray}$$`
+`$$
+\begin{aligned}
+\left(\frac{2i\hbar}{dt}-V(x,y)-\frac{\hbar^2}{m.dx^2}-\frac{\hbar^2}{m.dy^2}\right)\psi^{(t+dt)} &= \frac{-\hbar^2}{2m.dx^2}\left(\psi_{x+dx}+\psi_{x-dx}\right)\\
+&- \frac{\hbar^2}{2m.dy^2}\left(\psi_{y+dy}+\psi_{y-dy}\right)\\
+&- \frac{\hbar^2}{2m.dx^2}\left(\psi^{(t+dt)}_{x+dx}+\psi^{(t+dt)}_{x-dx}\right)\\
+&- \frac{\hbar^2}{2m.dy^2}\left(\psi^{(t+dt)}_{y+dy}+\psi^{(t+dt)}_{y-dy}\right)\\
+&+ \left(V(x,y) + \frac{2i\hbar}{dt}+\frac{\hbar^2}{m.dx^2}+\frac{\hbar^2}{m.dy^2}\right)\psi
+\end{aligned}
+$$`
 
 
 

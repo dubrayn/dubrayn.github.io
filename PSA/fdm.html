@@ -19,7 +19,7 @@ layout: true
 class: animated fadeIn middle numbers
 
 .footnote[
-`PSA` - N. Dubray - ENSIIE - 2018 -  [:arrow_left:](intro.html) [:book:](../index.html) [:arrow_right:](pythonandc.html)
+`PSA` - N. Dubray - ENSIIE - 2019 - [:book:](../index.html)
 ]
 
 ---
@@ -74,8 +74,12 @@ For `\(n=1\)`, one obtains
 `$$f(x+h)=f(x)+f'(x).h+R_1(x+h),$$`
 
 and one can express `\(f'(x)\)` as
-`$$\begin{eqnarray}f'(x)&=&\frac{f(x+h)-f(x)}{h}-\frac{R_1(x+h)}{h}\\
-&=&\frac{f(x+h)-f(x)}{h} + O(h).\end{eqnarray}$$`
+`$$
+\begin{aligned}
+f'(x)&=\frac{f(x+h)-f(x)}{h}-\frac{R_1(x+h)}{h}\\
+&=\frac{f(x+h)-f(x)}{h} + O(h).
+\end{aligned}
+$$`
 
 Neglecting `\(R_1(x+h)\)` leads to an approximation of `\(f'(x)\)`:
 `$$f'(x)\simeq \frac{f(x+h)-f(x)}{h}.$$`
@@ -94,8 +98,12 @@ For `\(n=1\)`, one obtains
 `$$f(x-h)=f(x)-f'(x).h+R_1(x-h),$$`
 
 and one can express `\(f'(x)\)` as
-`$$\begin{eqnarray}f'(x)&=&\frac{f(x)-f(x-h)}{h}+\frac{R_1(x-h)}{h}\\
-&=&\frac{f(x)-f(x-h)}{h} + O(h).\end{eqnarray}$$`
+`$$
+\begin{aligned}
+f'(x)&=\frac{f(x)-f(x-h)}{h}+\frac{R_1(x-h)}{h}\\
+&=\frac{f(x)-f(x-h)}{h} + O(h).
+\end{aligned}
+$$`
 
 Neglecting `\(R_1(x+h)\)` leads to an approximation of `\(f'(x)\)`:
 `$$f'(x)\simeq \frac{f(x)-f(x-h)}{h}.$$`
@@ -114,8 +122,12 @@ For `\(n=2\)`, one obtains
 `$$f(x+h)-f(x-h)=2f'(x).h+R_2(x+h)-R_2(x-h),$$`
 
 and one can express `\(f'(x)\)` as
-`$$\begin{eqnarray}f'(x)&=&\frac{f(x+h)-f(x-h)}{2h}-\frac{R_2(x+h)-R_2(x-h)}{2h}\\
-&=&\frac{f(x+h)-f(x-h)}{2h} + O(h^2).\end{eqnarray}$$`
+`$$
+\begin{aligned}
+f'(x)&=\frac{f(x+h)-f(x-h)}{2h}-\frac{R_2(x+h)-R_2(x-h)}{2h}\\
+&=\frac{f(x+h)-f(x-h)}{2h} + O(h^2).
+\end{aligned}
+$$`
 
 Neglecting `\(R_1(x+h)\)` leads to an approximation of `\(f'(x)\)`:
 `$$f'(x)\simeq \frac{f(x+h)-f(x-h)}{2h}.$$`

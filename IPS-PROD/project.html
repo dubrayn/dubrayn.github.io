@@ -25,7 +25,7 @@ class: titlepage
 ]
 
 .footnote[
-[:book:](../index.html)
+`IPS-PROD` - N. Dubray - ENSIIE - 2019 - [:book:](../index.html)
 ]
 
 ---
@@ -116,21 +116,21 @@ class: animated fadeIn numbers
 ## Hermite polynomials (physicists' version)
 
 `$$
-\begin{eqnarray*}
-H_0(\zeta)&=&1\\
-H_1(\zeta)&=&2\zeta\\
-H_{n}(\zeta)&=&2\zeta H_{n-1}(\zeta)-2(n-1)H_{n-2}(\zeta)
-\end{eqnarray*}
+\begin{aligned}
+H_0(\zeta)&=1\\
+H_1(\zeta)&=2\zeta\\
+H_{n}(\zeta)&=2\zeta H_{n-1}(\zeta)-2(n-1)H_{n-2}(\zeta)
+\end{aligned}
 $$`
 
 ## Generalized Laguerre polynomials
 
 `$$
-\begin{eqnarray*}
-L^{m}_0(\eta)&=&1\\
-L^{m}_1(\eta)&=&1+m-\eta\\
-L^{m}_{n}(\eta)&=&\left(2+\frac{m-1-\eta}{n}\right)L^{m}_{n-1}(\eta)-\left(1+\frac{m-1}{n}\right)L^{m}_{n-2}(\eta)
-\end{eqnarray*}
+\begin{aligned}
+L^{m}_0(\eta)&=1\\
+L^{m}_1(\eta)&=1+m-\eta\\
+L^{m}_{n}(\eta)&=\left(2+\frac{m-1-\eta}{n}\right)L^{m}_{n-1}(\eta)-\left(1+\frac{m-1}{n}\right)L^{m}_{n-2}(\eta)
+\end{aligned}
 $$`
 ]
 
@@ -301,11 +301,14 @@ m^\textrm{max} \equiv \textrm{sup}\left\{i:n_z^\textrm{max}(i)\ge 1\right\}.
 $$`
 
 The quantum number values are the **integers** verifying
-`$$\begin{eqnarray}
-0 &\le m \lt& \textrm{mMax} \equiv m^\textrm{max}\\
-0 &\le n \lt& \textrm{nMax[m]} \equiv \frac{1}{2}(m^\textrm{max}-m-1) + 1\\
-0 &\le n_z \lt& \textrm{n_zMax[m, n]} \equiv n_z^\textrm{max}(m+2n+1).
-\end{eqnarray}$$`
+
+`$$
+\begin{alignedat}{4}
+0 & \le &&m  & \lt & \textrm{ mMax} \equiv m^\textrm{max}\\
+0 & \le &&n  & \lt & \textrm{ nMax[m]} \equiv \frac{1}{2}(m^\textrm{max}-m-1) + 1\\
+0 & \le &&n_z& \lt & \textrm{ n\_zMax[m, n]} \equiv n_z^\textrm{max}(m+2n+1).
+\end{alignedat}
+$$`
 
 Parameters: `\(N, Q\)`.
 ]
@@ -478,7 +481,12 @@ TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 15) - res15), 0.0, 1e-15);
     style E fill:#090
 ]
 
-`$$\rho(\mathbf{r})\equiv \sum_a \sum_b \rho_{ab}\psi_a(\mathbf{r})\psi^*_b(\mathbf{r}) = \sum_{m_a}\sum_{n_a}\sum_{n_{za}}\sum_{m_b}\sum_{n_b}\sum_{n_{zb}}\rho_{m_a,n_a,n_{za},m_b,n_b,n_{zb}}\psi_{m_a,n_a,n_{za}}(\mathbf{r})\psi^*_{m_b,n_b,n_{zb}}(\mathbf{r})$$`
+`$$
+\rho(\mathbf{r})
+\equiv
+\sum_{a,b} \rho_{ab}\psi_a(\mathbf{r})\psi^*_b(\mathbf{r})
+=
+\sum_{{m_a, n_a, n_{za}} \atop {m_b,n_b,n_{zb}}}\psi_{m_a,n_a,n_{za}}(\mathbf{r})\psi^*_{m_b,n_b,n_{zb}}(\mathbf{r})$$`
 
 .column.middle.grow[
 ## Direct algorithm
@@ -539,11 +547,22 @@ for (int m = 0; m < basis.mMax; m++)
 * plot the nuclear local density in the (x, y, z) space (with POV-Ray, Blender...)
 * present your results using the [presentation template](../template/index.html)
 
-## Possible optimizations of the direct algorithm
+.row[
+.column.w60[
+## Symmetries of the `\(\rho\)` matrix
 
-* use `\(\rho_{mnn_z,m'n'n'_z} = \delta_{mm'}\rho_{mnn_z,mn'n'_z}\)`
-* use `\(\rho_{mnn_z,m'n'n'_z} = \rho_{m'n'n'_z,mnn_z}\)`
-* optimize loops by using partial sums and pre-calculations
+* `\(\rho\)` is symmetric : `\(\rho_{ab} = \rho_{ba}\)`
+* `\(\rho\)` is `\(m-\)`diagonal : `\(\rho_{ab} = \delta_{m_a, m_b} \rho_{ab}\)`
+]
+.column.w40[
+## Optimized algorithm
+
+* use partial sums
+* use pre-calculations
+* change loops
+* ...
+]
+]
 ]
 
 ---
@@ -662,10 +681,6 @@ for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
   i++;
 }
 ```
-
-:arrow_right: You can check the symmetries of the `\(\rho\)` matrix:
-* `\(\rho\)` should be symmetric : `\(\rho = \rho^t\)`
-* `\(\rho\)` should be `\(m-\)`diagonal : `\(\rho(a, b) = \delta_{m_a, m_b} \rho(a, b)\)`
 
 ---
 
