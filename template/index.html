@@ -430,6 +430,9 @@ Holy :cow: !!! I can put notes on my slides !?!
     <script src="core/javascript/cinescript.js"></script>
     <script src="core/javascript/gitgraph.js"></script>
     <script src="core/javascript/plotly.js"></script>
+    <script src="vega.js"></script>
+    <script src="vega-lite.js"></script>
+    <script src="vega-embed.js"></script>
     <script>
 
     // === Remark.js initialization ===
@@ -511,6 +514,46 @@ Holy :cow: !!! I can put notes on my slides !?!
                                           xaxis: {title: 'Z-axis [fm]'},
                                           yaxis: {title: 'Neut. loc. dens. [fm^-3]'},
                                          });
+    // ===== END =====
+
+    // ===== vega00 =====
+
+    console.log("START VEGA");
+
+    const data = [
+      {"a": "A","b": 28}, {"a": "B","b": 55}, {"a": "C","b": 43},
+      {"a": "D","b": 91}, {"a": "E","b": 81}, {"a": "F","b": 53},
+      {"a": "G","b": 19}, {"a": "H","b": 87}, {"a": "I","b": 52}
+    ];
+    
+    const spec = "bar.vl.json";
+  	vegaEmbed('#vis', spec, {defaultStyle: true})
+      .then(function(result) {
+      	const view = result.view;
+      
+      	// connect to simple echo server
+      	const conn = new WebSocket("wss://echo.websocket.org");
+      
+        conn.onopen = function(event) {
+          // insert data as it arrives from the socket
+          conn.onmessage = function(event) {
+            console.log(event.data);
+            // Use the Vega view api to insert data
+            view.insert("table", JSON.parse(event.data)).run();
+          }
+          
+          // send some data into the echo socket every second
+          const interval = window.setInterval(function() {
+            if (data.length) {
+              conn.send(JSON.stringify(data.pop()));
+            } else {
+              clearInterval(interval);
+            }
+          }, 1000);
+        }
+    	})
+      .catch(console.warn);
+
     // ===== END =====
 
     </script>

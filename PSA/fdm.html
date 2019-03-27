@@ -47,7 +47,7 @@ class: animated fadeIn middle numbers
 
 # Finite difference methods - Derivative approximations
 
-## Exercice
+## Exercise
 
 :arrow_right: calculate the error magnitude for:
 
@@ -58,7 +58,7 @@ class: animated fadeIn middle numbers
 `$$f'(x)\simeq \frac{f(x)-f(x-h)}{h}$$`
 
 * **Central difference**
-`$$f'(x)\simeq \frac{f(x+h)-f(x-h)}{h}$$`
+`$$f'(x)\simeq \frac{f(x+h)-f(x-h)}{2h}$$`
 
 ---
 
@@ -105,7 +105,7 @@ f'(x)&=\frac{f(x)-f(x-h)}{h}+\frac{R_1(x-h)}{h}\\
 \end{aligned}
 $$`
 
-Neglecting `\(R_1(x+h)\)` leads to an approximation of `\(f'(x)\)`:
+Neglecting `\(R_1(x-h)\)` leads to an approximation of `\(f'(x)\)`:
 `$$f'(x)\simeq \frac{f(x)-f(x-h)}{h}.$$`
 
 ---
@@ -129,7 +129,7 @@ f'(x)&=\frac{f(x+h)-f(x-h)}{2h}-\frac{R_2(x+h)-R_2(x-h)}{2h}\\
 \end{aligned}
 $$`
 
-Neglecting `\(R_1(x+h)\)` leads to an approximation of `\(f'(x)\)`:
+Neglecting `\(R_2(\ldots)\)` leads to an approximation of `\(f'(x)\)`:
 `$$f'(x)\simeq \frac{f(x+h)-f(x-h)}{2h}.$$`
 
 ---
