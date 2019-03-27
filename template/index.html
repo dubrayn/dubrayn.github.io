@@ -369,6 +369,19 @@ Yes, you can animate things.
 
 ---
 
+# some `git` graphs
+
+.row[
+.column.w30[
+This is a serious `git` graph made with `gitgraph.js`.
+]
+.column.w65[
+<canvas id='gitExample0'></canvas>
+]
+]
+
+---
+
 class: hcenter, middle
 # Include a video
 
@@ -436,7 +449,8 @@ Holy :cow: !!! I can put notes on my slides !?!
     <script>
 
     // === Remark.js initialization ===
-    var slideshow = remark.create({
+    var slideshow = remark.create(
+    {
       highlightStyle: 'monokai',
       countIncrementalSlides: false,
       highlightLines: false
@@ -475,6 +489,7 @@ Holy :cow: !!! I can put notes on my slides !?!
     // === Cinescript initialization ===
     $(document).ready(init_cinescripts);
 
+    // KaTeX
     renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "\\(", right: "\\)", display: false}], ignoredTags: [] });
 
     // ===== plotly00 =====
@@ -497,7 +512,6 @@ Holy :cow: !!! I can put notes on my slides !?!
                                           yaxis: {title: 'X-axis [fm]'},
                                          });
     // ===== END =====
-
     // ===== plotly01 =====
     var trace2 = {
                   x:[-20,-19.8,-19.6,-19.4,-19.2,-19,-18.8,-18.6,-18.4,-18.2,-18,-17.8,-17.6,-17.4,-17.2,-17,-16.8,-16.6,-16.4,-16.2,-16,-15.8,-15.6,-15.4,-15.2,-15,-14.8,-14.6,-14.4,-14.2,-14,-13.8,-13.6,-13.4,-13.2,-13,-12.8,-12.6,-12.4,-12.2,-12,-11.8,-11.6,-11.4,-11.2,-11,-10.8,-10.6,-10.4,-10.2,-10,-9.8,-9.6,-9.4,-9.2,-9,-8.8,-8.6,-8.4,-8.2,-8,-7.8,-7.6,-7.4,-7.2,-7,-6.8,-6.6,-6.4,-6.2,-6,-5.8,-5.6,-5.4,-5.2,-5,-4.8,-4.6,-4.4,-4.2,-4,-3.8,-3.6,-3.4,-3.2,-3,-2.8,-2.6,-2.4,-2.2,-2,-1.8,-1.6,-1.4,-1.2,-1,-0.8,-0.6,-0.4,-0.2,1.11022e-15,0.2,0.4,0.6,0.8,1,1.2,1.4,1.6,1.8,2,2.2,2.4,2.6,2.8,3,3.2,3.4,3.6,3.8,4,4.2,4.4,4.6,4.8,5,5.2,5.4,5.6,5.8,6,6.2,6.4,6.6,6.8,7,7.2,7.4,7.6,7.8,8,8.2,8.4,8.6,8.8,9,9.2,9.4,9.6,9.8,10,10.2,10.4,10.6,10.8,11,11.2,11.4,11.6,11.8,12,12.2,12.4,12.6,12.8,13,13.2,13.4,13.6,13.8,14,14.2,14.4,14.6,14.8,15,15.2,15.4,15.6,15.8,16,16.2,16.4,16.6,16.8,17,17.2,17.4,17.6,17.8,18,18.2,18.4,18.6,18.8,19,19.2,19.4,19.6,19.8,20,],
@@ -514,46 +528,6 @@ Holy :cow: !!! I can put notes on my slides !?!
                                           xaxis: {title: 'Z-axis [fm]'},
                                           yaxis: {title: 'Neut. loc. dens. [fm^-3]'},
                                          });
-    // ===== END =====
-
-    // ===== vega00 =====
-
-    console.log("START VEGA");
-
-    const data = [
-      {"a": "A","b": 28}, {"a": "B","b": 55}, {"a": "C","b": 43},
-      {"a": "D","b": 91}, {"a": "E","b": 81}, {"a": "F","b": 53},
-      {"a": "G","b": 19}, {"a": "H","b": 87}, {"a": "I","b": 52}
-    ];
-    
-    const spec = "bar.vl.json";
-  	vegaEmbed('#vis', spec, {defaultStyle: true})
-      .then(function(result) {
-      	const view = result.view;
-      
-      	// connect to simple echo server
-      	const conn = new WebSocket("wss://echo.websocket.org");
-      
-        conn.onopen = function(event) {
-          // insert data as it arrives from the socket
-          conn.onmessage = function(event) {
-            console.log(event.data);
-            // Use the Vega view api to insert data
-            view.insert("table", JSON.parse(event.data)).run();
-          }
-          
-          // send some data into the echo socket every second
-          const interval = window.setInterval(function() {
-            if (data.length) {
-              conn.send(JSON.stringify(data.pop()));
-            } else {
-              clearInterval(interval);
-            }
-          }, 1000);
-        }
-    	})
-      .catch(console.warn);
-
     // ===== END =====
 
     </script>
