@@ -106,7 +106,6 @@ Project presentation
 Project:
 * write a 2D-FD solver for the time-dependent Shrodinger equation (Python / C++ / armadillo)
 * visualize the time-evolution of a wave packet (paraview / custom VTK)
-* get some real-time monitoring information of a run (API)
 * implement an automatic restart mechanism
 * store the results in a mongoDB database
 * check some special cases (diffraction, tunneling effect, HO solutions, etc...)
