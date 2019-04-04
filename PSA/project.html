@@ -343,7 +343,15 @@ The corresponding eigenvalues are given by
 
 ---
 
-# Project - Derivation of the FTCS scheme
+# Exercises
+
+## 1. Derivation of the **Explicit method** (FTCS scheme)
+## 2. Derivation of the **Implicit method** (BTCS scheme)
+## 3. Derivation of the **Crank-Nicolson method** (CTCS scheme)
+
+---
+
+# Exercise - 1. Derivation of the FTCS scheme
 
 ## Explicit method (FTCS)
 
@@ -359,7 +367,21 @@ and the momentum operators defined as
 
 ---
 
-# Project - Derivation of the BTCS scheme
+# Exercise - 1. Derivation of the FTCS scheme
+
+## Solution (to be demonstrated)
+
+`$$
+\begin{aligned}
+\frac{i\hbar}{dt}\psi^{(t+dt)} &= \frac{-\hbar^2}{2m.dx^2}\left(\psi_{x+dx}+\psi_{x-dx}\right)\\
+&- \frac{\hbar^2}{2m.dy^2}\left(\psi_{y+dy}+\psi_{y-dy}\right)\\
+&+ \left(V(x,y) + \frac{i\hbar}{dt}+\frac{\hbar^2}{m.dx^2}+\frac{\hbar^2}{m.dy^2}\right)\psi
+\end{aligned}
+$$`
+
+---
+
+# Exercise - 2. Derivation of the BTCS scheme
 
 ## Implicit method (BTCS)
 
@@ -375,7 +397,21 @@ and the momentum operators defined as
 
 ---
 
-# Project - Derivation of the CTCS scheme
+# Exercise - 2. Derivation of the BTCS scheme
+
+## Solution (to be demonstrated)
+
+`$$
+\begin{aligned}
+\left(\frac{i\hbar}{dt}-V(x,y)-\frac{\hbar^2}{m.dx^2}-\frac{\hbar^2}{m.dy^2}\right)\psi^{(t+dt)} &= \frac{-\hbar^2}{2m.dx^2}\left(\psi^{(t+dt)}_{x+dx}+\psi^{(t+dt)}_{x-dx}\right)\\
+&- \frac{\hbar^2}{2m.dy^2}\left(\psi^{(t+dt)}_{y+dy}+\psi^{(t+dt)}_{y-dy}\right)\\
+&+ \frac{i\hbar}{dt}\psi
+\end{aligned}
+$$`
+
+---
+
+# Exercise - 3. Derivation of the CTCS scheme
 
 ## Crank-Nicolson method (CTCS)
 
@@ -391,7 +427,7 @@ and the momentum operators defined as
 
 ---
 
-# Project - Derivation of the Crank-Nicolson scheme
+# Exercise - 3. Derivation of the CTCS scheme
 
 ## Solution (to be demonstrated)
 

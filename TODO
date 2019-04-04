@@ -115,8 +115,9 @@ Project:
 ---- Session 0 ----
 
 * introduction
-* project
 * fdm
+* project
+* scheme derivations
 
 ---- Session 1 ----
 
@@ -124,11 +125,11 @@ Project:
 
 ---- Session 2 ----
 
-* python bindins - swig
+* python bindings - swig
 
 ---- Session 3 ----
 
- * errors / exceptions
+* errors / exceptions
 
 ---- Session 4 ----
 

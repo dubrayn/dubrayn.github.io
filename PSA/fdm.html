@@ -174,19 +174,40 @@ class: top
 * backward difference at time `\(t_{n+1}\)`
 * second-order central difference at position `\(x_i\)`
 
-:arrow_right: [1D-heat] always stable and convergent but need to solve a system of equations on each time step.
+:arrow_right: [1D-heat] always stable and convergent, **need to solve a system of equations on each time step**.
 
 :arrow_right: [1D-heat] error: `\(O(\Delta t)+O(\Delta x^2)\)`
 
 --
 
 ## Crank-Nicolson method (CTCS)
-* central difference at time `\(t_{n+\frac{1}{2}}\)` (sum of FTCS and BTCS)
+* central difference at time `\(t_{n+\frac{1}{2}}\)` (FTCS + BTCS)
 * second-order central difference at position `\(x_i\)`
 
-:arrow_right: [1D-heat] always stable and convergent but need to solve a system of equations on each time step.
+:arrow_right: [1D-heat] always stable and convergent, **need to solve a system of equations on each time step**.
 
 :arrow_right: [1D-heat] error: `\(O(\Delta t^2)+O(\Delta x^2)\)`
+
+---
+
+# Example of a simple method to solve an implicit equation
+
+## 1. Get to this expression
+
+`$$f^{(t+dt)}(x) = F\left(f^{(t+dt)}(x + dx), f^{(t+dt)}(x - dx), f^{(t)}(x + dx), f^{(t)}(x), f^{(t)}(x - dx)\right)$$`
+
+## 2. Define
+
+`$$g^{(0)}(x) \equiv f^{(t)}(x)$$`
+
+## 3. Inject `\(g^{(n)}(x)\)` as an estimate of `\(f^{(t+dt)}(x)\)` **in the right member** and **iterate**
+
+`$$g^{(n+1)}(x) = F\left(g^{(n)}(x + dx), g^{(n)}(x - dx), f^{(t)}(x + dx), f^{(t)}(x), f^{(t)}(x - dx)\right)$$`
+
+## 4. Check the convergence with
+
+`$$|g^{(n+1)}(x) - g^{(n)}(x)|_x \lt \epsilon$$`
+
 
     </textarea>
 
