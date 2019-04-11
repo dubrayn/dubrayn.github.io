@@ -559,7 +559,7 @@ $ threading/example8.py
 
 ## Thread synchronization methods
 
-* `threading.Lock`: basis lock mechanism,
+* `threading.Lock`: basic lock mechanism,
 * `threading.RLock`: re-entrant lock mechanism,
 * `threading.Event`: send and receive signals,
 * `threading.Condition`: wait for a given state and access a shared resource.
@@ -1392,6 +1392,8 @@ $ multiprocessing/example8.py
 
 ---
 
+class: top
+
 # Multiprocessing: `multiprocessing` module
 
 ## .hcenter[\[multiprocessing/example8b.py\]]
@@ -1404,17 +1406,17 @@ import time
 
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(process)d) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
-def worker(n, a):
-  b = a.value
+*a = multiprocessing.Value('i', 0)
+*def worker(n, a):
+
+* b = a.value
   time.sleep(0.0001)
-  a.value = b + 1
-  logging.debug("worker %d: a = %d" % (n, a.value))
+* a.value = b + 1
+* logging.debug("worker %d: a = %d" % (n, a.value))
 
 logging.debug("start")
-*a = multiprocessing.Value('i', 0)
-
 for i in range(3):
-  multiprocessing.Process(name = 'THREAD-%01d' % (i), target = worker, args = (i, a)).start()
+* multiprocessing.Process(name = 'THREAD-%01d' % (i), target = worker, args = (i, a)).start()
 ```
 
 ## .hcenter[Shell session]
