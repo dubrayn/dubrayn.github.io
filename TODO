@@ -121,18 +121,20 @@ Project:
 ---- Session 1 ----
 
 * python bindings - manual
+* python bindings - swig (start)
 
 ---- Session 2 ----
 
-* python bindings - swig
+* python bindings - swig (end)
+* mongoDB
 
 ---- Session 3 ----
 
-* errors / exceptions
+* multiprocessing
 
 ---- Session 4 ----
 
-* multiprocessing
+* VTK
 
 ---- Session 5 ----
 
@@ -140,7 +142,7 @@ Project:
 
 ---- Session 6 ----
 
-* VTK
+* errors / exceptions
 
 ---- Session 7 ----
 
@@ -173,7 +175,7 @@ Project:
 
 ---- Session 8 ----
 
-* mongoDB
+* advanced git (TODO)
 
 ---- Session 9 ----
 
