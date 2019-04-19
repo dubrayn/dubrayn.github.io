@@ -855,7 +855,7 @@ catch myLookupErrorClass: custom message
 
 --
 
-:warning: Don't raise generic exceptions, you may miss specific ones.
+:warning: Don't catch generic exceptions first, you may miss specific ones.
 
 ```Python
 def demo_bad_catch():
@@ -983,7 +983,7 @@ press Ctrl-C
 
 # Exception handling in `Python`
 
-## Exception chaining in `Pyhton3`
+## Exception chaining in `Python3`
 
 :arrow_right: change the exception type,  
 :arrow_right: keep the traceback,  
@@ -1213,20 +1213,25 @@ normal program end
 
 ---
 
-# Errors and exceptions
+class: top
 
-## Main thing to remember
+# Errors and exceptions - Conclusions
+
+--
+
+## Best practice ?
 
 :arrow_right: **There are different ways to use exceptions**:
 
-* exceptions must be raised exceptionnaly,
+* exceptions must be raised exceptionally,
 * exceptions may be used for a lot of things (type checking, communication, etc...),
-* every intermediate usage,
-* exceptions **must be ignored**.
+* exceptions **may be ignored**,
+* or every intermediate usage...
 
+--
 
 .noflex[
-.rightf.animated.fadeInRight.wait1s.w30[
+.rightf.w30[
 .fshadow[![](images/obiwan.png)]
 ]
 
@@ -1240,12 +1245,16 @@ normal program end
 
 ]
 
+--
+
 ## My golden rule
 
 * raise an exception if a runtime error must not be ignored.
 
 * `C++` and `Python` exception usages may be slightly different (philosophical reasons).
 * there are no widely accepted guidelines on the good usage of exceptions.
+
+--
 
 ## Conclusion
 
