@@ -122,35 +122,25 @@ class: animated fadeIn middle numbers
 
 # `VTK` - Models
 
-## `VTK` main parts
 
-:arrow_right: **Graphics Model**
-* Abstract layer above OpenGL
-* Geometry to Image
+.hcenter.w60.mermaid.fshadow[
+    graph LR
+    A(user data) --> B
+    B(geometry) --> C(image)
+]
+
+## `VTK` main parts
 
 :arrow_right: **Visualization Model**
 * Visualization **Pipeline**
 * Data to Geometry
 
+:arrow_right: **Graphics Model**
+* Abstract layer above OpenGL
+* Geometry to Image
+
 :arrow_right: **Imaging Model**
 * Image processing
-
----
-
-# `VTK` - Models
-
-## Main Graphics Model Classes
-* `vtkRenderWindow`: a usual window, may contain several renderers,
-* `vtkRenderer`: an OpenGL context, belongs to a window,
-* `vtkActor`: an object rendered in the scene,
-* `vtkMapper`: constructs an object from data,
-* `vtkCamera`: a camera in the scene,
-* `vtkLight`: a light source in the scene,
-* `vtkProperty`: appearance of an actor (color, transparency, light properties...),
-* `vtkRenderWindowInteractor`: how the user interacts with the scene.
-
-:arrow_right: Some objects may be automatically created by others:  
-:bulb: For example, a `vtkRenderer` creates an instance of a `vtkCamera`.
 
 ---
 
@@ -182,6 +172,23 @@ class: animated fadeIn middle numbers
 * `vtkDataObject`: contains generic data,
 * `vtkDataSet`: contains **geometry + topology + attribute data**,
 * `vtkProcessObject`: transforms a `vtkDataObject` into another `vtkDataObject`.
+
+---
+
+# `VTK` - Models
+
+## Main Graphics Model Classes
+* `vtkRenderWindow`: a usual window, may contain several renderers,
+* `vtkRenderer`: an OpenGL context, belongs to a window,
+* `vtkActor`: an object rendered in the scene,
+* `vtkMapper`: constructs an object from data,
+* `vtkCamera`: a camera in the scene,
+* `vtkLight`: a light source in the scene,
+* `vtkProperty`: appearance of an actor (color, transparency, light properties...),
+* `vtkRenderWindowInteractor`: how the user interacts with the scene.
+
+:arrow_right: Some objects may be automatically created by others:  
+:bulb: For example, a `vtkRenderer` creates an instance of a `vtkCamera`.
 
 ---
 
@@ -540,7 +547,7 @@ The set of `\(c\)` complex numbers for which the `\(z^{(c)}_n\)` series **does n
 #!/usr/bin/env python
 
 import numpy as np
-from pyevtk.hl import imageToVTK
+from evtk.hl import imageToVTK
 
 def mandelbrot_set(X, Y, maxiter, horizon = 2.0):
   C = X + Y[:, None] * 1j
@@ -689,7 +696,7 @@ iren.Start()
 #!/usr/bin/env python
 
 import numpy as np
-from pyevtk.hl import gridToVTK
+from evtk.hl import gridToVTK
 
 def mandelbrot_set(X, Y, maxiter, horizon = 2.0):
   C = X + Y[:, None] * 1j

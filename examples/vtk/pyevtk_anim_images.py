@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import numpy as np
-from pyevtk.hl import imageToVTK
+from evtk.hl import imageToVTK
 
 def gen_image(x, y, t):
   xm, ym = np.meshgrid(x, y)

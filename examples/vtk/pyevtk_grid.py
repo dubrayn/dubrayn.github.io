@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import numpy as np
-from pyevtk.hl import gridToVTK
+from evtk.hl import gridToVTK
 
 def mandelbrot_set(X, Y, maxiter, horizon = 2.0):
   C = X + Y[:, None] * 1j
