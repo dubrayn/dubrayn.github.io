@@ -1,6 +1,6 @@
 #include "myclass.h"
 
-Myclass::Myclass(void)
+Myclass::Myclass(arma::mat _mat) : myMat(_mat)
 {
 }
 

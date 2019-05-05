@@ -6,9 +6,10 @@
 class Myclass
 {
   public:
-  Myclass(void);
+  Myclass(arma::mat _mat = arma::mat());
   arma::mat testArma(arma::mat);
   arma::mat getEmptyArma(int n);
+  arma::mat myMat;
 };
 
 #endif
