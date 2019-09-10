@@ -39,6 +39,104 @@ class: animated fadeIn numbers
 
 ---
 
+# IPS-DEV - Weeks #2-#5 - Project description
+
+.mermaid.fshadow[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+]
+
+.column.middle.grow[
+## Summary
+During this 6-week long project, solutions to the **1D quantum harmonic oscillator** will be calculated and some of their properties will be checked.
+
+## Quantum Harmonic Oscillator
+Schrödinger equation:
+`$$\hat{H}_{(z)}\psi_n(z) = E_n\psi_n(z)$$`
+with the 1D-Hamiltonian and 1D-momentum operators defined as
+`$$\hat{H}_{(z)}\equiv \frac{\hat{p}_{(z)}^2}{2m} + \frac{1}{2}m\omega^2\hat{z}^2, \hspace{5mm}\hat{p}_{(z)}\equiv -i\hbar\frac{\partial}{\partial z}.$$`
+]
+
+---
+
+# Quantum Harmonic Oscillator
+
+.mermaid.fshadow[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+]
+
+.column.middle.grow[
+## Resulting 1D-HO Schrödinger equation
+`$$\left(\frac{\hat{p}_{(z)}^2}{2m} + \frac{1}{2}m\omega^2\hat{z}^2\right)\psi_n = E_n\psi_n.$$`
+
+## Solutions:
+The analytic solutions take the form
+`$$\psi_n(z) = \frac{1}{\sqrt{2^n n!}}\left(\frac{m\omega}{\pi\hbar}\right)^{1/4}e^{-\frac{m\omega z^2}{2\hbar}}H_n\left(\sqrt{\frac{m\omega}{\hbar}} . z\right).$$`
+
+## Orthonormality
+One has
+`$$\forall (m,n), \int \psi^*_m(z)\psi_n(z) dz = \delta_{mn}.$$`
+]
+
+---
+
+# Hermite polynomials
+
+.mermaid.fshadow[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+]
+
+.column.middle.grow[
+## Definition (physicists' version)
+
+`$$\forall n\ge 0, H_n(z)\equiv (-1)^n e^{z^2} \frac{d^n}{dz^n}\left( e^{-z^2} \right).$$`
+
+## Recurrence relation
+
+One has
+`$$H_0(z) = 1$$`
+`$$H_1(z) = 2z$$`
+`$$\forall n\ge 1, H_{n+1}(z) = 2zH_n(z)-2nH_{n-1}(z).$$`
+]
+
+---
+
+# Project instructions
+
+.mermaid.fshadow[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+]
+
+.column.middle.grow[
+## Work to be done
+ * implement the calculation of the 1D-HO solutions (along the `\(z\)`-axis, using the recurrence relation)
+ * evaluate and plot the first 1D-HO solutions (using `xmgrace`, `matplotlib`...)
+ * numerically check the energy `\(E_n\)` of the 1D-HO solutions (**estimate the derivatives**)
+ * numerically check the orthonormality of the 1D-HO solutions (**use a quadrature**)
+ * present your results using the [remark.js template](../template/index.html)
+]
+
+---
+
 # Project rules
 
 .mermaid.fshadow[
@@ -95,120 +193,6 @@ class: animated fadeIn numbers
 :arrow_right: write a dummy program which only parses the CLI flags.
 
 .hcenter[:warning: Do not forget to push your commits ! :warning:]
-]
-
----
-
-# IPS-DEV - Weeks #2-#5 - Project description
-
-.mermaid.fshadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style B fill:#090
-    style C fill:#090
-    style D fill:#090
-    style E fill:#090
-]
-
-.column.middle.grow[
-## Summary
-During this 6-week long project, solutions to the **1D quantum harmonic oscillator** will be calculated and some of their properties will be checked.
-
-## Quantum Harmonic Oscillator
-Schrödinger equation:
-`$$\hat{H}_{(z)}\psi_n(z) = E_n\psi_n(z)$$`
-with the 1D-Hamiltonian and 1D-momentum operators defined as
-`$$\hat{H}_{(z)}\equiv \frac{\hat{p}_{(z)}^2}{2m} + \frac{1}{2}m\omega^2\hat{z}^2, \hspace{5mm}\hat{p}_{(z)}\equiv -i\hbar\frac{\partial}{\partial z}.$$`
-]
-
----
-
-# Quantum Harmonic Oscillator
-
-.mermaid.fshadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style B fill:#090
-    style C fill:#090
-    style D fill:#090
-    style E fill:#090
-]
-
-.column.middle.grow[
-## Resulting 1D-HO Schrödinger equation
-`$$\left(\frac{\hat{p}_{(z)}^2}{2m} + \frac{1}{2}m\omega^2\hat{z}^2\right)\psi_n = E_n\psi_n.$$`
-
-## Solutions:
-The analytic solutions take the form
-`$$\psi_n(z) = \frac{1}{\sqrt{2^n n!}}\left(\frac{m\omega}{\pi\hbar}\right)^{1/4}e^{-\frac{m\omega z^2}{2\hbar}}H_n\left(\sqrt{\frac{m\omega}{\hbar}} . z\right).$$`
-
-## Orthonormality
-One has
-`$$\forall (m,n), \int \psi^*_m(z)\psi_n(z) dz = \delta_{mn}.$$`
-]
-
----
-
-# Hermite polynomials
-
-.mermaid.fshadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style B fill:#090
-    style C fill:#090
-    style D fill:#090
-    style E fill:#090
-]
-
-.column.middle.grow[
-## Definition (physicists' version)
-
-`$$\forall n\ge 0, H_n(z)\equiv (-1)^n e^{z^2} \frac{d^n}{dz^n}\left( e^{-z^2} \right).$$`
-
-## Recurrence relation
-
-One has
-`$$H_0(z) = 1$$`
-`$$H_1(z) = 2z$$`
-`$$\forall n\ge 1, H_{n+1}(z) = 2zH_n(z)-2nH_{n-1}(z).$$`
-]
-
----
-
-# Project instructions
-
-.mermaid.fshadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style B fill:#090
-    style C fill:#090
-    style D fill:#090
-    style E fill:#090
-]
-
-.column.middle.grow[
-## Work to be done
- * implement the calculation of the 1D-HO solutions (along the `\(z\)`-axis, using the recurrence relation)
- * evaluate and plot the first 1D-HO solutions (using `xmgrace`, `matplotlib`...)
- * numerically check the energy `\(E_n\)` of the 1D-HO solutions (**estimate the derivatives**)
- * numerically check the orthonormality of the 1D-HO solutions (**use a quadrature**)
- * present your results using the [remark.js template](../template/index.html)
 ]
 
 ---
