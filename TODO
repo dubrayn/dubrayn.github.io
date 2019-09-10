@@ -130,7 +130,7 @@ Project:
 
 ---- Session 3 ----
 
-* multiprocessing
+* live monitoring
 
 ---- Session 4 ----
 
@@ -175,15 +175,15 @@ Project:
 
 ---- Session 8 ----
 
-* live monitoring
+* multiprocessing (start)
 
 ---- Session 9 ----
 
-* mpi4py
+* multiprocessing (end)
 
 ---- Session 10 ----
 
-* advanced git (TODO) / project
+* mpi4py / project
 
 ---- Session 11 ----
 
