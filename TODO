@@ -20,14 +20,14 @@ Project:
 
 * make
 * Armadillo
-* Doxygen
+* CxxTest
+* C++ headers
 
 === TP1
 
 ---- WEEK2 ----
 
-* CxxTest
-* C++ headers
+* Doxygen
 * astyle
 
 === TP2
