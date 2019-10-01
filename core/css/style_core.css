@@ -481,12 +481,10 @@ h1 > code.remark-inline-code.has-jax {
 /* ======== images ======== */
 /* ======================== */
 
-p span {
-  display: inline-block; 
-}
 
 img {
   max-width: 100%;
+  display: block;
 }
 
 .shadow img {

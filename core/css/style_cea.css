@@ -1,0 +1,141 @@
+.remark-slide-content {
+  color: #5c5c5c;
+  background-image: url('images/background_cea4.png');
+}
+
+.toc em, .toc strong, strong {
+  color: #a50119;
+}
+
+.block {
+  border: 0.15em solid rgba(0, 136, 192, 0.3);
+  background: rgba(0, 136, 255, 0.2);
+}
+
+.alert {
+  border: 0.15em solid rgba(192, 0, 136, 0.3);
+  background: rgba(192, 0, 136, 0.2);
+}
+
+th, td {
+  border: 0.15em solid rgba(0, 136, 192, 1.0);
+}
+
+th {
+  background: rgba(0, 136, 192, 1.0);
+  color: rgb(255, 255, 255);
+  text-shadow:  1px  1px 2px rgba(0, 0, 0, 0.7);
+}
+
+hr {
+  background-image: linear-gradient(to right, rgba(0, 136, 192, 0.5), rgba(0, 136, 192, 1), rgba(0, 136, 192, 0.5));
+}
+
+h1 > code.remark-inline-code {
+  color: #5c5c5c;
+}
+
+a {
+  text-decoration: none;
+  color: #4040B0;
+}
+
+a:visited {
+  color: #4040B0;
+}
+
+.titlepage {
+  background-image: url('images/background_cea2.png');
+  padding-top: 450px;
+  padding-left: 100px;
+  padding-right: 100px;
+  text-align: left;
+  color: #FFFFFF;
+  justify-content: start;
+}
+
+.title {
+  font-size: 140%;
+}
+
+.subtitle {
+  font-size: 110%;
+}
+
+.sublogo {
+  font-size: 105%;
+  position: absolute;
+  top: 380px;
+/*  font-weight: bold; */
+}
+
+.titlepage .footnote {
+  color: #5c5c5c;
+  padding-left: 0;
+  padding-bottom: 0;
+  font-size: 90%;
+  margin-left: 0;
+  bottom: 32px;
+  margin-bottom: 0;
+  left: 100px;
+}
+
+.titlepage .footnote strong {
+  font-weight: normal;
+  color: #a40119;
+}
+
+
+.footnote {
+  color: #5c5c5c;
+  position: absolute;
+  left: 2px;
+  width: 800px;
+  bottom: 0;
+  height: 22px;
+  margin: 0;
+  padding-left: 5px;
+  text-align: left;
+  font-size: 80%;
+  display: flex;
+  align-items: center;
+  white-space: pre-wrap;
+}
+
+.remark-slide-number {
+  position: absolute;
+  right: 2px;
+  width: 93px;
+  bottom: 0;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  font-size: 80%;
+  display: flex;
+  align-items: center;
+}
+
+.footnote strong {
+  color: #5c5c5c;
+}
+
+h1 {
+  color: #5c5c5c;
+  position: absolute;
+  left: 100px;
+  width: 800px;
+  top: 2px;
+  height: 69px;
+  margin: 0;
+  padding-left: 20px;
+  text-align: left;
+  font-size: 120%;
+  filter: none;
+}
+
+.block {
+  border: 1px solid #a4011940;
+  background: #a4011920;
+}
+
