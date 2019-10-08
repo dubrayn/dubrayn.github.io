@@ -92,7 +92,7 @@
     }
 }
 
-//#define ARMANPY_SHARED_PTR
+#define ARMANPY_SHARED_PTR
 
 %header %{
     #include <algorithm>
