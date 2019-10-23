@@ -969,8 +969,6 @@ import pickle
 data1 = {'a': [1, 2.0, 3, 4+6j],
          'b': ('string', u'Unicode string'),
          'c': None}
-selfref_list = [1, 2, 3]
-selfref_list.append(selfref_list)
 output = open('data.pkl', 'wb')
 pickle.dump(data1, output)
 output.close()
@@ -1000,7 +998,7 @@ pkl_file.close()
 
 ```python
 3 == 5              # False
-2 == 2              # False
+2 == 2              # True
 1 + 1 == 2          # True
 True or False       # True
 True or not True    # True
