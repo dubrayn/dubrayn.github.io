@@ -139,3 +139,27 @@ h1 {
   background: #a4011920;
 }
 
+td, tr {
+  border: 0.15em solid #a40119A0;
+}
+
+tr:nth-child(odd)  {
+}
+
+tr:nth-child(even)  {
+/*  background: #a4011920; */
+}
+
+
+table {
+  border: none;
+}
+
+th {
+  background: #a40119C0;
+  border: none;
+}
+
+hr {
+  background-image: linear-gradient(to right, #a4011990, #a40119ff, #a4011990);
+}
