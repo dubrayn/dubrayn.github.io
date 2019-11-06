@@ -486,7 +486,7 @@ TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 15) - res15), 0.0, 1e-15);
 \equiv
 \sum_{a,b} \rho_{ab}\psi_a(\mathbf{r})\psi^*_b(\mathbf{r})
 =
-\sum_{{m_a, n_a, n_{za}} \atop {m_b,n_b,n_{zb}}}\psi_{m_a,n_a,n_{za}}(\mathbf{r})\psi^*_{m_b,n_b,n_{zb}}(\mathbf{r})$$`
+\sum_{{m_a, n_a, n_{za}} \atop {m_b,n_b,n_{zb}}}\rho_{m_a, n_a, n_{za}, m_b,n_b,n_{zb}}\psi_{m_a,n_a,n_{za}}(\mathbf{r})\psi^*_{m_b,n_b,n_{zb}}(\mathbf{r})$$`
 
 .column.middle.grow[
 ## Direct algorithm
