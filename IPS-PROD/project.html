@@ -39,152 +39,6 @@ class: animated fadeIn numbers
 
 ---
 
-# Project rules
-
-.mermaid.fshadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-]
-
-.column.middle.grow[
-## Rules:
-* an "`AUTHORS`" file **must** be present and contain your name(s)
-* the source **must** be written in `C++11`
-* the source **must** be documented with `Doxygen`
-* the compilation chain **must** use `GNU Make`
-* the presentation **must** be at the location "`pres/index.html`"
-* using branches is OK but **only master will be checked**
-* the presentation **must** use `remark.js`
-* mandatory unit tests **must** pass
-
-## :moneybag: Bonuses:
-* no warning at {compilation, bindings, tests, doc}
-* project is implementing other methods
-* source code is well written (comments, easy to read, etc...)
-* commits are small and explicit
-]
-
----
-
-# IPS-PROD - Week #1 - Initialization
-
-.mermaid.fshadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style A fill:#090 
-]
-
-.column.middle.grow[
-
-## 1. Fork your project from IPS-DEV
-
- * create a new empty project in your gitlab and add files from the previous project
- * or fork your previous project in your gitlab
-
-## 2. Adapt your code to pass the mandatory unit tests
-
- * change method names
- * adapt object hierarchy
- * change method arguments
- * ...
-]
-
----
-
-# IPS-PROD - Week #1 - Polynomials
-
-.mermaid.fshadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style A fill:#090 
-]
-
-
-.column.middle.grow[
-## Hermite polynomials (physicists' version)
-
-`$$
-\begin{aligned}
-H_0(\zeta)&=1\\
-H_1(\zeta)&=2\zeta\\
-H_{n}(\zeta)&=2\zeta H_{n-1}(\zeta)-2(n-1)H_{n-2}(\zeta)
-\end{aligned}
-$$`
-
-## Generalized Laguerre polynomials
-
-`$$
-\begin{aligned}
-L^{m}_0(\eta)&=1\\
-L^{m}_1(\eta)&=1+m-\eta\\
-L^{m}_{n}(\eta)&=\left(2+\frac{m-1-\eta}{n}\right)L^{m}_{n-1}(\eta)-\left(1+\frac{m-1}{n}\right)L^{m}_{n-2}(\eta)
-\end{aligned}
-$$`
-]
-
----
-
-# IPS-PROD - Week #1 - Mandatory unit test
-
-.mermaid.fshadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style A fill:#090 
-]
-
-.column.middle.grow[
-```C++
-// Mandatory test #00 - Hermite and Laguerre polynomials
-
-Poly poly;
-
-arma::vec zVals, calcVals, targetVals;
-
-zVals = {-3.1, -2.3, -1.0, -0.3, 0.1, 4.3, 9.2, 13.7};
-poly.calcHermite(6, zVals); // compute Hermite polynomials for n in {0 ... 5}
-
-calcVals   = poly.hermite(4); // n = 4
-targetVals = {  1.02835360e+03,  2.05825600e+02, -2.00000000e+01,  7.80960000e+00,
-                1.15216000e+01,  4.59456160e+03,  1.10572154e+05,  5.54643458e+05};
-TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
-
-calcVals   = poly.hermite(5); // n = 5
-targetVals = { -4.76676832e+03, -3.88909760e+02,  8.00000000e+00, -3.17577600e+01,
-                1.18403200e+01,  3.48375818e+04,  1.98557479e+06,  1.50339793e+07};
-TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
-
-zVals = {0.1, 0.3, 1.2, 1.8, 2.0, 2.5, 7.1, 11.1};
-poly.calcLaguerre(6, 4, zVals); // compute generalized Laguerre polynomials for m in {0 ... 5} and n in {0 ... 3}
-
-calcVals   = poly.laguerre(4, 2); // m = 4, n = 2
-targetVals = {  14.405,  13.245,  8.52 ,  5.82 ,  5.,  3.125,  -2.395,  10.005};
-TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
-
-calcVals   = poly.laguerre(5, 3); // m = 5, n = 3
-targetVals = { 53.23983333,  47.95550000,  27.87200000,  17.5880,
-               14.66666667,   8.39583333,  -0.81183333,  10.1015};
-TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
-```
-]
-
----
-
 # IPS-PROD - Weeks #2-#5 - Project description
 
 .mermaid.fshadow[
@@ -313,6 +167,152 @@ $$`
 Parameters: `\(N, Q\)`.
 ]
 
+
+---
+
+# IPS-PROD - Week #1 - Initialization
+
+.mermaid.fshadow[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+    style A fill:#090 
+]
+
+.column.middle.grow[
+
+## 1. Fork your project from IPS-DEV
+
+ * create a new empty project in your gitlab and add files from the previous project
+ * or fork your previous project in your gitlab
+
+## 2. Adapt your code to pass the mandatory unit tests
+
+ * change method names
+ * adapt object hierarchy
+ * change method arguments
+ * ...
+]
+
+---
+
+# Project rules
+
+.mermaid.fshadow[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+]
+
+.column.middle.grow[
+## Rules:
+* an "`AUTHORS`" file **must** be present and contain your name(s)
+* the source **must** be written in `C++11`
+* the source **must** be documented with `Doxygen`
+* the compilation chain **must** use `GNU Make`
+* the presentation **must** be at the location "`pres/index.html`"
+* using branches is OK but **only master will be checked**
+* the presentation **must** use `remark.js`
+* mandatory unit tests **must** pass
+
+## :moneybag: Bonuses:
+* no warning at {compilation, bindings, tests, doc}
+* project is implementing other methods
+* source code is well written (comments, easy to read, etc...)
+* commits are small and explicit
+]
+
+---
+
+# IPS-PROD - Week #1 - Polynomials
+
+.mermaid.fshadow[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+    style A fill:#090 
+]
+
+
+.column.middle.grow[
+## Hermite polynomials (physicists' version)
+
+`$$
+\begin{aligned}
+H_0(\zeta)&=1\\
+H_1(\zeta)&=2\zeta\\
+H_{n}(\zeta)&=2\zeta H_{n-1}(\zeta)-2(n-1)H_{n-2}(\zeta)
+\end{aligned}
+$$`
+
+## Generalized Laguerre polynomials
+
+`$$
+\begin{aligned}
+L^{m}_0(\eta)&=1\\
+L^{m}_1(\eta)&=1+m-\eta\\
+L^{m}_{n}(\eta)&=\left(2+\frac{m-1-\eta}{n}\right)L^{m}_{n-1}(\eta)-\left(1+\frac{m-1}{n}\right)L^{m}_{n-2}(\eta)
+\end{aligned}
+$$`
+]
+
+---
+
+# IPS-PROD - Week #1 - Mandatory unit test
+
+.mermaid.fshadow[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+    style A fill:#090 
+]
+
+.column.middle.grow[
+```C++
+// Mandatory test #00 - Hermite and Laguerre polynomials
+
+Poly poly;
+
+arma::vec zVals, calcVals, targetVals;
+
+zVals = {-3.1, -2.3, -1.0, -0.3, 0.1, 4.3, 9.2, 13.7};
+poly.calcHermite(6, zVals); // compute Hermite polynomials for n in {0 ... 5}
+
+calcVals   = poly.hermite(4); // n = 4
+targetVals = {  1.02835360e+03,  2.05825600e+02, -2.00000000e+01,  7.80960000e+00,
+                1.15216000e+01,  4.59456160e+03,  1.10572154e+05,  5.54643458e+05};
+TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
+
+calcVals   = poly.hermite(5); // n = 5
+targetVals = { -4.76676832e+03, -3.88909760e+02,  8.00000000e+00, -3.17577600e+01,
+                1.18403200e+01,  3.48375818e+04,  1.98557479e+06,  1.50339793e+07};
+TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
+
+zVals = {0.1, 0.3, 1.2, 1.8, 2.0, 2.5, 7.1, 11.1};
+poly.calcLaguerre(6, 4, zVals); // compute generalized Laguerre polynomials for m in {0 ... 5} and n in {0 ... 3}
+
+calcVals   = poly.laguerre(4, 2); // m = 4, n = 2
+targetVals = {  14.405,  13.245,  8.52 ,  5.82 ,  5.,  3.125,  -2.395,  10.005};
+TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
+
+calcVals   = poly.laguerre(5, 3); // m = 5, n = 3
+targetVals = { 53.23983333,  47.95550000,  27.87200000,  17.5880,
+               14.66666667,   8.39583333,  -0.81183333,  10.1015};
+TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
+```
+]
 
 ---
 
