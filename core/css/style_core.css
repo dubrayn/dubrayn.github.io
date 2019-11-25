@@ -482,7 +482,7 @@ h1 > code.remark-inline-code.has-jax {
 /* ======================== */
 
 img {
-  max-width: 100%;
+  width: 100%;
   display: block;
 }
 
@@ -572,7 +572,7 @@ hr {
 /* ======== shadow ======== */
 /* ======================== */
 
-h1, .fshadow {
+h1, .shadow {
   filter: drop-shadow( 2px 2px 3px rgba(0, 0, 0, 0.7) );
 }
 

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Presentation template</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_cea.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+class: titlepage animated fadeIn
+
+.footnote[French Alternative Energies and Atomic Energy Commission - **www.cea.fr** ]
+.sublogo[FROM RESEARCH TO INDUSTRY]
+.title[Presentation template]
+
+.subtitle[.underline[N. Dubray], N. Schunck]
+
+CEA, DAM, DIF, F-91297, Arpajon, France.
+
+
+---
+layout: true
+class: middle numbers animated fadeIn
+
+.footnote[Presentation template - **N. Dubray**]
+---
+
+# `remark.js` ??? WTF ?
+
+ * `remark.js` is a simple HTML5 + javascript presentation tool.
+
+  :arrow_right: to view your presentation, you only need a web browser (even offline).
+
+ * the presentation description is written in **markdown** in the source file.
+
+  :arrow_right: the markdown code for this slide starts like this:
+
+```markdown
+# `remark.js` ??? WTF ?
+
+ * `remark.js` is a simple HTML5 + javascript presentation tool.
+
+  :arrow_right: to view your presentation, you only need a web browser (even offline).
+
+
+
+```
+
+* some extensions allow to include code, `\(\LaTeX\)`, tables, diagrams, emojis...
+
+---
+
+# :warning: important remark for firefox users
+
+Browsing a **local** `remark.js` presentation ?
+
+1. go to *`about:config`*,
+
+2. search for the *`origin_policy`* pattern,
+
+3. set the property *`security.fileuri.strict_origin_policy`* to *`false`*.
+
+.hcenter.shadow.w80.animated.fadeInUp.wait1s[
+![](images/firefox_config.png)
+]
+
+---
+
+# Basis writing
+
+## Some title
+
+### Some subtitle
+
+This is some regular text. It is automatically arranged as a paragraph. You can use **bold**, *italic*, .underline[underlined] text...
+To start a new paragraph, leave an empty line, like here.
+
+See ? It's **that** easy.
+
+To start a new slide, write `---`.
+
+## Can I use emojis ?
+
+Yes :) I know that you like emojis :v: ! Try not to over-use them :blue_heart: :star2: :musical_note: :v: :panda_face: :cool: !
+
+
+---
+
+# Maths / multi-column
+
+## Use some mathematical expressions
+
+You can use some `\(\LaTeX\)` inline like `\(a=b^3\)`, or define maths block like
+
+Inline `\(\LaTeX\)`.
+`$$
+a=\frac{b}{c^2}
+$$`
+
+The syntax is
+
+```markdown
+Inline `\(\LaTeX\)`.
+`$$
+a=\frac{b}{c^2}
+$$`
+```
+
+## Multi-column ?
+
+.row[
+.column.w60[
+Sure, you can use multiple columns, like here... This is the first column, as expected... The width of this column is 60% of the page width (cf. the `.w60` class).
+
+`$$\int_{-\infty}^\infty f(x)e^{-x^2} dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
+]
+.column.w35[
+This is the second column, as expected, with some other text / equation :
+`$$
+a = b + c + d + \ldots
+$$`
+The width of this column is 35% of the page width (cf. the `.w35` class).
+]
+]
+
+---
+
+# Source code
+
+## Include some source code
+
+```python
+#!/usr/bin/env python
+
+a = None
+
+print("Hello from the best language !")
+
+```
+
+:arrow_right: the syntax highlighting is **automatic** !
+
+## I prefer fortran !!!
+
+```fortran
+       PROGRAM OLDSCHOOL
+       INTEGER A
+       A = 3 * 2
+       WRITE(*, '(''Value of A: ''. I3)') A 
+       END
+```
+
+---
+
+# Lists !
+
+## Bullet list
+
+* simply start a line with `*`
+* it's very simple
+ * you can even nest lists
+ * like this
+* how nice is it ?
+
+## Numbered list
+
+1. start each item with `1.`, the numbering is **automatic**
+1. for real ?
+1. for real !
+  1. what about nested numbered lists ?
+  1. it works too !
+1. impressive :v: !
+
+
+---
+
+# Tables
+
+:arrow_right: Simply "draw" a table in the source file, like
+
+```markdown
+| example table           | `git` | `doxygen` | `vtk` | `python` | `gdb` | `mpi` | `\(\LaTeX\)` |
+|:------------------------|:-----:|:---------:|:-----:|:--------:|:-----:|:-----:|:------------:|
+| *0*. what ?             |       |           |       |          |       |       |              |
+| *1*. i tried it once... |       |           |       |          |       |       |              |
+| *2*. i use it.          |       |           |  :+:  |          |  :+:  |       |              |
+| *3*. i love it !        |  :+:  |    :+:    |       |   :+:    |       |  :+:  |    :+:       |
+```
+
+## Result:
+
+.hcenter[
+| example table           | `git` | `doxygen` | `vtk` | `python` | `gdb` | `mpi` | `\(\LaTeX\)` |
+|:------------------------|:-----:|:---------:|:-----:|:--------:|:-----:|:-----:|:------------:|
+| *0*. what ?             |       |           |       |          |       |       |              |
+| *1*. i tried it once... |       |           |       |          |       |       |              |
+| *2*. i use it.          |       |           |  :+:  |          |  :+:  |       |              |
+| *3*. i love it !        |  :+:  |    :+:    |       |   :+:    |       |  :+:  |    :+:       |
+]
+
+---
+
+# Images / animations
+
+## How can I insert and animate images ?
+
+.noflex[
+Use **`![](image.png)`**
+
+## Some justified text wrapping around a floating image:
+
+Lorem ipsum morbi taciti id adipiscing sed magna integer arcu eros nibh tortor interdum ultricies senectus accumsan, lacus suscipit a cursus pretium pellentesque est arcu blandit duis vivamus condimentum rhoncus molestie.
+
+.block.rightf.w20.animated.fadeInRight.wait1s[ ![](images/wikipedia_logo.png).hcenter[Wikipedia logo] ]
+
+Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.
+
+.block.leftf.w30.animated.fadeInLeft.wait1s[
+Some text in a floating box... `$$\sum_i \hat{\pi}\left[u_i^2\right]=1$$`
+]
+
+`$$a=1+2+3+4+5+6+\ldots$$`
+Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.
+Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.
+Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.
+]
+
+
+---
+
+class: hcenter, middle
+# Include a video
+
+<video controls="yes" preload="auto" width="100%" height="auto" data-setup="{}" loop>
+<source src="videos/toto.webm" type="video/webm" />
+</video>
+
+
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/katex.min.js"></script>
+    <script src="core/javascript/auto-render.min.js"></script>
+    <script src="core/javascript/emojify.js"></script>
+    <script src="core/javascript/mermaid.js"></script>
+    <script src="core/javascript/term.js"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js"></script>
+    <script src="core/javascript/extend-jquery.js"></script>
+    <script src="core/javascript/cinescript.js"></script>
+    <script src="core/javascript/gitgraph.js"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "\\(", right: "\\)", display: false}], ignoredTags: ["script", "noscript", "style", "textarea", "pre"] });
+
+    </script>
+  </body>
+</html>
+
+

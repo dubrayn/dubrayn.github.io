@@ -1,0 +1,59 @@
+.titlepage {
+  background-image: url('images/background_cea2.png');
+  padding-top: 400px;
+  padding-left: 100px;
+  padding-right: 10px;
+  text-align: left;
+  color: #FFFFFF;
+  justify-content: start;
+}
+
+.title, .subtitle {
+  position: absolute;
+  text-align: center;
+  top: 185px;
+  left: 300px;
+  right: 10px;
+  font-size: 140%;
+}
+
+.subtitle {
+  top: 295px;
+  font-size: 100%;
+  font-weight: normal;
+}
+
+
+.sublogo {
+  font-size: 105%;
+  position: absolute;
+  top: 380px;
+/*  font-weight: bold; */
+}
+
+.titlepage .footnote {
+  color: #5c5c5c;
+  padding-left: 0;
+  padding-bottom: 0;
+  font-size: 90%;
+  margin-left: 0;
+  bottom: 32px;
+  margin-bottom: 0;
+  left: 100px;
+}
+
+.titlepage .footnote strong {
+  font-weight: normal;
+  color: #a40119;
+}
+
+.titletop {
+  position: absolute;
+  text-align: center;
+  top: 8px;
+  left: 0;
+  right: 0;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 95%;
+}

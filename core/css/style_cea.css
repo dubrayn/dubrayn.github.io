@@ -55,6 +55,7 @@ a:visited {
 }
 
 .title {
+  display: block;
   font-size: 140%;
 }
 
@@ -158,8 +159,4 @@ table {
 th {
   background: #a40119C0;
   border: none;
-}
-
-hr {
-  background-image: linear-gradient(to right, #a4011990, #a40119ff, #a4011990);
 }
