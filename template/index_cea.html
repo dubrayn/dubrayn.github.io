@@ -54,7 +54,7 @@ class: middle numbers animated fadeIn
 
 ```
 
-* some extensions allow to include code, `\(\LaTeX\)`, tables, diagrams, emojis...
+* some extensions allow to include code, `$\LaTeX$`, tables, diagrams, emojis...
 
 ---
 
@@ -98,9 +98,9 @@ Yes :) I know that you like emojis :v: ! Try not to over-use them :blue_heart: :
 
 ## Use some mathematical expressions
 
-You can use some `\(\LaTeX\)` inline like `\(a=b^3\)`, or define maths block like
+You can use some `$\LaTeX$` inline like `$a=b^3$`, or define maths block like
 
-Inline `\(\LaTeX\)`.
+Inline `$\LaTeX$`.
 `$$
 a=\frac{b}{c^2}
 $$`
@@ -108,7 +108,7 @@ $$`
 The syntax is
 
 ```markdown
-Inline `\(\LaTeX\)`.
+Inline `$\LaTeX$`.
 `$$
 a=\frac{b}{c^2}
 $$`
@@ -187,7 +187,7 @@ print("Hello from the best language !")
 :arrow_right: Simply "draw" a table in the source file, like
 
 ```markdown
-| example table           | `git` | `doxygen` | `vtk` | `python` | `gdb` | `mpi` | `\(\LaTeX\)` |
+| example table           | `git` | `doxygen` | `vtk` | `python` | `gdb` | `mpi` | `$\LaTeX$` |
 |:------------------------|:-----:|:---------:|:-----:|:--------:|:-----:|:-----:|:------------:|
 | *0*. what ?             |       |           |       |          |       |       |              |
 | *1*. i tried it once... |       |           |       |          |       |       |              |
@@ -198,7 +198,7 @@ print("Hello from the best language !")
 ## Result:
 
 .hcenter[
-| example table           | `git` | `doxygen` | `vtk` | `python` | `gdb` | `mpi` | `\(\LaTeX\)` |
+| example table           | `git` | `doxygen` | `vtk` | `python` | `gdb` | `mpi` | `$\LaTeX$` |
 |:------------------------|:-----:|:---------:|:-----:|:--------:|:-----:|:-----:|:------------:|
 | *0*. what ?             |       |           |       |          |       |       |              |
 | *1*. i tried it once... |       |           |       |          |       |       |              |
@@ -299,7 +299,7 @@ class: hcenter, middle
     // === Cinescript initialization ===
     $(document).ready(init_cinescripts);
 
-    renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "\\(", right: "\\)", display: false}], ignoredTags: ["script", "noscript", "style", "textarea", "pre"] });
+    renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}], ignoredTags: ["script", "noscript", "style", "textarea", "pre"] });
 
     </script>
   </body>

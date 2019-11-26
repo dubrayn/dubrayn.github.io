@@ -36,7 +36,7 @@ N. Dubray - ENSIIE - 2019
 
 Some slide notes.
 
-Some math can be put inline `\(a = \sqrt{b^2+c^2}\)` or as
+Some math can be put inline `$a = \sqrt{b^2+c^2}$` or as
 
 `$$a_{0}=\frac{1}{4}b_{1}$$`
 
@@ -76,7 +76,7 @@ Presentation template - N. Dubray - ENSIIE - 2019 - [:book:](../index.html)
 
 ```
 
-* some extensions allow to include code, `\(\LaTeX\)`, tables, diagrams, emojis...
+* some extensions allow to include code, `$\LaTeX$`, tables, diagrams, emojis...
 
 ---
 
@@ -122,7 +122,7 @@ class: toc top
 
 ## A table
 .hcenter[
-| Points                  | `git` | `doxygen` | `VTK` | `python` | `gdb` | `MPI` | `\(\LaTeX\)` | `LAPACK` |
+| Points                  | `git` | `doxygen` | `VTK` | `python` | `gdb` | `MPI` | `$\LaTeX$` | `LAPACK` |
 |:------------------------|:-----:|:---------:|:-----:|:--------:|:-----:|:-----:|:------------:|:--------:|
 | *0*. What ?             |       |           |       |          |       |       |              |          |
 | *1*. I tried it once... |       |           |       |          |       |       |              |          |
@@ -211,9 +211,9 @@ Try not to over-use it :blue_heart: :star2: :musical_note: :v: :panda_face: :coo
 
 ---
 
-# Want to include some math ? (`\(a=\frac{\sqrt{b^2}}{c}\)`)
+# Want to include some math ? (`$a=\frac{\sqrt{b^2}}{c}$`)
 
-You can include some **inline math** like **`\(\sum_aw_a=4\)`**, or centered equations like
+You can include some **inline math** like **`$\sum_aw_a=4$`**, or centered equations like
 `$$\sum_k\frac{1}{k^2}=\frac{\pi^2}{6}.$$`
 Let us suppose that
 `$$M\equiv\left[\begin{array}{ccc}1&0&0\\0&0&1\\0&1&0\end{array}\right],$$`
@@ -222,7 +222,7 @@ one can check that
 
 ----
 
-Final expression for `\(a(x)\)`:
+Final expression for `$a(x)$`:
 `$$a(x) = \frac{A_0}{1 + x^2}+O\left(x^{-3}\right).$$`
 
 ---
@@ -268,7 +268,7 @@ Take a look at the markdown source to see that an exact numbering is not needed 
 # Some tables / blocks ?
 
 .hcenter[
-| Example table           | `git` | `doxygen` | `VTK` | `python` | `gdb` | `MPI` | `\(\LaTeX\)` | `LAPACK` |
+| Example table           | `git` | `doxygen` | `VTK` | `python` | `gdb` | `MPI` | `$\LaTeX$` | `LAPACK` |
 |:------------------------|:-----:|:---------:|:-----:|:--------:|:-----:|:-----:|:------------:|:--------:|
 | *0*. What ?             |       |           |       |          |       |       |              |          |
 | *1*. I tried it once... |       |           |       |          |       |       |              |          |
@@ -490,7 +490,7 @@ Holy :cow: !!! I can put notes on my slides !?!
     $(document).ready(init_cinescripts);
 
     // KaTeX
-    renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "\\(", right: "\\)", display: false}], ignoredTags: [] });
+    renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}], ignoredTags: ["script", "noscript", "style", "textarea", "pre"] });
 
     // ===== plotly00 =====
     var trace1 = {
