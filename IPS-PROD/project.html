@@ -41,7 +41,7 @@ class: animated fadeIn numbers
 
 # IPS-PROD - Weeks #2-#5 - Project description
 
-.mermaid.fshadow[
+.mermaid.shadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -69,7 +69,7 @@ Definition:
 
 # IPS-PROD - Weeks #2-#5 - Project description
 
-.mermaid.fshadow[
+.mermaid.shadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -127,7 +127,7 @@ Parameters: `\(b_\perp, b_z\)`.
 
 # IPS-PROD - Weeks #2-#5 - Project description
 
-.mermaid.fshadow[
+.mermaid.shadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -172,7 +172,7 @@ Parameters: `\(N, Q\)`.
 
 # IPS-PROD - Week #1 - Initialization
 
-.mermaid.fshadow[
+.mermaid.shadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -201,7 +201,7 @@ Parameters: `\(N, Q\)`.
 
 # Project rules
 
-.mermaid.fshadow[
+.mermaid.shadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -232,7 +232,7 @@ Parameters: `\(N, Q\)`.
 
 # IPS-PROD - Week #1 - Polynomials
 
-.mermaid.fshadow[
+.mermaid.shadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -269,7 +269,7 @@ $$`
 
 # IPS-PROD - Week #1 - Mandatory unit test
 
-.mermaid.fshadow[
+.mermaid.shadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -279,7 +279,6 @@ $$`
     style A fill:#090 
 ]
 
-.column.middle.grow[
 ```C++
 // Mandatory test #00 - Hermite and Laguerre polynomials
 
@@ -312,13 +311,12 @@ targetVals = { 53.23983333,  47.95550000,  27.87200000,  17.5880,
                14.66666667,   8.39583333,  -0.81183333,  10.1015};
 TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
 ```
-]
 
 ---
 
 # IPS-PROD - Weeks #2-#5 - Mandatory unit test
 
-.mermaid.fshadow[
+.mermaid.shadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -368,7 +366,7 @@ TS_ASSERT(!arma::any(arma::any(basis.n_zMax - n_zMax)));
 
 # IPS-PROD - Weeks #2-#5 - Mandatory unit test
 
-.mermaid.fshadow[
+.mermaid.shadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -418,7 +416,7 @@ TS_ASSERT_DELTA(arma::norm(basis.rPart(r, 8, 2) - res82), 0.0, 1e-15);
 
 # IPS-PROD - Weeks #2-#5 - Mandatory unit test
 
-.mermaid.fshadow[
+.mermaid.shadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -468,7 +466,7 @@ TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 15) - res15), 0.0, 1e-15);
 
 # IPS-PROD - Weeks #2-#5 - Nuclear local density
 
-.mermaid.fshadow[
+.mermaid.shadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
@@ -521,7 +519,7 @@ for (int m = 0; m < basis.mMax; m++)
 
 # IPS-PROD - Weeks #2-#5 - Nuclear local density
 
-.mermaid.fshadow[
+.mermaid.shadow[
     graph LR
     A("Week #1<br/>Initialization") --> B
     B("Week #2<br/>Project") --> C
