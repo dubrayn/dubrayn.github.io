@@ -497,7 +497,7 @@ img {
 .border {
   border: black solid 1px;
   box-sizing: border-box;
-  padding: 0.3em;
+/*  padding: 0.3em; */
 }
 
 /* ================================= */
@@ -572,12 +572,11 @@ hr {
 /* ======== shadow ======== */
 /* ======================== */
 
-h1, .fshadow {
+h1, .shadow{
   filter: drop-shadow( 2px 2px 3px rgba(0, 0, 0, 0.7) );
 }
 
-
-#terminal, code, .remark-code, table, .block, .alert, .cinescript, .shadow, hr {
+#terminal, code, .remark-code, table, .block, .alert, .cinescript, hr {
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7);
 }
 
