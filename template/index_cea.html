@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Presentation template</title>
+    <title>Markdown presentation template with `remark.js`</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
@@ -11,50 +11,61 @@
     <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/style_cea.css"> 
+<!--    <link rel="stylesheet" type="text/css" href="core/css/style_nathalie.css">  -->
   </head>
   <body>
     <textarea id="source" readonly>
 
 class: titlepage animated fadeIn
 
-.footnote[French Alternative Energies and Atomic Energy Commission - **www.cea.fr** ]
+<!-- .titletop[Microscopic approaches to nuclear structure and reactions, 12-15 November 2019, Livermore, USA] -->
+
 .sublogo[FROM RESEARCH TO INDUSTRY]
-.title[Presentation template]
 
-.subtitle[.underline[N. Dubray], N. Schunck]
+.title[Markdown presentation template with `remark.js`]
 
-CEA, DAM, DIF, F-91297, Arpajon, France.
+.subtitle[ .underline[N. Dubray], M. Dupuis, DPTA/SPN ]
 
+.footnote[French Alternative Energies and Atomic Energy Commission - **www.cea.fr** ]
+
+<!--
+.underline[Collaborators :]
+
+L. Robledo, Universidad Autonoma de Madrid, Spain  
+M. Anguiano, Universidad de Granada, Spain  
+A. Chatillon & J. Taieb, SOFIA team, CEA, DAM, DIF  
+-->
 
 ---
 layout: true
 class: middle numbers animated fadeIn
 
-.footnote[Presentation template - **N. Dubray**]
+.footnote[Markdown presentation template with `remark.js` - **N. Dubray**]
 ---
 
 # `remark.js` ??? WTF ?
 
- * `remark.js` is a simple HTML5 + javascript presentation tool.
+ * `remark.js` is a simple `HTML5` + `javascript` presentation tool.
 
   :arrow_right: to view your presentation, you only need a web browser (even offline).
 
- * the presentation description is written in **markdown** in the source file.
+ * the presentation description is written in **markdown** in the `HTML` file.
 
   :arrow_right: the markdown code for this slide starts like this:
 
 ```markdown
 # `remark.js` ??? WTF ?
 
- * `remark.js` is a simple HTML5 + javascript presentation tool.
+ * `remark.js` is a simple `HTML5` + `javascript` presentation tool.
 
   :arrow_right: to view your presentation, you only need a web browser (even offline).
-
-
-
 ```
 
-* some extensions allow to include code, `$\LaTeX$`, tables, diagrams, emojis...
+* some extensions allow to include code, `\(\LaTeX\)`, tables, diagrams, emojis...
+
+## How to start ?
+
+:arrow_right: simply start tweaking this `html` file. The `Markdown` syntax in the `source` textarea will be converted to `HTML5` automatically.
 
 ---
 
@@ -98,19 +109,25 @@ Yes :) I know that you like emojis :v: ! Try not to over-use them :blue_heart: :
 
 ## Use some mathematical expressions
 
-You can use some `$\LaTeX$` inline like `$a=b^3$`, or define maths block like
+You can use some `\(\LaTeX\)` inline like `\(a=b^3\)`, or define maths block like
 
-Inline `$\LaTeX$`.
 `$$
-a=\frac{b}{c^2}
+\begin{alignedat}{30}
+a &= b& =f\\
+c &= d& = e\\
+e &= f^3&= o
+\end{alignedat}
 $$`
 
 The syntax is
 
 ```markdown
-Inline `$\LaTeX$`.
 `$$
-a=\frac{b}{c^2}
+\begin{alignedat}{30}
+a &= b& =f\\
+c &= d& = e\\
+e &= f^3&= o
+\end{alignedat}
 $$`
 ```
 
@@ -187,7 +204,7 @@ print("Hello from the best language !")
 :arrow_right: Simply "draw" a table in the source file, like
 
 ```markdown
-| example table           | `git` | `doxygen` | `vtk` | `python` | `gdb` | `mpi` | `$\LaTeX$` |
+| example table           | `git` | `doxygen` | `vtk` | `python` | `gdb` | `mpi` | `\(\LaTeX\)` |
 |:------------------------|:-----:|:---------:|:-----:|:--------:|:-----:|:-----:|:------------:|
 | *0*. what ?             |       |           |       |          |       |       |              |
 | *1*. i tried it once... |       |           |       |          |       |       |              |
@@ -198,12 +215,12 @@ print("Hello from the best language !")
 ## Result:
 
 .hcenter[
-| example table           | `git` | `doxygen` | `vtk` | `python` | `gdb` | `mpi` | `$\LaTeX$` |
+| example table           | `git` | `doxygen` | `vtk` | `python` | `gdb` | `mpi` | `\(\LaTeX\)` |
 |:------------------------|:-----:|:---------:|:-----:|:--------:|:-----:|:-----:|:------------:|
 | *0*. what ?             |       |           |       |          |       |       |              |
 | *1*. i tried it once... |       |           |       |          |       |       |              |
 | *2*. i use it.          |       |           |  :+:  |          |  :+:  |       |              |
-| *3*. i love it !        |  :+:  |    :+:    |       |   :+:    |       |  :+:  |    :+:       |
+| *3*. i love it !        |  :v:  |    :+:    |       |   :+:    |       |  :+:  |    :+:       |
 ]
 
 ---
@@ -233,6 +250,9 @@ Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora s
 Fames quisque volutpat lacus cursus semper varius erat habitant, luctus litora sed pulvinar himenaeos quis sit, vel fermentum taciti posuere fusce quisque tincidunt ut congue aliquam eget.
 ]
 
+---
+
+.hcenter.w95[![](images/pipo.jpg)]
 
 ---
 
@@ -299,7 +319,7 @@ class: hcenter, middle
     // === Cinescript initialization ===
     $(document).ready(init_cinescripts);
 
-    renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}], ignoredTags: ["script", "noscript", "style", "textarea", "pre"] });
+    renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "\\(", right: "\\)", display: false}], ignoredTags: ["script", "noscript", "style", "textarea", "pre"] });
 
     </script>
   </body>
