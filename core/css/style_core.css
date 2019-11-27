@@ -483,7 +483,7 @@ h1 > code.remark-inline-code.has-jax {
 
 img {
   max-width: 100%;
-  display: block;
+  display: inline-block;
 }
 
 .shadow img {
@@ -723,3 +723,6 @@ td
   }
 }
 
+.hljs-comment {
+  color: #ffa0a0 !important;
+}
