@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IPS-DEV</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`IPS-DEV` - N. Dubray - ENSIIE - 2019 - [:book:](../index.html)
+]
+
+---
+
+# `git` advanced usage
+
+.hcenter.w15[![](images/git_logo.png)]
+
+* git push --set-upstream origin branch1
+* git stash [push, show, list, pop, drop, branch, clear]
+* git clean
+* git remote
+* git cherrypick
+* git blame / git annotate
+* git fetch vs. git pull
+* git merge -s ours
+* git submodules
+* git subtree
+* git apply
+* git archive
+* git grep
+
+
+* git commit --amend
+* git reset
+* git rebase -i (squash)
+* real-life examples
+
+---
+
+# `git` workflow
+
+.mermaid[
+    sequenceDiagram
+        Remote-->>+Local repo: git clone/pull
+        Note over Staged: Empty
+        Local repo->>Files: git checkout
+        Note over Files: Code...
+        Files->>+Staged: git add/rm
+        Staged->>-Local repo: git commit
+        Note over Files: Code...
+        Files->>+Staged: git add/rm
+        Staged->>-Local repo: git commit
+        Local repo-->>-Remote: git push
+]
+
+---
+
+# Creation of a `git` repo from scratch
+
+<div data-dir='scripts/toto4' class='cinescript'></div>
+
+---
+
+# Main `git` commands
+
+## Configure `git` (should be done once)
+```shell
+$ git config --global user.name "Your Name"
+$ git config --global user.email you@yourdomain.example.com
+```
+
+## Create a local repo
+```shell
+$ git init
+```
+
+## Clone a remote repo (and create a local repo)
+```shell
+$ git clone http://some.domain.com/path/to/repo.git
+```
+
+## Get documentation
+```shell
+$ # Example: documentation for command 'git clone'
+$ git help clone
+```
+
+---
+
+class: top
+
+# Typical `git` workflow
+
+## 1. clone or create repo
+```shell
+$ git clone http://some.domain.com/path/to/repo.git
+```
+--
+
+## 2. make some changes
+```shell
+$ vim README.md # create new file
+$ vim main.cpp  # edit existing file
+$ rm toto.h     # remove existing file
+```
+--
+
+## 3. **stage** changes
+```shell
+$ git add main.cpp README.md
+$ git rm toto.h
+```
+--
+
+## 4. check staged changes
+```shell
+$ git diff
+$ git status
+```
+--
+
+## 5. commit staged changes
+```shell
+$ git commit  # will open an editor to enter the commit message
+$ git commit -m "Commit message"
+```
+
+---
+
+# `git` history
+
+## View project history (CLI)
+```shell
+$ git log
+$ git log --draw --oneline --color
+```
+
+<div data-dir='scripts/toto5' class='cinescript'></div>
+
+---
+
+# GUI tool `gitk`
+
+.hcenter.w90.shadow[![](images/gitk_00.png)]
+
+---
+
+# GUI tool `gitg`
+
+.hcenter.w90.shadow[![](images/gitg.png)]
+
+---
+
+# `git` branches
+
+.row[
+.column.middle.w45[
+## List branches
+```shell
+$ git branch
+   dev
+ * main
+```
+
+## Create a branch
+```shell
+$ git branch dev
+```
+
+## Switch to a branch
+```shell
+$ git checkout dev
+```
+
+## Create + switch to a branch
+```shell
+$ git checkout -b dev
+```
+
+## Merge a branch
+```shell
+$ git merge dev
+```
+
+## Delete a branch
+```shell
+$ git branch -d dev
+```
+]
+.column[
+ <canvas id='gitExample0'></canvas>
+]
+]
+
+---
+
+class: top
+
+# How to use `git` branches
+
+.row[
+.column.w45[
+* SuperProg :copyright: is in state **v0.2.0**
+* you start working on a new functionnality by creating a branch and commiting on it
+]
+
+.column[
+ <canvas id='branchHowto0'></canvas>
+]
+]
+
+---
+
+class: top
+
+# How to use `git` branches
+
+.row[
+.column.w45[
+* SuperProg :copyright: is in state **v0.2.0**
+* you start working on a new functionnality by creating a branch and commiting on it
+```shell
+$ git checkout -b newfunc
+$ # some work
+$ git commit -m "Commit D"
+...
+$ # some work
+$ git commit -m "Commit F"
+```
+]
+
+.column[
+ <canvas id='branchHowto1'></canvas>
+]
+]
+
+---
+
+class: top
+
+# How to use `git` branches
+
+.row[
+.column.w45[
+* SuperProg :copyright: is in state **v0.2.0**
+* you start working on a new functionnality by creating a branch and commiting on it
+```shell
+$ git checkout -b newfunc
+$ # some work
+$ git commit -m "Commit D"
+...
+$ # some work
+$ git commit -m "Commit F"
+```
+* :warning: **issue #627 needs to be fixed**
+* you create a branch to fix the issue
+]
+
+.column[
+ <canvas id='branchHowto2'></canvas>
+]
+]
+
+---
+
+class: top
+
+# How to use `git` branches
+
+.row[
+.column.w45[
+* SuperProg :copyright: is in state **v0.2.0**
+* you start working on a new functionnality by creating a branch and commiting on it
+```shell
+$ git checkout -b newfunc
+$ # some work
+$ git commit -m "Commit D"
+...
+$ # some work
+$ git commit -m "Commit F"
+```
+* :warning: **issue #627 needs to be fixed**
+* you create a branch to fix the issue
+```shell
+$ git checkout master
+$ git checkout -b fixit
+$ # some work
+$ git commit -m "Commit G"
+...
+$ # some work
+$ git commit -m "Fixed issue #627"
+```
+]
+
+.column[
+ <canvas id='branchHowto3'></canvas>
+]
+]
+
+---
+
+class: top
+
+# How to use `git` branches
+
+.row[
+.column.w45[
+* SuperProg :copyright: is in state **v0.2.0**
+* you start working on a new functionnality by creating a branch and commiting on it
+```shell
+$ git checkout -b newfunc
+$ # some work
+$ git commit -m "Commit D"
+...
+$ # some work
+$ git commit -m "Commit F"
+```
+* :warning: **issue #627 needs to be fixed**
+* you create a branch to fix the issue
+```shell
+$ git checkout master
+$ git checkout -b fixit
+$ # some work
+$ git commit -m "Commit G"
+...
+$ # some work
+$ git commit -m "Fixed issue #627"
+```
+* you merge your fix in `master`
+]
+
+.column[
+ <canvas id='branchHowto4'></canvas>
+]
+]
+
+---
+
+class: top
+
+# How to use `git` branches
+
+.row[
+.column.w45[
+* SuperProg :copyright: is in state **v0.2.0**
+* you start working on a new functionnality by creating a branch and commiting on it
+```shell
+$ git checkout -b newfunc
+$ # some work
+$ git commit -m "Commit D"
+...
+$ # some work
+$ git commit -m "Commit F"
+```
+* :warning: **issue #627 needs to be fixed**
+* you create a branch to fix the issue
+```shell
+$ git checkout master
+$ git checkout -b fixit
+$ # some work
+$ git commit -m "Commit G"
+...
+$ # some work
+$ git commit -m "Fixed issue #627"
+```
+* you merge your fix in `master`
+```shell
+$ git checkout master
+$ git merge fixit
+$ git tag v0.2.1 # lightweight tag
+```
+]
+
+.column[
+ <canvas id='branchHowto5'></canvas>
+]
+]
+
+---
+
+class: top
+
+# How to use `git` branches
+
+.row[
+.column.w45[
+* SuperProg :copyright: is in state **v0.2.1**
+* you can resume working on the new functionnality
+]
+
+.column[
+ <canvas id='branchHowto6'></canvas>
+]
+]
+
+---
+
+class: top
+
+# How to use `git` branches
+
+.row[
+.column.w45[
+* SuperProg :copyright: is in state **v0.2.1**
+* you can resume working on the new functionnality
+```shell
+$ git checkout newfunc
+$ # some work
+$ git commit -m "Commit J"
+```
+* when you are ready, merge the new functionnality in the `master` branch
+]
+
+.column[
+ <canvas id='branchHowto7'></canvas>
+]
+]
+
+---
+
+class: top
+
+# How to use `git` branches
+
+.row[
+.column.w45[
+* SuperProg :copyright: is in state **v0.2.1**
+* you can resume working on the new functionnality
+```shell
+$ git checkout newfunc
+$ # some work
+$ git commit -m "Commit J"
+```
+* when you are ready, merge the new functionnality in the `master` branch
+```shell
+$ git checkout master
+$ git merge newfunc
+$ git tag v0.3.0
+```
+]
+
+.column[
+ <canvas id='branchHowto8'></canvas>
+]
+]
+
+---
+
+# Remote repositories
+
+.mermaid.w70.hcenter[
+    sequenceDiagram
+        Remote-->>+Local repo: git clone/pull
+        Local repo->>Files: git checkout
+        Note over Files: Code...
+        Files->>+Staged: git add/rm
+        Staged->>-Local repo: git commit
+        Local repo-->>-Remote: git push
+]
+
+## Create a bare repo
+```shell
+$ git init --bare
+```
+
+## Declare and sync from a remote repo
+```shell
+$ git remote add farAway http://some.domain.com/path/to/repo.git
+$ git fetch farAway && git merge
+$ git pull farAway
+```
+
+---
+
+# Conclusions on `git`
+
+.row[
+.column.w40.middle[
+## To sum up...
+* very powerful tool, can be complex sometimes
+* **can work offline !**
+* rock-solid, very efficient
+* **decentralized !**
+* several source forges are using it (`github`, `bitbucket`, `gitlab`, etc...)
+* learn a few commands and start using it !
+* several ways to use it, *follow the guidelines*
+* **the de-facto standard CVS**
+
+.hcenter.w50[![](images/git_logo.png)]
+]
+.column.w55[
+<canvas id='gitExample1'></canvas>
+]
+]
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/katex.min.js"></script>
+    <script src="core/javascript/auto-render.min.js"></script>
+    <script src="core/javascript/emojify.js"></script>
+    <script src="core/javascript/mermaid.js"></script>
+    <script src="core/javascript/term.js"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js"></script>
+    <script src="core/javascript/extend-jquery.js"></script>
+    <script src="core/javascript/cinescript.js"></script>
+    <script src="core/javascript/gitgraph.js"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "\\(", right: "\\)", display: false}], ignoredTags: [] });
+
+    </script>
+    <script src="gitgraphs2.js" type="text/javascript"></script>
+  </body>
+</html>
+
