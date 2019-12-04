@@ -76,20 +76,20 @@ Project:
 
 ---- WEEK2 ----
 
-* blender
+* valgrind
+* gdb
 
 === TP2
 
 ---- WEEK3 ----
 
-* valgrind
-* gdb
+* numpy / python accerelators
 
 === TP3
 
 ---- WEEK4 ----
 
-* python numpy
+* advanced git
 
 === TP4
 
