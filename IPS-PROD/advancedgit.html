@@ -31,10 +31,9 @@ class: animated fadeIn middle numbers
 * git push --set-upstream origin branch1
 * git stash [push, show, list, pop, drop, branch, clear]
 * git clean
-* git remote
-* git cherrypick
-* git blame / git annotate
-* git fetch vs. git pull
+* git blame / git annotate / git log
+* git cherrypick / git cherry
+* git fetch + git merge vs. git pull
 * git merge -s ours
 * git submodules
 * git subtree
@@ -44,21 +43,30 @@ class: animated fadeIn middle numbers
 
 
 * git commit --amend
-* git reset
+* git reset [link](https://longair.net/blog/2009/04/16/git-fetch-and-merge/)
 * git rebase -i (squash)
 * real-life examples
 
 ---
 
-# `git` "remote" / "tracking" branches
+# `git` "tracking" branches
 
 * [doc](https://git-scm.com/book/fr/v2/Les-bases-de-Git-Travailler-avec-des-d%C3%A9p%C3%B4ts-distants)
 * [doc](https://devconnected.com/how-to-set-upstream-branch-on-git/)
-* what are remote branches ?
-* what are tracking branches ?
+
+* what is a branch ? a name for a commit and its ancestors  
+:arrow_right: it is a light object  
+
+* two types of branches : local `git branch` and tracking `git branch -r`
+* tracking branch format : `remote/branch`
+* with tracking branches :
+ * update them `git fetch origin/somebranch`
+ * merge from them `git merge origin/somebranch`
+ * create local branches from them `git checkout --track -b localbranch origin/somebranch`
 * list remotes `git remote`
 * `origin` : created when cloning
 * list branch remote info `git branch -vv`
+
 * set upstream branch `git push --set-upstream origin HEAD`
 * set tracking for new local branch `git checkout --track origin/dev`
 * set tracking for existing local branch `git branch -u origin/master`
@@ -89,7 +97,51 @@ class: animated fadeIn middle numbers
 
 # `git clean`
 
-:arrow_right: Recursively remove files that are not under version control.
+* what ? Recursively remove files that are not under version control, starting from current directory
+* when ? 
+* ignored files are not removed if not `-x`
+* untracked directories are not removed if not `-d`
+* `-n` to show what would be removed, do not remove anything
+* `-i` interactive
+
+---
+
+# `git blame` / `git annotate` / `git log`
+
+.hcenter.shadow.w30[
+ ![](images/shirt.jpg)
+]
+* what ? See who wrote what in a file
+* when ? When you need to blame someone - hint: 99% of the time, it is you
+* [link](https://www.redbubble.com/people/spacelake/works/24756596-git-blame-ruining-friendships-since-2005?p=t-shirt)
+
+* `git blame` show options
+* `git blame FILE` view content of file annotated with last author of each line
+* `git blame -L start,stop FILE` process only line range of FILE
+
+* `git annotate` different output format than `git blame`, backward compatibility with old scripts
+* when was a line added ? `git log -Spattern FILE`
+
+---
+
+# `git cherry-pick` / `git cherry`
+
+* what ? apply a commit from a different branch
+* when ? do not want to merge full branch, only interested in a specific commit - typically: bug fix
+* `git cherry-pick COMMIT`
+
+
+* `git cherry` is different : allows to view if commits have been cherry-picked (see `man git-cherry`)
+
+---
+
+# `git fetch + git merge` vs. `git pull`
+
+:warning: Do not use `git pull`,  
+:arrow_right: use `git fetch`, then `git merge` instead.  
+
+* Why ? Because `git pull` does a lot of magic under the hood, to make it "just work".
+* When it doesn't work, it is difficult to know why.
 
 
 
