@@ -54,7 +54,7 @@ class: animated fadeIn middle numbers
 * [doc](https://git-scm.com/book/fr/v2/Les-bases-de-Git-Travailler-avec-des-d%C3%A9p%C3%B4ts-distants)
 * [doc](https://devconnected.com/how-to-set-upstream-branch-on-git/)
 
-* what is a branch ? a name for a commit and its ancestors  
+* what is a branch ? a name for a commit and its ancestors [doc](https://longair.net/blog/2009/04/16/git-fetch-and-merge/)  
 :arrow_right: it is a light object  
 
 * two types of branches : local `git branch` and tracking `git branch -r`
@@ -66,7 +66,8 @@ class: animated fadeIn middle numbers
 * list remotes `git remote`
 * `origin` : created when cloning
 * list branch remote info `git branch -vv`
-* remove remote branch : `git push origin --delete test`
+* remove tracking branch : `git branch -r -d somebranch`
+* remove remote branch : `git push origin --delete somebranch`
 
 * set upstream branch `git push --set-upstream origin HEAD`
 * create new local branch from tracking branch `git checkout --track origin/dev`
@@ -98,12 +99,52 @@ class: animated fadeIn middle numbers
 
 # `git clean`
 
-* what ? Recursively remove files that are not under version control, starting from current directory
-* when ? 
-* ignored files are not removed if not `-x`
-* untracked directories are not removed if not `-d`
+**What ?** Recursively remove files that are not under version control, starting from current directory.  
+**When ?** You want to come back to a "clean state".  
+
+## :warning: Dangerous options for `git clean`
+* remove ignored files with `-x`
+* remove untracked directories with `-d`
 * `-n` to show what would be removed, do not remove anything
 * `-i` interactive
+
+```text
+*$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        titi
+        toto/
+
+nothing added to commit but untracked files present (use "git add" to track)
+*$ git clean -x -d
+fatal: clean.requireForce defaults to true and neither -i, -n, nor -f given; refusing to clean
+*$ git clean -x -d -i
+Would remove the following items:
+  titi   toto/
+ *** Commands ***
+  1: clean  2: filter by pattern  3: select by numbers  4: ask each  5: quit  6: help
+What now> 1
+Removing titi
+Removing toto/
+```
+
+---
+
+# `git reset`
+
+**What ?** Unstage some files.  
+**When ?** You want to come back to a "clean state".  
+
+## :warning: Dangerous options for `git clean`
+* remove ignored files with `-x`
+* remove untracked directories with `-d`
+* `-n` to show what would be removed, do not remove anything
+* `-i` interactive
+
 
 ---
 
@@ -143,6 +184,55 @@ class: animated fadeIn middle numbers
 
 * Why ? Because `git pull` does a lot of magic under the hood, to make it "just work".
 * When it doesn't work, it is difficult to know why.
+
+* `git fetch` gets new remote branches, advances tracking branches, gets tags, gets needed objects...
+* `git fetch` does not change the working tree
+* `git fetch -p` remove tracking branches that correspond to deleted branches on the remote
+
+:arrow_right: `git merge` as usual
+
+* `git merge -s ours`
+* `git merge -s theirs`
+
+---
+
+# `git` submodules / `git` subtree
+
+* What ? share code between projects
+* When ? do not duplicate code, split big project into smaller ones
+
+* subtree : copy of a repository inside your repository (origin lost, hard to push to, easy to pull, easy for noobs)
+* submodule : pointer to a commit of another repository (origin kept, easy to push to, hard to pull, hard for noobs)
+
+# `git` submodule
+
+```text
+*$ git submodule add https://github.com/dubrayn/superlib lib/superlib
+Cloning into ‘lib/superlib’…
+remote: Counting objects: 17, done.
+remote: Compressing objects: 100% (16/16), done.
+remote: Total 17 (delta 0), reused 17 (delta 0)
+Unpacking objects: 100% (17/17), done.
+Checking connectivity... done.
+*$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+    new file:   .gitmodules
+    new file:   lib/superlib
+*$ cat .gitmodules
+[submodule “lib/superlib”]
+      path = lib/superlib
+      url = https://github.com/dubrayn/superlib
+```
+
+
+
+
+
 
 
 
