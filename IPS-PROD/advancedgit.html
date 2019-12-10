@@ -65,16 +65,61 @@ class: animated fadeIn middle numbers
 
 ---
 
-# Upstream branches
+# Upstream branches / local branches
 
-.hcenter.w90[
+.hcenter.w70[
 ![](images/branches.png)
 ]
 .hcenter[ [source](https://devconnected.com/how-to-set-upstream-branch-on-git/) ]
 
+## How are they useful ?
+
+:arrow_right: Know if you are ahead of upstream branches.  
+:arrow_right: Merge with upstream branches even when being offline.  
+:arrow_right: Use `git push`, `git fetch` and/or `git pull` without arguments.  
+
 ---
 
-# Upstream branches
+# Remotes
+
+## Unofficial definition of a remote
+**A remote is a nickname for an upstream repository.**  
+:arrow_right: The special remote `origin` is automatically created when cloning.
+
+## List remotes
+* `git remote`: list defined remotes.
+* `git remote -v`: list defined remotes for fetching and pushing.
+* `git remote show REMOTE`: print detailed information on REMOTE.
+* See also `[remote "xxx"]` in `.git/config`.
+
+```text
+*$ git clone main local_dev
+Cloning into 'local_dev'...
+done.
+*$ cd local_dev/ && cat .git/config
+[core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = false
+        logallrefupdates = true
+[remote "origin"]
+        url = /home/dubrayn/temp/git/main
+        fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+        remote = origin
+        merge = refs/heads/master
+*$ git remote
+origin
+*$ git remote -v
+origin  /home/dubrayn/temp/git/main (fetch)
+origin  /home/dubrayn/temp/git/main (push)
+```
+
+:arrow_right: `git remote add remote2 /some/path/toto.git`: add remote to project.
+
+---
+
+# Local branches
 
 ## Unofficial definition of a branch
 
@@ -83,7 +128,7 @@ class: animated fadeIn middle numbers
 
 ## Two types of local branches
 
-* **non-tracking branches**, seen by `git branch`,
+* **non-tracking branches**, seen by `git branch` (often miscalled "local branches"),
 * **remote tracking branches**, seen by `git branch -r`.
 
 ## Remote tracking branches
@@ -91,30 +136,105 @@ class: animated fadeIn middle numbers
 :arrow_right: A **remote tracking branch** is a **local branch** connected to a **remote branch**.
 * Format for a remote tracking branch: `remote/branch`.
 * Operations on remote tracking branches:
- * `git fetch remote/branch`: update.
+ * `git fetch remote`: update.
  * `git merge remote/branch`: merge from.
  * `git checkout --track -b localbranch remote/branch`: create local branch from.
+ * `git branch -vv`: show branch remote tracking information (if any).
 
 ---
 
-# Remotes
+# Local branches - example
 
-* list remotes `git remote`
-* `origin` : created when cloning
-* list branch remote info `git branch -vv`
-* remove remote tracking branch : `git branch -r -d somebranch`
-* remove upstream branch : `git push origin --delete somebranch`
+```text
+*$ git branch
+ * master
+*$ git branch -r
+   origin/HEAD -> origin/master
+   origin/master
+   origin/newbranch
+*$ git fetch origin
+*$ git merge origin/newbranch
+Already up to date.
+*$ git checkout --track -b newbranch origin/newbranch
+Branch 'newbranch' set up to track remote branch 'newbranch' from 'origin'.
+Switched to a new branch 'newbranch'
+*$ git branch
+   master
+ * newbranch
+*$ git branch -v
+   master    07d7c5f first commit
+ * newbranch 07d7c5f first commit
+*$ git branch -vv
+   master    07d7c5f [origin/master] first commit
+ * newbranch 07d7c5f [origin/newbranch] first commit
+*$ git checkout -b otherbranch
+Switched to a new branch 'otherbranch'
+*$ git branch -vv
+   master      07d7c5f [origin/master] first commit
+   newbranch   07d7c5f [origin/newbranch] first commit
+ * otherbranch 07d7c5f first commit
+```
 
-* set upstream branch `git push --set-upstream origin HEAD`
-* create new local branch from remote tracking branch `git checkout --track origin/dev`
-* set remote tracking for existing local branch `git branch -u origin/master`
-* where is the info located ? -> .config section
-* why is it so powerful ?
- * know if you are ahead of remote branches
- * `git push` whithout arguments
- * `git pull` whithout arguments
+:arrow_right: The remote tracking branch linked to a local non-tracking branch is also called the "upstream branch". 
 
 ---
+
+# Remote tracking branches and upstream branches
+
+## Remove branches
+* `git branch -r -d somebranch`: remove a remote tracking branch.
+* `git push origin --delete somebranch`: remove an upstream branch.
+
+## Link / unlink branches
+* `git push --set-upstream origin HEAD`:
+ * create upstream branch (if needed),
+ * create remote tracking branch,
+ * link upstream branch and remote tracking branch,
+ * link remote tracking branch to current branch ("set upstream branch for current branch").
+* `git branch -u origin/master`: link existing remote tracking branch and current branch.
+* `git branch --unset-upstream`: unlink remote tracking branch and current branch.
+
+:arrow_right: It is also possible to edit `.git/config`.
+
+```text
+*$ cat .git/config
+[core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = false
+        logallrefupdates = true
+[remote "origin"]
+        url = /home/dubrayn/temp/git/main
+        fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+        remote = origin
+        merge = refs/heads/master
+[branch "newbranch"]
+        remote = origin
+        merge = refs/heads/newbranch
+```
+
+---
+
+# `git fetch + git merge` vs. `git pull`
+
+:warning: Do not use `git pull`,  
+:arrow_right: use `git fetch`, then `git merge` instead.  
+
+* Why ? Because `git pull` does a lot of magic under the hood, to make it "just work".
+* When it doesn't work, it is difficult to know why.
+
+* `git fetch` gets new remote branches, advances remote tracking branches, gets tags, gets needed objects...
+* `git fetch` does not change the working tree
+* `git fetch -p` remove remote tracking branches that correspond to deleted branches on the remote
+
+:arrow_right: `git merge` as usual
+
+* `git merge -s ours`
+* `git merge -s theirs`
+
+---
+
 
 # `git stash`
 
@@ -216,25 +336,6 @@ TODO example
 
 
 * `git cherry` is different : allows to view if commits have been cherry-picked (see `man git-cherry`)
-
----
-
-# `git fetch + git merge` vs. `git pull`
-
-:warning: Do not use `git pull`,  
-:arrow_right: use `git fetch`, then `git merge` instead.  
-
-* Why ? Because `git pull` does a lot of magic under the hood, to make it "just work".
-* When it doesn't work, it is difficult to know why.
-
-* `git fetch` gets new remote branches, advances remote tracking branches, gets tags, gets needed objects...
-* `git fetch` does not change the working tree
-* `git fetch -p` remove remote tracking branches that correspond to deleted branches on the remote
-
-:arrow_right: `git merge` as usual
-
-* `git merge -s ours`
-* `git merge -s theirs`
 
 ---
 
