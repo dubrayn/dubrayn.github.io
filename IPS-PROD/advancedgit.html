@@ -31,17 +31,16 @@ class: animated fadeIn middle numbers
 
 ## Branches, remotes and subprojects
 
-* `push --set-upstream` - Push branch to remote.
-* `fetch` + `merge` vs. `pull` - Discussion on the issues with `pull`.
+* `push --set-upstream` - [create] and link branch to remote branch.
 * `fast-forward` - Automatic transparent merging.
-* `submodule` / `subtree` - Share code between projects. 
+* `submodule` - Share code between projects. 
 * `merge -s` - Merging priorities.
 
 ## Debugging / cleaning
 
 * `bisect` - Go bug hunting !
-* `blame` / `annotate` / `log` - Who wrote what ? When ?
-* `cherrypick` / `cherry` - Apply a commit from a different branch.
+* `blame` / `annotate` / `log` - Who wrote that ? When ?
+* `cherry-pick` - Apply a commit from a different branch.
 * `grep` - Find a pattern in a project.
 * `stash` - "Pause" your work. 
 * `clean` - Clean your project.
@@ -216,132 +215,9 @@ Switched to a new branch 'otherbranch'
 
 ---
 
-# `git fetch + git merge` vs. `git pull`
-
-:warning: Do not use `git pull`,  
-:arrow_right: use `git fetch`, then `git merge` instead.  
-
-* Why ? Because `git pull` does a lot of magic under the hood, to make it "just work".
-* When it doesn't work, it is difficult to know why.
-
-* `git fetch` gets new remote branches, advances remote tracking branches, gets tags, gets needed objects...
-* `git fetch` does not change the working tree
-* `git fetch -p` remove remote tracking branches that correspond to deleted branches on the remote
-
-:arrow_right: `git merge` as usual
-
-* `git merge -s ours`
-* `git merge -s theirs`
-
----
-
-
-# `git stash`
-
-* what ? Save your uncommitted changes (staged and unstaged), 
-* when ? Be working on something, have to switch to something else, but don't want to commit
-* stashing
-* re-applying `git stash pop`
-* stashing un-tracked or ignored files `git stash -u`, `git stash -a`
-* multiple stashes `git stash list` `git stash save "message"` `git stash pop stash@{1}`
-* viewing stash diffs `git stash show` `git stash show -p`
-* partial stash (interactive) `git stash -p`
-* stash -> branch `git stash branch newbranch stash@{2}`
-* cleaning stash `git stash drop stash@{1}`
-* how does it work ? OPTIONAL
-
----
-
-# `git clean`
-
-**What ?** Recursively remove files that are not under version control, starting from current directory.  
-**When ?** You want to come back to a "clean state".  
-
-## :warning: Dangerous options for `git clean`
-* remove ignored files with `-x`
-* remove untracked directories with `-d`
-* `-n` to show what would be removed, do not remove anything
-* `-i` interactive
-
-```text
-*$ git status
-On branch master
-Your branch is up to date with 'origin/master'.
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-
-        titi
-        toto/
-
-nothing added to commit but untracked files present (use "git add" to track)
-*$ git clean -x -d
-fatal: clean.requireForce defaults to true and neither -i, -n, nor -f given; refusing to clean
-*$ git clean -x -d -i
-Would remove the following items:
-  titi   toto/
- *** Commands ***
-  1: clean  2: filter by pattern  3: select by numbers  4: ask each  5: quit  6: help
-What now> 1
-Removing titi
-Removing toto/
-```
-
-## :warning: Dangerous options for `git clean`
-* remove ignored files with `-x`
-* remove untracked directories with `-d`
-* `-n` to show what would be removed, do not remove anything
-* `-i` interactive
-
----
-
-# `git bisect`
-
-* what ? perform a binary search (bisection) on the history of a project
-* when ? quickly identify which commit introduced a bug
-* `git bisect start`: start the bisection
-* `git bisect bad`: bad case (HEAD by default)
-* `git checkout oldcommit`: get  an old commit
-* `git bisect good`: declare that this commit is OK
-* `git bisect skip`: declare that this commit is untestable
-* `git bisect reset`: stop the bisection
-
-TODO example
-
----
-
-# `git blame` / `git annotate` / `git log`
-
-.hcenter.shadow.w30[
- ![](images/shirt.jpg)
-]
-* what ? See who wrote what in a file
-* when ? When you need to blame someone - hint: 99% of the time, it is you
-* [link](https://www.redbubble.com/people/spacelake/works/24756596-git-blame-ruining-friendships-since-2005?p=t-shirt)
-
-* `git blame` show options
-* `git blame FILE` view content of file annotated with last author of each line
-* `git blame -L start,stop FILE` process only line range of FILE
-
-* `git annotate` different output format than `git blame`, backward compatibility with old scripts
-* when was a line added ? `git log -Spattern FILE`
-
----
-
-# `git cherry-pick` / `git cherry`
-
-* what ? apply a commit from a different branch
-* when ? do not want to merge full branch, only interested in a specific commit - typically: bug fix
-* `git cherry-pick COMMIT`
-
-
-* `git cherry` is different : allows to view if commits have been cherry-picked (see `man git-cherry`)
-
----
-
 # `fast-forward` - Automatic transparent merging
 
-:arrow_right: If you merge a remote tracking branch onto a local branch and the remote tracking branch has not been modified, `git` is using `fast-forward` by default.
+:arrow_right: If you merge branch `blue` into branch `green` that has not been modified since the creation of branch `blue`, `git` uses a `fast-forward` method: it **does not create a commit** for the merge operation.
 
 .row.hcenter.w80[
 .column.w30.middle[
@@ -388,7 +264,10 @@ $ git config --global merge.ff no
 
 ---
 
-# `submodule` - Clone another project inside your project.
+# `submodule` - Share code between projects
+
+.noflex[
+.rightf.shadow.w20[ ![](images/inception.jpg) ]
 
 ## Possible reasons:
 
@@ -425,39 +304,299 @@ Changes to be committed:
 :arrow_right: cloning with subprojects: `git clone --recursive`.  
 :arrow_right: updating subprojects: `git submodule update`.
 
----
-
-# `subtree` - Copy another project inside your project.
-
-## Possible reasons:
-
-* Avoid code duplication.
-* Develop two projects simultaneously.
-* Split a big project into smaller ones.
-
-:warning: The origin of the subproject is lost: hard to push to, semi-easy to pull from.  
-:+: `git clone` will clone the subproject: easy for noobs.  
-:warning: The history of your project will be polluted by the history of the subproject.  
-
-TODO explications pas claires
-
-## `git` subtree
-
-```text
-TODO
-```
-
-* cloning subtrees: nothing to do
-
-
----
-
-# `submodule` vs. `subtree` - Conclusion ?
-
-.hcenter.shadow.w30[
-![](images/inception.jpg)
+:arrow_right: see also [git subtree](https://www.atlassian.com/git/tutorials/git-subtree), [git-subrepo](https://github.com/ingydotnet/git-subrepo#readme)...
 ]
 
+---
+
+# `merge -s` - Merging priorities
+
+:arrow_right: Sometimes, when a merge conflict occurs, the solution is to keep one version and discard the other.  
+:arrow_right: This can be done with `git merge -s ours`. This option tells `git merge` to keep the original file in case of a merge conflict.
+
+```text
+*$ git branch
+ * master
+*$ ls
+index.html  titi
+*$ cat titi
+plop3
+*$ git checkout -b newbranch
+Switched to a new branch 'newbranch'
+*$ echo "newcontent" > titi
+*$ git commit -a -m "modified titi"
+[newbranch 1e07ac9] modified titi
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+*$ git checkout master
+Switched to branch 'master'
+*$ git merge newbranch -s ours
+Merge made by the 'ours' strategy.
+*$ cat titi
+plop3
+```
+
+---
+
+# `bisect` - Go bug hunting !
+
+## Context
+
+* A bug has been found in `HEAD`.
+* This bug was not present in a commit from 6 months ago.  
+
+:arrow_right: How to **quickly** find **which commit** introduced the bug in the project ?
+
+## {binary-search, interval halving, dichotomy} method
+
+:arrow_right: Use `git bisect` to perform a binary search on the history of a project.  
+* `git bisect start`: start the bisection
+* `git bisect bad`: bad case (HEAD by default)
+* `git bisect good`: declare that this commit is OK
+* `git bisect skip`: declare that this commit is untestable
+* `git bisect reset`: stop the bisection
+
+:arrow_right: You can use `old` and `new` instead of `bad` and `good`, or custom terms:  
+
+```text
+$ git bisect start --term-new fast --term-old slow
+```
+
+---
+
+# `bisect` - Go bug hunting !
+
+```text
+*$ git bisect start
+*$ git bisect bad
+*$ git bisect good v3.1415
+Bisecting: 671 revisions left to test after this (roughly 10 steps)
+[e50fe06300edb7f0b1e8ad5a86a0d0db89cc0d92] Removed all fortran code.
+*$ # do some tests on this commit to check if it is good or bad
+*$ git bisect good
+Bisecting: 332 revisions left to test after this (roughly 9 steps)
+[1e07ac9292f0a1eefd075e7418f28a0766419d86] Removed all C++ code.
+*$ # do some tests on this commit to check if it is good or bad
+*$ git bisect bad
+Bisecting: 160 revisions left to test after this (roughly 8 steps)
+[55eb83725a6d18dea12b6077eadfceab7905dd49] Removed all Ruby code.
+...
+repeat until the final commit is the first occurence of bad
+...
+383bee0ea12f59344a3a3d0fe4e868640bc61458 is the first bad commit
+commit 383bee0ea12f59344a3a3d0fe4e868640bc61458
+Author: Sheldon Cooper <sheldon.cooper@caltech.edu>
+Date:   Sat Feb 15 02:19:22 2014 +0100
+
+    I'm soooo drunk !!!
+
+:105 105 07d7c5f061bdc367bffd23d1aaec68174e494e7c dba4fde39caf3c027b48749e5da7fa68 M  flux_capacitor.py
+```
+
+.hcenter.shadow.w30[
+![](images/sheldon.jpg)
+]
+
+---
+
+# `blame` / `annotate` / `log` - Who wrote that ? When ?
+
+## Context
+
+* You have found **an atrocity** at a given line of a given file in a project you are using.
+* You now need to find out **who** wrote this line, **when**, and **why**, to **blame** someone.
+
+## `git blame` !
+
+* `git blame`: show options.
+* `git blame FILE`: view content of file annotated with last author of each line.
+* `git blame -L start,stop FILE`: process only line range of FILE.
+* `git annotate`: uses a different output format than `git blame`. Used by old scripts.
+
+## When was a line added in a given file ?
+* `git log -Spattern FILE`: view commits who introduced this pattern in FILE.
+* `git log -Gregexp FILE`: use a regular expression instead.
+
+---
+
+# `blame` - Example
+
+:arrow_right: Taken from [this tutorial](https://www.atlassian.com/git/tutorials/inspecting-a-repository/git-blame).
+
+```text
+*$ git blame README.md
+82496ea3 (kevzettler 2018-02-28 13:37:02 -0800 1) # Git Blame example
+82496ea3 (kevzettler 2018-02-28 13:37:02 -0800 2)
+89feb84d (Albert So 2018-03-01 00:54:03 +0000 3) This repository is an example of a project with multiple contributors making commits.
+82496ea3 (kevzettler 2018-02-28 13:37:02 -0800 4)
+82496ea3 (kevzettler 2018-02-28 13:37:02 -0800 5) The repo use used elsewhere to demonstrate `git blame`
+82496ea3 (kevzettler 2018-02-28 13:37:02 -0800 6)
+89feb84d (Albert So 2018-03-01 00:54:03 +0000 7) Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod TEMPOR incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+89feb84d (Albert So 2018-03-01 00:54:03 +0000 8)
+eb06faed (Juni Mukherjee 2018-03-01 19:53:23 +0000 9) Annotates each line in the given file with information from the revision which last modified the line. Optionally, start annotating from the given revision.
+eb06faed (Juni Mukherjee 2018-03-01 19:53:23 +0000 10)
+548dabed (Juni Mukherjee 2018-03-01 19:55:15 +0000 11) Creating a line to support documentation needs for git blame.
+548dabed (Juni Mukherjee 2018-03-01 19:55:15 +0000 12)
+548dabed (Juni Mukherjee 2018-03-01 19:55:15 +0000 13) Also, it is important to have a few of these commits to clearly reflect the who, the what and the when. This will help Kev get good screenshots when he runs the git blame on this README.
+```
+
+---
+
+# `blame` - Apparel
+
+.hcenter.shadow.w50[
+ ![](images/shirt.jpg)
+]
+.hcenter[
+[link to the shop](https://www.redbubble.com/people/spacelake/works/24756596-git-blame-ruining-friendships-since-2005?p=t-shirt)
+]
+
+.hcenter[
+:arrow_right: A study has shown that in 99.2% of the cases, the person to blame is **YOU**.
+]
+
+---
+
+# `cherry-pick` - Apply a commit from a different branch
+
+.hcenter.shadow.w30[
+![](images/cherry.jpg)
+]
+
+## Context
+
+* A bug has been found and fixed in a specific commit in branch `coffeeMachineHack`.
+* You want to incorporate the fix in `master`, but You do not want to merge the whole branch.
+
+## `git cherry-pick`
+
+:arrow_right: The commit belongs to another branch.
+
+* `git cherry-pick d42c389e`: applies commit `d42c389e` to the current `HEAD`.
+
+## `git cherry`
+
+:arrow_right: Has my commit been cherry-picked ?  
+
+* `git cherry`: allows to view if commits have been cherry-picked (see `man git-cherry`).
+
+---
+
+# `grep` - Find a pattern in a project
+
+:arrow_right: Find occurences of patterns in project files.
+
+
+## Useful options
+
+* `git grep some_pattern`: standard pattern search.
+* `git grep --color -n -P some_pattern`: use line numbers, colored output and regexp.
+* `--no-index`: search in untracked files too.
+* `-i`: ignore case.
+* `-I`: do not match binary files.
+* `-w`: word only.
+* `-v`: invert match.
+
+```text
+*$ git grep png
+IPS-DEV/armadillo.html:.hcenter.w30[![](images/armadillo_logo.png)]
+IPS-DEV/armadillo.html:.rightf.animated.fadeInRight.wait1s.shadow.w25[![](images/conrad_sanderson.png)]
+IPS-DEV/astyle.html:.hcenter.w90[![](images/xkcd_code_quality.png)]
+IPS-DEV/cxxtest.html:.hcenter.border.shadow.w50[![](images/unit_tests_excuses.png)]
+IPS-DEV/cxxtest.html:.shadow[![](images/unit_tests_cartoon.png)]
+IPS-DEV/cxxtest.html:.shadow[![](images/dog.png)]
+IPS-DEV/cxxtest.html:.shadow[![](images/xkcd_derivative.png)]
+IPS-DEV/doxygen.html:.hcenter.w30[![](images/doxygen_logo.png)]
+IPS-DEV/doxygen.html:.shadow.hcenter.w90[![](images/doxygen_example.png)]
+IPS-DEV/doxygen.html:.shadow.hcenter.w100[![](images/doxywizard.png)]
+IPS-DEV/git.html:.hcenter.w15[![](images/git_logo.png)]
+IPS-DEV/git.html:.hcenter.w90.shadow[![](images/gitk_00.png)]
+IPS-DEV/git.html:.hcenter.w90.shadow[![](images/gitg.png)]
+IPS-DEV/git.html:.hcenter.w50[![](images/git_logo.png)]
+Binary file IPS-DEV/images/xkcd_code_quality.png matches
+IPS-DEV/intro.html:.hcenter.w20[![](images/github-octocat.png)]
+IPS-DEV/intro.html:.hcenter.shadow.w50[![](images/density.png)]
+IPS-DEV/intro.html: ![](images/wikipedia_logo.png)
+IPS-DEV/intro.html:.shadow[![](images/code.png)]
+...
+```
+
+---
+
+
+
+
+
+
+
+
+
+
+
+# `stash` - "Pause" your work
+
+## Context
+
+* You are working on a feature.
+* Your boss asks You to fix an urgent bug.
+* You do not want to commit your WIP now.
+* You do not want to loose your WIP.
+
+## `git stash` to the rescue !
+
+:arrow_right: `git stash` saves your uncommitted changes (staged and unstaged).
+
+* `git stash`: save (stash) your work.
+* `git stash pop`: re-applying your stashed work.
+* `git stash -u`: stash also un-tracked files.
+* `git stash -a`: stash also ignored files.
+* `git stash list`: list stashed works.
+* `git stash save "message"`: stash with a message.
+* `git stash pop stash@{1}`: re-applying a specific stashed work.
+* `git stash show -p`: view stash diff with HEAD.
+* `git stash -p`: perform a partial stash (interactive).
+* `git stash branch newbranch stash@{2}`: create branch from stashed work.
+* `git stash drop stash@{1}`: remove stashed work.
+
+---
+
+# `clean` - Clean your project
+
+
+## Context
+
+* You started working on a new idea.
+* This idea turns out to be a bad idea.
+* You want your project to come back to a "clean state".
+
+:arrow_right: `git clean` recursively remove files that are not under version control, starting from current directory.  
+* `clean -x`: remove ignored files.
+* `clean -d`: remove untracked directories.
+* `clean -n`: show what would be removed, but do not remove anything.
+* `clean -i`: interactive use, ask for directions.
+
+```text
+*$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        titi
+        toto/
+
+nothing added to commit but untracked files present (use "git add" to track)
+*$ git clean -x -d
+fatal: clean.requireForce defaults to true and neither -i, -n, nor -f given; refusing to clean
+*$ git clean -x -d -i
+Would remove the following items:
+  titi   toto/
+ *** Commands ***
+  1: clean  2: filter by pattern  3: select by numbers  4: ask each  5: quit  6: help
+What now> 1
+Removing titi
+Removing toto/
+```
 
 ---
 
@@ -481,22 +620,6 @@ TODO
 
 * no history, no git: `git archive master | gzip > latest.tgz`
 * no history, no git: `git archive master | bzip2 > latest.tar.bz2`
-
----
-
-# `git grep`
-
-* what ? Search project for pattern
-* when ? Looking for something
-* `git grep some_pattern`
-* `git grep --color -n -P some_pattern` (line numbers, color, regexp)
-* `--no-index`: search in untracked files too
-* `-i`: ignore case
-* `-I`: do not match binary files
-* `-w`: word only
-* `-v`: invert match
-
-TODO example
 
 ---
 
@@ -629,12 +752,14 @@ TODO
 ---
 
 TODO: pull request
+TODO: tig
 
 * [doc](https://longair.net/blog/2009/04/16/git-fetch-and-merge/)
 * [doc](https://devconnected.com/how-to-set-upstream-branch-on-git/)
 * [doc](https://www.atlassian.com/git/tutorials/saving-changes/git-stash)
 * [doc](https://git-scm.com/book/fr/v2/Les-bases-de-Git-Travailler-avec-des-d%C3%A9p%C3%B4ts-distants)
 * [doc](https://backlog.com/git-tutorial/branching-workflows/)
+* [doc](https://www.atlassian.com/git/tutorials/inspecting-a-repository/git-blame)
 
     </textarea>
 
