@@ -20,7 +20,7 @@ var myTemplateConfig = {
               displayBranch: true,
               displayHash: false,
             }
-          }
+          },
         };
 
 var myTemplate = new GitGraph.Template(myTemplateConfig);
@@ -42,48 +42,39 @@ var configCompact = {
   mode: 'compact',
 };
 
-// ===== gitExample0 =====
-cfg = configLarge;
-cfg.elementId = 'gitExample0';
+// ===== gitRebase0 =====
+cfg = configCompact;
+cfg.elementId = 'gitRebase0';
 var g = new GitGraph(cfg);
 var master = g.branch("master");
-master.commit("Commit A");
-g.tag("v0.1.0");
+master.commit("c1");
+master.tag("master");
+master.commit("c2");
 var dev = g.branch("dev");
-dev.commit("Commit B");
-dev.commit("Commit C");
-master.checkout();
-dev.merge();
-g.tag("v0.2.0");
-dev.checkout();
-var fix1 = g.branch("fix1");
-var fix2 = g.branch("fix2");
-fix1.commit("Commit D");
-fix1.commit("Commit E");
-fix2.commit("Commit F");
-fix1.commit("Commit G");
-dev.checkout();
-fix1.merge();
-fix2.merge();
-master.checkout();
-dev.merge();
-g.tag("v0.3.0");
-dev.commit("Commit I");
-master.checkout();
-dev.merge();
-g.tag("v0.4.0");
+dev.commit("b1");
+master.commit("c3");
+dev.commit("b2");
+master.commit("c4");
+master.commit("c5");
+dev.tag("dev");
 // ===== END =====
 
-// ===== branchHowto0 =====
-cfg = configLarge;
-cfg.elementId = 'branchHowto0';
+// ===== gitRebase1 =====
+cfg = configCompact;
+cfg.elementId = 'gitRebase1';
 var g = new GitGraph(cfg);
 var master = g.branch("master");
-master.commit("Commit A");
-master.commit("Commit B");
-master.tag("v0.1.0");
-master.commit("Commit C");
-master.tag("v0.2.0");
+master.commit("c1");
+master.tag("master");
+master.commit("c2");
+var dev = g.branch("dev");
+dev.commit("b1");
+master.commit("c3");
+dev.commit("b2");
+master.commit("c4");
+master.commit("c5");
+master.merge(dev);
+dev.tag("dev");
 // ===== END =====
 
 // ===== branchHowto1 =====
