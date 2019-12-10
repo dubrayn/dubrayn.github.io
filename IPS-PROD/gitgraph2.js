@@ -47,8 +47,6 @@ cfg = configCompact;
 cfg.elementId = 'gitRebase0';
 var g = new GitGraph(cfg);
 var master = g.branch("master");
-master.commit("c1");
-master.tag("master");
 master.commit("c2");
 var dev = g.branch("dev");
 dev.commit("b1");
@@ -56,6 +54,7 @@ master.commit("c3");
 dev.commit("b2");
 master.commit("c4");
 master.commit("c5");
+master.tag("master");
 dev.tag("dev");
 // ===== END =====
 
@@ -64,18 +63,55 @@ cfg = configCompact;
 cfg.elementId = 'gitRebase1';
 var g = new GitGraph(cfg);
 var master = g.branch("master");
-master.commit("c1");
-master.tag("master");
 master.commit("c2");
-var dev = g.branch("dev");
-dev.commit("b1");
 master.commit("c3");
-dev.commit("b2");
 master.commit("c4");
 master.commit("c5");
-master.merge(dev);
+master.tag("master");
+var dev = g.branch("dev");
+dev.commit("b1");
+dev.commit("b2");
 dev.tag("dev");
 // ===== END =====
+
+// ===== gitFF0 =====
+cfg = configCompact;
+cfg.elementId = 'gitFF0';
+var g = new GitGraph(cfg);
+var master = g.branch("master");
+master.commit("");
+master.commit("c0");
+master.commit("c1");
+master.commit("c2");
+// ===== END =====
+
+// ===== gitFF1 =====
+cfg = configCompact;
+cfg.elementId = 'gitFF1';
+var g = new GitGraph(cfg);
+var master = g.branch("master");
+master.commit("");
+var dev = master.branch("dev");
+dev.commit("c0");
+dev.commit("c1");
+dev.commit("c2");
+dev.tag("merge ?");
+// ===== END =====
+
+// ===== gitFF2 =====
+cfg = configCompact;
+cfg.elementId = 'gitFF2';
+var g = new GitGraph(cfg);
+var master = g.branch("master");
+master.commit("");
+var dev = master.branch("dev");
+dev.commit("c0");
+dev.commit("c1");
+dev.commit("c2");
+dev.merge(master);
+master.tag("merge")
+// ===== END =====
+
 
 // ===== branchHowto1 =====
 cfg = configLarge;
