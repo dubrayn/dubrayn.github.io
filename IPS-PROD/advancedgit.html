@@ -600,37 +600,55 @@ Removing toto/
 
 ---
 
-# `git format-patch` + `git apply` / `git am`
+# `format-patch` + `apply` / `am` - Use patches
 
-* create one patch for the current branch (forked from master): `git format-patch master --stdout > my_super_patch.patch`
-* check the patch: `git apply --stat  my_super_patch.patch`  TODO add example
-* test  the patch: `git apply --check my_super_patch.patch`  TODO add example
-* apply the patch: `git am --signoff < my_super_patch.patch` TODO add example
-* or `git apply my_super_patch.patch` TODO add example
+## Context
+
+* You have developed a feature during your holidays for one of your work projects.
+* The repository for the project is on a private network.
+* You have to send your feature to a coworker.
+* You do not want to copy the whole repository (too big).
+* You do not want to copy a snapshot of your feature (still too big).
+* You do not want to loose commit informations related to your work.
+
+## Use a patch
+
+* `git format-patch master --stdout > my_super_patch.patch`: create a patch for the current branch (forked from master). 
+* `git apply --stat  my_super_patch.patch`: check the patch.
+* `git apply --check my_super_patch.patch`: test the patch.
+* `git am --signoff < my_super_patch.patch`: apply the patch (with signoff).
+* `git apply my_super_patch.patch`: apply the patch (no signoff).
 
 ---
 
-# `git archive` / `git fetch --depth` / `git clone --depth`
+# `--depth` / `archive` - Do not use full history
 
-* what ? get a local copy of a project without the full history
-* when ? when the full history is not needed
+## Context
 
-* last 3 commits only: `git fetch --depth 3` / `git clone --depth 3`  
-:warning: cannot be fetched, cloned or pushed to.
+* You only want the few last commits of a project, to fix a bug for example.
+* You do not need the full history.
 
-* no history, no git: `git archive master | gzip > latest.tgz`
-* no history, no git: `git archive master | bzip2 > latest.tar.bz2`
+## `--depth` can help You
+
+* `git fetch --depth 3` / `git clone --depth 3`: get last 3 commits only.
+
+:warning: The obtained project cannot be fetched, cloned or pushed to.
+
+## `git archive` can get only a specific commit
+
+* `git archive master | gzip > latest.tgz`: get a snapshot (no history, no `.git`).
+* `git archive master | bzip2 > latest.tar.bz2`: the same with a different compression.
 
 ---
 
 # :warning: WARNING :warning:
 
-The following commands can modify the history of a project.  
+The following commands can **modify the history** of a project.  
 :warning: Use them only for local projects. If your project has been cloned somewhere, do not use them.
 
 ---
 
-# `git commit --amend` - Change the last commit
+# `commit --amend` - Change the last commit
 
 ## Possible reasons:
 
@@ -643,13 +661,9 @@ The following commands can modify the history of a project.
 :arrow_right: `git commit --amend -m "new message"`: same without opening the editor.  
 :arrow_right: `git commit --amend --no-edit`: change the last commit content, keep the commit message.
 
-```text
-TODO
-```
-
 ---
 
-# `git push --force` - Replace remote's history
+# `push --force` - Replace remote's history
 
 ## Possible reasons:
 
@@ -659,10 +673,6 @@ TODO
 
 :arrow_right: `Github` proposes **protected branches**: no `git push --force` allowed on them.
 
-```text
-TODO
-```
-
 &nbsp;
 
 ## Variant: `git push --force-with-lease`
@@ -670,40 +680,44 @@ TODO
 :arrow_right: Check that remote and local are in sync before pushing with `--force`.  
 :warning: if someone did a `git fetch` without `git merge`, a branch can be overwritten (cf. [this example](https://blog.developer.atlassian.com/force-with-lease/)).
 
-```text
-TODO
-```
+---
+
+# `reset` - Undo some changes
+
+## Possible reasons
+
+* Your local project history is a mess,
+* You want to "unstage" some files,
+* You want to give up an idea...
+
+## `git reset` resets `HEAD`
+
+* `git reset --soft`: reset `HEAD`.
+* `git reset --mixed`: reset `HEAD` and the staging index.
+* `git reset --hard`: reset `HEAD`, the staging index and the working directory.
+* `git reset` = `git reset --mixed HEAD`: default behavior.
 
 ---
 
-# `git reset`
+# `revert` - Undo some commits
 
-**What ?** Undo some changes  
-**When ?** Your local project history is a mess, You want to "unstage" some files, to give up an idea...
-* `git reset --soft` (HEAD)
-* `git reset --mixed` (HEAD + staging index)
-* `git reset --hard` (HEAD + stagin index + working directory)
-* `git reset` = `git reset --mixed HEAD`
+## Possible reasons
 
-TODO examples
+* You want to fix a bug introduced by a single commit.
+* You do not want to remove the commit (and change the history).
 
----
+## Use `git revert`
 
-# `git revert`
+* `git revert COMMIT`: create a commit to "cancel" another one.
+* `-n` or `--no-commit`: modify, stage but does not commit.
 
-* what ? cancel a commit
-* when ? You want to fix a bug introduced by a single commit, without removing the commit
+:arrow_right: far better than `git reset`, since it does not modify the history of the project.
 
-* `git revert COMMIT`: create a commit "canceling" another one
-* `-n` or `--no-commit`: modify, stage but does not commit
-
-:arrow_right: far better than `git reset`, since it does not modify the history of the project
-
-TODO: example [link](https://www.atlassian.com/git/tutorials/undoing-changes/git-revert)
+:arrow_right: See this nice [example](https://www.atlassian.com/git/tutorials/undoing-changes/git-revert).
 
 ---
 
-# `git rebase` - Move branches around
+# `rebase` - Move branches around
 
 .row[
 .column.w40.middle[
@@ -711,9 +725,9 @@ TODO: example [link](https://www.atlassian.com/git/tutorials/undoing-changes/git
 
 ## Possible reasons:
 * You want to obtain a nice linear history (aesier use of `git bisect`).
-* You TODO
+* You are not afraid of using `rebase`.
 
-* `git rebase master` [link](https://coderefinery.github.io/git-branch-design/01-rebase/)
+* `git rebase master`: change parent of branch to another commit.
 
 :arrow_right: obtain a nice linear history
 ]
@@ -730,15 +744,18 @@ TODO: example [link](https://www.atlassian.com/git/tutorials/undoing-changes/git
 
 ---
 
-# `git rebase -i` - Modify existing commits
+# `rebase -i` - Modify existing commits
 
-**what ?** You contribute to a project by fork + pull request. Pull request is denied with comment "squash your commits first".  
-**when ?** You contribute to a project by fork + pull request. Pull request is denied with comment "squash your commits first".
+## Context
 
+* You contribute to a project by fork + pull request.  
+* Your pull request is denied with comment "squash your commits first".  
 
-# `merge --squash` - Merge as a single commit
+## Use `git rebase -i` to squash your commits
 
-TODO
+* `-i` lets the user edit a list of the commits and decide what to do for every one of them (split, group...).
+
+:arrow_right: See also `git merge --squash` to merge a full branch as a single commit.
 
 ---
 
@@ -751,15 +768,20 @@ TODO
 
 ---
 
-TODO: pull request
-TODO: tig
+# To conclude...
 
-* [doc](https://longair.net/blog/2009/04/16/git-fetch-and-merge/)
-* [doc](https://devconnected.com/how-to-set-upstream-branch-on-git/)
-* [doc](https://www.atlassian.com/git/tutorials/saving-changes/git-stash)
-* [doc](https://git-scm.com/book/fr/v2/Les-bases-de-Git-Travailler-avec-des-d%C3%A9p%C3%B4ts-distants)
-* [doc](https://backlog.com/git-tutorial/branching-workflows/)
-* [doc](https://www.atlassian.com/git/tutorials/inspecting-a-repository/git-blame)
+## Links
+
+* [https://longair.net/blog/2009/04/16/git-fetch-and-merge/                                     ](https://longair.net/blog/2009/04/16/git-fetch-and-merge/)
+* [https://devconnected.com/how-to-set-upstream-branch-on-git/                                  ](https://devconnected.com/how-to-set-upstream-branch-on-git/)
+* [https://www.atlassian.com/git/tutorials/saving-changes/git-stash                             ](https://www.atlassian.com/git/tutorials/saving-changes/git-stash)
+* [https://backlog.com/git-tutorial/branching-workflows/                                        ](https://backlog.com/git-tutorial/branching-workflows/)
+* [https://coderefinery.github.io/git-branch-design/01-rebase/                                  ](https://coderefinery.github.io/git-branch-design/01-rebase/)
+* [https://www.atlassian.com/git/tutorials/inspecting-a-repository/git-blame                    ](https://www.atlassian.com/git/tutorials/inspecting-a-repository/git-blame)
+
+## See also:
+* the benefits of using pull requests
+* a nice CLI frontend to `git`: [`tig`](https://github.com/jonas/tig)
 
     </textarea>
 
