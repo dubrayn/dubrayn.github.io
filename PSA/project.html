@@ -96,12 +96,12 @@ class: animated fadeIn middle numbers
 .column.middle.grow[
 ## Rules:
 * an "`AUTHORS`" file **must** be present and contain your name(s)
-* the source **must** be written in `C++11` and `Python2`
+* the source **must** be written in `C++11` and `Python3`
 * the source **must** be documented with `Doxygen`
 * the compilation chain **must** use `GNU Make`
 * the presentation **must** be at the location "`pres/index.html`"
 * using branches is OK but **only master will be checked**
-* `Python2` bindings **are mandatory** and **must** be at the location "`bindings/`"
+* `Python3` bindings **are mandatory** and **must** be at the location "`bindings/`"
 * the presentation **must** use `remark.js`
 * unit tests **are mandatory** and **must pass**
 
@@ -137,11 +137,11 @@ class: animated fadeIn middle numbers
 :arrow_right: **write and use a 2D-FD solver for the time-dependent non-relativistic Schrödinger equation**
 
 ## Details
-* **write the solver** in a mix of `Python2` and `C++11` using `Armadillo`
+* **write the solver** in a mix of `Python3` and `C++11` using `Armadillo`
 * visualize the time-evolution of a wave packet with `Paraview`
-* get some **real-time monitoring information** of a run (in `Python2`)
-* implement an **automatic restart mechanism** (in `Python2`)
-* store the results in a **mongoDB database** (in `Python2`)
+* get some **real-time monitoring information** of a run (in `Python3`)
+* implement an **automatic restart mechanism** (in `Python3`)
+* store the results in a **mongoDB database** (in `Python3`)
 * calculate some **special physical cases** (diffraction, tunneling effect, HO solutions, etc...)
 * use `git`, `doxygen`, `make`, `cxxtest`, `swig`, `remark.js`, `Paraview`
 
@@ -222,18 +222,18 @@ Constants:
 ]
 
 ## Field generator
-* must be written in **Python2**
+* must be written in **Python3**
 * generate the initial wave function
 * generate the potential field from an image file, a formula, etc...
 
 ## Solver
-* must be written in **Python2** and **C++**
+* must be written in **Python3** and **C++**
 * **calculate the dynamical propagation**
 * must be able to be **stopped and restarted**
 * must store results in a **mongoDB database**
 
 ## Post-processor
-* must be written in **Python2**
+* must be written in **Python3**
 * connect to the **mongoDB database**
 * export data to `Paraview`
 
