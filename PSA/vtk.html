@@ -5,12 +5,12 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/asciinema-player.css"> 
   </head>
   <body>
     <textarea id="source" readonly>
@@ -194,7 +194,7 @@ class: animated fadeIn middle numbers
 
 # `VTK` - Hello world !
 
-## .hcenter[\[vtk/vtk_hello_world.cpp\]]
+## .hcenter[\[vtk/vtk_hello_world_cpp/vtk_hello_world.cxx\]]
 ```C++
 #include <vtkCylinderSource.h>
 #include <vtkPolyDataMapper.h>
@@ -242,22 +242,40 @@ int main(int, char *[])
 
 ## .hcenter[\[vtk/vtk_hello_world_cpp/CMakeLists.txt\]]
 ```CMake
-cmake_minimum_required(VERSION 2.8.5 FATAL_ERROR)
-if(POLICY CMP0025)
-  cmake_policy(SET CMP0025 NEW) # CMake 3.0
+cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
+
+project(vtk_hello_world)
+
+find_package(VTK COMPONENTS 
+  vtkCommonColor
+  vtkCommonCore
+  vtkFiltersSources
+  vtkInteractionStyle
+  vtkRenderingContextOpenGL2
+  vtkRenderingCore
+  vtkRenderingFreeType
+  vtkRenderingGL2PSOpenGL2
+  vtkRenderingOpenGL2 QUIET)
+if (NOT VTK_FOUND)
+  message("Skipping vtk_hello_world: ${VTK_NOT_FOUND_MESSAGE}")
+  return ()
 endif()
-if(POLICY CMP0053)
-  cmake_policy(SET CMP0053 NEW) # CMake 3.1
-endif()
-
-project (ENSIIE-PSA)
-
-find_package(VTK 6.0 REQUIRED NO_MODULE) 
-
-include(${VTK_USE_FILE})
-
-add_executable(vtk_hello_world MACOSX_BUNDLE vtk_hello_world.cpp)
-target_link_libraries(vtk_hello_world ${VTK_LIBRARIES})
+message (STATUS "VTK_VERSION: ${VTK_VERSION}")
+if (VTK_VERSION VERSION_LESS "8.90.0")
+  # old system
+  include(${VTK_USE_FILE})
+  add_executable(vtk_hello_world MACOSX_BUNDLE vtk_hello_world.cxx )
+  target_link_libraries(vtk_hello_world PRIVATE ${VTK_LIBRARIES})
+else ()
+  # include all components
+  add_executable(vtk_hello_world MACOSX_BUNDLE vtk_hello_world.cxx )
+  target_link_libraries(vtk_hello_world PRIVATE ${VTK_LIBRARIES})
+  # vtk_module_autoinit is needed
+  vtk_module_autoinit(
+    TARGETS vtk_hello_world
+    MODULES ${VTK_LIBRARIES}
+    )
+endif () 
 ```
 
 ---
@@ -266,7 +284,7 @@ target_link_libraries(vtk_hello_world ${VTK_LIBRARIES})
 
 ## .hcenter[Shell session]
 .hcenter[
-<div data-dir='scripts/vtk_hello_world_cpp' class='cinescript'></div>
+<asciinema-player src="scripts/vtk_cpp.cast"></asciinema-player>
 ]
 
 ---
@@ -1139,8 +1157,8 @@ When a pipeline has been found for a given post-processing or visualization, the
     <script src="core/javascript/term.js"></script>
     <script src="core/javascript/jquery-2.1.1.min.js"></script>
     <script src="core/javascript/extend-jquery.js"></script>
-    <script src="core/javascript/cinescript.js"></script>
     <script src="core/javascript/gitgraph.js"></script>
+    <script src="core/javascript/asciinema-player.js"></script>
     <script>
 
     // === Remark.js initialization ===
@@ -1179,9 +1197,6 @@ When a pipeline has been found for a given post-processing or visualization, the
     
     // === Emojify.js initialization ===
     emojify.run();
-
-    // === Cinescript initialization ===
-    $(document).ready(init_cinescripts);
 
     renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "\\(", right: "\\)", display: false}], ignoredTags: [] });
 

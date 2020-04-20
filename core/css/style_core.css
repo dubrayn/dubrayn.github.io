@@ -76,6 +76,12 @@ body {
   margin: 0.4em 0 0.4em 0;
 }
 
+.asciinema-theme-asciinema .asciinema-terminal {
+ margin: 0 0 0 0;
+ border-radius: 0.2em;
+}
+
+
 .remark-slide-content p {
   margin: 0.2em 0 0.2em 0;
 }
@@ -414,14 +420,14 @@ div.remark-code-line:empty::before {
   background-color: rgba(0,0,0,0.9);
 }
 
-#terminal, code, .remark-code, .cinescript, .hljs.remark-code {
+#terminal, code, .remark-code, .cinescript, .hljs.remark-code, .asciinema-terminal {
   word-wrap: break-word;
   white-space: pre-wrap;
   box-sizing: border-box;
   padding: 0.3em;
 }
 
-.nowrap #terminal, .nowrap code, .nowrap .remark-code, .nowrap .cinescript, .nowrap .hljs.remark-code {
+.nowrap #terminal, .nowrap code, .nowrap .remark-code, .nowrap .cinescript, .nowrap .hljs.remark-code, .asciinema-terminal {
   white-space: pre;
 }
 
@@ -582,7 +588,7 @@ span.mermaid.shadow {
   margin-bottom: 0;
 }
 
-#terminal, code, .remark-code, table, .block, .alert, .cinescript, hr {
+#terminal, .asciinema-player, code, .remark-code, table, .block, .alert, .cinescript, hr {
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7);
 }
 
