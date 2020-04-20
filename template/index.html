@@ -5,12 +5,12 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/asciinema-player.css"> 
   </head>
   <body>
     <textarea id="source" readonly>
@@ -184,20 +184,17 @@ print("Hello from the best language !")
 ---
 
 class: middle
-# Example #1 of a cinescript capture
+# Example of an `asciinema` capture
 
 .hcenter[
-<div data-dir='scripts/toto' class='cinescript'></div>
+<asciinema-player src="scripts/example.cast"></asciinema-player>
 ]
 
----
+:arrow_right: record your shell sessions with
 
-class: middle
-# Example #2 of a cinescript capture
-
-.hcenter[
-<div data-dir='scripts/toto2' class='cinescript'></div>
-]
+```shell
+$ asciinema rec
+```
 
 ---
 
@@ -437,15 +434,11 @@ Holy :cow: !!! I can put notes on my slides !?!
     <script src="core/javascript/auto-render.min.js"></script>
     <script src="core/javascript/emojify.js"></script>
     <script src="core/javascript/mermaid.js"></script>
-    <script src="core/javascript/term.js"></script>
     <script src="core/javascript/jquery-2.1.1.min.js"></script>
     <script src="core/javascript/extend-jquery.js"></script>
-    <script src="core/javascript/cinescript.js"></script>
     <script src="core/javascript/gitgraph.js"></script>
     <script src="core/javascript/plotly.js"></script>
-    <script src="vega.js"></script>
-    <script src="vega-lite.js"></script>
-    <script src="vega-embed.js"></script>
+    <script src="core/javascript/asciinema-player.js"></script>
     <script>
 
     // === Remark.js initialization ===
@@ -485,9 +478,6 @@ Holy :cow: !!! I can put notes on my slides !?!
     
     // === Emojify.js initialization ===
     emojify.run();
-
-    // === Cinescript initialization ===
-    $(document).ready(init_cinescripts);
 
     // KaTeX
     renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}], ignoredTags: ["script", "noscript", "style", "textarea", "pre"] });
