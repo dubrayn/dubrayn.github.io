@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # generate 'mandel_polydata.vtp' first !
 import vtk

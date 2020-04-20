@@ -126,10 +126,11 @@ Project:
 ---- Session 2 ----
 
 * python bindings - swig (end)
-* mongoDB
+* mongoDB (start , slide 30)
 
 ---- Session 3 ----
 
+* mongoDB (end)
 * live monitoring
 
 ---- Session 4 ----
