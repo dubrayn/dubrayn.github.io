@@ -19,6 +19,7 @@ The presentations use original or slightly modified versions of the following op
 * [term.js](https://github.com/chjj/term.js)
 * [plotly.js](https://plot.ly/javascript)
 * [animate.css](https://daneden.github.io/animate.css)
+* [asciinema.js](https://github.com/asciinema/asciinema-player)
 
 # How to use
 
