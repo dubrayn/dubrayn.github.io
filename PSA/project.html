@@ -239,6 +239,86 @@ Constants:
 
 ---
 
+# Project - use cases
+
+In the following, different possible use cases are given.
+
+You must design your project so that these use cases are easy to be realized by the average user.
+
+---
+
+# Project - use case #0
+
+## Tweaking the initial state / the potential
+
+The user wants to be sure that the initial state and the potential are fine before starting a calculation.
+
+A possible workflow **on a local computer** for this can be:
+
+1. generate initial state, mesh, potential with the **Field generator** from a `.json` file
+1. generate the corresponding `VTK` file with the **Post processor**
+1. visualize the `VTK` file with **Paraview**
+1. tweak the `.json` file
+1. goto 1 (this can last for hours)
+
+:arrow_right: The **Post processor** must be able to deal with the initial quantities, whithout the **Solver** being involved.
+
+---
+
+# Project - use case #1
+
+## Monitoring the calculation
+
+The user wants to check that an on-going calculation is well behaving.
+
+A possible workflow for this can be:
+
+1. launch the **Solver** on a supercomputer
+1. while the **Solver** is running, launch on a local computer the **Post processor** to generate the most recent `VTK` file
+1. visualize the `VTK` file with **Paraview** on a local computer
+1. stop the **Solver** if needed
+
+:arrow_right: The **Post processor** must be able to deal with intermediate results produced by an on-going calculation.
+
+---
+
+# Project - use case #2
+
+## Automatic restart mechanism
+
+An interrupted run of the **Solver** must be able to automatically continue from its last saved state.
+
+A possible workflow **on a supercomputer** for this can be:
+
+1. launch the **Solver** on a supercomputer
+1. the **Solver** saves intermediate results somewhere (database)
+1. the **Solver** is killed for an unknown reason (not by the user)
+1. the **Solver** is launched with **exactly the same inputs** as in 1
+1. the **Solver** finds out that the calculation has already been partially done, and continues from the most recent intermediate result
+
+:arrow_right: This must be done whithout any user intervention.
+
+:arrow_right: If a run has already been completed, the **Solver** must not calculate it again.
+
+---
+
+# Project - use case #3 (bonus)
+
+## Start a new calculation from an existing result
+
+The user wants to start a new calculation from a previous result (initial, intermediate or final) with different parameters (time scale, numerical scheme, mesh size...)
+
+A possible workflow for this can be:
+
+1. use the **Field generator** to generate the relevant initial quantities
+2. launch the **Solver** on a supercomputer
+
+:arrow_right: This is a **bonus** use case, try to implement this **only if the other use cases are fine**.
+
+:warning: Changing the mesh dimensions may involve interpolating values.
+
+---
+
 # Project - Field generator
 
 ## Possible initial wave functions
@@ -257,9 +337,6 @@ with
 * `\(w\)` the width of the gaussian,
 * `\((k_x, k_y)\)` the initial speed,
 * `\(A\)` a normalization constant.
-
-
-
 
 ---
 
