@@ -1,21 +1,24 @@
 #include <iostream>
-#include <exception>
 
-int func0(int a, int b) noexcept
+double func0(int a, int b) throw(int, double)
 {
-  throw 42;
+  if (b == 0) // hit
+  {
+    throw 'b';  // throw a char
+  }
+  return (double)a / (double)b;
 }
 
 int main(int argc, char ** argv)
 {
   try
   {
-    func0(0, 0);
+    double v1 = func0(2, 0);
   }
-  catch(int &i)
+
+  catch(char &c)  // catch
   {
-    std::cout << "catch int exception" << std::endl;
+    std::cout << "catch char exception" << std::endl; // handle
   }
   return 0;
 }
-

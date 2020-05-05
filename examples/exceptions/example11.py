@@ -1,9 +1,14 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+
+class myLookupErrorClass(LookupError):
+  '''raise this class in case of a lookup error'''
 
 try:
-  print('press Ctrl-C')
-  while True:
-    pass
-except KeyboardInterrupt:
-  print('SIGINT received')
+  raise myLookupErrorClass('custom message')
+except myLookupErrorClass as e:
+  print("catch myLookupErrorClass: %s" % (str(e)))
+except:
+  print("generic catch")
+
+  
 

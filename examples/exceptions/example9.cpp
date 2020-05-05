@@ -12,9 +12,14 @@ class myException: public A, public std::runtime_error
 
 int main(int argc, char ** argv)
 {
-  try { throw myException("custom text"); }
-  catch(std::runtime_error &e) { std::cout << "catch std::runtime_error, what(): " << e.what() << std::endl; }
-  catch(myException &e) { std::cout << "catch custom exception, what(): " << e.what() << std::endl; }
+  try
+  {
+    throw myException("custom text");
+  }
+  catch(std::runtime_error &e)
+  {
+    std::cout << "catch std::runtime_error exception, what(): " << e.what() << std::endl;
+  }
   return 0;
 }
 

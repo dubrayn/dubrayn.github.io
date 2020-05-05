@@ -1,15 +1,20 @@
 #include <iostream>
 #include <exception>
 
+int func0(int a, int b) noexcept
+{
+  throw 42;
+}
+
 int main(int argc, char ** argv)
 {
   try
   {
-    int* myarray= new int[10000000000];
+    func0(0, 0);
   }
-  catch(std::exception &e)
+  catch(int &i)
   {
-    std::cout << "catch exception, what(): " << e.what() << std::endl;
+    std::cout << "catch int exception" << std::endl;
   }
   return 0;
 }

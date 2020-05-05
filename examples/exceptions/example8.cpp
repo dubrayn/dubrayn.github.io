@@ -16,9 +16,9 @@ int main(int argc, char ** argv)
   {
     throw myException("custom text");
   }
-  catch(std::runtime_error &e)
+  catch(myException &e)
   {
-    std::cout << "catch std::runtime_error exception, what(): " << e.what() << std::endl;
+    std::cout << "catch custom exception, what(): " << e.what() << std::endl;
   }
   return 0;
 }

@@ -20,13 +20,7 @@ double func0(int a, int b)
 
 int main(int argc, char ** argv)
 {
-  try
-  {
-    func0(0,1);
-  }
-  catch(int &i)
-  {
-    std::cout << "catch in main" << std::endl;
-  }
+  try { func0(0,1); }
+  catch(int &i) { std::cout << "catch in main" << std::endl; }
   return 0;
 }

@@ -252,27 +252,27 @@ class: top
 ```C++
 #include <iostream>
 
-double func0(int a, int b) { if (a == 0) throw 3; return 0.0; }
+double func1(int a, int b) { if (a == 0) throw 3; return 0.0; }
 
-double func1(int a, int b)
+double func0(int a, int b)
 {
   double r = 0.0;
   try
   {
-    r = func0(0, b);
+    r = func1(0, b);
     std::cout << "normal execution" << std::endl;
   }
   catch(int &i)
   {
-    std::cout << "catch in func1" << std::endl;
-*   throw;
+    std::cout << "catch in func0" << std::endl;
+    throw;
   }
   return r;
 }
 
 int main(int argc, char ** argv)
 {
-  try { func1(0,1); }
+  try { func0(0,1); }
   catch(int &i) { std::cout << "catch in main" << std::endl; }
   return 0;
 }
@@ -337,7 +337,94 @@ class: top
 
 # Exception handling in `C++`
 
-## .hcenter[\[example2.cpp\]]
+## .hcenter[\[example2a.cpp\]]
+```C++
+#include <iostream>
+#include <exception>
+
+*int func0(int a, int b) throw() // all exceptions from this function will trigger std::unexpected.
+{
+  throw 5;
+}
+
+void customUnexpected(void)
+{
+  std::cerr << "unexpected called" << std::endl;
+  throw 0; // must throw something or terminate the program
+}
+
+int main (void)
+{
+  std::set_unexpected(customUnexpected);
+
+  try { func0(2, 3); }
+  catch(int &i) { std::cout << "catch in main" << std::endl; }
+  return 0;
+}
+```
+
+--
+
+## .hcenter[Shell session]
+```shell
+$ g++ example2a.cpp -o example2a
+$ ./example2a
+*unexpected called
+*terminate called after throwing an instance of 'int'
+*Aborted
+```
+
+---
+
+class: top
+
+# Exception handling in `C++`
+
+## .hcenter[\[example2b.cpp\]]
+```C++
+#include <iostream>
+#include <exception>
+
+*int func0(int a, int b) throw(int) // non-int exceptions from this function will trigger std::unexpected.
+{
+  throw 5;
+}
+
+void customUnexpected(void)
+{
+  std::cerr << "unexpected called" << std::endl;
+  throw 0; // must throw something or terminate the program
+}
+
+int main (void)
+{
+  std::set_unexpected(customUnexpected);
+
+  try { func0(2, 3); }
+  catch(int &i) { std::cout << "catch in main" << std::endl; }
+  return 0;
+}
+```
+
+--
+
+## .hcenter[Shell session]
+```shell
+$ g++ example2b.cpp -o example2b
+*example2b.cpp:4:25: warning: dynamic exception specifications are deprecated in C++11 [-Wdeprecated]
+*   4 | int func0(int a, int b) throw(int) // non-int exceptions from this function will trigger std::unexpected.
+*     |                         ^~~~~
+$ ./example2b
+*catch in main
+```
+
+---
+
+class: top
+
+# Exception handling in `C++`
+
+## .hcenter[\[example3.cpp\]]
 ```C++
 #include <iostream>
 
@@ -369,9 +456,12 @@ int main(int argc, char ** argv)
 
 ## .hcenter[Shell session]
 ```shell
-$ g++ example2.cpp -o example2
-$ ./example2
-catch char exception
+$ g++ example3.cpp -o example3
+*example3.cpp:3:28: warning: dynamic exception specifications are deprecated in C++11 [-Wdeprecated]
+*   3 | double func0(int a, int b) throw(int, char, double)
+*     |                            ^~~~~
+$ ./example3
+*catch char exception
 ```
 
 ---
@@ -380,7 +470,7 @@ class: top
 
 # Exception handling in `C++`
 
-## .hcenter[\[example3.cpp\]]
+## .hcenter[\[example4.cpp\]]
 ```C++
 #include <iostream>
 
@@ -412,8 +502,11 @@ int main(int argc, char ** argv)
 
 ## .hcenter[Shell session]
 ```shell
-$ g++ example3.cpp -o example3
-$ ./example3
+$ g++ example4.cpp -o example4
+*example4.cpp:3:28: warning: dynamic exception specifications are deprecated in C++11 [-Wdeprecated]
+*   3 | double func0(int a, int b) throw(int, double)
+*     |                            ^~~~~
+$ ./example4
 *terminate called after throwing an instance of 'char'
 *Aborted
 ```
@@ -440,7 +533,7 @@ class: top
 
 # Exception handling in `C++`
 
-## .hcenter[\[example4.cpp\]]
+## .hcenter[\[example5.cpp\]]
 ```C++
 #include <iostream>
 #include <exception>
@@ -468,12 +561,12 @@ int main(int argc, char ** argv)
 
 ## .hcenter[Shell session]
 ```shell
-$ g++ --std=c++11 example4.cpp -o example4
-*example4.cpp: In function 'int func0(int, int)':
-*example4.cpp:6:9: warning: throw will always call terminate() [-Wterminate]
-*  throw 42;
-*        ^~
-$ ./example4
+$ g++ --std=c++11 example5.cpp -o example5
+*example5.cpp: In function ‘int func0(int, int)’:
+*example5.cpp:6:9: warning: throw will always call terminate() [-Wterminate]
+*   6 |   throw 42;
+*     |         ^~
+$ ./example5
 *terminate called after throwing an instance of 'int'
 *Aborted
 ```
@@ -524,7 +617,7 @@ class: top
 
 # Exception handling in `C++`
 
-## .hcenter[\[example5.cpp\]]
+## .hcenter[\[example6.cpp\]]
 ```C++
 #include <iostream>
 #include <exception>
@@ -547,8 +640,8 @@ int main(int argc, char ** argv)
 
 ## .hcenter[Shell session]
 ```shell
-$ g++ example5.cpp -o example5
-$ ./example5
+$ g++ example6.cpp -o example6
+$ ./example6
 catch exception, what(): std::bad_alloc
 ```
 
@@ -583,10 +676,11 @@ class: top
 
 # Exception handling in `C++`
 
-## .hcenter[\[example6.cpp\]]
+## .hcenter[\[example7.cpp\]]
 ```C++
 #include <iostream>
 #include <exception>
+#include <stdexcept>
 
 class myException: public std::exception
 {
@@ -604,14 +698,8 @@ class myException: public std::exception
 
 int main(int argc, char ** argv)
 {
-  try
-  {
-    throw myException("custom text");
-  }
-  catch(myException &e)
-  {
-    std::cout << "catch custom exception, what(): " << e.what() << std::endl;
-  }
+  try { throw myException("custom text"); }
+  catch(myException &e) { std::cout << "catch custom exception, what(): " << e.what() << std::endl; }
   return 0;
 }
 ```
@@ -620,8 +708,8 @@ int main(int argc, char ** argv)
 
 ## .hcenter[Shell session]
 ```shell
-$ g++ example6.cpp -o example6
-$ ./example6
+$ g++ example7.cpp -o example7
+$ ./example7
 catch custom exception, what(): custom text
 ```
 
@@ -631,7 +719,7 @@ class: top
 
 # Exception handling in `C++`
 
-## .hcenter[\[example7.cpp\]]
+## .hcenter[\[example8.cpp\]]
 ```C++
 #include <iostream>
 #include <exception>
@@ -664,8 +752,8 @@ int main(int argc, char ** argv)
 
 ## .hcenter[Shell session]
 ```shell
-$ g++ example7.cpp -o example7
-$ ./example7
+$ g++ example8.cpp -o example8
+$ ./example8
 catch custom exception, what(): custom text
 ```
 
@@ -681,7 +769,7 @@ class: top
 
 --
 
-## .hcenter[\[example8.cpp\]]
+## .hcenter[\[example9.cpp\]]
 ```C++
 #include <iostream>
 #include <exception>
@@ -713,8 +801,8 @@ int main(int argc, char ** argv)
 
 ## .hcenter[Shell session]
 ```shell
-$ g++ example8.cpp -o example8
-$ ./example8
+$ g++ example9.cpp -o example9
+$ ./example9
 catch std::runtime_error, what(): custom text
 ```
 
@@ -726,7 +814,7 @@ class: top
 
 :warning: if you mix `catch` blocks for derived exception types, catch any exception type **before** its ancestors.
 
-## .hcenter[\[example9.cpp\]]
+## .hcenter[\[example10.cpp\]]
 ```C++
 #include <iostream>
 #include <exception>
@@ -753,15 +841,15 @@ int main(int argc, char ** argv)
 
 ## .hcenter[Shell session]
 ```shell
-$ g++ example9.cpp -o example9
-*example9.cpp: In function 'int main(int, char**)':
-*example9.cpp:23:3: warning: exception of type 'myException' will be caught
-*  catch(myException &e)
-*  ^~~~~
-*example9.cpp:19:3: warning:    by earlier handler for 'std::runtime_error'
-*  catch(std::runtime_error &e)
-*  ^~~~~
-$ ./example9
+$ g++ example10.cpp -o example10
+*example10.cpp: In function ‘int main(int, char**)’:
+*example10.cpp:17:3: warning: exception of type ‘myException’ will be caught
+*  17 |   catch(myException &e) { std::cout << "catch custom exception, what(): " << e.what() << std::endl; }
+*     |   ^~~~~
+*example10.cpp:16:3: warning:    by earlier handler for ‘std::runtime_error’
+*  16 |   catch(std::runtime_error &e) { std::cout << "catch std::runtime_error, what(): " << e.what() << std::endl; }
+*     |   ^~~~~
+$ ./example10
 catch std::runtime_error, what(): custom text
 ```
 
@@ -830,9 +918,9 @@ class: top
 
 :arrow_right: derivate from one of `Python` error classes.
 
-## .hcenter[\[example10.py\]]
+## .hcenter[\[example11.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 class myLookupErrorClass(LookupError):
   '''raise this class in case of a lookup error'''
@@ -849,7 +937,7 @@ except:
 
 ## .hcenter[Shell session]
 ```shell
-$ python example10.py
+$ python3 example11.py
 catch myLookupErrorClass: custom message
 ```
 
@@ -960,9 +1048,9 @@ StandardError
 :arrow_right: `KeyboardInterrupt` is raised when `SIGINT` is received.  
 :warning: this is not the case in `C++`.
 
-## .hcenter[\[example10.py\]]
+## .hcenter[\[example11.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 try:
   print('press Ctrl-C')
@@ -974,7 +1062,7 @@ except KeyboardInterrupt:
 
 ## .hcenter[Shell session]
 ```shell
-$ python example11.py
+$ python3 example12.py
 press Ctrl-C
 ^CSIGINT received
 ```
@@ -1153,7 +1241,7 @@ setup (name = 'package_test',
 ## Compilation (`Setuptools`)
 
 ```shell
-*$ python setup.py build
+*$ python3 setup.py build
 running build
 running build_py
 file testmod3.py (for module testmod3) not found
@@ -1162,7 +1250,7 @@ running build_ext
 building '_testmod3' extension
 swigging testmod3.i to testmod3_wrap.cpp
 swig -python -c++ -o testmod3_wrap.cpp testmod3.i
-myclass.h:9: Warning 314: 'print' is a python keyword, renaming to '_print'
+*myclass.h:9: Warning 314: 'print' is a python keyword, renaming to '_print'
 creating build
 creating build/temp.linux-x86_64-2.7
 x86_64-linux-gnu-gcc -pthread -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fno-strict-aliasing -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -fPIC -I/usr/include/python2.7 -c testmod3_wrap.cpp -o build/temp.linux-x86_64-2.7/testmod3_wrap.o
@@ -1180,14 +1268,15 @@ x86_64-linux-gnu-g++ -pthread -shared -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsym
 ## Installation
 
 ```shell
-$ python setup.py install --user
+$ python3 setup.py install --user
+[...]
 ```
 
 ## Usage
 
 ## .hcenter[\[test.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 import testmod3
@@ -1204,12 +1293,21 @@ except:
 print('normal program end')
 ```
 
+
+.row[
+.column.w75[
 ## .hcenter[Shell session]
 ```shell
-$ python test.py
+$ python3 test.py
 runtime error 'EXCEPTION !!!'
 normal program end
 ```
+]
+.column.w20[
+.w100.hcenter[![](images/exception_phoenix.png)]
+]
+]
+
 
 ---
 
