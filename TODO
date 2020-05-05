@@ -143,10 +143,6 @@ Project:
 
 ---- Session 6 ----
 
-* errors / exceptions
-
----- Session 7 ----
-
 * paraview
  * cow.vtp
   * generate normals
@@ -173,6 +169,10 @@ Project:
   * plotSelectionOverTime
   * save animation
   * view animation
+
+---- Session 7 ----
+
+* errors / exceptions
 
 ---- Session 8 ----
 
