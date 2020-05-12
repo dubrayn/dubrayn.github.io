@@ -1775,10 +1775,10 @@ hello
 
 ## Other modules
 :arrow_right: Some specialized modules may be **more efficient** for local or remote multiprocessing in `Python`:
-* `mpi4py`: MPI for `Python`
-* `pymp`: OpenMP-like for `Python`
-* `asyncio`: single-threaded concurrent code
+* `pymp`: OpenMP-like for `Python`, **no GIL issue** (on systems with `fork()` support)
+* `asyncio`: manage concurrent coroutines
 * `multiprocessing.Pool`: easily distribute function evaluation
+* [`mpi4py`](mpi4py.html): MPI for `Python`
 * etc...
 
     </textarea>
