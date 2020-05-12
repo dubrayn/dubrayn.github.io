@@ -160,7 +160,7 @@ A **thread of execution** is the smallest sequence of programmed instructions th
 
 ## .hcenter[\[threading/example0.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import threading
 
@@ -171,21 +171,40 @@ for i in range(8):
   threading.Thread(target = worker).start()
 ```
 
+.row[
+.column.w45[
 ## .hcenter[Shell session]
 
 ```shell
-$ threading/example0.py
+$ python2 threading/example0.py
+new worker
+new worker
 new worker
 new worker
 new workernew worker
-
+ 
 new worker
- new worker
- new worker
 new worker
 ```
+]
+.column.w45[
+## .hcenter[Shell session]
 
-:arrow_right: Why is the output mangled ?
+```shell
+$ python3 threading/example0.py
+new worker
+new worker
+new worker
+new worker
+new worker
+new worker
+new worker
+new worker
+```
+]
+]
+
+:arrow_right: Why is the output mangled with `python2` ?
 
 ---
 
@@ -205,7 +224,7 @@ There are two ways to specify which code to run:
 
 ## .hcenter[\[threading/example1.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import threading
 import time
@@ -229,7 +248,7 @@ print('after')
 ## .hcenter[Shell session]
 
 ```shell
-$ threading/example1.py
+$ python3 threading/example1.py
 before
 new worker
 new worker
@@ -246,7 +265,7 @@ end of worker
 
 ## .hcenter[\[threading/example2.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import threading
 import time
@@ -271,7 +290,7 @@ print('after')
 ## .hcenter[Shell session]
 
 ```shell
-$ threading/example2.py
+$ python3 threading/example2.py
 before
 new worker
 new worker
@@ -297,7 +316,7 @@ after
 
 ## .hcenter[\[threading/example3.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import threading
 import time
@@ -322,7 +341,7 @@ print('after')
 ## .hcenter[Shell session]
 
 ```shell
-$ threading/example3.py
+$ python3 threading/example3.py
 before
 new worker
 new worker
@@ -342,7 +361,7 @@ after
 
 ## .hcenter[\[threading/example4.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import threading
 
@@ -353,20 +372,36 @@ for i in range(8):
 * threading.Thread(target = worker, args = (i,)).start()
 ```
 
+.row[
+.column.w45[
 ## .hcenter[Shell session]
 
 ```shell
-$ threading/example4.py
+$ python2 threading/example4.py
 new worker: 0new worker: 1
-
  new worker: 2
 new worker: 3
  new worker: 5new worker: 4
  new worker: 6
-
 new worker: 7
-
 ```
+]
+.column.w45[
+## .hcenter[Shell session]
+
+```shell
+$ python3 threading/example4.py
+new worker: 0
+new worker: 1
+new worker: 2
+new worker: 3
+new worker: 4
+new worker: 5
+new worker: 6
+new worker: 7
+```
+]
+]
 
 :warning: There is no *nice* way to pass arguments when overriding the `run()` method.
 
@@ -377,7 +412,7 @@ new worker: 7
 ## Mangled output ?
 
 ```shell
-$ threading/example4.py
+$ python2 threading/example4.py
 new worker: 0new worker: 1
 
  new worker: 2
@@ -402,7 +437,7 @@ Check [`logging` documentation](https://docs.python.org/2/library/logging.html) 
 
 ## .hcenter[\[threading/example5.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 *import logging
 import threading
@@ -423,16 +458,16 @@ for i in range(8):
 ## .hcenter[Shell session]
 
 ```shell
-$ threading/example5.py
-2018-05-02 15:57:24.697 [DEBUG] (MainThread) start
-2018-05-02 15:57:24.698 [DEBUG] (THREAD-0) new worker: 0
-2018-05-02 15:57:24.698 [DEBUG] (THREAD-1) new worker: 1
-2018-05-02 15:57:24.698 [DEBUG] (THREAD-3) new worker: 3
-2018-05-02 15:57:24.699 [DEBUG] (THREAD-2) new worker: 2
-2018-05-02 15:57:24.699 [DEBUG] (THREAD-4) new worker: 4
-2018-05-02 15:57:24.699 [DEBUG] (THREAD-5) new worker: 5
-2018-05-02 15:57:24.699 [DEBUG] (THREAD-6) new worker: 6
-2018-05-02 15:57:24.700 [DEBUG] (THREAD-7) new worker: 7
+$ python3 threading/example5.py
+2020-05-02 15:57:24.697 [DEBUG] (MainThread) start
+2020-05-02 15:57:24.698 [DEBUG] (THREAD-0) new worker: 0
+2020-05-02 15:57:24.698 [DEBUG] (THREAD-1) new worker: 1
+2020-05-02 15:57:24.698 [DEBUG] (THREAD-3) new worker: 3
+2020-05-02 15:57:24.699 [DEBUG] (THREAD-2) new worker: 2
+2020-05-02 15:57:24.699 [DEBUG] (THREAD-4) new worker: 4
+2020-05-02 15:57:24.699 [DEBUG] (THREAD-5) new worker: 5
+2020-05-02 15:57:24.699 [DEBUG] (THREAD-6) new worker: 6
+2020-05-02 15:57:24.700 [DEBUG] (THREAD-7) new worker: 7
 ```
 
 ---
@@ -446,7 +481,7 @@ $ threading/example5.py
 
 ## .hcenter[\[threading/example6.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
@@ -466,8 +501,8 @@ for i in range(3):
 ## .hcenter[Shell session]
 
 ```shell
-$ threading/example6.py
-2018-05-02 16:20:31.045 [DEBUG] (MainThread) ['MainThread', 'THREAD-0', 'THREAD-2', 'THREAD-1']
+$ python3 threading/example6.py
+2020-05-02 16:20:31.045 [DEBUG] (MainThread) ['MainThread', 'THREAD-0', 'THREAD-2', 'THREAD-1']
 ```
 
 ---
@@ -480,7 +515,7 @@ $ threading/example6.py
 
 ## .hcenter[\[threading/example7.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
@@ -500,12 +535,12 @@ logging.debug("stop ?")
 ## .hcenter[Shell session]
 
 ```shell
-$ threading/example7.py
-2018-05-02 21:07:23.248 [DEBUG] (MainThread) start
-2018-05-02 21:07:23.249 [DEBUG] (MainThread) stop ?
-2018-05-02 21:07:24.249 [DEBUG] (Thread-1) worker 0
-2018-05-02 21:07:25.249 [DEBUG] (Thread-2) worker 1
-2018-05-02 21:07:26.249 [DEBUG] (Thread-3) worker 2
+$ python3 threading/example7.py
+2020-05-02 21:07:23.248 [DEBUG] (MainThread) start
+2020-05-02 21:07:23.249 [DEBUG] (MainThread) stop ?
+2020-05-02 21:07:24.249 [DEBUG] (Thread-1) worker 0
+2020-05-02 21:07:25.249 [DEBUG] (Thread-2) worker 1
+2020-05-02 21:07:26.249 [DEBUG] (Thread-3) worker 2
 ```
 
 :arrow_right: The "countdown" can be canceled with the `cancel()` method.
@@ -520,7 +555,7 @@ $ threading/example7.py
 
 ## .hcenter[\[threading/example8.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
@@ -544,11 +579,11 @@ for i in range(3):
 ## .hcenter[Shell session]
 
 ```shell
-$ threading/example8.py
-2018-05-02 21:23:46.490 [DEBUG] (MainThread) start
-2018-05-02 21:23:46.491 [DEBUG] (THREAD-0) worker 0: a = 1
-2018-05-02 21:23:46.491 [DEBUG] (THREAD-1) worker 1: a = 1
-2018-05-02 21:23:46.491 [DEBUG] (THREAD-2) worker 2: a = 2
+$ python3 threading/example8.py
+2020-05-02 21:23:46.490 [DEBUG] (MainThread) start
+2020-05-02 21:23:46.491 [DEBUG] (THREAD-0) worker 0: a = 1
+2020-05-02 21:23:46.491 [DEBUG] (THREAD-1) worker 1: a = 1
+2020-05-02 21:23:46.491 [DEBUG] (THREAD-2) worker 2: a = 2
 ```
 
 ---
@@ -567,6 +602,8 @@ $ threading/example8.py
 
 ---
 
+class: top
+
 # Multiprocessing: `threading` module
 
 ## `threading.Lock`
@@ -575,7 +612,7 @@ $ threading/example8.py
 
 ## .hcenter[\[threading/example9.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
@@ -603,6 +640,8 @@ for i in range(3):
   threading.Thread(name = 'THREAD-%01d' % (i), target = worker, args = (i,)).start()
 ```
 
+--
+
 :moneybag: Bonus question: Why "`global a`" and not "`global a, l`" or "" ?
 
 ---
@@ -612,23 +651,23 @@ for i in range(3):
 ## .hcenter[Shell session]
 
 ```shell
-$ threading/example9.py
-2018-05-02 21:59:01.323 [DEBUG] (MainThread) start
-2018-05-02 21:59:01.324 [DEBUG] (THREAD-0) lock.acquire()
-2018-05-02 21:59:01.324 [DEBUG] (THREAD-0)  lock acquired !
-2018-05-02 21:59:01.324 [DEBUG] (THREAD-1) lock.acquire()
-2018-05-02 21:59:01.324 [DEBUG] (THREAD-0)   worker 0: a = 1
-2018-05-02 21:59:01.324 [DEBUG] (THREAD-2) lock.acquire()
-2018-05-02 21:59:01.324 [DEBUG] (THREAD-0)    lock.release()
-2018-05-02 21:59:01.324 [DEBUG] (THREAD-0)     lock released !
-2018-05-02 21:59:01.325 [DEBUG] (THREAD-1)  lock acquired !
-2018-05-02 21:59:01.325 [DEBUG] (THREAD-1)   worker 1: a = 2
-2018-05-02 21:59:01.325 [DEBUG] (THREAD-1)    lock.release()
-2018-05-02 21:59:01.325 [DEBUG] (THREAD-1)     lock released !
-2018-05-02 21:59:01.325 [DEBUG] (THREAD-2)  lock acquired !
-2018-05-02 21:59:01.325 [DEBUG] (THREAD-2)   worker 2: a = 3
-2018-05-02 21:59:01.325 [DEBUG] (THREAD-2)    lock.release()
-2018-05-02 21:59:01.325 [DEBUG] (THREAD-2)     lock released !
+$ python3 threading/example9.py
+2020-05-02 21:59:01.323 [DEBUG] (MainThread) start
+2020-05-02 21:59:01.324 [DEBUG] (THREAD-0) lock.acquire()
+2020-05-02 21:59:01.324 [DEBUG] (THREAD-0)  lock acquired !
+2020-05-02 21:59:01.324 [DEBUG] (THREAD-1) lock.acquire()
+2020-05-02 21:59:01.324 [DEBUG] (THREAD-0)   worker 0: a = 1
+2020-05-02 21:59:01.324 [DEBUG] (THREAD-2) lock.acquire()
+2020-05-02 21:59:01.324 [DEBUG] (THREAD-0)    lock.release()
+2020-05-02 21:59:01.324 [DEBUG] (THREAD-0)     lock released !
+2020-05-02 21:59:01.325 [DEBUG] (THREAD-1)  lock acquired !
+2020-05-02 21:59:01.325 [DEBUG] (THREAD-1)   worker 1: a = 2
+2020-05-02 21:59:01.325 [DEBUG] (THREAD-1)    lock.release()
+2020-05-02 21:59:01.325 [DEBUG] (THREAD-1)     lock released !
+2020-05-02 21:59:01.325 [DEBUG] (THREAD-2)  lock acquired !
+2020-05-02 21:59:01.325 [DEBUG] (THREAD-2)   worker 2: a = 3
+2020-05-02 21:59:01.325 [DEBUG] (THREAD-2)    lock.release()
+2020-05-02 21:59:01.325 [DEBUG] (THREAD-2)     lock released !
 ```
 
 ## To sum up
@@ -655,7 +694,7 @@ check the return value of the method (`True` means acquired).
 
 ## .hcenter[\[threading/example10.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
@@ -686,13 +725,13 @@ for i in range(3):
 
 ## .hcenter[Shell session]
 ```shell
-$ threading/example10.py
-2018-05-02 22:22:10.405 [DEBUG] (MainThread) start - this program should result in a deadlock
-2018-05-02 22:22:10.405 [DEBUG] (THREAD-0) lock.acquire()
-2018-05-02 22:22:10.405 [DEBUG] (THREAD-0)  lock acquired !
-2018-05-02 22:22:10.405 [DEBUG] (THREAD-0)   lock.acquire() again ?
-2018-05-02 22:22:10.406 [DEBUG] (THREAD-1) lock.acquire()
-2018-05-02 22:22:10.406 [DEBUG] (THREAD-2) lock.acquire()
+$ python3 threading/example10.py
+2020-05-02 22:22:10.405 [DEBUG] (MainThread) start - this program should result in a deadlock
+2020-05-02 22:22:10.405 [DEBUG] (THREAD-0) lock.acquire()
+2020-05-02 22:22:10.405 [DEBUG] (THREAD-0)  lock acquired !
+2020-05-02 22:22:10.405 [DEBUG] (THREAD-0)   lock.acquire() again ?
+2020-05-02 22:22:10.406 [DEBUG] (THREAD-1) lock.acquire()
+2020-05-02 22:22:10.406 [DEBUG] (THREAD-2) lock.acquire()
 *[DEADLOCK]
 ```
 
@@ -705,7 +744,7 @@ $ threading/example10.py
 
 ## .hcenter[\[threading/example11.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
@@ -740,26 +779,26 @@ for i in range(3):
 
 ## .hcenter[Shell session]
 ```shell
-$ threading/example11.py
-2018-05-02 22:40:39.877 [DEBUG] (MainThread) start
-2018-05-02 22:40:39.877 [DEBUG] (THREAD-0) lock.acquire()
-2018-05-02 22:40:39.877 [DEBUG] (THREAD-0)  lock acquired !
-2018-05-02 22:40:39.878 [DEBUG] (THREAD-0)   lock.acquire() again ?
-2018-05-02 22:40:39.878 [DEBUG] (THREAD-1) lock.acquire()
-2018-05-02 22:40:39.878 [DEBUG] (THREAD-0)    lock acquired !
-2018-05-02 22:40:39.878 [DEBUG] (THREAD-2) lock.acquire()
-2018-05-02 22:40:39.878 [DEBUG] (THREAD-0)     lock.release()
-2018-05-02 22:40:39.878 [DEBUG] (THREAD-0)      lock released !
-2018-05-02 22:40:39.878 [DEBUG] (THREAD-1)  lock acquired !
-2018-05-02 22:40:39.878 [DEBUG] (THREAD-1)   lock.acquire() again ?
-2018-05-02 22:40:39.878 [DEBUG] (THREAD-1)    lock acquired !
-2018-05-02 22:40:39.878 [DEBUG] (THREAD-1)     lock.release()
-2018-05-02 22:40:39.879 [DEBUG] (THREAD-1)      lock released !
-2018-05-02 22:40:39.879 [DEBUG] (THREAD-2)  lock acquired !
-2018-05-02 22:40:39.879 [DEBUG] (THREAD-2)   lock.acquire() again ?
-2018-05-02 22:40:39.879 [DEBUG] (THREAD-2)    lock acquired !
-2018-05-02 22:40:39.879 [DEBUG] (THREAD-2)     lock.release()
-2018-05-02 22:40:39.879 [DEBUG] (THREAD-2)      lock released !
+$ python3 threading/example11.py
+2020-05-02 22:40:39.877 [DEBUG] (MainThread) start
+2020-05-02 22:40:39.877 [DEBUG] (THREAD-0) lock.acquire()
+2020-05-02 22:40:39.877 [DEBUG] (THREAD-0)  lock acquired !
+2020-05-02 22:40:39.878 [DEBUG] (THREAD-0)   lock.acquire() again ?
+2020-05-02 22:40:39.878 [DEBUG] (THREAD-1) lock.acquire()
+2020-05-02 22:40:39.878 [DEBUG] (THREAD-0)    lock acquired !
+2020-05-02 22:40:39.878 [DEBUG] (THREAD-2) lock.acquire()
+2020-05-02 22:40:39.878 [DEBUG] (THREAD-0)     lock.release()
+2020-05-02 22:40:39.878 [DEBUG] (THREAD-0)      lock released !
+2020-05-02 22:40:39.878 [DEBUG] (THREAD-1)  lock acquired !
+2020-05-02 22:40:39.878 [DEBUG] (THREAD-1)   lock.acquire() again ?
+2020-05-02 22:40:39.878 [DEBUG] (THREAD-1)    lock acquired !
+2020-05-02 22:40:39.878 [DEBUG] (THREAD-1)     lock.release()
+2020-05-02 22:40:39.879 [DEBUG] (THREAD-1)      lock released !
+2020-05-02 22:40:39.879 [DEBUG] (THREAD-2)  lock acquired !
+2020-05-02 22:40:39.879 [DEBUG] (THREAD-2)   lock.acquire() again ?
+2020-05-02 22:40:39.879 [DEBUG] (THREAD-2)    lock acquired !
+2020-05-02 22:40:39.879 [DEBUG] (THREAD-2)     lock.release()
+2020-05-02 22:40:39.879 [DEBUG] (THREAD-2)      lock released !
 ```
 
 :arrow_right: At any time, an `RLock` object belongs to 0 or 1 thread.  
@@ -777,7 +816,7 @@ $ threading/example11.py
 
 ## .hcenter[\[threading/example12.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
@@ -804,15 +843,15 @@ s.set()
 
 ## .hcenter[Shell session]
 ```
-$ threading/example12.py
-2018-05-02 23:07:27.170 [DEBUG] (MainThread) start
-2018-05-02 23:07:27.170 [DEBUG] (THREAD-0) waiting for signal
-2018-05-02 23:07:27.171 [DEBUG] (THREAD-1) waiting for signal
-2018-05-02 23:07:27.171 [DEBUG] (THREAD-2) waiting for signal
-2018-05-02 23:07:27.171 [DEBUG] (MainThread) send signal
-2018-05-02 23:07:27.171 [DEBUG] (THREAD-0) signal received
-2018-05-02 23:07:27.171 [DEBUG] (THREAD-2) signal received
-2018-05-02 23:07:27.171 [DEBUG] (THREAD-1) signal received
+$ python3 threading/example12.py
+2020-05-02 23:07:27.170 [DEBUG] (MainThread) start
+2020-05-02 23:07:27.170 [DEBUG] (THREAD-0) waiting for signal
+2020-05-02 23:07:27.171 [DEBUG] (THREAD-1) waiting for signal
+2020-05-02 23:07:27.171 [DEBUG] (THREAD-2) waiting for signal
+2020-05-02 23:07:27.171 [DEBUG] (MainThread) send signal
+2020-05-02 23:07:27.171 [DEBUG] (THREAD-0) signal received
+2020-05-02 23:07:27.171 [DEBUG] (THREAD-2) signal received
+2020-05-02 23:07:27.171 [DEBUG] (THREAD-1) signal received
 ```
 
 :arrow_right: A **timeout** can be specified for `wait()`.
@@ -841,7 +880,7 @@ check the return value of the method (`True` means sent).
 
 ## .hcenter[\[threading/example13.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
@@ -876,18 +915,18 @@ for i in range(3):
 
 ## .hcenter[Shell session]
 ```shell
-$ threading/example13.py
-2018-05-03 13:19:34.204 [DEBUG] (MainThread) start
-2018-05-03 13:19:34.204 [DEBUG] (THREAD-0) wait
-2018-05-03 13:19:34.205 [DEBUG] (THREAD-1) wait
-2018-05-03 13:19:34.205 [DEBUG] (THREAD-2) wait
-2018-05-03 13:19:34.205 [DEBUG] (MainThread) set condition
-2018-05-03 13:19:35.206 [DEBUG] (MainThread) notify one thread
-2018-05-03 13:19:35.207 [DEBUG] (THREAD-0) received !
-2018-05-03 13:19:36.208 [DEBUG] (MainThread) notify one thread
-2018-05-03 13:19:36.208 [DEBUG] (THREAD-1) received !
-2018-05-03 13:19:37.209 [DEBUG] (MainThread) notify one thread
-2018-05-03 13:19:37.209 [DEBUG] (THREAD-2) received !
+$ python3 threading/example13.py
+2020-05-03 13:19:34.204 [DEBUG] (MainThread) start
+2020-05-03 13:19:34.204 [DEBUG] (THREAD-0) wait
+2020-05-03 13:19:34.205 [DEBUG] (THREAD-1) wait
+2020-05-03 13:19:34.205 [DEBUG] (THREAD-2) wait
+2020-05-03 13:19:34.205 [DEBUG] (MainThread) set condition
+2020-05-03 13:19:35.206 [DEBUG] (MainThread) notify one thread
+2020-05-03 13:19:35.207 [DEBUG] (THREAD-0) received !
+2020-05-03 13:19:36.208 [DEBUG] (MainThread) notify one thread
+2020-05-03 13:19:36.208 [DEBUG] (THREAD-1) received !
+2020-05-03 13:19:37.209 [DEBUG] (MainThread) notify one thread
+2020-05-03 13:19:37.209 [DEBUG] (THREAD-2) received !
 ```
 
 :warning: A `Condition`'s lock must be acquired before using `wait()`.  
@@ -906,7 +945,7 @@ $ threading/example13.py
 ## .hcenter[\[threading/example14.py\]]
 
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
@@ -936,38 +975,38 @@ for i in range(10):
 
 ## .hcenter[Shell session]
 ```shell
-$ threading/example14.py
-2018-05-03 14:30:34.591 [DEBUG] (MainThread) start
-2018-05-03 14:30:34.592 [DEBUG] (THREAD-0) wait
-2018-05-03 14:30:34.592 [DEBUG] (THREAD-1) wait
-2018-05-03 14:30:34.592 [DEBUG] (THREAD-2) wait
-2018-05-03 14:30:34.592 [DEBUG] (THREAD-3) wait
-2018-05-03 14:30:34.593 [DEBUG] (THREAD-4) wait
-2018-05-03 14:30:34.593 [DEBUG] (THREAD-5) wait
-2018-05-03 14:30:34.593 [DEBUG] (THREAD-6) wait
-2018-05-03 14:30:34.594 [DEBUG] (THREAD-7) wait
-2018-05-03 14:30:34.594 [DEBUG] (THREAD-8) wait
-2018-05-03 14:30:34.594 [DEBUG] (THREAD-9) wait
-2018-05-03 14:30:34.692 [DEBUG] (THREAD-0) received !
-2018-05-03 14:30:34.693 [DEBUG] (THREAD-1) received !
-2018-05-03 14:30:34.693 [DEBUG] (THREAD-0) release
-2018-05-03 14:30:34.693 [DEBUG] (THREAD-1) release
-2018-05-03 14:30:34.793 [DEBUG] (THREAD-3) received !
-2018-05-03 14:30:34.793 [DEBUG] (THREAD-3) release
-2018-05-03 14:30:34.793 [DEBUG] (THREAD-2) received !
-2018-05-03 14:30:34.794 [DEBUG] (THREAD-2) release
-2018-05-03 14:30:34.893 [DEBUG] (THREAD-4) received !
-2018-05-03 14:30:34.894 [DEBUG] (THREAD-4) release
-2018-05-03 14:30:34.894 [DEBUG] (THREAD-5) received !
-2018-05-03 14:30:34.894 [DEBUG] (THREAD-5) release
-2018-05-03 14:30:34.994 [DEBUG] (THREAD-6) received !
-2018-05-03 14:30:34.994 [DEBUG] (THREAD-6) release
-2018-05-03 14:30:34.995 [DEBUG] (THREAD-7) received !
-2018-05-03 14:30:34.995 [DEBUG] (THREAD-7) release
-2018-05-03 14:30:35.094 [DEBUG] (THREAD-8) received !
-2018-05-03 14:30:35.095 [DEBUG] (THREAD-8) release
-2018-05-03 14:30:35.095 [DEBUG] (THREAD-9) received !
-2018-05-03 14:30:35.095 [DEBUG] (THREAD-9) release
+$ python3 threading/example14.py
+2020-05-03 14:30:34.591 [DEBUG] (MainThread) start
+2020-05-03 14:30:34.592 [DEBUG] (THREAD-0) wait
+2020-05-03 14:30:34.592 [DEBUG] (THREAD-1) wait
+2020-05-03 14:30:34.592 [DEBUG] (THREAD-2) wait
+2020-05-03 14:30:34.592 [DEBUG] (THREAD-3) wait
+2020-05-03 14:30:34.593 [DEBUG] (THREAD-4) wait
+2020-05-03 14:30:34.593 [DEBUG] (THREAD-5) wait
+2020-05-03 14:30:34.593 [DEBUG] (THREAD-6) wait
+2020-05-03 14:30:34.594 [DEBUG] (THREAD-7) wait
+2020-05-03 14:30:34.594 [DEBUG] (THREAD-8) wait
+2020-05-03 14:30:34.594 [DEBUG] (THREAD-9) wait
+2020-05-03 14:30:34.692 [DEBUG] (THREAD-0) received !
+2020-05-03 14:30:34.693 [DEBUG] (THREAD-1) received !
+2020-05-03 14:30:34.693 [DEBUG] (THREAD-0) release
+2020-05-03 14:30:34.693 [DEBUG] (THREAD-1) release
+2020-05-03 14:30:34.793 [DEBUG] (THREAD-3) received !
+2020-05-03 14:30:34.793 [DEBUG] (THREAD-3) release
+2020-05-03 14:30:34.793 [DEBUG] (THREAD-2) received !
+2020-05-03 14:30:34.794 [DEBUG] (THREAD-2) release
+2020-05-03 14:30:34.893 [DEBUG] (THREAD-4) received !
+2020-05-03 14:30:34.894 [DEBUG] (THREAD-4) release
+2020-05-03 14:30:34.894 [DEBUG] (THREAD-5) received !
+2020-05-03 14:30:34.894 [DEBUG] (THREAD-5) release
+2020-05-03 14:30:34.994 [DEBUG] (THREAD-6) received !
+2020-05-03 14:30:34.994 [DEBUG] (THREAD-6) release
+2020-05-03 14:30:34.995 [DEBUG] (THREAD-7) received !
+2020-05-03 14:30:34.995 [DEBUG] (THREAD-7) release
+2020-05-03 14:30:35.094 [DEBUG] (THREAD-8) received !
+2020-05-03 14:30:35.095 [DEBUG] (THREAD-8) release
+2020-05-03 14:30:35.095 [DEBUG] (THREAD-9) received !
+2020-05-03 14:30:35.095 [DEBUG] (THREAD-9) release
 ```
 
 :arrow_right: Use `BoundedSemaphore` for a variant that can not exceed its initial maximum value.
@@ -980,6 +1019,8 @@ $ threading/example14.py
 
 :arrow_right: Used as context managers for a `with` block, these objects will start the block with `acquire()` and end it with `release()`.
 
+:arrow_right: The `with` construction is **exception-safe** and avoids forgetting the `.release()` call.
+
 .row[
 .column.w47.middle[
 ```Python
@@ -990,7 +1031,7 @@ do_something()
 l.release()
 ```
 ]
-.column.w5.middle[$$\Leftrightarrow$$]
+.column.w5.middle[:arrow_right:]
 .column.w47.middle[
 ```Python
 l = threading.Lock()
@@ -1010,7 +1051,7 @@ with l:
 ## .hcenter[\[threading/example15.py\]]
 
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
@@ -1043,38 +1084,39 @@ for i in range(3):
 
 ## .hcenter[Shell session]
 ```shell
-$ threading/example15.py
-2018-05-03 21:55:01.672 [DEBUG] (MainThread) start
-2018-05-03 21:55:01.672 [DEBUG] (THREAD-0) wait
-2018-05-03 21:55:01.673 [DEBUG] (THREAD-1) wait
-2018-05-03 21:55:01.673 [DEBUG] (THREAD-2) wait
-2018-05-03 21:55:01.673 [DEBUG] (MainThread) set condition
-2018-05-03 21:55:02.674 [DEBUG] (MainThread) notify one thread
-2018-05-03 21:55:02.675 [DEBUG] (THREAD-0) received !
-2018-05-03 21:55:03.676 [DEBUG] (MainThread) notify one thread
-2018-05-03 21:55:03.676 [DEBUG] (THREAD-1) received !
-2018-05-03 21:55:04.677 [DEBUG] (MainThread) notify one thread
-2018-05-03 21:55:04.678 [DEBUG] (THREAD-2) received !
+$ python3 threading/example15.py
+2020-05-03 21:55:01.672 [DEBUG] (MainThread) start
+2020-05-03 21:55:01.672 [DEBUG] (THREAD-0) wait
+2020-05-03 21:55:01.673 [DEBUG] (THREAD-1) wait
+2020-05-03 21:55:01.673 [DEBUG] (THREAD-2) wait
+2020-05-03 21:55:01.673 [DEBUG] (MainThread) set condition
+2020-05-03 21:55:02.674 [DEBUG] (MainThread) notify one thread
+2020-05-03 21:55:02.675 [DEBUG] (THREAD-0) received !
+2020-05-03 21:55:03.676 [DEBUG] (MainThread) notify one thread
+2020-05-03 21:55:03.676 [DEBUG] (THREAD-1) received !
+2020-05-03 21:55:04.677 [DEBUG] (MainThread) notify one thread
+2020-05-03 21:55:04.678 [DEBUG] (THREAD-2) received !
 ```
 
 :arrow_right: Same output as `threading/example13.py` (fortunately) :v:
 
 ---
 
-# Multiprocessing: `Queue` module
+# Multiprocessing: `queue` module
 
-## `Queue.Queue`
+## `queue.Queue`
 
 :arrow_right: Implement **thread-safe queue objects**.  
 :arrow_right: Allows **multiple threads** to **push** and **pop** from queue objects.  
 :arrow_right: Deals with the internal synchronization mechanisms.  
-:arrow_right: Queue objects can be bounded if needed.
+:arrow_right: Queue objects can be bounded if needed.  
+:warning: `Queue.Queue` in Python2 !
 
 ## Three types of queues are provided:
 
-1. FIFO (`Queue.Queue`)
-2. LIFO (`Queue.LifoQueue`)
-3. "priority queue" (`Queue.PriorityQueue`)
+1. FIFO (`queue.Queue`)
+2. LIFO (`queue.LifoQueue`)
+3. "priority queue" (`queue.PriorityQueue`)
 
 ## Variant
 
@@ -1088,16 +1130,16 @@ $ threading/example15.py
 ## .hcenter[\[threading/example16.py\]]
 
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
 import time
-import Queue
+import queue
 
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
-*q = Queue.Queue()
+*q = queue.Queue()
 def worker(n):
   while True:
     logging.debug("wait for item")
@@ -1127,31 +1169,31 @@ time.sleep(2.0)
 
 ## .hcenter[Shell session]
 ```shell
-$ threading/example16.py
-2018-05-03 15:00:45.381 [DEBUG] (MainThread) start
-2018-05-03 15:00:45.382 [DEBUG] (THREAD-0) wait for item
-2018-05-03 15:00:45.382 [DEBUG] (THREAD-1) wait for item
-2018-05-03 15:00:45.382 [DEBUG] (THREAD-2) wait for item
-2018-05-03 15:00:46.384 [DEBUG] (MainThread) append item 0 to queue
-2018-05-03 15:00:46.384 [DEBUG] (MainThread) append item 1 to queue
-2018-05-03 15:00:46.384 [DEBUG] (MainThread) append item 2 to queue
-2018-05-03 15:00:46.384 [DEBUG] (MainThread) append item 3 to queue
-2018-05-03 15:00:46.384 [DEBUG] (THREAD-1) received item 1
-2018-05-03 15:00:46.384 [DEBUG] (THREAD-0) received item 0
-2018-05-03 15:00:46.385 [DEBUG] (THREAD-2) received item 2
-2018-05-03 15:00:46.385 [DEBUG] (MainThread) append item 4 to queue
-2018-05-03 15:00:46.585 [DEBUG] (THREAD-1) task done
-2018-05-03 15:00:46.585 [DEBUG] (THREAD-1) wait for item
-2018-05-03 15:00:46.586 [DEBUG] (THREAD-0) task done
-2018-05-03 15:00:46.586 [DEBUG] (THREAD-1) received item 3
-2018-05-03 15:00:46.586 [DEBUG] (THREAD-2) task done
-2018-05-03 15:00:46.586 [DEBUG] (THREAD-0) wait for item
-2018-05-03 15:00:46.586 [DEBUG] (THREAD-2) wait for item
-2018-05-03 15:00:46.586 [DEBUG] (THREAD-0) received item 4
-2018-05-03 15:00:46.786 [DEBUG] (THREAD-1) task done
-2018-05-03 15:00:46.786 [DEBUG] (THREAD-1) wait for item
-2018-05-03 15:00:46.787 [DEBUG] (THREAD-0) task done
-2018-05-03 15:00:46.787 [DEBUG] (THREAD-0) wait for item
+$ python3 threading/example16.py
+2020-05-03 15:00:45.381 [DEBUG] (MainThread) start
+2020-05-03 15:00:45.382 [DEBUG] (THREAD-0) wait for item
+2020-05-03 15:00:45.382 [DEBUG] (THREAD-1) wait for item
+2020-05-03 15:00:45.382 [DEBUG] (THREAD-2) wait for item
+2020-05-03 15:00:46.384 [DEBUG] (MainThread) append item 0 to queue
+2020-05-03 15:00:46.384 [DEBUG] (MainThread) append item 1 to queue
+2020-05-03 15:00:46.384 [DEBUG] (MainThread) append item 2 to queue
+2020-05-03 15:00:46.384 [DEBUG] (MainThread) append item 3 to queue
+2020-05-03 15:00:46.384 [DEBUG] (THREAD-1) received item 1
+2020-05-03 15:00:46.384 [DEBUG] (THREAD-0) received item 0
+2020-05-03 15:00:46.385 [DEBUG] (THREAD-2) received item 2
+2020-05-03 15:00:46.385 [DEBUG] (MainThread) append item 4 to queue
+2020-05-03 15:00:46.585 [DEBUG] (THREAD-1) task done
+2020-05-03 15:00:46.585 [DEBUG] (THREAD-1) wait for item
+2020-05-03 15:00:46.586 [DEBUG] (THREAD-0) task done
+2020-05-03 15:00:46.586 [DEBUG] (THREAD-1) received item 3
+2020-05-03 15:00:46.586 [DEBUG] (THREAD-2) task done
+2020-05-03 15:00:46.586 [DEBUG] (THREAD-0) wait for item
+2020-05-03 15:00:46.586 [DEBUG] (THREAD-2) wait for item
+2020-05-03 15:00:46.586 [DEBUG] (THREAD-0) received item 4
+2020-05-03 15:00:46.786 [DEBUG] (THREAD-1) task done
+2020-05-03 15:00:46.786 [DEBUG] (THREAD-1) wait for item
+2020-05-03 15:00:46.787 [DEBUG] (THREAD-0) task done
+2020-05-03 15:00:46.787 [DEBUG] (THREAD-0) wait for item
 ```
 
 :warning: Do not forget to call the `task_done()` method when the work associated with an item is done (allows to `join()` properly).
@@ -1209,7 +1251,7 @@ class: top
 ## How to use multiple cores for multithreaded `Python` code then ?
 
 * Most IO operations release the GIL.
-* Most `Python` libraries performing computationally-intensive calculations release the GIL.
+* Some `Python` libraries performing computationally-intensive calculations release the GIL.
 
 :arrow_right: **In these cases**, multithreaded `Python` code should run simultaneously on multiple cores.
 
@@ -1268,7 +1310,7 @@ $ for i in *py; do sed 's/threading/multiprocessing/g' $i | sed 's/Thread/Proces
 
 ## .hcenter[\[threading/example6.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
@@ -1295,7 +1337,7 @@ for i in range(3):
 
 ## .hcenter[\[threading/example7.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
@@ -1322,7 +1364,7 @@ logging.debug("stop ?")
 
 ## .hcenter[\[threading/example8.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
@@ -1351,7 +1393,7 @@ class: top
 
 ## .hcenter[\[multiprocessing/example8.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import multiprocessing
@@ -1377,10 +1419,10 @@ for i in range(3):
 ## .hcenter[Shell session]
 ```shell
 $ multiprocessing/example8.py
-2018-05-03 21:28:18.889 [DEBUG] (6156) start
-2018-05-03 21:28:18.890 [DEBUG] (6157) worker 0: a = 1
-2018-05-03 21:28:18.890 [DEBUG] (6158) worker 1: a = 1
-2018-05-03 21:28:18.892 [DEBUG] (6159) worker 2: a = 1
+2020-05-03 21:28:18.889 [DEBUG] (6156) start
+2020-05-03 21:28:18.890 [DEBUG] (6157) worker 0: a = 1
+2020-05-03 21:28:18.890 [DEBUG] (6158) worker 1: a = 1
+2020-05-03 21:28:18.892 [DEBUG] (6159) worker 2: a = 1
 ```
 
 --
@@ -1398,7 +1440,7 @@ class: top
 
 ## .hcenter[\[multiprocessing/example8b.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import multiprocessing
@@ -1422,10 +1464,10 @@ for i in range(3):
 ## .hcenter[Shell session]
 ```shell
 $ multiprocessing/example8b.py
-2018-05-03 21:30:49.498 [DEBUG] (6200) start
-2018-05-03 21:30:49.507 [DEBUG] (6201) worker 0: a = 1
-2018-05-03 21:30:49.508 [DEBUG] (6202) worker 1: a = 2
-2018-05-03 21:30:49.508 [DEBUG] (6203) worker 2: a = 2
+2020-05-03 21:30:49.498 [DEBUG] (6200) start
+2020-05-03 21:30:49.507 [DEBUG] (6201) worker 0: a = 1
+2020-05-03 21:30:49.508 [DEBUG] (6202) worker 1: a = 2
+2020-05-03 21:30:49.508 [DEBUG] (6203) worker 2: a = 2
 ```
 
 ---
@@ -1434,7 +1476,7 @@ $ multiprocessing/example8b.py
 
 ## .hcenter[\[threading/example9.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
@@ -1472,7 +1514,7 @@ for i in range(3):
 
 ## .hcenter[\[multiprocessing/example9.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import multiprocessing
@@ -1507,42 +1549,44 @@ for i in range(3):
 ## .hcenter[Shell session]
 ```shell
 $ multiprocessing/example9.py
-2018-05-03 21:36:46.551 [DEBUG] (6313) start
-2018-05-03 21:36:46.560 [DEBUG] (6314) lock.acquire()
-2018-05-03 21:36:46.560 [DEBUG] (6314)  lock acquired !
-2018-05-03 21:36:46.560 [DEBUG] (6315) lock.acquire()
-2018-05-03 21:36:46.560 [DEBUG] (6316) lock.acquire()
-2018-05-03 21:36:46.761 [DEBUG] (6314)   worker 0: a = 1
-2018-05-03 21:36:46.761 [DEBUG] (6314)    lock.release()
-2018-05-03 21:36:46.761 [DEBUG] (6314)     lock released !
-2018-05-03 21:36:46.761 [DEBUG] (6315)  lock acquired !
-2018-05-03 21:36:46.961 [DEBUG] (6315)   worker 1: a = 2
-2018-05-03 21:36:46.962 [DEBUG] (6315)    lock.release()
-2018-05-03 21:36:46.962 [DEBUG] (6315)     lock released !
-2018-05-03 21:36:46.962 [DEBUG] (6316)  lock acquired !
-2018-05-03 21:36:47.162 [DEBUG] (6316)   worker 2: a = 3
-2018-05-03 21:36:47.163 [DEBUG] (6316)    lock.release()
-2018-05-03 21:36:47.163 [DEBUG] (6316)     lock released !
+2020-05-03 21:36:46.551 [DEBUG] (6313) start
+2020-05-03 21:36:46.560 [DEBUG] (6314) lock.acquire()
+2020-05-03 21:36:46.560 [DEBUG] (6314)  lock acquired !
+2020-05-03 21:36:46.560 [DEBUG] (6315) lock.acquire()
+2020-05-03 21:36:46.560 [DEBUG] (6316) lock.acquire()
+2020-05-03 21:36:46.761 [DEBUG] (6314)   worker 0: a = 1
+2020-05-03 21:36:46.761 [DEBUG] (6314)    lock.release()
+2020-05-03 21:36:46.761 [DEBUG] (6314)     lock released !
+2020-05-03 21:36:46.761 [DEBUG] (6315)  lock acquired !
+2020-05-03 21:36:46.961 [DEBUG] (6315)   worker 1: a = 2
+2020-05-03 21:36:46.962 [DEBUG] (6315)    lock.release()
+2020-05-03 21:36:46.962 [DEBUG] (6315)     lock released !
+2020-05-03 21:36:46.962 [DEBUG] (6316)  lock acquired !
+2020-05-03 21:36:47.162 [DEBUG] (6316)   worker 2: a = 3
+2020-05-03 21:36:47.163 [DEBUG] (6316)    lock.release()
+2020-05-03 21:36:47.163 [DEBUG] (6316)     lock released !
 ```
 
 :arrow_right: Exactly the same behavior as `threading/example9.py` :v:
 
 ---
 
+class: top
+
 # Multiprocessing: `multiprocessing` module
 
 ## .hcenter[\[threading/example16.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
 import time
-import Queue
+import queue
 
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
-*q = Queue.Queue()
+*q = queue.Queue()
 def worker(n):
   while True:
     logging.debug("wait for item")
@@ -1566,19 +1610,22 @@ for i in range(5):
 time.sleep(2.0)
 ```
 
-:warning: `Queue.Queue` is not **process-safe**, use `multiprocessing.Queue` instead.
+:warning: `queue.Queue` is not **process-safe**, use `multiprocessing.Queue` instead.
 
 ---
+
+class: top
 
 # Multiprocessing: `multiprocessing` module
 
 ## .hcenter[\[multiprocessing/example16.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import multiprocessing
 import time
+
 
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(process)d) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
@@ -1613,30 +1660,30 @@ time.sleep(2.0)
 ## .hcenter[Shell session]
 ```shell
 $ multiprocessing/example16.py
-2018-05-03 22:35:08.504 [DEBUG] (9399) start
-2018-05-03 22:35:08.506 [DEBUG] (9400) wait for item
-2018-05-03 22:35:08.507 [DEBUG] (9401) wait for item
-2018-05-03 22:35:08.507 [DEBUG] (9402) wait for item
-2018-05-03 22:35:09.506 [DEBUG] (9399) append item 0 to queue
-2018-05-03 22:35:09.507 [DEBUG] (9399) append item 1 to queue
-2018-05-03 22:35:09.507 [DEBUG] (9399) append item 2 to queue
-2018-05-03 22:35:09.507 [DEBUG] (9400) received item 0
-2018-05-03 22:35:09.507 [DEBUG] (9401) received item 1
-2018-05-03 22:35:09.507 [DEBUG] (9399) append item 3 to queue
-2018-05-03 22:35:09.507 [DEBUG] (9399) append item 4 to queue
-2018-05-03 22:35:09.507 [DEBUG] (9402) received item 2
-2018-05-03 22:35:09.707 [DEBUG] (9401) task done
-2018-05-03 22:35:09.707 [DEBUG] (9400) task done
-2018-05-03 22:35:09.708 [DEBUG] (9401) wait for item
-2018-05-03 22:35:09.708 [DEBUG] (9401) received item 3
-2018-05-03 22:35:09.708 [DEBUG] (9402) task done
-2018-05-03 22:35:09.708 [DEBUG] (9402) wait for item
-2018-05-03 22:35:09.708 [DEBUG] (9402) received item 4
-2018-05-03 22:35:09.708 [DEBUG] (9400) wait for item
-2018-05-03 22:35:09.908 [DEBUG] (9401) task done
-2018-05-03 22:35:09.908 [DEBUG] (9402) task done
-2018-05-03 22:35:09.908 [DEBUG] (9402) wait for item
-2018-05-03 22:35:09.908 [DEBUG] (9401) wait for item
+2020-05-03 22:35:08.504 [DEBUG] (9399) start
+2020-05-03 22:35:08.506 [DEBUG] (9400) wait for item
+2020-05-03 22:35:08.507 [DEBUG] (9401) wait for item
+2020-05-03 22:35:08.507 [DEBUG] (9402) wait for item
+2020-05-03 22:35:09.506 [DEBUG] (9399) append item 0 to queue
+2020-05-03 22:35:09.507 [DEBUG] (9399) append item 1 to queue
+2020-05-03 22:35:09.507 [DEBUG] (9399) append item 2 to queue
+2020-05-03 22:35:09.507 [DEBUG] (9400) received item 0
+2020-05-03 22:35:09.507 [DEBUG] (9401) received item 1
+2020-05-03 22:35:09.507 [DEBUG] (9399) append item 3 to queue
+2020-05-03 22:35:09.507 [DEBUG] (9399) append item 4 to queue
+2020-05-03 22:35:09.507 [DEBUG] (9402) received item 2
+2020-05-03 22:35:09.707 [DEBUG] (9401) task done
+2020-05-03 22:35:09.707 [DEBUG] (9400) task done
+2020-05-03 22:35:09.708 [DEBUG] (9401) wait for item
+2020-05-03 22:35:09.708 [DEBUG] (9401) received item 3
+2020-05-03 22:35:09.708 [DEBUG] (9402) task done
+2020-05-03 22:35:09.708 [DEBUG] (9402) wait for item
+2020-05-03 22:35:09.708 [DEBUG] (9402) received item 4
+2020-05-03 22:35:09.708 [DEBUG] (9400) wait for item
+2020-05-03 22:35:09.908 [DEBUG] (9401) task done
+2020-05-03 22:35:09.908 [DEBUG] (9402) task done
+2020-05-03 22:35:09.908 [DEBUG] (9402) wait for item
+2020-05-03 22:35:09.908 [DEBUG] (9401) wait for item
 ```
 
 :arrow_right: Exactly the same behavior as `threading/example16.py` :v:
@@ -1671,28 +1718,30 @@ print(p.map(f, [1, 2, 3])) # [1, 4, 9]
 
 # Multiprocessing: `multiprocessing` module
 
-## Remote multiprocessing !
+## :arrow_right: Remote multiprocessing !
 
 ## .hcenter[\[multiprocessing/server.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from multiprocessing.managers import BaseManager
-import Queue
-queue = Queue.Queue()
+import multiprocessing
+
+queue = multiprocessing.Queue()
 class QueueManager(BaseManager): pass
 QueueManager.register('get_queue', callable=lambda:queue)
-m = QueueManager(address=('', 50000), authkey='abracadabra')
+m = QueueManager(address=('', 50000), authkey=b'abracadabra')
 s = m.get_server()
 s.serve_forever()
 ```
 
 ## .hcenter[\[multiprocessing/client.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from multiprocessing.managers import BaseManager
+
 class QueueManager(BaseManager): pass
 QueueManager.register('get_queue')
-m = QueueManager(address=('127.0.0.1', 50000), authkey='abracadabra')
+m = QueueManager(address=('127.0.0.1', 50000), authkey=b'abracadabra')
 m.connect()
 queue = m.get_queue()
 queue.put('hello')
@@ -1701,10 +1750,11 @@ print(queue.get())
 
 ## .hcenter[Shell session]
 ```shell
-$ multiprocessing/server.py &
+$ python3 multiprocessing/server.py &
 [1] 10929
-$ multiprocessing/client.py 
+$ python3 multiprocessing/client.py 
 hello
+*$ kill 10929
 ```
 
 ---

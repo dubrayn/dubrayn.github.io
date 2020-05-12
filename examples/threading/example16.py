@@ -1,13 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import logging
 import threading
 import time
-import Queue
+import queue
 
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s.%(msecs)03d [%(levelname)s] (%(threadName)s) %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
-q = Queue.Queue()
+q = queue.Queue()
 def worker(n):
   while True:
     logging.debug("wait for item")
