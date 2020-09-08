@@ -11,6 +11,9 @@
     <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/asciinema-player.css"> 
+
+
+
   </head>
   <body>
     <textarea id="source" readonly>
@@ -402,7 +405,19 @@ This
 
 ---
 
-# Include interactive plots
+# Plot with `Bokeh.js`
+
+<div id='bokeh00' class='hcenter'></div>
+
+---
+
+# Another plot with `Bokeh.js`
+
+<div id='bokeh01' class='hcenter'></div>
+
+---
+
+# Plot with `Plotly.js`
 
 <div id='plotly00' class='hcenter border shadow'></div>
 <div id='plotly01' class='hcenter border shadow'></div>
@@ -445,6 +460,11 @@ Holy :cow: !!! I can put notes on my slides !?!
     <script src="core/javascript/gitgraph.js"></script>
     <script src="core/javascript/plotly.js"></script>
     <script src="core/javascript/asciinema-player.js"></script>
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.2.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.2.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.2.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-api-2.2.1.min.js"></script>
+
     <script>
 
     // === Remark.js initialization ===
@@ -524,6 +544,76 @@ Holy :cow: !!! I can put notes on my slides !?!
                                           xaxis: {title: 'Z-axis [fm]'},
                                           yaxis: {title: 'Neut. loc. dens. [fm^-3]'},
                                          });
+
+
+// Bokeh.js example #00
+
+var plt = Bokeh.Plotting;
+
+var pie_data = {
+    labels: ['Work', 'Eat', 'Commute', 'Sport', 'Watch TV', 'Sleep'],
+    values: [8, 2, 2, 4, 0, 8],
+};
+
+var p1 = Bokeh.Charts.pie(pie_data);
+var p2 = Bokeh.Charts.pie(pie_data, {
+    inner_radius: 0.2,
+    start_angle: Math.PI / 2
+});
+var p3 = Bokeh.Charts.pie(pie_data, {
+    inner_radius: 0.2,
+    start_angle: Math.PI / 6,
+    end_angle: 5 * Math.PI / 6
+});
+var p4 = Bokeh.Charts.pie(pie_data, {
+    inner_radius: 0.2,
+    palette: "Oranges9",
+    slice_labels: "percentages"
+});
+
+// add the plot to a document and display it
+var doc = new Bokeh.Document();
+doc.add_root(plt.gridplot(
+                 [[p1, p2], [p3, p4]],
+                 {plot_width:250, plot_height:250}));
+Bokeh.embed.add_document_standalone(doc, document.getElementById("bokeh00"));
+
+// Bokeh.js example #01
+
+var plt = Bokeh.Plotting;
+
+var bar_data = [
+    ['City', '2010 Population', '2000 Population'],
+    ['NYC', 8175000, 8008000],
+    ['LA', 3792000, 3694000],
+    ['Chicago', 2695000, 2896000],
+    ['Houston', 2099000, 1953000],
+    ['Philadelphia', 1526000, 1517000],
+];
+
+var p1 = Bokeh.Charts.bar(bar_data, {
+    axis_number_format: "0.[00]a"
+});
+var p2 = Bokeh.Charts.bar(bar_data, {
+    axis_number_format: "0.[00]a",
+    stacked: true
+});
+var p3 = Bokeh.Charts.bar(bar_data, {
+    axis_number_format: "0.[00]a",
+    orientation: "vertical"
+});
+var p4 = Bokeh.Charts.bar(bar_data, {
+    axis_number_format: "0.[00]a",
+    orientation: "vertical",
+    stacked: true
+});
+
+var doc = new Bokeh.Document();
+doc.add_root(plt.gridplot(
+                 [[p1, p2], [p3, p4]],
+                 {plot_width:250, plot_height:250}));
+Bokeh.embed.add_document_standalone(doc, document.getElementById("bokeh01"));
+
     // ===== END =====
 
     </script>
