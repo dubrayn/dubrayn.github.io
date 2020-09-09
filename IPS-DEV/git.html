@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/asciinema-player.css"> 
   </head>
   <body>
     <textarea id="source" readonly>
@@ -69,7 +70,10 @@ class: animated fadeIn middle numbers
 
 # Creation of a `git` repo from scratch
 
-<div data-dir='scripts/toto4' class='cinescript'></div>
+.hcenter[
+<asciinema-player src="scripts/git_init.cast"></asciinema-player>
+]
+
 
 ---
 
@@ -517,6 +521,7 @@ $ git pull farAway
     <script src="core/javascript/extend-jquery.js"></script>
     <script src="core/javascript/cinescript.js"></script>
     <script src="core/javascript/gitgraph.js"></script>
+    <script src="core/javascript/asciinema-player.js"></script>
     <script>
 
     // === Remark.js initialization ===
