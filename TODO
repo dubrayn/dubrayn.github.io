@@ -20,23 +20,23 @@ Project:
 
 * make
 * Armadillo
-* CxxTest
+* Doxygen
 * C++ headers
 
 === TP1
 
 ---- WEEK2 ----
 
-* Doxygen
-* astyle
+* CxxTest
+* quadratures
 
 === TP2
 
 ---- WEEK3 ----
 
+* astyle
 * latex
 * markdown
-* quadratures
 
 === TP3
 
