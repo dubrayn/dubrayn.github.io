@@ -21,7 +21,7 @@ class: titlepage
 .subtitle[`IPS-PROD` - N. Dubray - ENSIIE - 2018]
 
 .row[
-`$$\int_{-\infty}^\infty f(x)e^{-x^2} dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
+`$$\rho(\mathbf{r}) \equiv \sum_a \sum_b \rho_{ab}\psi_a(\mathbf{r})\psi^*_b(\mathbf{r})$$`
 ]
 
 .footnote[
@@ -31,7 +31,7 @@ class: titlepage
 ---
 
 layout: true
-class: animated fadeIn numbers
+class: animated fadeIn numbers middle
 
 .footnote[
 `IPS-PROD` - N. Dubray - ENSIIE - 2018 - [:book:](../index.html)
@@ -39,54 +39,60 @@ class: animated fadeIn numbers
 
 ---
 
-# IPS-PROD - Weeks #2-#5 - Project description
+# IPS-PROD - Project
 
 .mermaid.shadow[
     graph LR
-    A("Week #1<br/>Initialization") --> B
+    A("Week #1<br/>Project") --> B
     B("Week #2<br/>Project") --> C
     C("Week #3<br/>Project") --> D
     D("Week #4<br/>Project") --> E
     E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style B fill:#090
-    style C fill:#090
-    style D fill:#090
-    style E fill:#090
+    style F fill:#090 
 ]
 
-.column.middle.grow[
 ## Summary
-During this 6-week long project, the local density of a nuclear system will be calculated and plotted.
+During this 6-week long project, the **local density** of a nuclear system will be calculated and plotted.
 
-.vspace[]
+.hcenter.shadow.w50[![](images/density.png)]
 
-## Nuclear local density
-Definition:
-`$$\rho(\mathbf{r})\equiv \sum_a \sum_b \rho_{ab}\psi_a(\mathbf{r})\psi^*_b(\mathbf{r})$$`
-]
+:arrow_right: The nuclear local density represents the probability to find nuclear matter at a given location in space.
 
 ---
 
-# IPS-PROD - Weeks #2-#5 - Project description
+# IPS-PROD - Project description
 
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style B fill:#090
-    style C fill:#090
-    style D fill:#090
-    style E fill:#090
-]
+## Basis expansion
+The nuclear local density `\(\rho(\mathbf{r})\)`
+can be obtained from the complex **density matrix** `\(\{\rho_{ab}\}\)`
+using a set of complex **basis functions** `\(\{\psi_i(\mathbf{r})\}\)`:
+`$$
+\rho(\mathbf{r}) \equiv \sum_a \sum_b \rho_{ab}\psi_a(\mathbf{r})\psi^*_b(\mathbf{r}).
+$$`
+* The **non-negative integers** `\(a, b\)` are called the **basis indices**.
+* Each summation runs over the full set of basis functions.
+* Each basis function is defined by a **unique set** `\((m, n, n_z)\)` of non-negative integers called **quantum numbers**, so one can note
+`$$
+\psi_a = \psi_{m_a, n_a, n_{za}}
+$$`
+and one also has
+`$$
+\rho(\mathbf{r}) = \sum_{m_a}\sum_{n_a}\sum_{n_{za}}\sum_{m_b}\sum_{n_b}\sum_{n_{zb}} \rho_{m_a,n_a,n_{za},m_b,n_b,n_{zb}}\psi_{m_a, n_a, n_{za}}(\mathbf{r})\psi^*_{m_b,n_b,n_{zb}}(\mathbf{r}).
+$$`
 
+:warning: To have the same amount of information in `\(\rho(\mathbf{r})\)` and `\(\rho_{ab}\)`, the set of basis functions may be **infinite**.
 
-.column.middle.grow[
+:arrow_right: For practical reasons, a **finite** subset of basis functions will be used, using a **basis truncation**.
+
+:arrow_right: Even if some quantities are **complex**, it is possible to write the entire project with **real objects**.
+
+---
+
+# IPS-PROD - Project description
+
 ## Basis functions
 
-They are defined as
+They are defined using cylindrical coordinates as
 `$$
 \psi_{m,n,n_z}(r_\perp, \theta, z)
         \equiv
@@ -120,130 +126,14 @@ R(r_\perp, m, n)
          L_n^{|m|}\left(\frac{r_{\perp}^2}{b_{\perp}^2}\right).
 $$`
 
-Parameters: `\(b_\perp, b_z\)`.
-]
+The parameters `\(b_\perp, b_z\)` are called the **basis deformation parameters**.
+
+:arrow_right: You must implement the calculation of the `\(Z, R\)` functions.
 
 ---
 
-# IPS-PROD - Weeks #2-#5 - Project description
+# IPS-PROD - Polynomials
 
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style B fill:#090
-    style C fill:#090
-    style D fill:#090
-    style E fill:#090
-]
-
-
-.column.middle.grow[
-## Basis truncation
-
-We define
-`$$
-n_z^\textrm{max}(i) \equiv (N+2).Q^\frac{2}{3}+\frac{1}{2}-i.Q
-$$`
-
-and
-`$$
-m^\textrm{max} \equiv \textrm{sup}\left\{i:n_z^\textrm{max}(i)\ge 1\right\}.
-$$`
-
-The quantum number values are the **integers** verifying
-
-`$$
-\begin{alignedat}{4}
-0 & \le &&m  & \lt & \textrm{ mMax} \equiv m^\textrm{max}\\
-0 & \le &&n  & \lt & \textrm{ nMax[m]} \equiv \frac{1}{2}(m^\textrm{max}-m-1) + 1\\
-0 & \le &&n_z& \lt & \textrm{ n\_zMax[m, n]} \equiv n_z^\textrm{max}(m+2n+1).
-\end{alignedat}
-$$`
-
-Parameters: `\(N, Q\)`.
-]
-
-
----
-
-# IPS-PROD - Week #1 - Initialization
-
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style A fill:#090 
-]
-
-.column.middle.grow[
-
-## 1. Fork your project from IPS-DEV
-
- * create a new empty project in your gitlab and add files from the previous project
- * or fork your previous project in your gitlab
-
-## 2. Adapt your code to pass the mandatory unit tests
-
- * change method names
- * adapt object hierarchy
- * change method arguments
- * ...
-]
-
----
-
-# Project rules
-
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-]
-
-.column.middle.grow[
-## Rules:
-* an "`AUTHORS`" file **must** be present and contain your name(s)
-* the source **must** be written in `C++11`
-* the source **must** be documented with `Doxygen`
-* the compilation chain **must** use `GNU Make`
-* the presentation **must** be at the location "`pres/index.html`"
-* using branches is OK but **only master will be checked**
-* the presentation **must** use `remark.js`
-* mandatory unit tests **must** pass
-
-## :moneybag: Bonuses:
-* no warning at {compilation, tests, doc}
-* project is implementing other methods
-* source code is well written (comments, easy to read, etc...)
-* commits are small and explicit
-]
-
----
-
-# IPS-PROD - Week #1 - Polynomials
-
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style A fill:#090 
-]
-
-
-.column.middle.grow[
 ## Hermite polynomials (physicists' version)
 
 `$$
@@ -263,21 +153,158 @@ L^{m}_1(\eta)&=1+m-\eta\\
 L^{m}_{n}(\eta)&=\left(2+\frac{m-1-\eta}{n}\right)L^{m}_{n-1}(\eta)-\left(1+\frac{m-1}{n}\right)L^{m}_{n-2}(\eta)
 \end{aligned}
 $$`
+
+:arrow_right: You must implement the calculation of the `\(H, L\)` polynomials, using **efficient vectorization**.
+
+---
+
+# IPS-PROD - Project description
+
+## Basis truncation
+
+We define
+`$$
+n_z^\textrm{max}(i) \equiv (N+2).Q^\frac{2}{3}+\frac{1}{2}-i.Q
+$$`
+
+and
+`$$
+m^\textrm{max} \equiv \textrm{sup}\left\{i:n_z^\textrm{max}(i)\ge 1\right\}.
+$$`
+
+The possible values for each **quantum number** verify
+
+`$$
+\begin{alignedat}{4}
+0 & \le &&m  & \lt & \textrm{ mMax} \equiv m^\textrm{max}\\
+0 & \le &&n  & \lt & \textrm{ nMax[m]} \equiv \frac{1}{2}(m^\textrm{max}-m-1) + 1\\
+0 & \le &&n_z& \lt & \textrm{ n\_zMax[m, n]} \equiv n_z^\textrm{max}(m+2n+1).
+\end{alignedat}
+$$`
+
+The parameters `\(N, Q\)` are called the **basis truncation parameters**.
+
+:arrow_right: You must implement this truncation scheme.
+
+---
+
+# IPS-PROD - Project summary
+
+## Work to be done
+
+* calculate Hermite and Generalized Laguerre polynomials
+* calculate z- and r- functions
+* define the basis quantum number values
+* calculate the nuclear local density with the direct algorithm
+* calculate the nuclear local density with an **optimized algorithm** (see below)
+* implement the mandatory unit tests
+* plot the nuclear local density in the (x, z) plane (with Matplotlib, Plotly.js...)
+* plot the nuclear local density in the (x, y, z) space (with POV-Ray, Blender...)
+* present your results using the [presentation template](../template/index.html)
+
+.row[
+.column.w60[
+## Symmetries of the `\(\rho\)` matrix
+
+* `\(\rho\)` is symmetric : `\(\rho_{ab} = \rho_{ba}\)`
+* `\(\rho\)` is `\(m-\)`diagonal : `\(\rho_{ab} = \delta_{m_a, m_b} \rho_{ab}\)`
+]
+.column.w40[
+## Optimized algorithm
+
+* use partial sums
+* use pre-calculations
+* change loops
+* ...
+]
 ]
 
 ---
 
-# IPS-PROD - Week #1 - Mandatory unit test
+# IPS-PROD - Project rules
 
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style A fill:#090 
+## Rules:
+* an "`AUTHORS`" file **must** be present and contain your name(s)
+* the source **must** be written in `C++11`
+* the source **must** be documented with `Doxygen`
+* the compilation chain **must** use `GNU Make`
+* the presentation **must** be at the location "`pres/index.html`"
+* using branches is OK but **only master will be checked**
+* the presentation **must** use `remark.js`
+* mandatory unit tests **must** pass  
+* :warning: use Armadillo containers, **not** `std::vector<...>`
+
+## :moneybag: Bonuses:
+* no warning at {compilation, tests, doc}
+* project is implementing other methods
+* source code is well written (comments, easy to read, etc...)
+* commits are small and explicit
+
+---
+
+# IPS-PROD - Presentation
+
+## Directives
+
+* at the deadline, the branch `master` will be pulled
+* the slides **must be** in your repository (branch `master`, location `pres/index.html`)
+* do not bring your slides for the presentation, they will already be on the screen
+* if you want to plug a laptop to show something else than the slides, **check if it works before**
+* be on time (5 min before the scheduled time)
+* presentation format: **15 min + 5 min for questions**
+
+.row[
+.column.w48[
+## :warning: Mandatory content :warning:
+
+* explain the problem you have solved
+* explain the associated physics content
+* describe your project
+* **show your results**
+* **show the mandatory unit tests**
 ]
+.column.w48[
+## Possible content
+
+* show some parts of your code
+* show some benchmarks
+* show some documentation
+* show some of your `git` history
+* show your `Makefile` organization
+]
+]
+
+---
+
+# IPS-PROD - Day #1
+
+## 1. Fork your project from IPS-DEV
+
+ * create a new empty project in your gitlab and add files from the previous project
+ * or fork your previous project in your gitlab
+
+## 2. Adapt your code to pass the mandatory unit tests
+
+ * change method names
+ * adapt object hierarchy
+ * change method arguments
+ * ...
+
+---
+
+# IPS-PROD - Coding material
+
+In the following slides, you will find
+
+* the mandatory unit tests (`#00` to `#03`)
+* the direct algorithm for the nuclear local density calculation
+* a writer for POV-Ray `df3` format
+* a writer for Blender `raw` format
+* the density matrix values
+
+---
+
+# IPS-PROD - Mandatory unit test `#00`
 
 ```C++
 // Mandatory test #00 - Hermite and Laguerre polynomials
@@ -314,20 +341,7 @@ TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
 
 ---
 
-# IPS-PROD - Weeks #2-#5 - Mandatory unit test
-
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style B fill:#090
-    style C fill:#090
-    style D fill:#090
-    style E fill:#090
-]
+# IPS-PROD - Mandatory unit test `#01`
 
 .column.middle.grow[
 ```C++
@@ -340,7 +354,7 @@ TS_ASSERT_EQUALS(basis.mMax, 14);
 
 arma::ivec nMax = {7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1};
 
-TS_ASSERT(!arma::any(basis.nMax - nMax));
+TS_ASSERT((basis.nMax - nMax).is_zero());
 
 arma::imat n_zMax = {{18, 15, 13, 10, 7, 5, 2}, 
                      {16, 14, 11,  9, 6, 3, 1}, 
@@ -358,26 +372,13 @@ arma::imat n_zMax = {{18, 15, 13, 10, 7, 5, 2},
                      { 1,  0,  0,  0, 0, 0, 0}};
 
 // check if matrices are equal
-TS_ASSERT(!arma::any(arma::any(basis.n_zMax - n_zMax)));
+TS_ASSERT((basis.n_zMax - n_zMax).is_zero());
 ```
 ]
 
 ---
 
-# IPS-PROD - Weeks #2-#5 - Mandatory unit test
-
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style B fill:#090
-    style C fill:#090
-    style D fill:#090
-    style E fill:#090
-]
+# IPS-PROD - Mandatory unit test `#02`
 
 .column.middle.grow[
 ```C++
@@ -414,20 +415,7 @@ TS_ASSERT_DELTA(arma::norm(basis.rPart(r, 8, 2) - res82), 0.0, 1e-15);
 
 ---
 
-# IPS-PROD - Weeks #2-#5 - Mandatory unit test
-
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style B fill:#090
-    style C fill:#090
-    style D fill:#090
-    style E fill:#090
-]
+# IPS-PROD - Mandatory unit test `#03`
 
 .column.middle.grow[
 ```C++
@@ -464,29 +452,16 @@ TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 15) - res15), 0.0, 1e-15);
 
 ---
 
-# IPS-PROD - Weeks #2-#5 - Nuclear local density
-
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style B fill:#090
-    style C fill:#090
-    style D fill:#090
-    style E fill:#090
-]
+# IPS-PROD - Nuclear local density calculation
 
 `$$
 \rho(\mathbf{r})
 \equiv
 \sum_{a,b} \rho_{ab}\psi_a(\mathbf{r})\psi^*_b(\mathbf{r})
 =
-\sum_{{m_a, n_a, n_{za}} \atop {m_b,n_b,n_{zb}}}\rho_{m_a, n_a, n_{za}, m_b,n_b,n_{zb}}\psi_{m_a,n_a,n_{za}}(\mathbf{r})\psi^*_{m_b,n_b,n_{zb}}(\mathbf{r})$$`
+\sum_{{m_a, n_a, n_{za}} \atop {m_b,n_b,n_{zb}}}\rho_{m_a, n_a, n_{za}, m_b,n_b,n_{zb}}\psi_{m_a,n_a,n_{za}}(\mathbf{r})\psi^*_{m_b,n_b,n_{zb}}(\mathbf{r})
+$$`
 
-.column.middle.grow[
 ## Direct algorithm
 ```C++
 arma::mat result = arma::zeros(nbR, nbZ); // number of points on r- and z- axes
@@ -512,60 +487,10 @@ for (int m = 0; m < basis.mMax; m++)
   }
 }
 ```
-]
-
 
 ---
 
-# IPS-PROD - Weeks #2-#5 - Nuclear local density
-
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-    style B fill:#090
-    style C fill:#090
-    style D fill:#090
-    style E fill:#090
-]
-
-.column.middle.grow[
-## Work to be done
-
-* calculate Hermite and Generalized Laguerre polynomials
-* calculate z- and r- functions
-* define the basis quantum number values
-* calculate the nuclear local density with the direct algorithm
-* calculate the nuclear local density with an **optimized algorithm** (see below)
-* implement the mandatory unit tests
-* plot the nuclear local density in the (x, z) plane (with Matplotlib, Plotly.js...)
-* plot the nuclear local density in the (x, y, z) space (with POV-Ray, Blender...)
-* present your results using the [presentation template](../template/index.html)
-
-.row[
-.column.w60[
-## Symmetries of the `\(\rho\)` matrix
-
-* `\(\rho\)` is symmetric : `\(\rho_{ab} = \rho_{ba}\)`
-* `\(\rho\)` is `\(m-\)`diagonal : `\(\rho_{ab} = \delta_{m_a, m_b} \rho_{ab}\)`
-]
-.column.w40[
-## Optimized algorithm
-
-* use partial sums
-* use pre-calculations
-* change loops
-* ...
-]
-]
-]
-
----
-
-# POV-Ray - `df3` writer
+# IPS-PROD - POV-Ray `df3` writer
 
 ```C++
 std::string cubeToDf3(const arma::cube &m)
@@ -609,7 +534,7 @@ where `m` is an `arma::cube` representing the density to be plotted.
 
 ---
 
-# Blender - `raw` writer
+# IPS-PROD - Blender `raw` writer
 
 ```C++
 std::string cubeToRaw(const arma::cube &m)
@@ -648,7 +573,7 @@ where `m` is an `arma::cube` representing the density to be plotted.
 
 class: middle
 
-# Density file to be loaded
+# IPS-PROD - Density matrix values
 
 The file containing the values of the `\(\rho\)` matrix can be found [here](files/rho.arma).
 To read it, use the `.load()` method of the `arma::mat` class:
@@ -680,41 +605,7 @@ for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
 }
 ```
 
----
 
-class: middle
-
-# Presentation
-
-## Directives
-
-* at the deadline, the branch `master` will be pulled
-* the slides **must be** in your repository (branch `master`, location `pres/index.html`)
-* do not bring your slides for the presentation, they will already be on the screen
-* if you want to plug a laptop to show something else than the slides, **check if it works before**
-* be on time (5 min before the scheduled time)
-* presentation format: **15 min + 5 min for questions**
-
-.row[
-.column.w48[
-## :warning: Mandatory content :warning:
-
-* explain the problem you have solved
-* explain the associated physics content
-* describe your project
-* **show your results**
-* **show the mandatory unit tests**
-]
-.column.w48[
-## Possible content
-
-* show some parts of your code
-* show some benchmarks
-* show some documentation
-* show some of your `git` history
-* show your `Makefile` organization
-]
-]
 
     </textarea>
 
