@@ -18,7 +18,7 @@ class: titlepage
 
 .title[Introduction to Scientific Programming - Project :notebook:]
 
-.subtitle[`IPS-PROD` - N. Dubray - ENSIIE - 2018]
+.subtitle[`IPS-PROD` - N. Dubray - ENSIIE - 2020]
 
 .row[
 `$$\rho(\mathbf{r}) \equiv \sum_a \sum_b \rho_{ab}\psi_a(\mathbf{r})\psi^*_b(\mathbf{r})$$`
@@ -34,7 +34,7 @@ layout: true
 class: animated fadeIn numbers middle
 
 .footnote[
-`IPS-PROD` - N. Dubray - ENSIIE - 2018 - [:book:](../index.html)
+`IPS-PROD` - N. Dubray - ENSIIE - 2020 - [:book:](../index.html)
 ]
 
 ---
@@ -84,7 +84,6 @@ $$`
 
 :arrow_right: For practical reasons, a **finite** subset of basis functions will be used, using a **basis truncation**.
 
-:arrow_right: Even if some quantities are **complex**, it is possible to write the entire project with **real objects**.
 
 ---
 
@@ -108,8 +107,6 @@ with
 `$$
 Z(z, n_z)
 \equiv
-\phi_{n_z}(z)
-=
          \frac{1}{\sqrt{b_z}}
          \frac{1}{\sqrt{2^{n_z} \sqrt{\pi}n_z!}}
          e^{-\frac{z^2}{2b_z^2}}H_{n_z}\left(\frac{z}{b_z}\right)
@@ -127,6 +124,8 @@ R(r_\perp, m, n)
 $$`
 
 The parameters `\(b_\perp, b_z\)` are called the **basis deformation parameters**.
+
+:warning: Since one has `\(\rho_{ab} = \delta_{m_a, m_b}\rho_{ab}\)`, **`\(\rho(\mathbf{r})\)` does not depend on `\(\theta\)` and take only real values**.
 
 :arrow_right: You must implement the calculation of the `\(Z, R\)` functions.
 
@@ -195,7 +194,7 @@ The parameters `\(N, Q\)` are called the **basis truncation parameters**.
 * calculate Hermite and Generalized Laguerre polynomials
 * calculate z- and r- functions
 * define the basis quantum number values
-* calculate the nuclear local density with the direct algorithm
+* calculate the nuclear local density with the **naive** algorithm
 * calculate the nuclear local density with an **optimized algorithm** (see below)
 * implement the mandatory unit tests
 * plot the nuclear local density in the (x, z) plane (with Matplotlib, Plotly.js...)
@@ -297,7 +296,7 @@ The parameters `\(N, Q\)` are called the **basis truncation parameters**.
 In the following slides, you will find
 
 * the mandatory unit tests (`#00` to `#03`)
-* the direct algorithm for the nuclear local density calculation
+* the **naive** algorithm for the nuclear local density calculation
 * a writer for POV-Ray `df3` format
 * a writer for Blender `raw` format
 * the density matrix values
@@ -462,7 +461,7 @@ TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 15) - res15), 0.0, 1e-15);
 \sum_{{m_a, n_a, n_{za}} \atop {m_b,n_b,n_{zb}}}\rho_{m_a, n_a, n_{za}, m_b,n_b,n_{zb}}\psi_{m_a,n_a,n_{za}}(\mathbf{r})\psi^*_{m_b,n_b,n_{zb}}(\mathbf{r})
 $$`
 
-## Direct algorithm
+## Naive algorithm
 ```C++
 arma::mat result = arma::zeros(nbR, nbZ); // number of points on r- and z- axes
 for (int m = 0; m < basis.mMax; m++)
