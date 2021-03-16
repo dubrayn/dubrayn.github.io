@@ -215,27 +215,27 @@ Constants:
 # Project - architecture
 
 .mermaid.shadow.w60.hcenter[
-    graph LR
-    A("Field generator") --> B
-    B("Solver") --> C("Post-processor")
-    style B fill:#090 
+    graph TD
+    A("Field generator") -- read / write --> D("MongoDB")
+    B("Solver") -- read / write --> D
+    C("Post-Processor") -- read --> D
+    style D fill:#090 
 ]
 
-## Field generator
-* must be written in **Python3**
-* generate the initial wave function
-* generate the potential field from an image file, a formula, etc...
+## Field generator (Python3)
+* can use an image file, a formula, etc...
+* input (CLI) : `JSON` file
+* output (DB) : initial wave function and potential
 
-## Solver
-* must be written in **Python3** and **C++**
-* **calculate the dynamical propagation**
+## Solver (Python3 and C++)
 * must be able to be **stopped and restarted**
-* must store results in a **mongoDB database**
+* input (CLI) : run #id
+* output (DB) : wave functions
 
-## Post-processor
-* must be written in **Python3**
-* connect to the **mongoDB database**
+## Post-processor (Python3)
 * export data to `Paraview`
+* input (CLI) : run #id
+* output : `VTK` file(s)
 
 ---
 
