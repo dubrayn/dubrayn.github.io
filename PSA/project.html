@@ -216,12 +216,16 @@ Constants:
 
 .mermaid.shadow.w60.hcenter[
     graph TD
-    A("Field generator") -- read / write --> D("MongoDB")
+    A("Field generator") -- write --> D("MongoDB")
     B("Solver") -- read / write --> D
     C("Post-Processor") -- read --> D
+    C -- write --> E("VTK file(s)")
     style D fill:#090 
+    style E fill:#B00 
 ]
 
+.row[
+.column.w50[
 ## Field generator (Python3)
 * can use an image file, a formula, etc...
 * input (CLI) : `JSON` file
@@ -236,12 +240,22 @@ Constants:
 * export data to `Paraview`
 * input (CLI) : run #id
 * output : `VTK` file(s)
+]
+.column.w45[
+## Tips
+* it may be a good idea to store the `JSON` file in the DB.
+* the field generator and the post-processor may be the **same program**.
+* to identify a run, why not use a full or partial **MD5** ?
+]
+]
 
 ---
 
 # Project - use cases
 
 In the following, different possible use cases are given.
+
+They illustrate how a typical user can interact with your project.
 
 You must design your project so that these use cases are easy to be realized by the average user.
 
