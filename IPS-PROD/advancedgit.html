@@ -546,12 +546,12 @@ IPS-DEV/intro.html:.shadow[![](images/code.png)]
 :arrow_right: `git stash` saves your uncommitted changes (staged and unstaged).
 
 * `git stash`: save (stash) your work.
-* `git stash pop`: re-applying your stashed work.
+* `git stash pop`: restore (un-stash) your stashed work.
 * `git stash -u`: stash also un-tracked files.
 * `git stash -a`: stash also ignored files.
 * `git stash list`: list stashed works.
 * `git stash save "message"`: stash with a message.
-* `git stash pop stash@{1}`: re-applying a specific stashed work.
+* `git stash pop stash@{1}`: restore a specific stashed work.
 * `git stash show -p`: view stash diff with HEAD.
 * `git stash -p`: perform a partial stash (interactive).
 * `git stash branch newbranch stash@{2}`: create branch from stashed work.
@@ -724,7 +724,7 @@ The following commands can **modify the history** of a project.
 :arrow_right: "Attach" a branch to **another commit**.  
 
 ## Possible reasons:
-* You want to obtain a nice linear history (aesier use of `git bisect`).
+* You want to obtain a nice linear history (easier use of `git bisect`).
 * You are not afraid of using `rebase`.
 
 * `git rebase master`: change parent of branch to another commit.
