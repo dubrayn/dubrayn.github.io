@@ -126,15 +126,15 @@ static PyObject *testmod_countchars(PyObject *self, PyObject *args)
 
 ```C
 static PyMethodDef testmodMethods[] =
+{
   {
-    {
-      "countchars",
-      testmod_countchars,
-      METH_VARARGS,
-      "Count characters in the input string."
-    },
-    { NULL, NULL, 0, NULL }
-  };
+    "countchars",
+    testmod_countchars,
+    METH_VARARGS,
+    "Count characters in the input string."
+  },
+  { NULL, NULL, 0, NULL }
+};
 ```
 
 ## Remarks
@@ -191,15 +191,15 @@ static PyObject *testmod_countchars(PyObject *self, PyObject *args)
 }
 
 static PyMethodDef testmodMethods[] =
+{
   {
-    {
-      "countchars",
-      testmod_countchars,
-      METH_VARARGS,
-      "Count characters in the input string."
-    },
-    { NULL, NULL, 0, NULL }
-  };
+    "countchars",
+    testmod_countchars,
+    METH_VARARGS,
+    "Count characters in the input string."
+  },
+  { NULL, NULL, 0, NULL }
+};
 
 PyMODINIT_FUNC inittestmod(void)
 {
