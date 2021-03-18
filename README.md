@@ -20,6 +20,8 @@ The presentations use original or slightly modified versions of the following op
 * [plotly.js](https://plot.ly/javascript)
 * [animate.css](https://daneden.github.io/animate.css)
 * [asciinema.js](https://github.com/asciinema/asciinema-player)
+* [bokeh.js](https://docs.bokeh.org/en/latest/docs/dev_guide/bokehjs.html)
+* [vtk.js](https://kitware.github.io/vtk-js/index.html)
 
 # How to use
 
