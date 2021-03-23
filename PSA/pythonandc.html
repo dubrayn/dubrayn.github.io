@@ -655,7 +655,7 @@ return Py_None;
 
 ---
 
-# Use `Python` from `C/C++`
+# Use a `C++` `Python` module from `C/C++`
 
 :arrow_right: create a `testmod.h` header with the declarations of `testmod.c`  
 :arrow_right: module initialization functions must be called manually
@@ -689,6 +689,21 @@ $ gcc -I /usr/include/python2.7/ -c main.c
 $ gcc testmod.o main.o -o python_from_c -lpython2.7
 ```
 
+---
+
+# Conclusion
+
+Writing a `Python` module in `C++` by hand:
+
+* relatively easy to do, thanks to `Python.h`
+* very **fine level of control**
+* should be done **at least once** by every `Python` developer
+* **tedious process** if many objects are to be converted
+
+:arrow_right: Let's [automatize](swig.html) the process !
+
+.hcenter.w60[![](images/factorio.png)]
+.hcenter[[source: Factorio](https://www.factorio.com)]
 
     </textarea>
 
