@@ -212,6 +212,30 @@ Processing triggers for libc-bin (2.26-0ubuntu2.1) ...
 
 ---
 
+# MongoDB - Installation
+
+## Ubuntu >= 20.10
+
+```shell
+*$ wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+OK
+*$ echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse
+*$ sudo apt update
+[...]
+Get:18 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 Release.gpg [801 B]
+Get:21 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4/multiverse amd64 Packages [9 029 B]
+Get:22 https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4/multiverse arm64 Packages [6 951 B]
+[...]
+*$ sudo apt install -y mongodb-org
+[...]
+```
+
+Follow [installation instructions](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#install-community-ubuntu-pkg).
+
+---
+
 # MongoDB - Configuration file
 
 .row[
