@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 from pymongo import MongoClient
@@ -6,11 +6,10 @@ import pymongo.errors
 
 def list_db(client):
   try:
-    database_names = client.database_names()
+    database_names = client.list_database_names()
     for database_name in database_names:
       db = client[database_name]
   
-     
       lusers = db.command('usersInfo')
 
       users = [] 
@@ -21,7 +20,7 @@ def list_db(client):
 
       print("%s (%s)" % (database_name, str(users)))
 
-      for collection_name in db.collection_names():
+      for collection_name in db.list_collection_names():
         print(" + %s" % (collection_name))
 
         nb_documents = db[collection_name].count()
