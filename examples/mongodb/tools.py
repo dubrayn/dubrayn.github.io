@@ -36,7 +36,7 @@ def list_db(client):
 
 def clean_db(client):
   try:
-    database_names = client.database_names()
+    database_names = client.list_database_names()
     for database_name in database_names:
       db = client[database_name]
   
