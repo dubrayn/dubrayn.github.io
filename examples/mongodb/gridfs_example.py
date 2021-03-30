@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from pymongo import MongoClient
 import pymongo.errors
@@ -18,7 +18,7 @@ try:
   db = client['test_gridfs']
   gridfs = gridfs.GridFS(db)
   filename = 'toto'
-  content = '12f18481bh192d0 08 d h2j011jp'
+  content = '12f18481bh192d0 08 d h2j011jp'.encode('utf-8')
   print(hash_content(content))
   # save content as a GridFS file
   gridfs.put(content, filename = filename)

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from pymongo import MongoClient
 import pymongo.errors
@@ -12,7 +12,7 @@ try:
   data = [{"pipo": i} for i in range(3)]
   pycollection.insert(data)
   for d in pycollection.find(): print(str(d))
-  for i in range(3): pycollection.remove({"pipo": i})
+  for i in range(3): pycollection.delete_one({"pipo": i})
   print("after...")
   for d in pycollection.find(): print(str(d))
 except pymongo.errors.OperationFailure as e:
