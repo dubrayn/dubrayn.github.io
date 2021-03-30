@@ -10,7 +10,7 @@ client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname
 try:
   db = client.test_db
   pycollection = db['pycollection']
-  myId = ObjectId('5b052f7bbead9cca40fdd453')
+  myId = ObjectId('6063439e1c836443066c6ff5')
   print(pycollection.find_one({'_id': myId}))
 
 except pymongo.errors.OperationFailure as e:

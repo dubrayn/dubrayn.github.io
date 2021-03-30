@@ -1136,7 +1136,7 @@ How to let a **`Python` program** use a MongoDB database ?
 
 ## .hcenter[\[mongodb/hello_world.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from pymongo import MongoClient
 import pymongo.errors
@@ -1145,10 +1145,10 @@ username, password, host, dbname = 'admin0', 'pwd0', '127.0.0.1', 'admin'
 client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname))
 
 try:
-  print(client.database_names()) # list databases
+  print(client.list_database_names()) # list databases
 
   db = client['test_db']
-  print(db.collection_names()) # list collections
+  print(db.list_collection_names()) # list collections
 
 except pymongo.errors.OperationFailure as e:
   print("ERROR: %s" % (e))
@@ -1157,8 +1157,8 @@ except pymongo.errors.OperationFailure as e:
 ## .hcenter[\[Shell session\]]
 ```shell
 $ mongodb/hello_world.py
-[u'admin', u'local', u'test_db']
-[u'MusicRecords']
+['admin', 'config', 'local', 'test_db']
+['MusicRecords']
 ```
 
 ---
@@ -1167,7 +1167,7 @@ $ mongodb/hello_world.py
 
 ## .hcenter[\[mongodb/insert_document.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from pymongo import MongoClient
 import pymongo.errors
@@ -1181,7 +1181,7 @@ try:
 
   for i in range(3):
     data = { "run": 0, "time": 0.01 * i, "norm": 1.0}
-*   data_id = pycollection.insert_one(data).inserted_id
+    data_id = pycollection.insert_one(data).inserted_id
 
     print("id: %s" % (str(data_id)))
 except pymongo.errors.OperationFailure as e:
@@ -1191,9 +1191,9 @@ except pymongo.errors.OperationFailure as e:
 ## .hcenter[\[Shell session\]]
 ```shell
 $ mongodb/insert_document.py
-id: 5b052f7bbead9cca40fdd452
-id: 5b052f7bbead9cca40fdd453
-id: 5b052f7bbead9cca40fdd454
+id: 6063439e1c836443066c6ff4
+id: 6063439e1c836443066c6ff5
+id: 6063439e1c836443066c6ff6
 ```
 
 ---
@@ -1202,7 +1202,7 @@ id: 5b052f7bbead9cca40fdd454
 
 ## .hcenter[\[mongodb/retrieve_documents.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from pymongo import MongoClient
 import pymongo.errors
@@ -1215,11 +1215,11 @@ try:
   pycollection = db.pycollection
 
   print("### find_one()")
-* print(pycollection.find_one())
+  print(pycollection.find_one())
   print("### find()")
-* for document in pycollection.find(): print(document)
+  for document in pycollection.find(): print(document)
   print("### find({'time': 0.01})")
-* for document in pycollection.find({'time': 0.01}): print(document)
+  for document in pycollection.find({'time': 0.01}): print(document)
 
 except pymongo.errors.OperationFailure as e:
   print("ERROR: %s" % (e))
@@ -1229,13 +1229,13 @@ except pymongo.errors.OperationFailure as e:
 ```shell
 $ mongodb/retrieve_documents.py
 ### find_one()
-{u'_id': ObjectId('5b052f7bbead9cca40fdd452'), u'run': 0, u'norm': 1.0, u'time': 0.0}
+{'_id': ObjectId('6063439e1c836443066c6ff4'), 'run': 0, 'time': 0.0, 'norm': 1.0}
 ### find()
-{u'_id': ObjectId('5b052f7bbead9cca40fdd452'), u'run': 0, u'norm': 1.0, u'time': 0.0}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': 0, u'norm': 1.0, u'time': 0.01}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd454'), u'run': 0, u'norm': 1.0, u'time': 0.02}
+{'_id': ObjectId('6063439e1c836443066c6ff4'), 'run': 0, 'time': 0.0, 'norm': 1.0}
+{'_id': ObjectId('6063439e1c836443066c6ff5'), 'run': 0, 'time': 0.01, 'norm': 1.0}
+{'_id': ObjectId('6063439e1c836443066c6ff6'), 'run': 0, 'time': 0.02, 'norm': 1.0}
 ### find({'time': 0.01})
-{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': 0, u'norm': 1.0, u'time': 0.01}
+{'_id': ObjectId('6063439e1c836443066c6ff5'), 'run': 0, 'time': 0.01, 'norm': 1.0}
 ```
 
 ---
@@ -1246,21 +1246,20 @@ $ mongodb/retrieve_documents.py
 
 ## .hcenter[\[mongodb/retrieve_by_id.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from pymongo import MongoClient
 import pymongo.errors
-*from bson.objectid import ObjectId
+from bson.objectid import ObjectId
 
 username, password, host, dbname = 'user0', 'pwd0', '127.0.0.1', 'test_db'
 client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname))
 
 try:
   db = client.test_db
-  pycollection = db.pycollection
-
-* myId = ObjectId('5b052f7bbead9cca40fdd453')
-* print(pycollection.find_one({'_id': myId}))
+  pycollection = db['pycollection']
+  myId = ObjectId('6063439e1c836443066c6ff5')
+  print(pycollection.find_one({'_id': myId}))
 
 except pymongo.errors.OperationFailure as e:
   print("ERROR: %s" % (e))
@@ -1269,7 +1268,7 @@ except pymongo.errors.OperationFailure as e:
 ## .hcenter[\[Shell session\]]
 ```shell
 $ mongodb/retrieve_by_id.py
-{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': 0, u'norm': 1.0, u'time': 0.1}
+{'_id': ObjectId('6063439e1c836443066c6ff5'), 'run': 0, 'time': 0.01, 'norm': 1.0}
 ```
 
 ---
@@ -1278,7 +1277,7 @@ $ mongodb/retrieve_by_id.py
 
 ## .hcenter[\[mongodb/insert_documents.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from pymongo import MongoClient
 import pymongo.errors
@@ -1290,9 +1289,9 @@ try:
   db = client.test_db
   pycollection = db['pycollection']
   data = [{"pipo": i} for i in range(3)]
-* pycollection.insert(data)
+  pycollection.insert_many(data)
   for d in pycollection.find(): print(str(d))
-* for i in range(3): pycollection.remove({"pipo": i})
+  for i in range(3): pycollection.delete_one({"pipo": i})
   print("after...")
   for d in pycollection.find(): print(str(d))
 except pymongo.errors.OperationFailure as e:
@@ -1302,16 +1301,16 @@ except pymongo.errors.OperationFailure as e:
 ## .hcenter[\[Shell session\]]
 ```shell
 $ mongodb/insert_documents.py
-{u'_id': ObjectId('5b052f7bbead9cca40fdd452'), u'run': 0, u'norm': 1.0, u'time': 0.0}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': 0, u'norm': 1.0, u'time': 0.01}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd454'), u'run': 0, u'norm': 1.0, u'time': 0.02}
-{u'pipo': 0, u'_id': ObjectId('5b05dc49c6256b3820e4b14e')}
-{u'pipo': 1, u'_id': ObjectId('5b05dc49c6256b3820e4b14f')}
-{u'pipo': 2, u'_id': ObjectId('5b05dc49c6256b3820e4b150')}
+{'_id': ObjectId('6063439e1c836443066c6ff4'), 'run': 0, 'time': 0.0, 'norm': 1.0}
+{'_id': ObjectId('6063439e1c836443066c6ff5'), 'run': 0, 'time': 0.01, 'norm': 1.0}
+{'_id': ObjectId('6063439e1c836443066c6ff6'), 'run': 0, 'time': 0.02, 'norm': 1.0}
+{'_id': ObjectId('606345904c49d6d63af42fa3'), 'pipo': 0}
+{'_id': ObjectId('606345904c49d6d63af42fa4'), 'pipo': 1}
+{'_id': ObjectId('606345904c49d6d63af42fa5'), 'pipo': 2}
 after...
-{u'_id': ObjectId('5b052f7bbead9cca40fdd452'), u'run': 0, u'norm': 1.0, u'time': 0.0}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': 0, u'norm': 1.0, u'time': 0.01}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd454'), u'run': 0, u'norm': 1.0, u'time': 0.02}
+{'_id': ObjectId('6063439e1c836443066c6ff4'), 'run': 0, 'time': 0.0, 'norm': 1.0}
+{'_id': ObjectId('6063439e1c836443066c6ff5'), 'run': 0, 'time': 0.01, 'norm': 1.0}
+{'_id': ObjectId('6063439e1c836443066c6ff6'), 'run': 0, 'time': 0.02, 'norm': 1.0}
 ```
 
 ---
@@ -1320,7 +1319,7 @@ after...
 
 ## .hcenter[\[mongodb/replace_document.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from pymongo import MongoClient
 import pymongo.errors
@@ -1332,9 +1331,9 @@ client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname
 try:
   db = client.test_db
   pycollection = db['pycollection']
-* pycollection.replace_one({'time': 0.01}, {'toto': 'tutu'})
+  pycollection.replace_one({'time': 0.01}, {'toto': 'tutu'})
   for d in pycollection.find(): print(str(d))
-* pycollection.replace_one({'toto': 'tutu'}, {'run': 0, 'time': 0.01, 'norm': 1.0})
+  pycollection.replace_one({'toto': 'tutu'}, {'run': 0, 'time': 0.01, 'norm': 1.0})
   print('after...')
   for d in pycollection.find(): print(str(d))
 except pymongo.errors.OperationFailure as e:
@@ -1344,13 +1343,13 @@ except pymongo.errors.OperationFailure as e:
 ## .hcenter[\[Shell session\]]
 ```shell
 $ mongodb/replace_document.py
-{u'_id': ObjectId('5b052f7bbead9cca40fdd452'), u'run': 0, u'norm': 1.0, u'time': 0.0}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'toto': u'tutu'}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd454'), u'run': 0, u'norm': 1.0, u'time': 0.02}
+{'_id': ObjectId('6063439e1c836443066c6ff4'), 'run': 0, 'time': 0.0, 'norm': 1.0}
+{'_id': ObjectId('6063439e1c836443066c6ff5'), 'toto': 'tutu'}
+{'_id': ObjectId('6063439e1c836443066c6ff6'), 'run': 0, 'time': 0.02, 'norm': 1.0}
 after...
-{u'_id': ObjectId('5b052f7bbead9cca40fdd452'), u'run': 0, u'norm': 1.0, u'time': 0.0}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': 0, u'norm': 1.0, u'time': 0.01}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd454'), u'run': 0, u'norm': 1.0, u'time': 0.02}
+{'_id': ObjectId('6063439e1c836443066c6ff4'), 'run': 0, 'time': 0.0, 'norm': 1.0}
+{'_id': ObjectId('6063439e1c836443066c6ff5'), 'run': 0, 'time': 0.01, 'norm': 1.0}
+{'_id': ObjectId('6063439e1c836443066c6ff6'), 'run': 0, 'time': 0.02, 'norm': 1.0}
 ```
 
 ---
@@ -1359,7 +1358,7 @@ after...
 
 ## .hcenter[\[mongodb/update_document.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from pymongo import MongoClient
 import pymongo.errors
@@ -1371,9 +1370,9 @@ client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname
 try:
   db = client.test_db
   pycollection = db['pycollection']
-* pycollection.update_one({'time': 0.01}, {'$inc': {'run': 3}})
+  pycollection.update_one({'time': 0.01}, {'$inc': {'run': 3}})
   for d in pycollection.find(): print(str(d))
-* pycollection.update_one({'time': 0.01}, {'$inc': {'run': -3}})
+  pycollection.update_one({'time': 0.01}, {'$inc': {'run': -3}})
   print('after...')
   for d in pycollection.find(): print(str(d))
 except pymongo.errors.OperationFailure as e:
@@ -1383,13 +1382,13 @@ except pymongo.errors.OperationFailure as e:
 ## .hcenter[\[Shell session\]]
 ```shell
 $ mongodb/update_document.py
-{u'_id': ObjectId('5b052f7bbead9cca40fdd452'), u'run': 0, u'norm': 1.0, u'time': 0.0}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': 3, u'norm': 1.0, u'time': 0.01}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd454'), u'run': 0, u'norm': 1.0, u'time': 0.02}
+{'_id': ObjectId('6063439e1c836443066c6ff4'), 'run': 0, 'time': 0.0, 'norm': 1.0}
+{'_id': ObjectId('6063439e1c836443066c6ff5'), 'run': 3, 'time': 0.01, 'norm': 1.0}
+{'_id': ObjectId('6063439e1c836443066c6ff6'), 'run': 0, 'time': 0.02, 'norm': 1.0}
 after...
-{u'_id': ObjectId('5b052f7bbead9cca40fdd452'), u'run': 0, u'norm': 1.0, u'time': 0.0}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': 0, u'norm': 1.0, u'time': 0.01}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd454'), u'run': 0, u'norm': 1.0, u'time': 0.02}
+{'_id': ObjectId('6063439e1c836443066c6ff4'), 'run': 0, 'time': 0.0, 'norm': 1.0}
+{'_id': ObjectId('6063439e1c836443066c6ff5'), 'run': 0, 'time': 0.01, 'norm': 1.0}
+{'_id': ObjectId('6063439e1c836443066c6ff6'), 'run': 0, 'time': 0.02, 'norm': 1.0}
 ```
 
 ---
@@ -1399,7 +1398,7 @@ after...
 :arrow_right: Get the number of documents matching a criterion.
 ## .hcenter[\[mongodb/count.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from pymongo import MongoClient
 import pymongo.errors
@@ -1411,7 +1410,7 @@ client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname
 try:
   db = client.test_db
   pycollection = db['pycollection']
-* print(pycollection.count({'time': 0.01}))
+  print(pycollection.count_documents({'time': 0.01}))
 except pymongo.errors.OperationFailure as e:
   print("ERROR: %s" % (e))
 ```
@@ -1432,7 +1431,7 @@ to use **advanced queries**.
 
 ## .hcenter[\[mongodb/range_queries.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from pymongo import MongoClient
 import pymongo.errors
@@ -1444,7 +1443,7 @@ try:
   db = client.test_db
   pycollection = db.pycollection
 
-* for document in pycollection.find({"time": {"$lt": 0.015}}).sort('time'):
+  for document in pycollection.find({"time": {"$lt": 0.015}}).sort('time'):
     print(document)
 
 except pymongo.errors.OperationFailure as e:
@@ -1454,8 +1453,8 @@ except pymongo.errors.OperationFailure as e:
 ## .hcenter[\[Shell session\]]
 ```shell
 $ mongodb/range_queries.py
-{u'_id': ObjectId('5b052f7bbead9cca40fdd452'), u'run': 0, u'norm': 1.0, u'time': 0.0}
-{u'_id': ObjectId('5b052f7bbead9cca40fdd453'), u'run': 0, u'norm': 1.0, u'time': 0.01}
+{'_id': ObjectId('6063439e1c836443066c6ff4'), 'run': 0, 'time': 0.0, 'norm': 1.0}
+{'_id': ObjectId('6063439e1c836443066c6ff5'), 'run': 0, 'time': 0.01, 'norm': 1.0}
 ```
 
 ---
@@ -1467,7 +1466,7 @@ $ mongodb/range_queries.py
 
 ## .hcenter[\[mongodb/create_index.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from pymongo import MongoClient
 import pymongo.errors
@@ -1479,9 +1478,9 @@ try:
   db = client.test_db
   pycollection = db.pycollection
 
-* pycollection.create_index('time')
+  pycollection.create_index('time', unique = True)
 
-* pycollection.insert_one({'time': 0.01})
+  pycollection.insert_one({'time': 0.01})
 
 except pymongo.errors.OperationFailure as e:
   print("ERROR: %s" % (e))
@@ -1490,7 +1489,7 @@ except pymongo.errors.OperationFailure as e:
 ## .hcenter[\[Shell session\]]
 ```shell
 $ mongodb/create_index.py
-ERROR: E11000 duplicate key error collection: test_db.pycollection index: time_1 dup key: { : 0.01 }
+ERROR: E11000 duplicate key error collection: test_db.pycollection index: time_1 dup key: { time: 0.01 }, full error: {'index': 0, 'code': 11000, 'keyPattern': {'time': 1}, 'keyValue': {'time': 0.01}, 'errmsg': ' E11000 duplicate key error collection: test_db.pycollection index: time_1 dup key: { time: 0.01 }'}
 ```
 
 ---
@@ -1502,7 +1501,7 @@ ERROR: E11000 duplicate key error collection: test_db.pycollection index: time_1
 
 ## .hcenter[\[mongodb/remove_index.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from pymongo import MongoClient
 import pymongo.errors
@@ -1514,9 +1513,9 @@ try:
   db = client.test_db
   pycollection = db.pycollection
 
-* pycollection.drop_index('time_1')
+  pycollection.drop_index('time_1')
 
-* for i in pycollection.list_indexes():
+  for i in pycollection.list_indexes():
     print(i)
 
 except pymongo.errors.OperationFailure as e:
@@ -1526,7 +1525,7 @@ except pymongo.errors.OperationFailure as e:
 ## .hcenter[\[Shell session\]]
 ```shell
 $ mongodb/remove_index.py
-SON([(u'v', 2), (u'key', SON([(u'_id', 1)])), (u'name', u'_id_'), (u'ns', u'test_db.pycollection')])
+SON([('v', 2), ('key', SON([('_id', 1)])), ('name', '_id_')])
 ```
 
 ---
@@ -1535,22 +1534,22 @@ SON([(u'v', 2), (u'key', SON([(u'_id', 1)])), (u'name', u'_id_'), (u'ns', u'test
 
 ## .hcenter[\[mongodb/numpy_to_mongodb.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from pymongo import MongoClient
 import pymongo.errors
 import numpy as np
-*import bson
-*import pickle
+import bson
+import pickle
 
 username, password, host, dbname = 'user0', 'pwd0', '127.0.0.1', 'test_db'
 client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname))
 
 try:
   for i in range(3):
-*   mat = np.eye(3) * i
-*   bindat = bson.binary.Binary(pickle.dumps(mat, protocol = 2))
-*   data_id = client['test_db']['numpy_test'].insert_one({'mat': bindat}).inserted_id
+    mat = np.eye(3) * i
+    bindat = bson.binary.Binary(pickle.dumps(mat, protocol = 2))
+    data_id = client['test_db']['numpy_test'].insert_one({'mat': bindat}).inserted_id
     print("id: %s" % (str(data_id)))
     print(mat)
 except pymongo.errors.OperationFailure as e:
@@ -1560,15 +1559,15 @@ except pymongo.errors.OperationFailure as e:
 ## .hcenter[\[Shell session\]]
 ```shell
 $ mongodb/numpy_to_mongodb.py
-id: 5b05e53ec6256b3e1e0cee47
+id: 606347c23629cec2ce762e84
 [[0. 0. 0.]
  [0. 0. 0.]
  [0. 0. 0.]]
-id: 5b05e53ec6256b3e1e0cee48
+id: 606347c23629cec2ce762e85
 [[1. 0. 0.]
  [0. 1. 0.]
  [0. 0. 1.]]
-id: 5b05e53ec6256b3e1e0cee49
+id: 606347c23629cec2ce762e86
 [[2. 0. 0.]
  [0. 2. 0.]
  [0. 0. 2.]]
@@ -1580,23 +1579,23 @@ id: 5b05e53ec6256b3e1e0cee49
 
 ## .hcenter[\[mongodb/mongodb_to_numpy.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from pymongo import MongoClient
 import pymongo.errors
 import numpy as np
-*import bson
-*import pickle
+import bson
+import pickle
 
 username, password, host, dbname = 'user0', 'pwd0', '127.0.0.1', 'test_db'
 client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname))
 
 try:
   for data in client['test_db']['numpy_test'].find():
-*   bindat = data["mat"]
+    bindat = data["mat"]
     data_id = data["_id"]
-*   mat = pickle.loads(bindat)
-    print("id: %s v:" % (str(data_id)))
+    mat = pickle.loads(bindat)
+    print("id: %s" % (str(data_id)))
     print(mat)
 except pymongo.errors.OperationFailure as e:
   print("ERROR: %s" % (e))
@@ -1605,15 +1604,15 @@ except pymongo.errors.OperationFailure as e:
 ## .hcenter[\[Shell session\]]
 ```shell
 $ mongodb/mongodb_to_numpy.py
-id: 5b05e53ec6256b3e1e0cee47
+id: 606347c23629cec2ce762e84
 [[0. 0. 0.]
  [0. 0. 0.]
  [0. 0. 0.]]
-id: 5b05e53ec6256b3e1e0cee48
+id: 606347c23629cec2ce762e85
 [[1. 0. 0.]
  [0. 1. 0.]
  [0. 0. 1.]]
-id: 5b05e53ec6256b3e1e0cee49
+id: 606347c23629cec2ce762e86
 [[2. 0. 0.]
  [0. 2. 0.]
  [0. 0. 2.]]
@@ -1625,13 +1624,13 @@ id: 5b05e53ec6256b3e1e0cee49
 
 ## .hcenter[\[mongodb/gridfs_example.py\]]
 ```Python
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from pymongo import MongoClient
 import pymongo.errors
 from bson.objectid import ObjectId
 import hashlib
-*import gridfs
+import gridfs
 
 def hash_content(content):
   m = hashlib.md5()
@@ -1642,20 +1641,16 @@ username, password, host, dbname = 'admin0', 'pwd0', '127.0.0.1', 'admin'
 client = MongoClient('mongodb://%s:%s@%s/%s' % (username, password, host, dbname))
 
 try:
-* db = client['test_gridfs']
-* gridfs = gridfs.GridFS(db)
-
+  db = client['test_gridfs']
+  gridfs = gridfs.GridFS(db)
   filename = 'toto'
-  content = '12f18481bh192d0 08 d h2j011jp'
+  content = '12f18481bh192d0 08 d h2j011jp'.encode('utf-8')
   print(hash_content(content))
-
   # save content as a GridFS file
-* gridfs.put(content, filename = filename)
-
+  gridfs.put(content, filename = filename)
   # load content from a GridFS file
-* fp = gridfs.get_last_version(filename = filename)
-* print(hash_content(fp.read()))
-
+  fp = gridfs.get_last_version(filename = filename)
+  print(hash_content(fp.read()))
 except pymongo.errors.OperationFailure as e:
   print("ERROR: %s" % (e))
 ```
@@ -1679,13 +1674,11 @@ $ mongofiles --verbose=-1 -h 127.0.0.1 -u admin0 -p pwd0 --authenticationDatabas
 toto    29
 $ # get file
 $ mongofiles --verbose=-1 -h 127.0.0.1 -u admin0 -p pwd0 --authenticationDatabase=admin -d test_gridfs get toto
-finished writing to toto
 $ # compute MD5
 $ md5sum toto
-4d5e1510e879cf18a2b05e89529a847b
+4d5e1510e879cf18a2b05e89529a847b  toto
 $ # delete file
 $ mongofiles --verbose=-1 -h 127.0.0.1 -u admin0 -p pwd0 --authenticationDatabase=admin -d test_gridfs delete toto
-successfully deleted all instances of 'toto' from GridFS
 ```
 
 </textarea>

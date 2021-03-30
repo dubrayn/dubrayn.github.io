@@ -12,7 +12,7 @@ try:
   pycollection = db['pycollection']
   pycollection.replace_one({'time': 0.01}, {'toto': 'tutu'})
   for d in pycollection.find(): print(str(d))
-  pycollection.replace_one({'toto': 'tutu'}, {'run': '0000', 'time': 0.01, 'norm': 1.0})
+  pycollection.replace_one({'toto': 'tutu'}, {'run': 0, 'time': 0.01, 'norm': 1.0})
   print('after...')
   for d in pycollection.find(): print(str(d))
 except pymongo.errors.OperationFailure as e:

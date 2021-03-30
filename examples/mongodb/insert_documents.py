@@ -10,7 +10,7 @@ try:
   db = client.test_db
   pycollection = db['pycollection']
   data = [{"pipo": i} for i in range(3)]
-  pycollection.insert(data)
+  pycollection.insert_many(data)
   for d in pycollection.find(): print(str(d))
   for i in range(3): pycollection.delete_one({"pipo": i})
   print("after...")
