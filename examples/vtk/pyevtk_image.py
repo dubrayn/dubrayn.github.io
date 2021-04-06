@@ -13,7 +13,6 @@ def mandelbrot_set(X, Y, maxiter, horizon = 2.0):
     I = np.less(abs(Z), horizon)
     N[I] = n
     Z[I] = Z[I] ** 2 + C[I]
-  N[N == maxiter - 1] = 0
   return Z.transpose(), N.transpose()
 
 nx = 800
