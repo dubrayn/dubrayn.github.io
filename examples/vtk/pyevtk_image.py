@@ -20,7 +20,7 @@ ny = 600
 x = np.linspace(-2.25, 0.75, nx, dtype=np.float32)
 y = np.linspace(-1.25, 1.25, ny, dtype=np.float32)
 
-Z, N = mandelbrot_set(x, y, 2000, 2.0 ** 40)
+Z, N = mandelbrot_set(x, y, 2000, 2.0)
 
 filename = 'mandel_image'
 

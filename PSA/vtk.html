@@ -585,7 +585,7 @@ ny = 600
 x = np.linspace(-2.25, 0.75, nx, dtype=np.float32)
 y = np.linspace(-1.25, 1.25, ny, dtype=np.float32)
 
-Z, N = mandelbrot_set(x, y, 2000, 2.0 ** 40)
+Z, N = mandelbrot_set(x, y, 2000, 2.0)
 
 filename = 'mandel_image'
 
@@ -652,46 +652,39 @@ mandel_image.vti generated
 import vtk
 
 # source
-*reader = vtk.vtkXMLImageDataReader()
-*reader.SetFileName('mandel_image.vti')
-*reader.Update()
+reader = vtk.vtkXMLImageDataReader()
+reader.SetFileName('mandel_image.vti')
+reader.Update()
 
 # Set active scalars
 pointData = reader.GetOutput().GetPointData()
 pointData.SetActiveScalars('N')
 
+# mapper
+mapper = vtk.vtkDataSetMapper()
+mapper.SetInputConnection(reader.GetOutputPort())
+mapper.SetScalarRange(0.0, 40.0)
+
+# actor
+actor = vtk.vtkActor()
+actor.SetMapper(mapper)
+```
+]
+.column.w48[
+```Python
 # renderer
 ren = vtk.vtkRenderer()
+ren.AddActor(actor)
+ren.SetBackground(0, 0, 0)
 
 # window
 renWin = vtk.vtkRenderWindow()
 renWin.AddRenderer(ren)
 
-# interactor style
-styleImage = vtk.vtkInteractorStyleImage()
-styleImage.SetInteractionModeToImage3D()
-
-```
-]
-.column.w48[
-```Python
 # interactor
 iren = vtk.vtkRenderWindowInteractor()
 iren.SetRenderWindow(renWin)
-iren.SetInteractorStyle(styleImage)
 iren.Initialize()
-
-im = vtk.vtkImageResliceMapper()
-im.SetInputConnection(reader.GetOutputPort())
-im.SliceFacesCameraOn()
-im.SliceAtFocalPointOn()
-im.BorderOn()
-
-ia = vtk.vtkImageSlice()
-ia.SetMapper(im)
-
-ren.AddActor(ia)
-ren.SetBackground(1, 1, 1)
 
 # set window size and render
 renWin.SetSize(300, 300)
@@ -726,7 +719,6 @@ def mandelbrot_set(X, Y, maxiter, horizon = 2.0):
     I = np.less(abs(Z), horizon)
     N[I] = n
     Z[I] = Z[I] ** 2 + C[I]
-  N[N == maxiter - 1] = 0
   return Z.transpose(), N.transpose()
 
 nx = 800
@@ -735,7 +727,7 @@ x = np.linspace(-2.25, 0.75, nx, dtype=np.float32)
 y = np.linspace(-1.25, 1.25, ny, dtype=np.float32)
 z = np.linspace(0.0, 1.0, 1, dtype=np.float32)
 
-Z, N = mandelbrot_set(x, y, 2000, 2.0 ** 40)
+Z, N = mandelbrot_set(x, y, 2000, 2.0)
 
 filename = 'mandel_grid'
 
@@ -807,28 +799,26 @@ mandel_grid.vtr generated
 import vtk
 
 # source
-reader = vtk.vtkXMLRectilinearGridReader()
-reader.SetFileName('mandel_grid.vtr')
-
-# store output port
-outputPort = reader.GetOutputPort()
+r = vtk.vtkXMLRectilinearGridReader()
+r.SetFileName('mandel_grid.vtr')
 
 # mapper
 mandelMapper = vtk.vtkDataSetMapper()
-mandelMapper.SetInputConnection(outputPort)
+mandelMapper.SetInputConnection(r.GetOutputPort())
 mandelMapper.SetScalarModeToUsePointFieldData()
 mandelMapper.SelectColorArray('N')
+mandelMapper.SetScalarRange(0.0, 40.0)
 
 # actor
 mandelActor = vtk.vtkActor()
 mandelActor.SetMapper(mandelMapper)
-
 ```
 ]
 .column.w48[
 ```Python
 # renderer
 ren = vtk.vtkRenderer()
+ren.AddActor(mandelActor)
 
 # window
 renWin = vtk.vtkRenderWindow()
@@ -838,9 +828,6 @@ renWin.AddRenderer(ren)
 iren = vtk.vtkRenderWindowInteractor()
 iren.SetRenderWindow(renWin)
 iren.Initialize()
-
-# add actor to renderer
-ren.AddActor(mandelActor)
 
 # set window size and render
 renWin.SetSize(300, 300)
@@ -880,7 +867,6 @@ def mandelbrot_set(X, Y, maxiter, horizon=2.0):
     I = np.less(abs(Z), horizon)
     N[I] = n
     Z[I] = Z[I]**2 + C[I]
-  N[N == maxiter-1] = 0
   return Z.transpose(), N.transpose()
 
 nx = 800
@@ -894,6 +880,7 @@ filename = 'mandel_polydata'
 
 points = vtk.vtkPoints()
 vertices = vtk.vtkCellArray()
+
 d0 = vtk.vtkFloatArray()
 d0.SetName('N')
 ```
@@ -984,17 +971,15 @@ mandel_polydata.vtp generated
 import vtk
 
 # source
-*reader = vtk.vtkXMLPolyDataReader()
-*reader.SetFileName('mandel_polydata.vtp')
-
-# store output port
-outputPort = reader.GetOutputPort()
+*r = vtk.vtkXMLPolyDataReader()
+*r.SetFileName('mandel_polydata.vtp')
 
 # mapper
 mandelMapper = vtk.vtkDataSetMapper()
-mandelMapper.SetInputConnection(outputPort)
+mandelMapper.SetInputConnection(r.GetOutputPort())
 mandelMapper.SetScalarModeToUsePointFieldData()
 mandelMapper.SelectColorArray('N')
+mandelMapper.SetScalarRange(0.0, 40.0)
 
 # actor
 mandelActor = vtk.vtkActor()
@@ -1005,6 +990,7 @@ mandelActor.SetMapper(mandelMapper)
 ```Python
 # renderer
 ren = vtk.vtkRenderer()
+ren.AddActor(mandelActor)
 
 # window
 renWin = vtk.vtkRenderWindow()
@@ -1014,9 +1000,6 @@ renWin.AddRenderer(ren)
 iren = vtk.vtkRenderWindowInteractor()
 iren.SetRenderWindow(renWin)
 iren.Initialize()
-
-# add actor to renderer
-ren.AddActor(mandelActor)
 
 # set window size and render
 renWin.SetSize(300, 300)
