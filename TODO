@@ -121,27 +121,29 @@ Project:
 ---- Session 1 ----
 
 * python bindings - manual
-* python bindings - swig (start)
 
 ---- Session 2 ----
 
-* python bindings - swig (end)
-* mongoDB (start , slide 30)
+* python bindings - swig (start)
 
 ---- Session 3 ----
 
-* mongoDB (end)
-* live monitoring
+* python bindings - swig (end)
+* mongoDB
 
 ---- Session 4 ----
 
-* VTK
+* live monitoring
 
 ---- Session 5 ----
 
 ===> Mid-project presentation
 
 ---- Session 6 ----
+
+* VTK
+
+---- Session 7 ----
 
 * paraview
  * cow.vtp
@@ -170,57 +172,19 @@ Project:
   * save animation
   * view animation
 
----- Session 7 ----
+  ---- Session 8 ----
 
-* errors / exceptions
-
----- Session 8 ----
-
-* multiprocessing (start)
+* multiprocessing
 
 ---- Session 9 ----
 
-* multiprocessing (end)
+* mpi4py
 
 ---- Session 10 ----
 
-* mpi4py / project
+* errors / exceptions
 
 ---- Session 11 ----
 
 ===> Final project presentation
-
-# IPS project goals:
-
-* initialize project (hierarchy of files, of classes, doxygen, Makefile, clean, git, cxxtest, data, bindings, README, LICENSE)
-* derivate cylindrical HO solutions (LaTeX in doxygen), implement them, check H|p>=E|p>
-* write C++ msgpack importer
-* calculate the local density from a msgpack
-* monitor the code performances with at least a simple timer
-* num. calculate some <Q0m> values
-* ana. calculate some <Q0m> values
-* visualize local density in paraview, blender, povray, etc...
-* use bindings in a MPI4py python script to calculate from mongoDB to ana. and num. <Q0m> values
-* implement a transparent restart mechanism in the python script
-* make a scalability benchmark, identify IO and CPU times
-* write monitor server
-* write monitor client
-
-# PSA project goals:
-
-* initialize project (hierarchy of files, of classes, doxygen, Makefile, clean, git, cxxtest, data, bindings, README, LICENSE)
-* derivate cylindrical HO solutions (LaTeX in doxygen), implement them, check H|p>=E|p>
-* write C++ msgpack importer
-* calculate the local density from a msgpack
-* monitor the code performances with at least a simple timer
-* calculate the local density from a msgpack
-* num. calculate some <Q0m> values
-* ana. calculate some <Q0m> values
-* visualize local density in paraview, blender, povray, etc...
-* use bindings in a MPI4py python script to calculate from mongoDB to ana. and num. <Q0m> values
-* implement a transparent restart mechanism in the python script
-* make a scalability benchmark, identify IO and CPU times
-
-BUG: trailing empty code lines are removed by markdown parser in remark.js
-BUG: plotly.js does not like CSS scale transform (mouse coords are messed up)
 
