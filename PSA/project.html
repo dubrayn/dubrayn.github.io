@@ -492,9 +492,9 @@ and the momentum operators defined as
 
 `$$
 \begin{aligned}
-\frac{i\hbar}{dt}\psi^{(t+dt)} &= \frac{-\hbar^2}{2m.dx^2}\left(\psi_{x+dx}+\psi_{x-dx}\right)\\
-&- \frac{\hbar^2}{2m.dy^2}\left(\psi_{y+dy}+\psi_{y-dy}\right)\\
-&+ \left(V(x,y) + \frac{i\hbar}{dt}+\frac{\hbar^2}{m.dx^2}+\frac{\hbar^2}{m.dy^2}\right)\psi
+\psi^{(t+dt)} = \psi + i.dt\Bigg[ & \left(-\frac{1}{\hbar}V(x,y) - \frac{\hbar}{m.dx^2}-\frac{\hbar}{m.dy^2}\right)\psi\\
+&+ i\frac{\hbar.dt}{2m.dx^2}\left(\psi_{x+dx}+\psi_{x-dx}\right)\\
+&+ i\frac{\hbar.dt}{2m.dy^2}\left(\psi_{y+dy}+\psi_{y-dy}\right)\Bigg]
 \end{aligned}
 $$`
 
@@ -522,9 +522,9 @@ and the momentum operators defined as
 
 `$$
 \begin{aligned}
-\left(\frac{i\hbar}{dt}-V(x,y)-\frac{\hbar^2}{m.dx^2}-\frac{\hbar^2}{m.dy^2}\right)\psi^{(t+dt)} &= \frac{-\hbar^2}{2m.dx^2}\left(\psi^{(t+dt)}_{x+dx}+\psi^{(t+dt)}_{x-dx}\right)\\
-&- \frac{\hbar^2}{2m.dy^2}\left(\psi^{(t+dt)}_{y+dy}+\psi^{(t+dt)}_{y-dy}\right)\\
-&+ \frac{i\hbar}{dt}\psi
+\psi^{(t+dt)} = \psi + i.dt\Bigg[ & \left( -\frac{1}{\hbar}V(x,y) -\frac{\hbar}{m.dx^2} -\frac{\hbar}{m.dy^2}\right)\psi^{(t+dt)}\\
+&+ \frac{\hbar}{2m.dx^2}\left(\psi^{(t+dt)}_{x+dx}+\psi^{(t+dt)}_{x-dx}\right)\\
+&+ \frac{\hbar}{2m.dy^2}\left(\psi^{(t+dt)}_{y+dy}+\psi^{(t+dt)}_{y-dy}\right)\Bigg]
 \end{aligned}
 $$`
 
@@ -553,16 +553,14 @@ and the momentum operators defined as
 
 `$$
 \begin{aligned}
-\left(\frac{2i\hbar}{dt}-V(x,y)-\frac{\hbar^2}{m.dx^2}-\frac{\hbar^2}{m.dy^2}\right)\psi^{(t+dt)} &= \frac{-\hbar^2}{2m.dx^2}\left(\psi_{x+dx}+\psi_{x-dx}\right)\\
-&- \frac{\hbar^2}{2m.dy^2}\left(\psi_{y+dy}+\psi_{y-dy}\right)\\
-&- \frac{\hbar^2}{2m.dx^2}\left(\psi^{(t+dt)}_{x+dx}+\psi^{(t+dt)}_{x-dx}\right)\\
-&- \frac{\hbar^2}{2m.dy^2}\left(\psi^{(t+dt)}_{y+dy}+\psi^{(t+dt)}_{y-dy}\right)\\
-&+ \left(V(x,y) + \frac{2i\hbar}{dt}+\frac{\hbar^2}{m.dx^2}+\frac{\hbar^2}{m.dy^2}\right)\psi
+\psi^{(t+dt)} = \psi + i\frac{dt}{2}\Bigg[ & \left( \frac{-1}{\hbar}V(x,y) - \frac{\hbar}{m.dx^2} - \frac{\hbar}{m.dy^2}\right)\psi\\
+&+ \frac{\hbar}{2m.dx^2}\left(\psi_{x+dx}+\psi_{x-dx}\right)\\
+&+ \frac{\hbar}{2m.dy^2}\left(\psi_{y+dy}+\psi_{y-dy}\right)\\
+&+ \left( -\frac{1}{\hbar}V(x,y) - \frac{\hbar}{m.dx^2} -\frac{\hbar}{m.dy^2}\right)\psi^{(t+dt)}\\
+&+ \frac{\hbar}{2m.dx^2}\left(\psi^{(t+dt)}_{x+dx}+\psi^{(t+dt)}_{x-dx}\right)\\
+&+ \frac{\hbar}{2m.dy^2}\left(\psi^{(t+dt)}_{y+dy}+\psi^{(t+dt)}_{y-dy}\right)\Bigg]
 \end{aligned}
 $$`
-
-
-
 
     </textarea>
 
