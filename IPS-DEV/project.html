@@ -78,12 +78,12 @@ with the 1D-Hamiltonian and 1D-momentum operators defined as
 ## Resulting 1D-HO Schrödinger equation
 `$$\left(\frac{\hat{p}_{(z)}^2}{2m} + \frac{1}{2}m\omega^2\hat{z}^2\right)\psi_n = E_n\psi_n.$$`
 
-## Solutions:
+## :gift: Solutions:
 The analytic solutions take the form
 `$$\psi_n(z) = \frac{1}{\sqrt{2^n n!}}\left(\frac{m\omega}{\pi\hbar}\right)^{1/4}e^{-\frac{m\omega z^2}{2\hbar}}H_n\left(\sqrt{\frac{m\omega}{\hbar}} . z\right).$$`
 
 ## Orthonormality
-One has
+For every couple of solutions, one has
 `$$\forall (m,n), \int \psi^*_m(z)\psi_n(z) dz = \delta_{mn}.$$`
 ]
 
@@ -112,6 +112,84 @@ One has
 `$$H_1(z) = 2z$$`
 `$$\forall n\ge 1, H_{n+1}(z) = 2zH_n(z)-2nH_{n-1}(z).$$`
 ]
+
+---
+
+# Constants and units - easy
+
+.mermaid.shadow[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+]
+
+## Easy mode :v:
+
+* use `\(m = \hbar = \omega = 1\)`,
+* do not specify units.
+
+---
+
+# Constants and units - hard
+
+.mermaid.shadow[
+    graph LR
+    A("Week #1<br/>Initialization") --> B
+    B("Week #2<br/>Project") --> C
+    C("Week #3<br/>Project") --> D
+    D("Week #4<br/>Project") --> E
+    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
+]
+
+## Hard mode :moneybag: - use physical units:
+
+.row[
+.w49.col[
+```
+# 2019 SI units
+h    := 6.62607015e-34[J.s]
+c    := 2.99792458e+08[m/s]
+e    := 1.602176634e-19[C]
+
+# Unit conversion examples
+1[J]  = 1[C] * 1[V]
+1[eV] = 1.602176634e-19[J]
+1     = 1.602176634e-19[J/eV]
+1     = 1e+06[eV/MeV]
+1     = 1e+15[fs/s]
+```
+]
+.w49.col[
+```
+# If we choose time in s, energy in J:
+hbar = h[J.s] / (2pi)
+     = 1.054571817646e-34[J.s]
+
+# If we choose time in s, energy in eV:
+hbar = hbar[J.s] / 1.602176634e-19[J/eV]
+     = 6.582119569509067e-16 [eV.s]
+
+# If we choose time in fs, energy in MeV:
+hbar = hbar[eV.s] / 1e+06[eV/MeV] * 1e+15[fm/m]
+     = 6.582119569509067e-07 [MeV.fs]
+
+# If we choose to describe a neutron:
+m    = 939.56542052[MeV/c^2] (neutron mass)
+
+# If we choose to describe an electron:
+m    = 0.510998950[MeV/c^2] (electron mass)
+
+omega = ???[rad/s] (depends on the system)
+```
+]
+]
+
+1. Choose your **system** (neutron in a nuclear potential, electron in an atomic potential, etc...).
+2. Choose your **working units**. Example: time in `fs`, distance in `fm`, energy in `MeV`...
+3. Use your **working units** when you output some quantity (presentation, figure, table, etc...).
 
 ---
 
@@ -159,11 +237,12 @@ One has
 * the presentation **must** use `remark.js`
 
 ## :moneybag: Bonuses:
-* no warning at {compilation, bindings, tests, doc}
-* project is implementing other methods
-* source code is well written (comments, easy to read, etc...)
-* commits are small and explicit
-* unit tests pass
+* the project and the presentation use SI units
+* there is no warning at {compilation, bindings, tests, doc}
+* the project is implementing other methods
+* the source code is well written (comments, easy to read, etc...)
+* the commits are small and explicit
+* the unit tests pass
 ]
 
 ---
