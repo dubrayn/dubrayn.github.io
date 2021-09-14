@@ -24,6 +24,59 @@ class: animated fadeIn middle numbers
 
 ---
 
+# Zen of `C++`
+
+.hcenter.shadow.w60[![](images/zen.jpg)]
+
+.hcenter[How to organize your `C++` mess...]
+
+---
+
+class:top
+
+# `C++` files: main rules
+
+## One class = two files
+
+* Class `Solver` in files `solver.cpp` and `solver.h`
+* Class `Boat` in files `boat.cpp` and `boat.h`
+
+--
+
+## One namespace = two files
+
+* Namespace `Tools` in files `tools.cpp` and `tools.h`
+* Namespace `Global` in files `global.cpp` and `global.h`
+
+--
+
+## One static library [+ one main file]
+
+* All classes and namespaces in `mylib.a`
+* If needed, main program in `main.cpp` (no `main.h` file)
+
+--
+
+## One library = one directory
+
+* For multi-libraries projects, separate the libraries
+
+--
+
+## One static library = one set of bindings
+
+* Generate bindings for some classes (maybe not all of them)
+* Generate bindings for some methods (maybe not all of them)
+
+--
+
+## One method = one unit test
+
+* Write a unit test for every single method
+
+---
+
+
 # `C++` headers: main rules
 
 .row[

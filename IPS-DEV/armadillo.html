@@ -78,10 +78,11 @@ class: animated fadeIn middle numbers
 
 .row[
 .column.w45.middle[
-Full code to compute `\(\left[\begin{array}{cc}1&2\\3&4\end{array}\right]\left[\begin{array}{cc}5&6\\7&8\end{array}\right]^t\)`:
+Let's calculate
+`\(\left[\begin{array}{cc}1&2\\3&4\end{array}\right]\left[\begin{array}{cc}5&6\\7&8\end{array}\right]^t.2\)`
 ]
 .column.w50.middle[
- ```C++
+```C++
 #include <armadillo>
 
 int main()
@@ -89,7 +90,7 @@ int main()
   arma::mat A = {{1, 2}, {3, 4}}; // C++11
   arma::mat B = {{5, 6}, {7, 8}}; // C++11
 
-  ( A * B.t() ).print("result");
+  ( A * B.t() * 2 ).print("result");
 
   return 0;
 }
@@ -105,8 +106,190 @@ Result:
 $ g++ -std=c++11 arma_test.cpp -o arma_test -larmadillo
 $ ./arma_test
 result
-   17.0000   23.0000
-   39.0000   53.0000
+   3.4000e+01   4.6000e+01
+   7.8000e+01   1.0600e+02
+```
+]
+]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.hcenter[
+:arrow_right: Let's write a small `C++` project for this example.
+]
+
+---
+
+# Example project with Armadillo
+
+.row[
+.column.w50.middle[
+.tree.hcenter[
+examples/armadillo
+* main.cpp
+* Makefile
+* solver.cpp :arrow_left:
+* solver.h
+]]
+.column.w50.middle[
+## .hcenter[[solver.cpp]]
+```C++
+#include "solver.h"
+
+Solver::Solver(double _factor) : factor(_factor)
+{
+}
+
+arma::mat Solver::calc(void)
+{
+  arma::mat result;
+
+  arma::mat A = {{1, 2}, {3, 4}}; // C++11
+  arma::mat B = {{5, 6}, {7, 8}}; // C++11
+
+  result = factor * A * B.t();
+
+  return result;
+}
+```
+]
+]
+
+---
+
+# Example project with Armadillo
+
+.row[
+.column.w50.middle[
+.tree.hcenter[
+examples/armadillo
+* main.cpp
+* Makefile
+* solver.cpp
+* solver.h :arrow_left:
+]]
+.column.w50.middle[
+## .hcenter[[solver.h]]
+```C++
+#ifndef SOLVER_H
+#define SOLVER_H
+
+#include <armadillo>
+
+class Solver
+{
+  public:
+
+  Solver(double _factor = 1);
+
+  arma::mat calc(void);
+
+  private:
+
+  double factor = 1.0;
+};
+
+#endif
+```
+]
+]
+
+---
+
+# Example project with Armadillo
+
+.row[
+.column.w50.middle[
+.tree.hcenter[
+examples/armadillo
+* main.cpp :arrow_left:
+* Makefile
+* solver.cpp
+* solver.h
+]]
+.column.w50.middle[
+## .hcenter[[main.cpp]]
+```C++
+#include "solver.h"
+
+int main(int, char**)
+{
+  Solver solver(2);
+
+  auto result = solver.calc();
+
+  result.print("result");
+}
+```
+]
+]
+
+---
+
+# Example project with Armadillo
+
+.row[
+.column.w50.middle[
+.tree.hcenter[
+examples/armadillo
+* main.cpp
+* Makefile :arrow_left:
+* solver.cpp
+* solver.h
+]]
+.column.w50.middle[
+## .hcenter[[Makefile]]
+```Makefile
+CXX = g++
+CXXFLAGS = -Wall -O3 -std=c++11
+LDFLAGS =
+LIBS = -larmadillo
+TARGET = main
+OBJS = main.o solver.o
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+    $(CXX) $(LDFLAGS) $^ -o $@ $(LIBS)
+
+%.o: %.cpp
+    $(CXX) $(CXXFLAGS) $< -c -o $@
+
+.PHONY: clean
+clean:
+    rm -f $(OBJS)
+    rm -f $(TARGET)
+```
+]
+]
+
+---
+
+# Example project with Armadillo
+
+.row[
+.column.w50.middle[
+.tree.hcenter[
+examples/armadillo
+* main.cpp
+* Makefile
+* solver.cpp
+* solver.h
+]]
+.column.w50.middle[
+## Compile and run
+```Shell
+$ make && ./main
+g++ -Wall -O3 -std=c++11 main.cpp -c -o main.o
+g++ -Wall -O3 -std=c++11 solver.cpp -c -o solver.o
+g++  main.o solver.o -o main -larmadillo
+result
+   3.4000e+01   4.6000e+01
+   7.8000e+01   1.0600e+02
 ```
 ]
 ]
