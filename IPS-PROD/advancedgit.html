@@ -769,6 +769,144 @@ The following commands can **modify the history** of a project.
 
 ---
 
+# `GitLab`'s `CI/CD`
+
+## Definitions
+
+:arrow_right: `CI`: Continuous Integration: **build** and **test** for each commit.  
+:arrow_right: `CD`: Continuous Delivery: **build** and **test** a **deployment-ready version** (manual deployment).  
+:arrow_right: `CD`: Continuous Deployment: **build**, **test** and **publish** a **deployment-ready version**.
+
+
+## `GitLab` ?
+
+:arrow_right: GitLab `CI/CD`: Some or all of the above.  
+
+At least a **runner** with the same **major.minor** version as the `GitLab` instance is needed.
+
+The **runner(s)** will **build**, **test* and/or **publish** the project.
+
+The actions to be done (and their dependencies) are described in the file `.gitlab-ci.yml`.  
+
+Some level of parallelism can be reached by using **stages**.
+
+---
+
+# `GitLab`'s `CI/CD`
+
+## .hcenter[[.gitlab-ci.yml]]
+
+.row[
+.column.w45[
+```yml
+stages:
+  - stage0
+  - stage1
+  - stage2
+  - stage3
+
+msgpack:
+  stage: stage0
+  script: "make -j$(nproc) msgpack"
+  artifacts:
+    paths:
+      - misc/deps/msgpack-c/
+
+googletest:
+  stage: stage0
+  script: "make -j$(nproc) gtest"
+  artifacts:
+    paths:
+      - misc/deps/googletest/
+
+compilation:
+  stage: stage1
+  script: "make -j$(nproc) -C src ../bin/hfb3"
+  artifacts:
+    paths:
+      - lib/libhfb3.a
+      - bin/hfb3
+  needs:
+    - job: msgpack
+      artifacts: true
+
+documentation:
+  stage: stage0
+  script: "make doc"
+```
+]
+.column.w45[
+```yml
+python:
+  stage: stage2
+  script: "make -j$(nproc) -C misc/python build"
+  needs:
+    - job: compilation
+      artifacts: true
+    - job: msgpack
+      artifacts: true
+
+compiltests:
+  stage: stage2
+  script: "make -j$(nproc) -Cmisc/tests target"
+  needs:
+    - job: compilation
+      artifacts: true
+    - job: googletest
+      artifacts: true
+  artifacts:
+    paths:
+      - bin/tests
+
+tests:
+  stage: stage3
+  script: "gtest-parallel -w$(nproc) bin/tests"
+  needs:
+    - job: compiltests
+      artifacts: true
+
+pytests:
+  stage: stage3
+  script: "cd misc/python; pytest"
+  needs:
+    - job: python
+      artifacts: true
+```
+]
+]
+
+---
+
+# `GitLab`'s `CI/CD`
+
+## .hcenter[On-going `CI/CD`.]
+
+&nbsp;
+
+.hcenter[![](images/gitlab_ci0.png)]
+
+---
+
+# `GitLab`'s `CI/CD`
+
+## .hcenter[On-going `CI/CD`.]
+
+&nbsp;
+
+.hcenter[![](images/gitlab_ci1.png)]
+
+---
+
+# `GitLab`'s `CI/CD`
+
+## .hcenter[Finished `CI/CD` (failed).]
+
+&nbsp;
+
+.hcenter[![](images/gitlab_ci2.png)]
+
+---
+
 # To conclude...
 
 ## Links
