@@ -130,9 +130,11 @@ Project:
 
 * python bindings - swig (end)
 * mongoDB
+* VTK (start)
 
 ---- Session 4 ----
 
+* VTK (end)
 * live monitoring
 
 ---- Session 5 ----
@@ -140,10 +142,6 @@ Project:
 ===> Mid-project presentation
 
 ---- Session 6 ----
-
-* VTK
-
----- Session 7 ----
 
 * paraview
  * cow.vtp
@@ -172,7 +170,11 @@ Project:
   * save animation
   * view animation
 
-  ---- Session 8 ----
+---- Session 7 ----
+
+* errors / exceptions
+
+---- Session 8 ----
 
 * multiprocessing
 
@@ -182,7 +184,7 @@ Project:
 
 ---- Session 10 ----
 
-* errors / exceptions
+* pip (TODO)
 
 ---- Session 11 ----
 
