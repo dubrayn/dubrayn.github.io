@@ -566,7 +566,7 @@ The set of `\(c\)` complex numbers for which the `\(z^{(c)}_n\)` series **does n
 #!/usr/bin/env python3
 
 import numpy as np
-from evtk.hl import imageToVTK
+from pyevtk.hl import imageToVTK
 
 def mandelbrot_set(X, Y, maxiter, horizon = 2.0):
   C = X + Y[:, None] * 1j
@@ -707,7 +707,7 @@ iren.Start()
 #!/usr/bin/env python3
 
 import numpy as np
-from evtk.hl import gridToVTK
+from pyevtk.hl import gridToVTK
 
 def mandelbrot_set(X, Y, maxiter, horizon = 2.0):
   C = X + Y[:, None] * 1j
