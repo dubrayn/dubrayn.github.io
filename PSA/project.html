@@ -516,9 +516,9 @@ and the momentum operators defined as
 
 `$$
 \begin{aligned}
-\psi^{(t+dt)} = \psi + i.dt\Bigg[ & \left(-\frac{1}{\hbar}V(x,y) - \frac{\hbar}{m.dx^2}-\frac{\hbar}{m.dy^2}\right)\psi\\
-&+ i\frac{\hbar.dt}{2m.dx^2}\left(\psi_{x+dx}+\psi_{x-dx}\right)\\
-&+ i\frac{\hbar.dt}{2m.dy^2}\left(\psi_{y+dy}+\psi_{y-dy}\right)\Bigg]
+\psi^{(t+dt)} = \psi + i.dt \Bigg[ & \left(-\frac{1}{\hbar}V(x,y) - \frac{\hbar}{m.dx^2}-\frac{\hbar}{m.dy^2}\right)\psi\\
+&+ \frac{\hbar}{2m.dx^2}\left(\psi_{x+dx}+\psi_{x-dx}\right)\\
+&+ \frac{\hbar}{2m.dy^2}\left(\psi_{y+dy}+\psi_{y-dy}\right)\Bigg]
 \end{aligned}
 $$`
 
