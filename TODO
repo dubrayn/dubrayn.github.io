@@ -172,10 +172,11 @@ Project:
 
 ---- Session 7 ----
 
-* errors / exceptions
+* errors / exceptions (start)
 
 ---- Session 8 ----
 
+* errors / exceptions (end)
 * multiprocessing
 
 ---- Session 9 ----
@@ -190,3 +191,5 @@ Project:
 
 ===> Final project presentation
 
+
+** no units in PSA project (hbar = m = 1)
