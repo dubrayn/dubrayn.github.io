@@ -80,7 +80,7 @@ and one also has
 \rho(\mathbf{r}) = \sum_{m_a}\sum_{n_a}\sum_{n_{za}}\sum_{m_b}\sum_{n_b}\sum_{n_{zb}} \rho_{m_a,n_a,n_{za},m_b,n_b,n_{zb}}\psi_{m_a, n_a, n_{za}}(\mathbf{r})\psi^*_{m_b,n_b,n_{zb}}(\mathbf{r}).
 $$`
 
-:warning: To have the same amount of information in `\(\rho(\mathbf{r})\)` and `\(\rho_{ab}\)`, the set of basis functions may be **infinite**.
+:warning: For `\(\rho(\mathbf{r})\)` and `\(\rho_{ab}\)` to contain the same information, the set of basis functions should be **infinite**.
 
 :arrow_right: For practical reasons, a **finite** subset of basis functions will be used, using a **basis truncation**.
 
@@ -91,7 +91,7 @@ $$`
 
 ## Basis functions
 
-They are defined using cylindrical coordinates as
+They are defined using cylindrical coordinates `\(\mathbf{r} \equiv (r_\perp, \theta, z) \)` as
 `$$
 \psi_{m,n,n_z}(r_\perp, \theta, z)
         \equiv
@@ -125,7 +125,7 @@ $$`
 
 The parameters `\(b_\perp, b_z\)` are called the **basis deformation parameters**.
 
-:warning: Since one has `\(\rho_{ab} = \delta_{m_a, m_b}\rho_{ab}\)`, **`\(\rho(\mathbf{r})\)` does not depend on `\(\theta\)` and take only real values**.
+:gift: Since one has `\(\rho_{ab} = \delta_{m_a, m_b}\rho_{ab}\)`, **`\(\rho(\mathbf{r})\)` does not depend on `\(\theta\)` and takes only real values**.
 
 :arrow_right: You must implement the calculation of the `\(Z, R\)` functions.
 
@@ -139,7 +139,7 @@ The parameters `\(b_\perp, b_z\)` are called the **basis deformation parameters*
 \begin{aligned}
 H_0(\zeta)&=1\\
 H_1(\zeta)&=2\zeta\\
-H_{n}(\zeta)&=2\zeta H_{n-1}(\zeta)-2(n-1)H_{n-2}(\zeta)
+\forall n \in \mathbb{N}^+, n > 1, H_{n}(\zeta)&=2\zeta H_{n-1}(\zeta)-2(n-1)H_{n-2}(\zeta)
 \end{aligned}
 $$`
 
@@ -149,7 +149,7 @@ $$`
 \begin{aligned}
 L^{m}_0(\eta)&=1\\
 L^{m}_1(\eta)&=1+m-\eta\\
-L^{m}_{n}(\eta)&=\left(2+\frac{m-1-\eta}{n}\right)L^{m}_{n-1}(\eta)-\left(1+\frac{m-1}{n}\right)L^{m}_{n-2}(\eta)
+\forall (m, n) \in \mathbb{N}^{+2}, n > 1, L^{m}_{n}(\eta)&=\left(2+\frac{m-1-\eta}{n}\right)L^{m}_{n-1}(\eta)-\left(1+\frac{m-1}{n}\right)L^{m}_{n-2}(\eta)
 \end{aligned}
 $$`
 
@@ -163,25 +163,25 @@ $$`
 
 We define
 `$$
-n_z^\textrm{max}(i) \equiv (N+2).Q^\frac{2}{3}+\frac{1}{2}-i.Q
+\nu(i) \equiv (N+2).Q^\frac{2}{3}+\frac{1}{2}-i.Q
 $$`
 
 and
 `$$
-m^\textrm{max} \equiv \textrm{sup}\left\{i:n_z^\textrm{max}(i)\ge 1\right\}.
+m^\textrm{max} \equiv \textrm{sup}\left\{i:\nu(i)\ge 1\right\}.
 $$`
 
-The possible values for each **quantum number** verify
+The possible values for each **quantum number** are given by
 
 `$$
 \begin{alignedat}{4}
 0 & \le &&m  & \lt & \textrm{ mMax} \equiv m^\textrm{max}\\
 0 & \le &&n  & \lt & \textrm{ nMax[m]} \equiv \frac{1}{2}(m^\textrm{max}-m-1) + 1\\
-0 & \le &&n_z& \lt & \textrm{ n\_zMax[m, n]} \equiv n_z^\textrm{max}(m+2n+1).
+0 & \le &&n_z& \lt & \textrm{ n\_zMax[m, n]} \equiv \nu(m+2n+1).
 \end{alignedat}
 $$`
 
-The parameters `\(N, Q\)` are called the **basis truncation parameters**.
+The parameters `\(N\in \mathbb{N}^+, Q\in \mathbb{R}^+\)` are called the **basis truncation parameters**.
 
 :arrow_right: You must implement this truncation scheme.
 
@@ -197,8 +197,8 @@ The parameters `\(N, Q\)` are called the **basis truncation parameters**.
 * calculate the nuclear local density with the **naive** algorithm
 * calculate the nuclear local density with an **optimized algorithm** (see below)
 * implement the mandatory unit tests
-* plot the nuclear local density in the (x, z) plane (with Matplotlib, Plotly.js...)
-* plot the nuclear local density in the (x, y, z) space (with POV-Ray, Blender...)
+* plot the nuclear local density in the `\((x, z)\)` plane (with Matplotlib, Plotly.js...)
+* plot the nuclear local density in the `\((x, y, z)\)` space (with POV-Ray, Blender...)
 * present your results using the [presentation template](../template/index.html)
 
 .row[
@@ -279,7 +279,7 @@ The parameters `\(N, Q\)` are called the **basis truncation parameters**.
 
 ## 1. Fork your project from IPS-DEV
 
- * create a new empty project in your gitlab and add files from the previous project
+ * create a new empty project in your gitlab and add files from the previous project,
  * or fork your previous project in your gitlab
 
 ## 2. Adapt your code to pass the mandatory unit tests
@@ -287,7 +287,11 @@ The parameters `\(N, Q\)` are called the **basis truncation parameters**.
  * change method names
  * adapt object hierarchy
  * change method arguments
- * ...
+ * ...  
+
+.hcenter[:warning: **do not modify the mandatory unit tests** :warning:]
+
+
 
 ---
 
@@ -575,7 +579,7 @@ class: middle
 # IPS-PROD - Density matrix values
 
 The file containing the values of the `\(\rho\)` matrix can be found [here](files/rho.arma).
-To read it, use the `.load()` method of the `arma::mat` class:
+To read it, use the method `load()` of the `arma::mat` class:
 
 ```C++
 arma::mat rho;
