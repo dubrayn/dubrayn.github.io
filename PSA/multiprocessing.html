@@ -19,7 +19,7 @@ layout: true
 class: animated fadeIn middle numbers
 
 .footnote[
-`PSA` - N. Dubray - ENSIIE - 2022 - [:book:](../index.html)
+`PSA` - N. Dubray - ENSIIE - 2023 - [:book:](../index.html)
 ]
 
 ---
@@ -459,15 +459,15 @@ for i in range(8):
 
 ```shell
 $ python3 threading/example5.py
-2022-05-02 15:57:24.697 [DEBUG] (MainThread) start
-2022-05-02 15:57:24.698 [DEBUG] (THREAD-0) new worker: 0
-2022-05-02 15:57:24.698 [DEBUG] (THREAD-1) new worker: 1
-2022-05-02 15:57:24.698 [DEBUG] (THREAD-3) new worker: 3
-2022-05-02 15:57:24.699 [DEBUG] (THREAD-2) new worker: 2
-2022-05-02 15:57:24.699 [DEBUG] (THREAD-4) new worker: 4
-2022-05-02 15:57:24.699 [DEBUG] (THREAD-5) new worker: 5
-2022-05-02 15:57:24.699 [DEBUG] (THREAD-6) new worker: 6
-2022-05-02 15:57:24.700 [DEBUG] (THREAD-7) new worker: 7
+2023-05-02 15:57:24.697 [DEBUG] (MainThread) start
+2023-05-02 15:57:24.698 [DEBUG] (THREAD-0) new worker: 0
+2023-05-02 15:57:24.698 [DEBUG] (THREAD-1) new worker: 1
+2023-05-02 15:57:24.698 [DEBUG] (THREAD-3) new worker: 3
+2023-05-02 15:57:24.699 [DEBUG] (THREAD-2) new worker: 2
+2023-05-02 15:57:24.699 [DEBUG] (THREAD-4) new worker: 4
+2023-05-02 15:57:24.699 [DEBUG] (THREAD-5) new worker: 5
+2023-05-02 15:57:24.699 [DEBUG] (THREAD-6) new worker: 6
+2023-05-02 15:57:24.700 [DEBUG] (THREAD-7) new worker: 7
 ```
 
 ---
@@ -502,7 +502,7 @@ for i in range(3):
 
 ```shell
 $ python3 threading/example6.py
-2022-05-02 16:20:31.045 [DEBUG] (MainThread) ['MainThread', 'THREAD-0', 'THREAD-2', 'THREAD-1']
+2023-05-02 16:20:31.045 [DEBUG] (MainThread) ['MainThread', 'THREAD-0', 'THREAD-2', 'THREAD-1']
 ```
 
 ---
@@ -536,11 +536,11 @@ logging.debug("stop ?")
 
 ```shell
 $ python3 threading/example7.py
-2022-05-02 21:07:23.248 [DEBUG] (MainThread) start
-2022-05-02 21:07:23.249 [DEBUG] (MainThread) stop ?
-2022-05-02 21:07:24.249 [DEBUG] (Thread-1) worker 0
-2022-05-02 21:07:25.249 [DEBUG] (Thread-2) worker 1
-2022-05-02 21:07:26.249 [DEBUG] (Thread-3) worker 2
+2023-05-02 21:07:23.248 [DEBUG] (MainThread) start
+2023-05-02 21:07:23.249 [DEBUG] (MainThread) stop ?
+2023-05-02 21:07:24.249 [DEBUG] (Thread-1) worker 0
+2023-05-02 21:07:25.249 [DEBUG] (Thread-2) worker 1
+2023-05-02 21:07:26.249 [DEBUG] (Thread-3) worker 2
 ```
 
 :arrow_right: The "countdown" can be canceled with the `cancel()` method.
@@ -580,10 +580,10 @@ for i in range(3):
 
 ```shell
 $ python3 threading/example8.py
-2022-05-02 21:23:46.490 [DEBUG] (MainThread) start
-2022-05-02 21:23:46.491 [DEBUG] (THREAD-0) worker 0: a = 1
-2022-05-02 21:23:46.491 [DEBUG] (THREAD-1) worker 1: a = 1
-2022-05-02 21:23:46.491 [DEBUG] (THREAD-2) worker 2: a = 2
+2023-05-02 21:23:46.490 [DEBUG] (MainThread) start
+2023-05-02 21:23:46.491 [DEBUG] (THREAD-0) worker 0: a = 1
+2023-05-02 21:23:46.491 [DEBUG] (THREAD-1) worker 1: a = 1
+2023-05-02 21:23:46.491 [DEBUG] (THREAD-2) worker 2: a = 2
 ```
 
 ---
@@ -652,22 +652,22 @@ for i in range(3):
 
 ```shell
 $ python3 threading/example9.py
-2022-05-02 21:59:01.323 [DEBUG] (MainThread) start
-2022-05-02 21:59:01.324 [DEBUG] (THREAD-0) lock.acquire()
-2022-05-02 21:59:01.324 [DEBUG] (THREAD-0)  lock acquired !
-2022-05-02 21:59:01.324 [DEBUG] (THREAD-1) lock.acquire()
-2022-05-02 21:59:01.324 [DEBUG] (THREAD-0)   worker 0: a = 1
-2022-05-02 21:59:01.324 [DEBUG] (THREAD-2) lock.acquire()
-2022-05-02 21:59:01.324 [DEBUG] (THREAD-0)    lock.release()
-2022-05-02 21:59:01.324 [DEBUG] (THREAD-0)     lock released !
-2022-05-02 21:59:01.325 [DEBUG] (THREAD-1)  lock acquired !
-2022-05-02 21:59:01.325 [DEBUG] (THREAD-1)   worker 1: a = 2
-2022-05-02 21:59:01.325 [DEBUG] (THREAD-1)    lock.release()
-2022-05-02 21:59:01.325 [DEBUG] (THREAD-1)     lock released !
-2022-05-02 21:59:01.325 [DEBUG] (THREAD-2)  lock acquired !
-2022-05-02 21:59:01.325 [DEBUG] (THREAD-2)   worker 2: a = 3
-2022-05-02 21:59:01.325 [DEBUG] (THREAD-2)    lock.release()
-2022-05-02 21:59:01.325 [DEBUG] (THREAD-2)     lock released !
+2023-05-02 21:59:01.323 [DEBUG] (MainThread) start
+2023-05-02 21:59:01.324 [DEBUG] (THREAD-0) lock.acquire()
+2023-05-02 21:59:01.324 [DEBUG] (THREAD-0)  lock acquired !
+2023-05-02 21:59:01.324 [DEBUG] (THREAD-1) lock.acquire()
+2023-05-02 21:59:01.324 [DEBUG] (THREAD-0)   worker 0: a = 1
+2023-05-02 21:59:01.324 [DEBUG] (THREAD-2) lock.acquire()
+2023-05-02 21:59:01.324 [DEBUG] (THREAD-0)    lock.release()
+2023-05-02 21:59:01.324 [DEBUG] (THREAD-0)     lock released !
+2023-05-02 21:59:01.325 [DEBUG] (THREAD-1)  lock acquired !
+2023-05-02 21:59:01.325 [DEBUG] (THREAD-1)   worker 1: a = 2
+2023-05-02 21:59:01.325 [DEBUG] (THREAD-1)    lock.release()
+2023-05-02 21:59:01.325 [DEBUG] (THREAD-1)     lock released !
+2023-05-02 21:59:01.325 [DEBUG] (THREAD-2)  lock acquired !
+2023-05-02 21:59:01.325 [DEBUG] (THREAD-2)   worker 2: a = 3
+2023-05-02 21:59:01.325 [DEBUG] (THREAD-2)    lock.release()
+2023-05-02 21:59:01.325 [DEBUG] (THREAD-2)     lock released !
 ```
 
 ## To sum up
@@ -726,12 +726,12 @@ for i in range(3):
 ## .hcenter[Shell session]
 ```shell
 $ python3 threading/example10.py
-2022-05-02 22:22:10.405 [DEBUG] (MainThread) start - this program should result in a deadlock
-2022-05-02 22:22:10.405 [DEBUG] (THREAD-0) lock.acquire()
-2022-05-02 22:22:10.405 [DEBUG] (THREAD-0)  lock acquired !
-2022-05-02 22:22:10.405 [DEBUG] (THREAD-0)   lock.acquire() again ?
-2022-05-02 22:22:10.406 [DEBUG] (THREAD-1) lock.acquire()
-2022-05-02 22:22:10.406 [DEBUG] (THREAD-2) lock.acquire()
+2023-05-02 22:22:10.405 [DEBUG] (MainThread) start - this program should result in a deadlock
+2023-05-02 22:22:10.405 [DEBUG] (THREAD-0) lock.acquire()
+2023-05-02 22:22:10.405 [DEBUG] (THREAD-0)  lock acquired !
+2023-05-02 22:22:10.405 [DEBUG] (THREAD-0)   lock.acquire() again ?
+2023-05-02 22:22:10.406 [DEBUG] (THREAD-1) lock.acquire()
+2023-05-02 22:22:10.406 [DEBUG] (THREAD-2) lock.acquire()
 *[DEADLOCK]
 ```
 
@@ -780,25 +780,25 @@ for i in range(3):
 ## .hcenter[Shell session]
 ```shell
 $ python3 threading/example11.py
-2022-05-02 22:40:39.877 [DEBUG] (MainThread) start
-2022-05-02 22:40:39.877 [DEBUG] (THREAD-0) lock.acquire()
-2022-05-02 22:40:39.877 [DEBUG] (THREAD-0)  lock acquired !
-2022-05-02 22:40:39.878 [DEBUG] (THREAD-0)   lock.acquire() again ?
-2022-05-02 22:40:39.878 [DEBUG] (THREAD-1) lock.acquire()
-2022-05-02 22:40:39.878 [DEBUG] (THREAD-0)    lock acquired !
-2022-05-02 22:40:39.878 [DEBUG] (THREAD-2) lock.acquire()
-2022-05-02 22:40:39.878 [DEBUG] (THREAD-0)     lock.release()
-2022-05-02 22:40:39.878 [DEBUG] (THREAD-0)      lock released !
-2022-05-02 22:40:39.878 [DEBUG] (THREAD-1)  lock acquired !
-2022-05-02 22:40:39.878 [DEBUG] (THREAD-1)   lock.acquire() again ?
-2022-05-02 22:40:39.878 [DEBUG] (THREAD-1)    lock acquired !
-2022-05-02 22:40:39.878 [DEBUG] (THREAD-1)     lock.release()
-2022-05-02 22:40:39.879 [DEBUG] (THREAD-1)      lock released !
-2022-05-02 22:40:39.879 [DEBUG] (THREAD-2)  lock acquired !
-2022-05-02 22:40:39.879 [DEBUG] (THREAD-2)   lock.acquire() again ?
-2022-05-02 22:40:39.879 [DEBUG] (THREAD-2)    lock acquired !
-2022-05-02 22:40:39.879 [DEBUG] (THREAD-2)     lock.release()
-2022-05-02 22:40:39.879 [DEBUG] (THREAD-2)      lock released !
+2023-05-02 22:40:39.877 [DEBUG] (MainThread) start
+2023-05-02 22:40:39.877 [DEBUG] (THREAD-0) lock.acquire()
+2023-05-02 22:40:39.877 [DEBUG] (THREAD-0)  lock acquired !
+2023-05-02 22:40:39.878 [DEBUG] (THREAD-0)   lock.acquire() again ?
+2023-05-02 22:40:39.878 [DEBUG] (THREAD-1) lock.acquire()
+2023-05-02 22:40:39.878 [DEBUG] (THREAD-0)    lock acquired !
+2023-05-02 22:40:39.878 [DEBUG] (THREAD-2) lock.acquire()
+2023-05-02 22:40:39.878 [DEBUG] (THREAD-0)     lock.release()
+2023-05-02 22:40:39.878 [DEBUG] (THREAD-0)      lock released !
+2023-05-02 22:40:39.878 [DEBUG] (THREAD-1)  lock acquired !
+2023-05-02 22:40:39.878 [DEBUG] (THREAD-1)   lock.acquire() again ?
+2023-05-02 22:40:39.878 [DEBUG] (THREAD-1)    lock acquired !
+2023-05-02 22:40:39.878 [DEBUG] (THREAD-1)     lock.release()
+2023-05-02 22:40:39.879 [DEBUG] (THREAD-1)      lock released !
+2023-05-02 22:40:39.879 [DEBUG] (THREAD-2)  lock acquired !
+2023-05-02 22:40:39.879 [DEBUG] (THREAD-2)   lock.acquire() again ?
+2023-05-02 22:40:39.879 [DEBUG] (THREAD-2)    lock acquired !
+2023-05-02 22:40:39.879 [DEBUG] (THREAD-2)     lock.release()
+2023-05-02 22:40:39.879 [DEBUG] (THREAD-2)      lock released !
 ```
 
 :arrow_right: At any time, an `RLock` object belongs to 0 or 1 thread.  
@@ -844,14 +844,14 @@ s.set()
 ## .hcenter[Shell session]
 ```
 $ python3 threading/example12.py
-2022-05-02 23:07:27.170 [DEBUG] (MainThread) start
-2022-05-02 23:07:27.170 [DEBUG] (THREAD-0) waiting for signal
-2022-05-02 23:07:27.171 [DEBUG] (THREAD-1) waiting for signal
-2022-05-02 23:07:27.171 [DEBUG] (THREAD-2) waiting for signal
-2022-05-02 23:07:27.171 [DEBUG] (MainThread) send signal
-2022-05-02 23:07:27.171 [DEBUG] (THREAD-0) signal received
-2022-05-02 23:07:27.171 [DEBUG] (THREAD-2) signal received
-2022-05-02 23:07:27.171 [DEBUG] (THREAD-1) signal received
+2023-05-02 23:07:27.170 [DEBUG] (MainThread) start
+2023-05-02 23:07:27.170 [DEBUG] (THREAD-0) waiting for signal
+2023-05-02 23:07:27.171 [DEBUG] (THREAD-1) waiting for signal
+2023-05-02 23:07:27.171 [DEBUG] (THREAD-2) waiting for signal
+2023-05-02 23:07:27.171 [DEBUG] (MainThread) send signal
+2023-05-02 23:07:27.171 [DEBUG] (THREAD-0) signal received
+2023-05-02 23:07:27.171 [DEBUG] (THREAD-2) signal received
+2023-05-02 23:07:27.171 [DEBUG] (THREAD-1) signal received
 ```
 
 :arrow_right: A **timeout** can be specified for `wait()`.
@@ -916,17 +916,17 @@ for i in range(3):
 ## .hcenter[Shell session]
 ```shell
 $ python3 threading/example13.py
-2022-05-03 13:19:34.204 [DEBUG] (MainThread) start
-2022-05-03 13:19:34.204 [DEBUG] (THREAD-0) wait
-2022-05-03 13:19:34.205 [DEBUG] (THREAD-1) wait
-2022-05-03 13:19:34.205 [DEBUG] (THREAD-2) wait
-2022-05-03 13:19:34.205 [DEBUG] (MainThread) set condition
-2022-05-03 13:19:35.206 [DEBUG] (MainThread) notify one thread
-2022-05-03 13:19:35.207 [DEBUG] (THREAD-0) received !
-2022-05-03 13:19:36.208 [DEBUG] (MainThread) notify one thread
-2022-05-03 13:19:36.208 [DEBUG] (THREAD-1) received !
-2022-05-03 13:19:37.209 [DEBUG] (MainThread) notify one thread
-2022-05-03 13:19:37.209 [DEBUG] (THREAD-2) received !
+2023-05-03 13:19:34.204 [DEBUG] (MainThread) start
+2023-05-03 13:19:34.204 [DEBUG] (THREAD-0) wait
+2023-05-03 13:19:34.205 [DEBUG] (THREAD-1) wait
+2023-05-03 13:19:34.205 [DEBUG] (THREAD-2) wait
+2023-05-03 13:19:34.205 [DEBUG] (MainThread) set condition
+2023-05-03 13:19:35.206 [DEBUG] (MainThread) notify one thread
+2023-05-03 13:19:35.207 [DEBUG] (THREAD-0) received !
+2023-05-03 13:19:36.208 [DEBUG] (MainThread) notify one thread
+2023-05-03 13:19:36.208 [DEBUG] (THREAD-1) received !
+2023-05-03 13:19:37.209 [DEBUG] (MainThread) notify one thread
+2023-05-03 13:19:37.209 [DEBUG] (THREAD-2) received !
 ```
 
 :warning: A `Condition`'s lock must be acquired before using `wait()`.  
@@ -976,37 +976,37 @@ for i in range(10):
 ## .hcenter[Shell session]
 ```shell
 $ python3 threading/example14.py
-2022-05-03 14:30:34.591 [DEBUG] (MainThread) start
-2022-05-03 14:30:34.592 [DEBUG] (THREAD-0) wait
-2022-05-03 14:30:34.592 [DEBUG] (THREAD-1) wait
-2022-05-03 14:30:34.592 [DEBUG] (THREAD-2) wait
-2022-05-03 14:30:34.592 [DEBUG] (THREAD-3) wait
-2022-05-03 14:30:34.593 [DEBUG] (THREAD-4) wait
-2022-05-03 14:30:34.593 [DEBUG] (THREAD-5) wait
-2022-05-03 14:30:34.593 [DEBUG] (THREAD-6) wait
-2022-05-03 14:30:34.594 [DEBUG] (THREAD-7) wait
-2022-05-03 14:30:34.594 [DEBUG] (THREAD-8) wait
-2022-05-03 14:30:34.594 [DEBUG] (THREAD-9) wait
-2022-05-03 14:30:34.692 [DEBUG] (THREAD-0) received !
-2022-05-03 14:30:34.693 [DEBUG] (THREAD-1) received !
-2022-05-03 14:30:34.693 [DEBUG] (THREAD-0) release
-2022-05-03 14:30:34.693 [DEBUG] (THREAD-1) release
-2022-05-03 14:30:34.793 [DEBUG] (THREAD-3) received !
-2022-05-03 14:30:34.793 [DEBUG] (THREAD-3) release
-2022-05-03 14:30:34.793 [DEBUG] (THREAD-2) received !
-2022-05-03 14:30:34.794 [DEBUG] (THREAD-2) release
-2022-05-03 14:30:34.893 [DEBUG] (THREAD-4) received !
-2022-05-03 14:30:34.894 [DEBUG] (THREAD-4) release
-2022-05-03 14:30:34.894 [DEBUG] (THREAD-5) received !
-2022-05-03 14:30:34.894 [DEBUG] (THREAD-5) release
-2022-05-03 14:30:34.994 [DEBUG] (THREAD-6) received !
-2022-05-03 14:30:34.994 [DEBUG] (THREAD-6) release
-2022-05-03 14:30:34.995 [DEBUG] (THREAD-7) received !
-2022-05-03 14:30:34.995 [DEBUG] (THREAD-7) release
-2022-05-03 14:30:35.094 [DEBUG] (THREAD-8) received !
-2022-05-03 14:30:35.095 [DEBUG] (THREAD-8) release
-2022-05-03 14:30:35.095 [DEBUG] (THREAD-9) received !
-2022-05-03 14:30:35.095 [DEBUG] (THREAD-9) release
+2023-05-03 14:30:34.591 [DEBUG] (MainThread) start
+2023-05-03 14:30:34.592 [DEBUG] (THREAD-0) wait
+2023-05-03 14:30:34.592 [DEBUG] (THREAD-1) wait
+2023-05-03 14:30:34.592 [DEBUG] (THREAD-2) wait
+2023-05-03 14:30:34.592 [DEBUG] (THREAD-3) wait
+2023-05-03 14:30:34.593 [DEBUG] (THREAD-4) wait
+2023-05-03 14:30:34.593 [DEBUG] (THREAD-5) wait
+2023-05-03 14:30:34.593 [DEBUG] (THREAD-6) wait
+2023-05-03 14:30:34.594 [DEBUG] (THREAD-7) wait
+2023-05-03 14:30:34.594 [DEBUG] (THREAD-8) wait
+2023-05-03 14:30:34.594 [DEBUG] (THREAD-9) wait
+2023-05-03 14:30:34.692 [DEBUG] (THREAD-0) received !
+2023-05-03 14:30:34.693 [DEBUG] (THREAD-1) received !
+2023-05-03 14:30:34.693 [DEBUG] (THREAD-0) release
+2023-05-03 14:30:34.693 [DEBUG] (THREAD-1) release
+2023-05-03 14:30:34.793 [DEBUG] (THREAD-3) received !
+2023-05-03 14:30:34.793 [DEBUG] (THREAD-3) release
+2023-05-03 14:30:34.793 [DEBUG] (THREAD-2) received !
+2023-05-03 14:30:34.794 [DEBUG] (THREAD-2) release
+2023-05-03 14:30:34.893 [DEBUG] (THREAD-4) received !
+2023-05-03 14:30:34.894 [DEBUG] (THREAD-4) release
+2023-05-03 14:30:34.894 [DEBUG] (THREAD-5) received !
+2023-05-03 14:30:34.894 [DEBUG] (THREAD-5) release
+2023-05-03 14:30:34.994 [DEBUG] (THREAD-6) received !
+2023-05-03 14:30:34.994 [DEBUG] (THREAD-6) release
+2023-05-03 14:30:34.995 [DEBUG] (THREAD-7) received !
+2023-05-03 14:30:34.995 [DEBUG] (THREAD-7) release
+2023-05-03 14:30:35.094 [DEBUG] (THREAD-8) received !
+2023-05-03 14:30:35.095 [DEBUG] (THREAD-8) release
+2023-05-03 14:30:35.095 [DEBUG] (THREAD-9) received !
+2023-05-03 14:30:35.095 [DEBUG] (THREAD-9) release
 ```
 
 :arrow_right: Use `BoundedSemaphore` for a variant that can not exceed its initial maximum value.
@@ -1085,17 +1085,17 @@ for i in range(3):
 ## .hcenter[Shell session]
 ```shell
 $ python3 threading/example15.py
-2022-05-03 21:55:01.672 [DEBUG] (MainThread) start
-2022-05-03 21:55:01.672 [DEBUG] (THREAD-0) wait
-2022-05-03 21:55:01.673 [DEBUG] (THREAD-1) wait
-2022-05-03 21:55:01.673 [DEBUG] (THREAD-2) wait
-2022-05-03 21:55:01.673 [DEBUG] (MainThread) set condition
-2022-05-03 21:55:02.674 [DEBUG] (MainThread) notify one thread
-2022-05-03 21:55:02.675 [DEBUG] (THREAD-0) received !
-2022-05-03 21:55:03.676 [DEBUG] (MainThread) notify one thread
-2022-05-03 21:55:03.676 [DEBUG] (THREAD-1) received !
-2022-05-03 21:55:04.677 [DEBUG] (MainThread) notify one thread
-2022-05-03 21:55:04.678 [DEBUG] (THREAD-2) received !
+2023-05-03 21:55:01.672 [DEBUG] (MainThread) start
+2023-05-03 21:55:01.672 [DEBUG] (THREAD-0) wait
+2023-05-03 21:55:01.673 [DEBUG] (THREAD-1) wait
+2023-05-03 21:55:01.673 [DEBUG] (THREAD-2) wait
+2023-05-03 21:55:01.673 [DEBUG] (MainThread) set condition
+2023-05-03 21:55:02.674 [DEBUG] (MainThread) notify one thread
+2023-05-03 21:55:02.675 [DEBUG] (THREAD-0) received !
+2023-05-03 21:55:03.676 [DEBUG] (MainThread) notify one thread
+2023-05-03 21:55:03.676 [DEBUG] (THREAD-1) received !
+2023-05-03 21:55:04.677 [DEBUG] (MainThread) notify one thread
+2023-05-03 21:55:04.678 [DEBUG] (THREAD-2) received !
 ```
 
 :arrow_right: Same output as `threading/example13.py` (fortunately) :v:
@@ -1170,30 +1170,30 @@ time.sleep(2.0)
 ## .hcenter[Shell session]
 ```shell
 $ python3 threading/example16.py
-2022-05-03 15:00:45.381 [DEBUG] (MainThread) start
-2022-05-03 15:00:45.382 [DEBUG] (THREAD-0) wait for item
-2022-05-03 15:00:45.382 [DEBUG] (THREAD-1) wait for item
-2022-05-03 15:00:45.382 [DEBUG] (THREAD-2) wait for item
-2022-05-03 15:00:46.384 [DEBUG] (MainThread) append item 0 to queue
-2022-05-03 15:00:46.384 [DEBUG] (MainThread) append item 1 to queue
-2022-05-03 15:00:46.384 [DEBUG] (MainThread) append item 2 to queue
-2022-05-03 15:00:46.384 [DEBUG] (MainThread) append item 3 to queue
-2022-05-03 15:00:46.384 [DEBUG] (THREAD-1) received item 1
-2022-05-03 15:00:46.384 [DEBUG] (THREAD-0) received item 0
-2022-05-03 15:00:46.385 [DEBUG] (THREAD-2) received item 2
-2022-05-03 15:00:46.385 [DEBUG] (MainThread) append item 4 to queue
-2022-05-03 15:00:46.585 [DEBUG] (THREAD-1) task done
-2022-05-03 15:00:46.585 [DEBUG] (THREAD-1) wait for item
-2022-05-03 15:00:46.586 [DEBUG] (THREAD-0) task done
-2022-05-03 15:00:46.586 [DEBUG] (THREAD-1) received item 3
-2022-05-03 15:00:46.586 [DEBUG] (THREAD-2) task done
-2022-05-03 15:00:46.586 [DEBUG] (THREAD-0) wait for item
-2022-05-03 15:00:46.586 [DEBUG] (THREAD-2) wait for item
-2022-05-03 15:00:46.586 [DEBUG] (THREAD-0) received item 4
-2022-05-03 15:00:46.786 [DEBUG] (THREAD-1) task done
-2022-05-03 15:00:46.786 [DEBUG] (THREAD-1) wait for item
-2022-05-03 15:00:46.787 [DEBUG] (THREAD-0) task done
-2022-05-03 15:00:46.787 [DEBUG] (THREAD-0) wait for item
+2023-05-03 15:00:45.381 [DEBUG] (MainThread) start
+2023-05-03 15:00:45.382 [DEBUG] (THREAD-0) wait for item
+2023-05-03 15:00:45.382 [DEBUG] (THREAD-1) wait for item
+2023-05-03 15:00:45.382 [DEBUG] (THREAD-2) wait for item
+2023-05-03 15:00:46.384 [DEBUG] (MainThread) append item 0 to queue
+2023-05-03 15:00:46.384 [DEBUG] (MainThread) append item 1 to queue
+2023-05-03 15:00:46.384 [DEBUG] (MainThread) append item 2 to queue
+2023-05-03 15:00:46.384 [DEBUG] (MainThread) append item 3 to queue
+2023-05-03 15:00:46.384 [DEBUG] (THREAD-1) received item 1
+2023-05-03 15:00:46.384 [DEBUG] (THREAD-0) received item 0
+2023-05-03 15:00:46.385 [DEBUG] (THREAD-2) received item 2
+2023-05-03 15:00:46.385 [DEBUG] (MainThread) append item 4 to queue
+2023-05-03 15:00:46.585 [DEBUG] (THREAD-1) task done
+2023-05-03 15:00:46.585 [DEBUG] (THREAD-1) wait for item
+2023-05-03 15:00:46.586 [DEBUG] (THREAD-0) task done
+2023-05-03 15:00:46.586 [DEBUG] (THREAD-1) received item 3
+2023-05-03 15:00:46.586 [DEBUG] (THREAD-2) task done
+2023-05-03 15:00:46.586 [DEBUG] (THREAD-0) wait for item
+2023-05-03 15:00:46.586 [DEBUG] (THREAD-2) wait for item
+2023-05-03 15:00:46.586 [DEBUG] (THREAD-0) received item 4
+2023-05-03 15:00:46.786 [DEBUG] (THREAD-1) task done
+2023-05-03 15:00:46.786 [DEBUG] (THREAD-1) wait for item
+2023-05-03 15:00:46.787 [DEBUG] (THREAD-0) task done
+2023-05-03 15:00:46.787 [DEBUG] (THREAD-0) wait for item
 ```
 
 :warning: Do not forget to call the `task_done()` method when the work associated with an item is done (allows to `join()` properly).
@@ -1419,10 +1419,10 @@ for i in range(3):
 ## .hcenter[Shell session]
 ```shell
 $ multiprocessing/example8.py
-2022-05-03 21:28:18.889 [DEBUG] (6156) start
-2022-05-03 21:28:18.890 [DEBUG] (6157) worker 0: a = 1
-2022-05-03 21:28:18.890 [DEBUG] (6158) worker 1: a = 1
-2022-05-03 21:28:18.892 [DEBUG] (6159) worker 2: a = 1
+2023-05-03 21:28:18.889 [DEBUG] (6156) start
+2023-05-03 21:28:18.890 [DEBUG] (6157) worker 0: a = 1
+2023-05-03 21:28:18.890 [DEBUG] (6158) worker 1: a = 1
+2023-05-03 21:28:18.892 [DEBUG] (6159) worker 2: a = 1
 ```
 
 --
@@ -1464,10 +1464,10 @@ for i in range(3):
 ## .hcenter[Shell session]
 ```shell
 $ multiprocessing/example8b.py
-2022-05-03 21:30:49.498 [DEBUG] (6200) start
-2022-05-03 21:30:49.507 [DEBUG] (6201) worker 0: a = 1
-2022-05-03 21:30:49.508 [DEBUG] (6202) worker 1: a = 2
-2022-05-03 21:30:49.508 [DEBUG] (6203) worker 2: a = 2
+2023-05-03 21:30:49.498 [DEBUG] (6200) start
+2023-05-03 21:30:49.507 [DEBUG] (6201) worker 0: a = 1
+2023-05-03 21:30:49.508 [DEBUG] (6202) worker 1: a = 2
+2023-05-03 21:30:49.508 [DEBUG] (6203) worker 2: a = 2
 ```
 
 ---
@@ -1549,22 +1549,22 @@ for i in range(3):
 ## .hcenter[Shell session]
 ```shell
 $ multiprocessing/example9.py
-2022-05-03 21:36:46.551 [DEBUG] (6313) start
-2022-05-03 21:36:46.560 [DEBUG] (6314) lock.acquire()
-2022-05-03 21:36:46.560 [DEBUG] (6314)  lock acquired !
-2022-05-03 21:36:46.560 [DEBUG] (6315) lock.acquire()
-2022-05-03 21:36:46.560 [DEBUG] (6316) lock.acquire()
-2022-05-03 21:36:46.761 [DEBUG] (6314)   worker 0: a = 1
-2022-05-03 21:36:46.761 [DEBUG] (6314)    lock.release()
-2022-05-03 21:36:46.761 [DEBUG] (6314)     lock released !
-2022-05-03 21:36:46.761 [DEBUG] (6315)  lock acquired !
-2022-05-03 21:36:46.961 [DEBUG] (6315)   worker 1: a = 2
-2022-05-03 21:36:46.962 [DEBUG] (6315)    lock.release()
-2022-05-03 21:36:46.962 [DEBUG] (6315)     lock released !
-2022-05-03 21:36:46.962 [DEBUG] (6316)  lock acquired !
-2022-05-03 21:36:47.162 [DEBUG] (6316)   worker 2: a = 3
-2022-05-03 21:36:47.163 [DEBUG] (6316)    lock.release()
-2022-05-03 21:36:47.163 [DEBUG] (6316)     lock released !
+2023-05-03 21:36:46.551 [DEBUG] (6313) start
+2023-05-03 21:36:46.560 [DEBUG] (6314) lock.acquire()
+2023-05-03 21:36:46.560 [DEBUG] (6314)  lock acquired !
+2023-05-03 21:36:46.560 [DEBUG] (6315) lock.acquire()
+2023-05-03 21:36:46.560 [DEBUG] (6316) lock.acquire()
+2023-05-03 21:36:46.761 [DEBUG] (6314)   worker 0: a = 1
+2023-05-03 21:36:46.761 [DEBUG] (6314)    lock.release()
+2023-05-03 21:36:46.761 [DEBUG] (6314)     lock released !
+2023-05-03 21:36:46.761 [DEBUG] (6315)  lock acquired !
+2023-05-03 21:36:46.961 [DEBUG] (6315)   worker 1: a = 2
+2023-05-03 21:36:46.962 [DEBUG] (6315)    lock.release()
+2023-05-03 21:36:46.962 [DEBUG] (6315)     lock released !
+2023-05-03 21:36:46.962 [DEBUG] (6316)  lock acquired !
+2023-05-03 21:36:47.162 [DEBUG] (6316)   worker 2: a = 3
+2023-05-03 21:36:47.163 [DEBUG] (6316)    lock.release()
+2023-05-03 21:36:47.163 [DEBUG] (6316)     lock released !
 ```
 
 :arrow_right: Exactly the same behavior as `threading/example9.py` :v:
@@ -1660,30 +1660,30 @@ time.sleep(2.0)
 ## .hcenter[Shell session]
 ```shell
 $ multiprocessing/example16.py
-2022-05-03 22:35:08.504 [DEBUG] (9399) start
-2022-05-03 22:35:08.506 [DEBUG] (9400) wait for item
-2022-05-03 22:35:08.507 [DEBUG] (9401) wait for item
-2022-05-03 22:35:08.507 [DEBUG] (9402) wait for item
-2022-05-03 22:35:09.506 [DEBUG] (9399) append item 0 to queue
-2022-05-03 22:35:09.507 [DEBUG] (9399) append item 1 to queue
-2022-05-03 22:35:09.507 [DEBUG] (9399) append item 2 to queue
-2022-05-03 22:35:09.507 [DEBUG] (9400) received item 0
-2022-05-03 22:35:09.507 [DEBUG] (9401) received item 1
-2022-05-03 22:35:09.507 [DEBUG] (9399) append item 3 to queue
-2022-05-03 22:35:09.507 [DEBUG] (9399) append item 4 to queue
-2022-05-03 22:35:09.507 [DEBUG] (9402) received item 2
-2022-05-03 22:35:09.707 [DEBUG] (9401) task done
-2022-05-03 22:35:09.707 [DEBUG] (9400) task done
-2022-05-03 22:35:09.708 [DEBUG] (9401) wait for item
-2022-05-03 22:35:09.708 [DEBUG] (9401) received item 3
-2022-05-03 22:35:09.708 [DEBUG] (9402) task done
-2022-05-03 22:35:09.708 [DEBUG] (9402) wait for item
-2022-05-03 22:35:09.708 [DEBUG] (9402) received item 4
-2022-05-03 22:35:09.708 [DEBUG] (9400) wait for item
-2022-05-03 22:35:09.908 [DEBUG] (9401) task done
-2022-05-03 22:35:09.908 [DEBUG] (9402) task done
-2022-05-03 22:35:09.908 [DEBUG] (9402) wait for item
-2022-05-03 22:35:09.908 [DEBUG] (9401) wait for item
+2023-05-03 22:35:08.504 [DEBUG] (9399) start
+2023-05-03 22:35:08.506 [DEBUG] (9400) wait for item
+2023-05-03 22:35:08.507 [DEBUG] (9401) wait for item
+2023-05-03 22:35:08.507 [DEBUG] (9402) wait for item
+2023-05-03 22:35:09.506 [DEBUG] (9399) append item 0 to queue
+2023-05-03 22:35:09.507 [DEBUG] (9399) append item 1 to queue
+2023-05-03 22:35:09.507 [DEBUG] (9399) append item 2 to queue
+2023-05-03 22:35:09.507 [DEBUG] (9400) received item 0
+2023-05-03 22:35:09.507 [DEBUG] (9401) received item 1
+2023-05-03 22:35:09.507 [DEBUG] (9399) append item 3 to queue
+2023-05-03 22:35:09.507 [DEBUG] (9399) append item 4 to queue
+2023-05-03 22:35:09.507 [DEBUG] (9402) received item 2
+2023-05-03 22:35:09.707 [DEBUG] (9401) task done
+2023-05-03 22:35:09.707 [DEBUG] (9400) task done
+2023-05-03 22:35:09.708 [DEBUG] (9401) wait for item
+2023-05-03 22:35:09.708 [DEBUG] (9401) received item 3
+2023-05-03 22:35:09.708 [DEBUG] (9402) task done
+2023-05-03 22:35:09.708 [DEBUG] (9402) wait for item
+2023-05-03 22:35:09.708 [DEBUG] (9402) received item 4
+2023-05-03 22:35:09.708 [DEBUG] (9400) wait for item
+2023-05-03 22:35:09.908 [DEBUG] (9401) task done
+2023-05-03 22:35:09.908 [DEBUG] (9402) task done
+2023-05-03 22:35:09.908 [DEBUG] (9402) wait for item
+2023-05-03 22:35:09.908 [DEBUG] (9401) wait for item
 ```
 
 :arrow_right: Exactly the same behavior as `threading/example16.py` :v:
