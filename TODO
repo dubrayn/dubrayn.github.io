@@ -121,29 +121,25 @@ Project:
 ---- Session 1 ----
 
 * python bindings - manual
+* python bindings - swig (start)
 
 ---- Session 2 ----
 
-* python bindings - swig (start)
+* python bindings - swig (end)
+* mongoDB (start)
 
 ---- Session 3 ----
 
-* python bindings - swig (end)
-* mongoDB
+* mongoDB (end)
 * VTK (start)
 
 ---- Session 4 ----
 
 * VTK (end)
-* live monitoring
-
----- Session 5 ----
-
-===> Mid-project presentation
-
----- Session 6 ----
-
 * paraview
+ * data.csv
+  * plot
+  * change curve properties
  * cow.vtp
   * generate normals
   * plot with normal.y
@@ -156,6 +152,14 @@ Project:
   * volume visualization
   * isosurfaces
   * streamlines
+
+---- Session 5 ----
+
+===> Mid-project presentation
+
+---- Session 6 ----
+
+* paraview
  * foot.vtk
   * volume
   * isosurfaces
@@ -169,6 +173,7 @@ Project:
   * plotSelectionOverTime
   * save animation
   * view animation
+* live monitoring
 
 ---- Session 7 ----
 
@@ -191,5 +196,3 @@ Project:
 
 ===> Final project presentation
 
-
-** no units in PSA project (hbar = m = 1)
