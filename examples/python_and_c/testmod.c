@@ -1,15 +1,11 @@
 #include <Python.h>
-
 static PyObject *testmod_countchars(PyObject *self, PyObject *args)
 {
   const char *text;
   int res;
-
   if (!PyArg_ParseTuple(args, "s", &text))
     return NULL;
-
   res = strlen(text);
-
   return Py_BuildValue("i", res);
 }
 
@@ -20,12 +16,9 @@ static PyObject *testmod_countchars2(PyObject *self, PyObject *args, PyObject *k
   int other;
   int res;
   static char *kwlist[] = {"text", "other", NULL};
-
   if (!PyArg_ParseTupleAndKeywords(args, keywords, "si", kwlist, &text, &other))
     return NULL;
-
   res = strlen(text) + other;
-
   return Py_BuildValue("i", res);
 }
 
@@ -35,12 +28,9 @@ static PyObject *testmod_countchars3(PyObject *self, PyObject *args, PyObject *k
   int other = 0;
   int res;
   static char *kwlist[] = {"text", "other", NULL};
-
   if (!PyArg_ParseTupleAndKeywords(args, keywords, "s|i", kwlist, &text, &other))
     return NULL;
-
   res = strlen(text) + other;
-
   return Py_BuildValue("i", res);
 }
 
@@ -68,8 +58,16 @@ static PyMethodDef testmodMethods[] =
     { NULL, NULL, 0, NULL }
   };
 
-PyMODINIT_FUNC inittestmod(void)
+static struct PyModuleDef testmod =
 {
-  (void) Py_InitModule("testmod", testmodMethods);
-}
+  PyModuleDef_HEAD_INIT,
+  "testmod", 
+  "Super module",          
+  -1, // keep global variables
+  testmodMethods
+};
 
+PyMODINIT_FUNC PyInit_testmod(void)
+{
+  return PyModule_Create(&testmod);
+}

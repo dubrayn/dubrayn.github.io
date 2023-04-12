@@ -156,16 +156,16 @@ static PyMethodDef testmodMethods[] =
 ```C
 static struct PyModuleDef testmod =
 {
-    PyModuleDef_HEAD_INIT,
-    "testmod", 
-    "",          
-    -1,          /* -1 means that the module keeps in global variables */
-    testmodMethods
+  PyModuleDef_HEAD_INIT,
+  "testmod", 
+  "Super module",          
+  -1, // keep global variables
+  testmodMethods
 };
 
 PyMODINIT_FUNC PyInit_testmod(void)
 {
-    return PyModule_Create(&testmod);
+  return PyModule_Create(&testmod);
 }
 ```
 
@@ -213,16 +213,16 @@ static PyMethodDef testmodMethods[] =
 
 static struct PyModuleDef testmod =
 {
-    PyModuleDef_HEAD_INIT,
-    "testmod", 
-    "Count characters in a string.",          
-    -1,          
-    testmodMethods
+  PyModuleDef_HEAD_INIT,
+  "testmod", 
+  "Super module",          
+  -1, // keep global variables
+  testmodMethods
 };
 
 PyMODINIT_FUNC PyInit_testmod(void)
 {
-    return PyModule_Create(&testmod);
+  return PyModule_Create(&testmod);
 }
 ```
 
