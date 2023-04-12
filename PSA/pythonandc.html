@@ -154,18 +154,28 @@ static PyMethodDef testmodMethods[] =
 :arrow_right: write the module's initialization function
 
 ```C
-PyMODINIT_FUNC inittestmod(void)
+static struct PyModuleDef testmod =
 {
-  (void) Py_InitModule("testmod", testmodMethods);
+    PyModuleDef_HEAD_INIT,
+    "testmod", 
+    "",          
+    -1,          /* -1 means that the module keeps in global variables */
+    testmodMethods
+};
+
+PyMODINIT_FUNC PyInit_testmod(void)
+{
+    return PyModule_Create(&testmod);
 }
 ```
 
 ## Remarks
 
-* arguments of `Py_InitModule()`: name, pointer to the module's method table
+* format for each method in struct PyModuleDef : {header initializer, name, documentation, size of per-interpreter state, methods' pointer}
+* argument of PyModule_Create() : pointer to the module's definition
 * must be named `initxxx()` with `xxx` the name of the module
 * `initxxx()` will be called when `Python` imports the module for the first time
-* `Py_InitModule()` creates a `Python` module object 
+* `PyModule_Create()` creates a `Python` module object 
 * `PyMODINIT_FUNC` will include `extern "C"` in `C++`
 
 ---
@@ -201,9 +211,18 @@ static PyMethodDef testmodMethods[] =
   { NULL, NULL, 0, NULL }
 };
 
-PyMODINIT_FUNC inittestmod(void)
+static struct PyModuleDef testmod =
 {
-  (void) Py_InitModule("testmod", testmodMethods);
+    PyModuleDef_HEAD_INIT,
+    "testmod", 
+    "Count characters in a string.",          
+    -1,          
+    testmodMethods
+};
+
+PyMODINIT_FUNC PyInit_testmod(void)
+{
+    return PyModule_Create(&testmod);
 }
 ```
 
