@@ -1,0 +1,6 @@
+include LICENSE
+include README.md
+recursive-include src *.cpp
+recursive-include src *.h
+recursive-include armanpy *.hpp
+recursive-include armanpy *.i
