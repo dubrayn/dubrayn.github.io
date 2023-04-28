@@ -6,6 +6,7 @@ double func0(int a, int b)
   {
     throw b;  // throw
   }
+  return double(a / b);
 }
 
 int main(int argc, char ** argv)
