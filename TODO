@@ -177,15 +177,16 @@ Project:
 
 ---- Session 7 ----
 
-* errors / exceptions (start)
+* multiprocessing (start)
 
 ---- Session 8 ----
 
-* errors / exceptions (end)
-* multiprocessing
+* multiprocessing (end)
+* errors / exceptions (start)
 
 ---- Session 9 ----
 
+* errors / exceptions (end)
 * mpi4py
 
 ---- Session 10 ----
