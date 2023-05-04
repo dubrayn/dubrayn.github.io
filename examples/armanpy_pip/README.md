@@ -13,7 +13,15 @@ $ docker run -it --volume $(pwd):/root/ quay.io/pypa/manylinux_2_28_x86_64
 [docker] /opt/python/cp310-cp310/bin/pip3.10 install wheel setuptools numpy twine
 [docker] /opt/python/cp310-cp310/bin/pip3.10 wheel . --no-deps -w output
 [docker] auditwheel repair output/armanpypsa-*-linux_x86_64.whl -w output
-[docker] twine upload output/armanpypsa-*-manylinux_2_28_x86_64.whl -r testpypi
+[docker] /opt/python/cp310-cp310/bin/twine upload output/armanpypsa-*-manylinux_2_28_x86_64.whl -r testpypi
+```
+
+or simply
+
+```bash
+$ docker run -it --volume $(pwd):/root/ quay.io/pypa/manylinux_2_28_x86_64
+[docker] cd root/
+[docker] ./go.sh
 ```
 
 ## Testing
