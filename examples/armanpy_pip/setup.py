@@ -19,10 +19,10 @@ class build_py(_build_py):
 #===============================================================================
 
 module1 = Extension('_armanpypsa',
-                    include_dirs = ['./armanpy/', 'src/'],
+                    include_dirs = ['./armanpy/', 'src/', '/opt/python/cp310-cp310/lib/python3.10/site-packages/numpy/core/include/'],
                     libraries = ['m', 'z', 'armadillo'],
                     sources = ['armanpypsa.i', 'src/myclass.cpp'],
-                    swig_opts = ["-c++", "-Wall", "-I.", "-I./armanpy/", "-Isrc/"])
+                    swig_opts = ["-c++", "-Wall", "-I.", "-I./armanpy/", "-I/opt/python/cp310-cp310/lib/python3.10/site-packages/numpy/core/include/", "-Isrc/"])
 
 #===============================================================================
 #===============================================================================
@@ -32,7 +32,7 @@ setup (name = 'armanpypsa',
        py_modules = ['armanpypsa'],
        version = '1.0',
        description = 'This is a test package',
-       install_requires= ['numpy'],
+       # install_requires= ['numpy'],
        options = {"build_ext": {"inplace": False}},
        cmdclass = {'build_py' : build_py}, # <= fix for the bug
        ext_modules = [module1])

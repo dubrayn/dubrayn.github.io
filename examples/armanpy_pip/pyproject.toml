@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "armanpypsa"
-version = "0.0.3"
+version = "0.0.11"
 authors = [
   { name="Dubray N.", email="noel.dubray@gmail.com" },
 ]
@@ -16,6 +16,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+dependencies = ["numpy"]
 
 [project.urls]
 "Homepage" = "https://github.com/dubrayn/dubrayn.github.io"
