@@ -25,7 +25,7 @@ class: animated fadeIn middle numbers
 
 ---
 
-# Python virtual environments
+# Python virtual environments / packages
 
 .hcenter.shadow.w100[![](images/vr.jpg)]
 
@@ -51,7 +51,7 @@ class: animated fadeIn middle numbers
 ## Other solutions
 
 :arrow_right: VM, containers, chroot, etc...  
-:arrow_right: These solutions add **encapsulation mechanisms** compared to virtual environments.
+:arrow_right: These solutions offer **encapsulation mechanisms** compared to virtual environments.
 
 ---
 
@@ -76,27 +76,106 @@ class: animated fadeIn middle numbers
 * to avoid breaking the system by mixing package versions:
  * my project needs `setuptools==59.6.0`,
  * so I install it **system-wide** (`apt install ...`),
- * oops! I broke 30% of my Python system tools... (this is a fictionous
+ * oops! I broke 30% of my Python system tools... (this is a fictionous example)...
 * etc...
 
 ---
 
-# Module `venv`
+# Module `venv` - Usage demo
 
-## If needed, install the `venv` module
+## If needed, install the Python `venv` module
 
 ```bash
 $ sudo apt install python3-venv
 ```
 
-:bulb: Install system-wide with the distribution package system.
+:bulb: Install system-wide with the distribution package system.  
+:arrow_right: It should be installed by default on a standard Python installation (not like `virtualenv`).
 
-## Create a `venv`
 
-.hcenter[
-<asciinema-player src="scripts/venv_create.cast"></asciinema-player>
-]
+## Usage demo
 
+<pre><code><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">which</font> python3
+/usr/bin/python3
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">which</font> pip    
+/home/dubrayn/.local/bin/pip
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">ls</font> myVenv                       
+ls: cannot access &apos;myVenv&apos;: No such file or directory
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">python3</font> -m venv myVenv     
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">ls</font> <u style="text-decoration-style:single">myVenv</u>
+<font color="#1A8FFF"><b>bin</b></font>  <font color="#1A8FFF"><b>include</b></font>  <font color="#1A8FFF"><b>lib</b></font>  <font color="#14FFFF"><b>lib64</b></font>  pyvenv.cfg
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">source</font> <u style="text-decoration-style:single">myVenv/bin/activate</u>
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">(</font><font color="#FD28FF">myVenv</font>):<font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">which</font> python3
+/tmp/myVenv/bin/python3
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">(</font><font color="#FD28FF">myVenv</font>):<font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">which</font> pip3   
+/tmp/myVenv/bin/pip3
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">(</font><font color="#FD28FF">myVenv</font>):<font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">deactivate</font>
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">which</font> python3
+/usr/bin/python3
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">which</font> pip3   
+/home/dubrayn/.local/bin/pip3
+</code></pre>
+
+---
+
+# Module `venv` - Main commands
+
+## Create the virtual environment  
+
+```bash
+$ python3 -m venv myVenv
+```
+
+:arrow_right: This creates the `myVenv` directory if needed.  
+
+## Activate the virtual environment  
+
+```bash
+$ source myVenv/bin/activate
+```
+
+:arrow_right: All "Python" commands will use the `venv` from now.  
+:bulb: There are other activation scripts for other shells in `myVenv/bin/`.  
+
+## De-activate the virtual envronment
+
+```bash
+$ deactivate
+```
+
+:arrow_right: This command has been defined by the sourced `activate*` script.
+
+---
+
+# Module `venv` - Different Python version
+
+## Create a virtual environment for a different Python version
+
+<pre><code><font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00"><u style="text-decoration-style:single">sudo</u></font> <font color="#19CB00">apt</font> install python3.11-venv
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following NEW packages will be installed:
+  python3.11-venv
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 5,730 B of archives.
+After this operation, 28.7 kB of additional disk space will be used.
+Get:1 http://fr.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 python3.11-venv amd64 3.11.0~rc1-1~22.04 [5,730 B]
+Fetched 5,730 B in 0s (43.0 kB/s)<font color="#CECB00">           </font>
+Selecting previously unselected package python3.11-venv.
+(Reading database ... 528210 files and directories currently installed.)
+Preparing to unpack .../python3.11-venv_3.11.0~rc1-1~22.04_amd64.deb ...
+Unpacking python3.11-venv (3.11.0~rc1-1~22.04) ...
+Setting up python3.11-venv (3.11.0~rc1-1~22.04) ...
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">python3.11</font> -m venv myVenv_cpy311
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">source</font> <u style="text-decoration-style:single">myVenv_cpy311/bin/activate</u>
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">(</font><font color="#FD28FF">myVenv_cpy311</font>):<font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">python</font> -V                       
+Python 3.11.0rc1
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">(</font><font color="#FD28FF">myVenv_cpy311</font>):<font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">pip</font> -V       
+pip 22.0.2 from /tmp/myVenv_cpy311/lib/python3.11/site-packages/pip (python 3.11)
+</code></pre>
+
+:arrow_right: A `venv` will use the same Python interpreter as the one used to create it (it is a symlink).
 
 ---
 

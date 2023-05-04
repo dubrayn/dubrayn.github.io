@@ -140,49 +140,38 @@ class: toc top
 
 ---
 
-# How to include code ?
+# How to show a terminal capture or some code ?
 
-* Use `<pre>`:
+* Show a colored terminal capture with `gnome-terminal` "copy as HTML":
 
-<pre id="terminal">
-<span class="bold "></span><span class="green bold ">|</span><span class="green "></span><span class="green bg-reset ">cube2:hfb3_old</span><span class="green bg-reset bold ">| </span><span class="reset "></span><span class="reset bg-reset ">ll                                                                </span><span class="reset bg-reset bold "></span><span class="cyan bg-reset bold ">&lt;</span><span class="cyan "></span><span class="cyan bg-reset ">15:33:10</span><span class="cyan bg-reset bold ">&gt;</span><span class="reset "></span><span class="reset bg-reset "> 
-total 48               
--rw-r----- 1 dubrayn dubrayn  505 Mar  7 15:56 Makefile                                       
-drwxr-x--- 4 dubrayn dubrayn 4096 Mar  3 16:41 </span><span class="reset bg-reset bold "></span><span class="blue bg-reset bold ">bindings</span><span class="reset "></span><span class="reset bg-reset ">                                       
--rw-r----- 1 dubrayn dubrayn  807 Mar  3 16:40 README                                         
-</pre>
-<pre id="terminal">
-## vim example:
-<span class="bold "></span><span class="yellow bold "></span><span class="yellow bg-black bold ">   1 </span><span class="blue bg-black bold ">#include </span><span class="purple bg-black bold ">&quot;fields.h&quot;</span><span class="white "></span><span class="white bg-black ">                                                                       
-</span><span class="white bg-black bold "></span><span class="yellow bg-black bold ">   2 </span><span class="blue bg-black bold ">#include </span><span class="purple bg-black bold ">&quot;hfb.h&quot;</span><span class="white "></span><span class="white bg-black ">                                                                          
-</span><span class="white bg-black bold "></span><span class="yellow bg-black bold ">   3 </span><span class="white "></span><span class="white bg-black ">                                                                                          
-</span><span class="white bg-black bold "></span><span class="yellow bg-black bold ">   4 </span><span class="yellow "></span><span class="yellow bg-black ">/** \</span><span class="yellow bg-black bold "></span><span class="purple bg-black bold ">file</span><span class="white "></span><span class="white bg-black ">                                                                                 
-</pre>
+<pre><code><font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">~</font><font color="#FFFFFF">]</font> <font color="#19CB00">duf</font>
+╭────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ 3 local devices                                                                                    │
+├────────────────────────┬────────┬────────┬─────────────────────┬──────────┬────────────────────────┤
+│ MOUNTED ON    │   SIZE │   USED │  AVAIL │         USE%        │ TYPE     │ FILESYSTEM             │
+├───────────────┼────────┼────────┼────────┼─────────────────────┼──────────┼────────────────────────┤
+│ <font color="#71BEF2">/</font>             │ 466.9G │ 347.8G │  <font color="#A8CC8C">95.3G</font> │ <font color="#DBAB79">[#######...]  74.5%</font> │ <font color="#B9BFCA">ext4</font>     │ <font color="#B9BFCA">/dev/ubuntu--vg/root</font>   │
+│ <font color="#71BEF2">/boot/efi</font>     │ 511.0M │   6.1M │ <font color="#E88388">504.9M</font> │ <font color="#A8CC8C">[..........]   1.2%</font> │ <font color="#B9BFCA">vfat</font>     │ <font color="#B9BFCA">/dev/nvme0n1p1</font>         │
+│ <font color="#71BEF2">/home/dubrayn</font> │ 466.9G │ 347.8G │  <font color="#A8CC8C">95.3G</font> │ <font color="#DBAB79">[#######...]  74.5%</font> │ <font color="#B9BFCA">ecryptfs</font> │ <font color="#B9BFCA">/home/dubrayn/.Private</font> │
+╰───────────────┴────────┴────────┴────────┴─────────────────────┴──────────┴────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────╮
+│ 3 special devices                                                                    │
+├────────────────┬──────┬────────┬───────┬─────────────────────┬──────────┬────────────┤
+│ MOUNTED ON     │ SIZE │   USED │ AVAIL │         USE%        │ TYPE     │ FILESYSTEM │
+├────────────────┼──────┼────────┼───────┼─────────────────────┼──────────┼────────────┤
+│ <font color="#71BEF2">/dev</font>           │ 7.7G │     0B │  <font color="#DBAB79">7.7G</font> │                     │ <font color="#B9BFCA">devtmpfs</font> │ <font color="#B9BFCA">udev</font>       │
+│ <font color="#71BEF2">/run</font>           │ 1.5G │   2.3M │  <font color="#DBAB79">1.5G</font> │ <font color="#A8CC8C">[..........]   0.1%</font> │ <font color="#B9BFCA">tmpfs</font>    │ <font color="#B9BFCA">tmpfs</font>      │
+│ <font color="#71BEF2">/run/lock</font>      │ 5.0M │   4.0K │  <font color="#E88388">5.0M</font> │ <font color="#A8CC8C">[..........]   0.1%</font> │ <font color="#B9BFCA">tmpfs</font>    │ <font color="#B9BFCA">tmpfs</font>      │
+╰────────────────┴──────┴────────┴───────┴─────────────────────┴──────────┴────────────╯
+</code></pre>
 
-* or use quotes (this is the **preferred way**, thanks to the syntax highlighting):
+* Show some code with syntax highlighting:
 
 ```python
 import sys
 
 print("Hello !")
 ```
-
-* or use spaces (no syntax highlighting):
-
-
-    > make clean
-    print("ECHO")
-
-* to display line numbers, use the `numbers` class:
-
-.numbers[
-```python
-#!/usr/bin/env python
-
-print("Hello from the best language !")
-
-```
-]
 
 ---
 
