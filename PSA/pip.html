@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
     <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/asciinema-player.css"> 
   </head>
   <body>
     <textarea id="source" readonly>
@@ -21,6 +22,110 @@ class: animated fadeIn middle numbers
 .footnote[
 `PSA` - N. Dubray - ENSIIE - 2023 - [:book:](../index.html)
 ]
+
+---
+
+# Python virtual environments
+
+.hcenter.shadow.w100[![](images/vr.jpg)]
+
+---
+
+# Introduction
+
+## Possible scenarios
+
+1. a Python project needs some specific dependencies to be used
+1. a Python project has a bug in a specific environment and you have to fix it
+1. a Python project has non-orthogonal dependencies vs. another project (**or your system**)
+1. a Python project has a dependency that breaks another project (**or your system**)
+
+:bulb: How about having **separate** Python environments with specific dependencies ?  
+:arrow_right: **Virtual environments** to the rescue !
+
+## Virtual environments
+
+:arrow_right: allows to manage and use a full `Python` stack in a given directory.  
+:arrow_right: can also be used with non-Python tools/libraries.  
+
+## Other solutions
+
+:arrow_right: VM, containers, chroot, etc...  
+:arrow_right: These solutions add **encapsulation mechanisms** compared to virtual environments.
+
+---
+
+# Virtual environments
+
+## Why use a virtual environment ?
+
+* to test a new version of a module without stopping a service using it:
+ * `criticalService` is running with `superModule==0.9.89`,
+ * you think that you have fixed a bug in `superModule==0.9.90`,
+ * you want to test `superModule==0.9.90` without stopping or changing `criticalService`...
+ * **variant:** use two different versions of the same module on the same system.
+* to reproduce a specific user environment (bug hunting):
+ * client: "I was using `py27` + `numpy==1.19.3` and it crashed !"
+ * you: "I tested with `py27` + `numpy=1.18.7` and it was fine !?"
+* to test a project in different environments :
+ * does it work with `py36` + `numpy==1.21.5` ?
+ * does it work with `py38` + `numpy==1.20.1` ?
+* to build a package in a "pure" environment:
+ * a heavily-tweaked module `superModule==0.9.89a` is deployed system-wide,
+ * you **do NOT want** it to alter the build process of your package...
+* to avoid breaking the system by mixing package versions:
+ * my project needs `setuptools==59.6.0`,
+ * so I install it **system-wide** (`apt install ...`),
+ * oops! I broke 30% of my Python system tools... (this is a fictionous
+* etc...
+
+---
+
+# Module `venv`
+
+## If needed, install the `venv` module
+
+```bash
+$ sudo apt install python3-venv
+```
+
+:bulb: Install system-wide with the distribution package system.
+
+## Create a `venv`
+
+.hcenter[
+<asciinema-player src="scripts/venv_create.cast"></asciinema-player>
+]
+
+
+---
+
+# `Python` virtual environments
+
+
+## Compiling and uploading
+
+```bash
+$ docker run -it --volume $(pwd):/root/ quay.io/pypa/manylinux_2_28_x86_64
+[docker] cd root/
+[docker] yum -y install epel-release
+[docker] yum -y update
+[docker] yum -y install swig armadillo-devel boost-devel
+[docker] /opt/python/cp310-cp310/bin/pip3.10 install wheel setuptools numpy twine
+[docker] /opt/python/cp310-cp310/bin/pip3.10 wheel . --no-deps -w output
+[docker] auditwheel repair output/armanpypsa-*-linux_x86_64.whl -w output
+[docker] twine upload output/armanpypsa-*-manylinux_2_28_x86_64.whl -r testpypi
+```
+
+## Testing
+
+```bash
+$ python3 -m venv venv
+$ source venv/bin/activate
+$ pip3 install numpy
+$ pip3 install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ armanpypsa
+$ test_package/test.py
+```
 
 ---
 
@@ -51,26 +156,6 @@ class: animated fadeIn middle numbers
 1. LICENSE
 1. build distribution packages (`python3 -m build`)
 1. use `twine` to upload package to Pypi
-
----
-
-# Introduction
-
-## Possible scenarios
-
-1. a project needs some specific dependencies to run and you want to use it
-1. a project has a bug in a specific environment and you want to fix it
-1. a project has non-orthogonal dependencies vs. another project (**or your system**)
-1. a project has a dependency that breaks another project (**or your system**)
-
----
-
-# Virtual environments
-
-
-* VM, containers, chroot, sandbox, etc...
-
-idea: easily manage a set of different environments
 
 
 
@@ -779,6 +864,7 @@ Writing a `Python` module in `C++` by hand:
     <script src="core/javascript/extend-jquery.js"></script>
     <script src="core/javascript/cinescript.js"></script>
     <script src="core/javascript/gitgraph.js"></script>
+    <script src="core/javascript/asciinema-player.js"></script>
     <script>
 
     // === Remark.js initialization ===
