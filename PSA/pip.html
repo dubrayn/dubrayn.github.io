@@ -25,7 +25,7 @@ class: animated fadeIn middle numbers
 
 ---
 
-# Python virtual environments / packages
+# Python virtual environments & package management
 
 .hcenter.shadow.w100[![](images/vr.jpg)]
 
@@ -183,6 +183,12 @@ class: top
 
 # Module `venv` - Package example
 
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
 ## .hcenter[`C++` + `Armadillo` + `swig` + `setuptools` = Python module]
 
 .vspace[]
@@ -196,7 +202,7 @@ class: top
 .vspace[]
 
 .row.w100[
-.col.w30[
+.column.w30[
 .tree[
 armanpy_python3
 * include
@@ -214,7 +220,7 @@ armanpy_python3
 * test.py
 ]
 ]
-.col.w70[
+.column.w70.middle[
 ## .hcenter[`myclass.cpp`]
 ```c++
 #include "myclass.h"
@@ -242,6 +248,12 @@ class: top
 
 # Module `venv` - Package example
 
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
 ## .hcenter[`C++` + `Armadillo` + `swig` + `setuptools` = Python module]
 
 .vspace[]
@@ -255,7 +267,7 @@ class: top
 .vspace[]
 
 .row.w100[
-.col.w30[
+.column.w30[
 .tree[
 armanpy_python3
 * include
@@ -273,7 +285,7 @@ armanpy_python3
 * test.py
 ]
 ]
-.col.w70[
+.column.w70.middle[
 ## .hcenter[`myclass.h`]
 ```c++
 #ifndef MYCLASS_H
@@ -301,6 +313,12 @@ class: top
 
 # Module `venv` - Package example
 
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
 ## .hcenter[`C++` + `Armadillo` + `swig` + `setuptools` = Python module]
 
 .vspace[]
@@ -314,7 +332,7 @@ class: top
 .vspace[]
 
 .row.w100[
-.col.w30[
+.column.w30[
 .tree[
 armanpy_python3
 * include
@@ -332,7 +350,7 @@ armanpy_python3
 * test.py
 ]
 ]
-.col.w70[
+.column.w70.middle[
 ## .hcenter[`setup.py`]
 ```python
 from setuptools import setup, Extension
@@ -358,6 +376,12 @@ class: top
 
 # Module `venv` - Package example
 
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
 ## .hcenter[`C++` + `Armadillo` + `swig` + `setuptools` = Python module]
 
 .vspace[]
@@ -371,7 +395,7 @@ class: top
 .vspace[]
 
 .row.w100[
-.col.w30[
+.column.w30[
 .tree[
 armanpy_python3
 * include
@@ -389,7 +413,7 @@ armanpy_python3
 * test.py
 ]
 ]
-.col.w70[
+.column.w70.middle[
 ## .hcenter[`testmod3.i`]
 ```swig
 %module testmod3
@@ -430,6 +454,12 @@ class: top
 
 # Module `venv` - Package example
 
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
 ## .hcenter[`C++` + `Armadillo` + `swig` + `setuptools` = Python module]
 
 .vspace[]
@@ -443,7 +473,7 @@ class: top
 .vspace[]
 
 .row.w100[
-.col.w30[
+.column.w30[
 .tree[
 armanpy_python3
 * include
@@ -461,7 +491,7 @@ armanpy_python3
 * **test.py** :arrow_left:
 ]
 ]
-.col.w70[
+.column.w70.middle[
 ## .hcenter[`test.py`]
 ```python
 #!/usr/bin/env python3
@@ -516,12 +546,23 @@ print(mc.testArma(a))
 <asciinema-player src="scripts/pip_module.cast"></asciinema-player>
 ]
 
-:arrow_right: Installed packages are stored inside the `venv` directory.  
-:arrow_right: "`pip` is the **prefered** installer program."
+:arrow_right: "`pip` is the **prefered** installer program."  
+:arrow_right: `pip` should be installed by default on a standard Python installation.
 
 ---
 
-# Module `venv` - What was this `pip install` thing ?
+# Module `pip` - ???
+
+.hcenter.shadow.w70[![](images/fry.jpg)]
+
+## .hcenter[What was this "`pip install`" thing ?]
+
+
+---
+
+# Module `pip` - Install packages
+
+.hcenter[:arrow_right: `pip` is a package management system, dedicated to Python packages.]
 
 ## :arrow_right: `pip` can build and install **local packages**  
 
@@ -550,11 +591,12 @@ Installing collected packages: xkcd
   Running setup.py install for xkcd ... done
 Successfully installed xkcd-2.4.0</code></pre>
 
-:arrow_right: Use `pip install package==x.y.z` to install a **specific version** of a package.
+:arrow_right: Use "`pip install package==x.y.z`" to install a **specific version** of a package.  
+:arrow_right: You can use "`python3 -m pip command`" instead of "`pip command`".  
 
 ---
 
-# Module `venv` - What was this `pip install` thing ?
+# Module `pip` - Manage packages
 
 ## :arrow_right: `pip` can **list** installed packages in the current `venv`  
 
@@ -588,35 +630,259 @@ xkcd       2.4.0</code></pre>
 
 ---
 
+# Module `pip` - Manage packages
+
+## :arrow_right: `pip` can **update** installed packages in the current `venv`  
+
+<pre><code><font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">(</font><font color="#FD28FF">myVenv</font>):<font color="#14FFFF">armanpy_python3</font><font color="#FFFFFF">]</font> <font color="#19CB00">pip</font> install xkcd -U
+Requirement already satisfied: xkcd in ./myVenv/lib/python3.10/site-packages (2.4.0)
+Collecting xkcd
+  Using cached xkcd-2.4.2-py3-none-any.whl
+Installing collected packages: xkcd
+  Attempting uninstall: xkcd
+    Found existing installation: xkcd 2.4.0
+    Uninstalling xkcd-2.4.0:
+      Successfully uninstalled xkcd-2.4.0
+      Successfully installed xkcd-2.4.2</code></pre>
+
+
+## :arrow_right: `pip` can **list versions** of a given package  
+
+<pre><code><font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">(</font><font color="#FD28FF">myVenv</font>):<font color="#14FFFF">armanpy_python3</font><font color="#FFFFFF">]</font> <font color="#19CB00">pip</font> install xkcd==     
+<font color="#CC0403">ERROR: Could not find a version that satisfies the requirement xkcd== (from versions: 2.0, 2.1, 2.2, 2.3, 2.3.1, 2.3.2, 2.3.3, 2.4.0, 2.4.1, 2.4.2)</font>
+<font color="#CC0403">ERROR: No matching distribution found for xkcd==</font>
+</code></pre>
+
+## :arrow_right: `pip` cannot **search** for available packages anymore :cry:  
+
+<pre><code><font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">(</font><font color="#FD28FF">myVenv</font>):<font color="#14FFFF">armanpy_python3</font><font color="#FFFFFF">]</font> <font color="#19CB00">pip</font> search xkcd    
+<font color="#CC0403">ERROR: XMLRPC request failed [code: -32500]</font>
+<font color="#CC0403">RuntimeError: PyPI no longer supports &apos;pip search&apos; (or XML-RPC search). Please use https://pypi.org/search (via a browser) instead. See https://warehouse.pypa.io/api-reference/xml-rpc.html#deprecated-methods for more information.</font>
+</code></pre>
+
+:arrow_right: As stated, go to `https://pypi.org/search` to search for packages.
+
+---
+
+# Module `pip` - "remote packages" ?
+
+.hcenter.shadow.w70[![](images/fry.jpg)]
+
+## .hcenter[Where do the remote packages come from ?]
+
+---
+
 # `PyPi` - The Python Package Index
 
 .hcenter.w40[![](images/logo-pypi.svg)]
 
-:arrow_right: "PyPi helps you find and install software developed and shared by the Python community."
+:arrow_right: "PyPi helps you find and install software **developed and shared** by the Python community."  
+:arrow_right: `https://pypi.org`
 
 ---
 
-# PLOP
+# `PyPi` - "by the Python community" ?
 
+.hcenter.w70[![](images/fry_happy.png)]
 
+## .hcenter[So I can share my Python packages ?]
 
+---
 
+class: top
 
+# `PyPi` - Creating a compliant package
 
+.vspace[]
 
+.vspace[]
 
+.vspace[]
 
+## .hcenter[Pure Python module]
 
+.vspace[]
 
+.vspace[]
 
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.row.w100[
+.column.w30.middle[
+.tree[
+pyexample
+* LICENSE
+* pyexample
+    * `__`init`__`.py
+    * module_test_0.py
+    * module_test_1.py
+    * module_test_2.py
+* README.rst
+* **setup.py** :arrow_left:
+]
+]
+.column.w70.middle[
+## .hcenter[`setup.py`]
+```python
+from setuptools import setup
+
+setup(
+    name='pyexample',
+    version='0.1.0',    
+    description='A example Python package',
+    url='https://github.com/shuds13/pyexample',
+    author='Stephen Hudson',
+    author_email='shudson@anl.gov',
+    license='BSD 2-clause',
+    packages=['pyexample'],
+    install_requires=['mpi4py>=2.0',
+                      'numpy',                     
+                      ],
+
+    classifiers=[
+        'Development Status :: 1 - Planning',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: BSD License',  
+        'Operating System :: POSIX :: Linux',        
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+    ],
+)
+```
+]
+]
+
+:arrow_right: Example inspired from [https://github.com/shuds13/pyexample](https://github.com/shuds13/pyexample)
 
 
 ---
 
-# Create a `ManyLinux` package
+class: top
+
+# `PyPi` - Creating a compliant package
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+## .hcenter[Pure Python module]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.row.w100[
+.column.w30.middle[
+.tree[
+pyexample
+* LICENSE
+* pyexample
+    * **`__`init`__`.py** :arrow_left:
+    * module_test_0.py
+    * module_test_1.py
+    * module_test_2.py
+* README.rst
+* setup.py
+]
+]
+.column.w70.middle[
+## .hcenter[`pyexample/__init__.py`]
+```python
+"""
+pyexample.
+
+An example python library.
+"""
+
+__version__ = "0.1.0"
+__author__ = 'Stephen Hudson'
+__credits__ = 'Argonne National Laboratory'
+
+```
+]
+]
+
+.hcenter[:warning: Two version numbers...]
+
+## Create a source distribution
+
+```bash
+$ python setup.py sdist
+```
+
+:arrow_right: This creates a `pyexample-0.1.0.tar.gz` file that can be distributed.  
+:arrow_right: To customize the content of the archive, you can use a `MANIFEST` file (cf. next slides).  
+:arrow_right: To send the file to `PyPi`, use the `twine` module (cf. next slides).  
 
 
-## Compiling and uploading
+---
+
+# `PyPi` - Create a compliant package
+
+.hcenter.shadow.w70[![](images/fry.jpg)]
+
+## .hcenter[I want to use `C++`, `Armadillo` and `swig` in my Python module !]
+
+---
+
+# `PyPi` - Create a compliant binary package
+
+## Binary packages
+
+* They are called **`wheels`** (the `egg` format is obsolete now).  
+* They (obviously) depend on the architecture and the environment.  
+* They speed up the distribution process by avoiding any recompilation.  
+
+:arrow_right: Let's build and distribute a `wheel` file then ?  
+
+:warning: `PyPi` forbids the upload of generic linux binary wheels.  
+
+:arrow_right: Only a "standard" `wheel` binary format is accepted by `PyPi`: **`manylinux`**
+
+## The `manylinux` project
+
+* [https://github.com/pypa/manylinux](https://github.com/pypa/manylinux)  
+* Goal: "to provide a convenient way to distribute binary Python extensions as wheels on Linux".  
+* They provide a small set of **platform tags**. Among them, PEP 600 is supposed to be **future-proof**.  
+* PEP 600: a wheel tagged `manylinux_x_y` shall work on any distro based on `glibc==x.y`.
+* Such `manylinux_x_y` tagged wheels should work with `pip>=20.3` and `CPython>=3.8.10`, `CPython>=3.9.5` and `CPython>=3.10.0`.  
+
+:arrow_right: To generate `manylinux_x_y` compatible wheels, **Docker images** are available with different toolchains and architectures.
+
+
+---
+
+# `manylinux` - Build and upload to `PyPi`
+
+## .hcenter[`C++` + `Armadillo` + `swig` + `setuptools` = Python module]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+:arrow_right: The files are in **`examples/armanpy_pip`**.  
+:arrow_right: We are using the `AlmaLinux 8` based Docker image `quay.io/pypa/manylinux_2_28_x86_64`.  
+:arrow_right: For testing, the package is uploaded to `test.pypi.org` instead of `pypi.org`.  
+:arrow_right: Create an account on [https://test.pypi.org/account/register](https://test.pypi.org/account/register) to upload.  
+
+## Generating and uploading the package
 
 ```bash
 $ docker run -it --volume $(pwd):/root/ quay.io/pypa/manylinux_2_28_x86_64
@@ -630,7 +896,7 @@ $ docker run -it --volume $(pwd):/root/ quay.io/pypa/manylinux_2_28_x86_64
 [docker] twine upload output/armanpypsa-*-manylinux_2_28_x86_64.whl -r testpypi
 ```
 
-## Testing
+## Installing the package from `test.pypi.org`
 
 ```bash
 $ python3 -m venv venv
@@ -639,6 +905,15 @@ $ pip3 install numpy
 $ pip3 install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ armanpypsa
 $ test_package/test.py
 ```
+
+:arrow_right: The dependencies (`numpy`) are installed from `pypi.org`.   
+
+---
+
+# `manylinux` - Some explanations
+
+## A lo
+
 
 ---
 
@@ -681,697 +956,6 @@ $ test_package/test.py
 
 
 
-
----
-
-
-
-
-# Create a `Python` module in `C/C++`
-
-## What ?
-:arrow_right: extend the `Python` language with pure `C/C++` modules  
-
-## Why ?
-:+: create new `Python` built-in types  
-:+: use `C/C++` library functions and system calls  
-:+: use optimized, vectorized, multi-thread `C/C++` code from `Python`
-
-## Warning
-:warning: only usable with the `C` extension interface, **specific to `CPython`**  
-:arrow_right: for a **portable solution** between `Python` implementations, prefer using `ctypes` or `CFFI` modules
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Example
-
-We want to write a `Python` module in `C/C++` and use it as
-
-```Python
-import testmod
-
-print(testmod.countchars.__doc__) # "Count characters in the input string."
-
-testmod.countchars('some text')   # should return 9
-```
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Step 1
-
-:arrow_right: create a `testmod.c` file and include the `Python.h` header
-
-```C
-#include <Python.h>
-```
-
-## Remarks
-
-* the `Python.h` header comes with the `Python` development package  
-* for **debian** / **ubuntu**: package `libpython3-dev`  
-* the `Python.h` header must be included **before any other header** :warning:
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Step 2
-
-:arrow_right: write the `C/C++` function
-
-```C
-static PyObject *testmod_countchars(PyObject *self, PyObject *args)
-{
-  const char *text;
-  int res;
-
-  if (!PyArg_ParseTuple(args, "s", &text))
-    return NULL;
-
-  res = strlen(text);
-
-  return Py_BuildValue("i", res);
-}
-```
-
-## Remarks
-
-* `Python` expects `C` functions to always have 2 arguments: `self`, `args`
-* `self` is `NULL` for modules
-* for methods, `self` is a pointer to the class instance
-* `args` is a pointer to a `Python` tuple containing the arguments
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Step 3
-
-:arrow_right: write the module's method table
-
-```C
-static PyMethodDef testmodMethods[] =
-{
-  {
-    "countchars",
-    testmod_countchars,
-    METH_VARARGS,
-    "Count characters in the input string."
-  },
-  { NULL, NULL, 0, NULL }
-};
-```
-
-## Remarks
-
-* list all methods of the module
-* format for each method: `{name, pointer, args_format, docstring}`
-* `METH_VARARGS` means that the `args` tuple is parsable by `PyArg_ParseTuple()`
-* docstring of the method: access with `help(countchars)` or `countchars.__doc__`
-* do not forget the special terminating struct :warning:
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Step 4
-
-:arrow_right: write the module's initialization function
-
-```C
-static struct PyModuleDef testmod =
-{
-  PyModuleDef_HEAD_INIT,
-  "testmod", 
-  "Super module",          
-  -1, // keep global variables
-  testmodMethods
-};
-
-PyMODINIT_FUNC PyInit_testmod(void)
-{
-  return PyModule_Create(&testmod);
-}
-```
-
-## Remarks
-
-* format for each method in struct PyModuleDef : {header initializer, name, documentation, size of per-interpreter state, methods' pointer}
-* argument of PyModule_Create() : pointer to the module's definition
-* must be named `initxxx()` with `xxx` the name of the module
-* `initxxx()` will be called when `Python` imports the module for the first time
-* `PyModule_Create()` creates a `Python` module object 
-* `PyMODINIT_FUNC` will include `extern "C"` in `C++`
-
----
-
-# Create a `Python` module in `C/C++`
-
-## .hcenter[`[testmod.c]`]
-
-```C
-#include <Python.h>
-
-static PyObject *testmod_countchars(PyObject *self, PyObject *args)
-{
-  const char *text;
-  int res;
-
-  if (!PyArg_ParseTuple(args, "s", &text))
-    return NULL;
-
-  res = strlen(text);
-
-  return Py_BuildValue("i", res);
-}
-
-static PyMethodDef testmodMethods[] =
-{
-  {
-    "countchars",
-    testmod_countchars,
-    METH_VARARGS,
-    "Count characters in the input string."
-  },
-  { NULL, NULL, 0, NULL }
-};
-
-static struct PyModuleDef testmod =
-{
-  PyModuleDef_HEAD_INIT,
-  "testmod", 
-  "Super module",          
-  -1, // keep global variables
-  testmodMethods
-};
-
-PyMODINIT_FUNC PyInit_testmod(void)
-{
-  return PyModule_Create(&testmod);
-}
-```
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Step 5: prepare the compilation with `distutils`
-
-:arrow_right: create a simple `setup.py` file
-
-## .hcenter[`[setup.py]`]
-
-```Python
-from distutils.core import setup, Extension
-
-module1 = Extension('testmod',
-                    sources = ['testmod.c'])
-
-setup (name = 'TestPackage',
-       version = '1.0',
-       description = 'This is a test package',
-       ext_modules = [module1])
-```
-
-## Remarks
-
-* `distutils` is **no more** the prefered method to build and install `Python` modules :warning:
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Step 5: prepare the compilation with `Setuptools`
-
-:arrow_right: create a simple `setup.py` file
-
-## .hcenter[`[setup.py]`]
-
-```Python
-from setuptools import setup, Extension
-
-module1 = Extension('testmod',
-                    sources = ['testmod.c'])
-
-setup (name = 'TestPackage',
-       version = '1.0',
-       description = 'This is a test package',
-       ext_modules = [module1])
-```
-
-## Remarks
-
-* `Setuptools` is a set of enhancements to the `distutils` module
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Step 6: compilation
-
-```shell
-*$ python setup.py build
-running build
-running build_ext
-building 'testmod' extension
-creating build
-creating build/temp.linux-x86_64-2.7
-  x86_64-linux-gnu-gcc -pthread -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -fno-strict-aliasing -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -fPIC -I/usr/include/python2.7 -c testmod.c -o build/temp.linux-x86_64-2.7/testmod.o creating build/lib.linux-x86_64-2.7
-x86_64-linux-gnu-gcc -pthread -shared -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -Wl,-z,relro -fno-strict-aliasing -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security -Wl,-Bsymbolic-functions -Wl,-z,relro -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-l1RrwO/python2.7-2.7.14=. -fstack-protector-strong -Wformat -Werror=format-security build/temp.linux-x86_64-2.7/testmod.o -o build/lib.linux-x86_64-2.7/testmod.so
-```
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Step 7: installation
-
-```shell
-*$ python setup.py install --user
-running install
-running bdist_egg
-running egg_info
-creating TestPackage.egg-info
-writing TestPackage.egg-info/PKG-INFO
-writing top-level names to TestPackage.egg-info/top_level.txt
-writing dependency_links to TestPackage.egg-info/dependency_links.txt
-writing manifest file 'TestPackage.egg-info/SOURCES.txt'
-reading manifest file 'TestPackage.egg-info/SOURCES.txt'
-writing manifest file 'TestPackage.egg-info/SOURCES.txt'
-installing library code to build/bdist.linux-x86_64/egg
-running install_lib
-running build_ext
-creating build/bdist.linux-x86_64
-creating build/bdist.linux-x86_64/egg
-copying build/lib.linux-x86_64-2.7/testmod.so -> build/bdist.linux-x86_64/egg
-creating stub loader for testmod.so
-byte-compiling build/bdist.linux-x86_64/egg/testmod.py to testmod.pyc
-creating build/bdist.linux-x86_64/egg/EGG-INFO
-copying TestPackage.egg-info/PKG-INFO -> build/bdist.linux-x86_64/egg/EGG-INFO
-copying TestPackage.egg-info/SOURCES.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
-copying TestPackage.egg-info/dependency_links.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
-copying TestPackage.egg-info/top_level.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
-writing build/bdist.linux-x86_64/egg/EGG-INFO/native_libs.txt
-zip_safe flag not set; analyzing archive contents...
-creating dist
-creating 'dist/TestPackage-1.0-py2.7-linux-x86_64.egg' and adding 'build/bdist.linux-x86_64/egg' to it
-removing 'build/bdist.linux-x86_64/egg' (and everything under it)
-Processing TestPackage-1.0-py2.7-linux-x86_64.egg
-Removing /home/dubrayn/.local/lib/python2.7/site-packages/TestPackage-1.0-py2.7-linux-x86_64.egg
-Copying TestPackage-1.0-py2.7-linux-x86_64.egg to /home/dubrayn/.local/lib/python2.7/site-packages
-TestPackage 1.0 is already the active version in easy-install.pth
-
-Installed /home/dubrayn/.local/lib/python2.7/site-packages/TestPackage-1.0-py2.7-linux-x86_64.egg
-Processing dependencies for TestPackage==1.0
-Finished processing dependencies for TestPackage==1.0
-```
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Step 8: use your new module :v:
-
-```Python
-import testmod
-
-dir(testmod)
-# Output:
-# ['__builtins__', '__doc__', '__file__', '__name__', '__package__', '__warningregistry__', 'countchars']
-
-print(testmod.countchars.__doc__) # "Count characters in the input string."
-
-testmod.countchars('some text')   # 9
-```
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Variant with keywords: the `C/C++` function
-
-```C
-static PyObject *testmod_countchars2(PyObject *self, PyObject *args, PyObject *keywords)
-{
-  const char *text;
-  int other;
-  int res;
-  static char *kwlist[] = {"text", "other", NULL};
-
-  if (!PyArg_ParseTupleAndKeywords(args, keywords, "si", kwlist, &text, &other))
-    return NULL;
-
-* res = strlen(text) + other;
-
-  return Py_BuildValue("i", res);
-}
-```
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Variant with keywords: module's method table
-
-```C
-static PyMethodDef testmodMethods[] =
-  {
-    {
-      "countchars",
-      testmod_countchars,
-      METH_VARARGS,
-      "Count characters in the input string."
-    },
-*   {
-*     "countchars2",
-*     (PyCFunction)testmod_countchars2,
-*     METH_VARARGS | METH_KEYWORDS,
-*     "Count characters in the input string and add 'other' value (keywords version)."
-*   },
-    { NULL, NULL, 0, NULL }
-  };
-```
-
-## Remarks
-
-* do not forget to **cast** your function pointer to a `PyCFunction` :warning:
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Variant with keywords: compilation
-
-```shell
-$ python setup.py build
-```
-
-## Installation
-
-```shell
-$ python setup.py install --user
-```
-
-## Usage
-
-```Python
-import testmod
-
-dir(testmod)
-# Output:
-# ['__builtins__', '__doc__', '__file__', '__name__', '__package__', '__warningregistry__', 'countchars', 'countchars2']
-
-print(testmod.countchars2.__doc__) # "Count characters in the input string and add 'other' value (keywords version)."
-
-testmod.countchars2('some text', 3)                # 12
-testmod.countchars2(text = 'some text', other = 3) # 12
-testmod.countchars2(other = 3, text = 'some text') # 12
-
-testmod.countchars2(other = 'pipo', text = 'some text')
-# Output:
-# Traceback (most recent call last):
-#   File "<stdin>", line 1, in <module>
-# TypeError: an integer is required
-```
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Variant with keywords and default value: the `C/C++` function
-
-```C
-static PyObject *testmod_countchars3(PyObject *self, PyObject *args, PyObject *keywords)
-{
-  const char *text;
-  int other = 0;
-  int res;
-  static char *kwlist[] = {"text", "other", NULL};
-
-  if (!PyArg_ParseTupleAndKeywords(args, keywords, "s|i", kwlist, &text, &other))
-    return NULL;
-
-  res = strlen(text) + other;
-
-  return Py_BuildValue("i", res);
-}
-```
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Variant with keywords and default value: module's method table
-
-```C
-static PyMethodDef testmodMethods[] =
-  {
-    {
-      "countchars",
-      testmod_countchars,
-      METH_VARARGS,
-      "Count characters in the input string."
-    },
-    {
-      "countchars2",
-      (PyCFunction)testmod_countchars2,
-      METH_VARARGS | METH_KEYWORDS,
-      "Count characters in the input string and add 'other' value (keywords version)."
-    },
-*   {
-*     "countchars3",
-*     (PyCFunction)testmod_countchars3,
-*     METH_VARARGS | METH_KEYWORDS,
-*     "Count characters in the input string and add 'other' value (keywords and default value version)."
-*   },
-    { NULL, NULL, 0, NULL }
-  };
-```
-
-## Remarks
-
-* do not forget to **cast** your function pointer to a `PyCFunction` :warning:
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Variant with keywords and default value: compilation
-
-```shell
-$ python setup.py build
-```
-
-## Installation
-
-```shell
-$ python setup.py install --user
-```
-
-## Usage
-
-```Python
-import testmod
-
-dir(testmod)
-# Output:
-# ['__builtins__', '__doc__', '__file__', '__name__', '__package__', '__warningregistry__', 'countchars', 'countchars2', 'countchars3']
-
-print(testmod.countchars3.__doc__) # "Count characters in the input string and add 'other' value (keywords and default value version)."
-
-testmod.countchars3('some text')                   #  9
-testmod.countchars3('some text', -2)               #  7
-testmod.countchars3(text = 'some text')            #  9
-testmod.countchars3(text = 'some text', other = 2) # 11
-testmod.countchars3(other = 2, text = 'some text') # 11
-```
-
----
-
-# Create a `Python` module in `C/C++`
-
-## function `PyArg_ParseTuple()`
-
-* Arguments:
-
-  1. `PyObject *args`
-  2. `const char *format`
-  3. `...`
-
-## function `PyArg_ParseTupleAndKeywords()`
-
-* Arguments:
-  1. `PyObject *args`
-  2. `PyObject *kw`
-  3. `const char *format`
-  4. `char *keywords[]`
-  5. `...`
-
-## function `Py_BuildValue()`
-
-* Arguments:
-  1. `const char *format`
-  2. `...`
-
-* build a `tuple` if 2+ format units
-* return a `PyObject*` or `None` if empty format string
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Format string used by `PyArg_ParseTuple[AndKeywords]()`
-
-* `c`, `s#`, `s*`: `string` of length 1 converted to `char`
-* `s`, `s#`, `s*`: `string` or `Unicode` converted to `const char*`
-* `z`, `z#`, `z*`: `string` or `Unicode` or `None` converted to `const char*` (`NULL` if `None`)
-* `u`, `u#`: `Unicode` converted to `const char*` containing `UTF-16` data
-* `es`, `es#`, `et`, `et#`: variants of `s` with encoding conversion
-* `b`, `B`: `integer` converted to `unsigned char`
-* `h`: `integer` converted to `short int`
-* `H`: `integer` converted to `unsigned short int`
-* `i`: `integer` converted to `int`
-* `I`: `integer` converted to `unsigned int`
-* `l`: `integer` converted to `long`
-* `k`: `integer` converted to `unsigned long`
-* `L`: `integer` converted to `long long`
-* `K`: `integer` converted to `unsigned long long`
-* `f`: `float` converted to `float`
-* `d`: `float` converted to `double`
-* `D`: `complex` converted to `Py_complex`
-* `|`: the following arguments are **optional**
-* ...
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Format string used by `Py_BuildValue()`
-
-* `c`: `char` converted to `string` of length 1
-* `s`, `s#`, `z`, `z#`: `const char*` converted to `string`
-* `u`, `u#`: `const char*` converted to `Unicode`
-* `i`: `int` converted to `integer`
-* `b`: `char` converted to `integer`
-* `h`: `short int` converted to `integer`
-* `l`: `long` converted to `integer`
-* `B`: `unsigned char` converted to `integer`
-* `H`: `unsigned short int` converted to `integer`
-* `I`: `unsigned int` converted to `integer`
-* `k`: `unsigned long` converted to `integer`
-* `L`: `long long` converted to `integer`
-* `K`: `unsigned long lon` converted to `integer`
-* `f`: `float` converted to `float`
-* `d`: `double` converted to `float`
-* `D`: `Py_complex` converted to `complex`
-* `(...)`: `C` values to `tuple`
-* `[...]`: `C` values to `list`
-* `{...}`: `C` key/value pairs to `dict`
-* ...
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Reference counting
-
-.alert[
-* each time a function receives a reference to an object, its reference counter is incremented
-* each time a function removes a reference to an object, its reference counter is decremented
-* if a reference counter is 0, **the object is deleted**
-]
-
-.vspace[]
-
-.block[
-* reference counting **avoids memory leaks**
-* the `Python` user should not deallocate memory
-* reference cycles are detected by `CPython`
-]
-
-:arrow_right: almost all methods in `Python` "borrow" references to objects, except `PyTuple_SetItem()` and `PyList_SetItem()` :warning:
-
-## Reference counting macros
-
-* `void Py_INCREF(PyObject*)`  
-  increment the reference count, the object must not be `NULL`
-* `void Py_DECREF(PyObject*)`  
-  decrement the reference count, the object must not be `NULL`
-* `void Py_XINCREF(PyObject*)`  
-  increment the reference count, in case of a `NULL` object, do nothing
-* `void Py_XDECREF(PyObject*)`  
-  decrement the reference count, in case of a `NULL` object, do nothing
-* `void Py_CLEAR(PyObject*)`  
-  decrement the reference count to 0, in case of a `NULL` object, do nothing
-
----
-
-# Create a `Python` module in `C/C++`
-
-## Return `void` (`None` in `Python`)
-
-```C
-Py_INCREF(Py_None);
-return Py_None;
-```
-
-:arrow_right: the special macro `Py_RETURN_NONE` does the same
-
----
-
-# Use a `C++` `Python` module from `C/C++`
-
-:arrow_right: create a `testmod.h` header with the declarations of `testmod.c`  
-:arrow_right: module initialization functions must be called manually
-
-## .hcenter[`[main.c]`]
-
-```C
-#include <Python.h>
-#include "testmod.h"
-
-int main(int argc, char *argv[])
-{
-  /* Pass argv[0] to the Python interpreter */
-  Py_SetProgramName(argv[0]);
-
-  /* Initialize the Python interpreter.  Required. */
-  Py_Initialize();
-
-  /* Add a static module */
-  inittestmod();
-
-  [...]
-}
-```
-
-## Compilation
-
-```shell
-$ gcc -I /usr/include/python2.7/ -c testmod.c
-$ gcc -I /usr/include/python2.7/ -c main.c
-$ gcc testmod.o main.o -o python_from_c -lpython2.7
-```
-
----
-
-# Conclusion
-
-Writing a `Python` module in `C++` by hand:
-
-* relatively easy to do, thanks to `Python.h`
-* very **fine level of control**
-* should be done **at least once** by every `Python` developer
-* **tedious process** if many objects are to be converted
-
-:arrow_right: Let's [automatize](swig.html) the process !
-
-.hcenter.w60[![](images/factorio.png)]
-.hcenter[[source: Factorio](https://www.factorio.com)]
 
     </textarea>
 
