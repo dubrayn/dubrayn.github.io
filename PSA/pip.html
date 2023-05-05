@@ -97,8 +97,8 @@ $ sudo apt install python3-venv
 
 <pre><code><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">which</font> python3
 /usr/bin/python3
-<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">which</font> pip    
-/home/dubrayn/.local/bin/pip
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">which</font> pip3    
+/usr/bin/pip3
 <font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">ls</font> myVenv                       
 ls: cannot access &apos;myVenv&apos;: No such file or directory
 <font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">python3</font> -m venv myVenv     
@@ -113,7 +113,7 @@ ls: cannot access &apos;myVenv&apos;: No such file or directory
 <font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">which</font> python3
 /usr/bin/python3
 <font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00">which</font> pip3   
-/home/dubrayn/.local/bin/pip3
+/usr/bin/pip3
 </code></pre>
 
 ---
@@ -147,9 +147,9 @@ $ deactivate
 
 ---
 
-# Module `venv` - Different Python version
+# Module `venv` - Different Python versions
 
-## Create a virtual environment for a different Python version
+## Create a virtual environment for different Python versions
 
 <pre><code><font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">:</font><font color="#14FFFF">/tmp</font><font color="#FFFFFF">]</font> <font color="#19CB00"><u style="text-decoration-style:single">sudo</u></font> <font color="#19CB00">apt</font> install python3.11-venv
 Reading package lists... Done
@@ -179,7 +179,441 @@ pip 22.0.2 from /tmp/myVenv_cpy311/lib/python3.11/site-packages/pip (python 3.11
 
 ---
 
-# `Python` virtual environments
+class: top
+
+# Module `venv` - Package example
+
+## .hcenter[`C++` + `Armadillo` + `swig` + `setuptools` = Python module]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.row.w100[
+.col.w30[
+.tree[
+armanpy_python3
+* include
+    * armanpy
+        * armanpy.i
+        * armanpy.hpp
+        * armanpy_1d.i
+        * armanpy_2d.i
+        * armanpy_3d.i
+        * numpy.i
+* **myclass.cpp** :arrow_left:
+* myclass.h
+* setup.py
+* testmod3.i
+* test.py
+]
+]
+.col.w70[
+## .hcenter[`myclass.cpp`]
+```c++
+#include "myclass.h"
+
+Myclass::Myclass(arma::mat _mat) : myMat(_mat)
+{
+}
+
+arma::mat Myclass::testArma(arma::mat A)
+{
+  return A.t();
+}
+
+arma::mat Myclass::getEmptyArma(int n)
+{
+  return arma::zeros(n, n);
+}
+```
+]
+]
+
+---
+
+class: top
+
+# Module `venv` - Package example
+
+## .hcenter[`C++` + `Armadillo` + `swig` + `setuptools` = Python module]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.row.w100[
+.col.w30[
+.tree[
+armanpy_python3
+* include
+    * armanpy
+        * armanpy.i
+        * armanpy.hpp
+        * armanpy_1d.i
+        * armanpy_2d.i
+        * armanpy_3d.i
+        * numpy.i
+* myclass.cpp
+* **myclass.h** :arrow_left:
+* setup.py
+* testmod3.i
+* test.py
+]
+]
+.col.w70[
+## .hcenter[`myclass.h`]
+```c++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+#include <armadillo>
+
+class Myclass
+{
+  public:
+  Myclass(arma::mat _mat = arma::mat());
+  arma::mat testArma(arma::mat);
+  arma::mat getEmptyArma(int n);
+  arma::mat myMat;
+};
+
+#endif
+```
+]
+]
+
+---
+
+class: top
+
+# Module `venv` - Package example
+
+## .hcenter[`C++` + `Armadillo` + `swig` + `setuptools` = Python module]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.row.w100[
+.col.w30[
+.tree[
+armanpy_python3
+* include
+    * armanpy
+        * armanpy.i
+        * armanpy.hpp
+        * armanpy_1d.i
+        * armanpy_2d.i
+        * armanpy_3d.i
+        * numpy.i
+* myclass.cpp
+* myclass.h
+* **setup.py** :arrow_left:
+* testmod3.i
+* test.py
+]
+]
+.col.w70[
+## .hcenter[`setup.py`]
+```python
+from setuptools import setup, Extension
+
+module1 = Extension('_testmod3',
+                    include_dirs = ['./include/armanpy/'],
+                    libraries = ['m', 'z', 'armadillo'],
+                    sources = ['testmod3.i', 'myclass.cpp'],
+                    swig_opts = ["-c++", "-Wall", "-I.", "-I./include/armanpy/"])
+
+setup (name = 'package_test',
+       py_modules = ['testmod3'],
+       version = '1.0',
+       description = 'This is a test package',
+       ext_modules = [module1])
+```
+]
+]
+
+---
+
+class: top
+
+# Module `venv` - Package example
+
+## .hcenter[`C++` + `Armadillo` + `swig` + `setuptools` = Python module]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.row.w100[
+.col.w30[
+.tree[
+armanpy_python3
+* include
+    * armanpy
+        * armanpy.i
+        * armanpy.hpp
+        * armanpy_1d.i
+        * armanpy_2d.i
+        * armanpy_3d.i
+        * numpy.i
+* myclass.cpp
+* myclass.h
+* setup.py
+* **testmod3.i** :arrow_left:
+* test.py
+]
+]
+.col.w70[
+## .hcenter[`testmod3.i`]
+```swig
+%module testmod3
+%include "stl.i"
+%include "std_map.i"
+%include "std_string.i"
+%include "std_vector.i"
+%include "std_vectora.i"
+%include "exception.i"
+
+namespace std
+{
+  %template(map_string_int) map<string, int>;
+  %template(map_string_double) map<string, double>;
+  %template(map_string_string) map<string, string>;
+}
+
+%exception
+{
+[...]
+}
+
+%{
+#define SWIG_FILE_WITH_INIT
+#include "myclass.h"
+%}
+
+%include "armanpy.i"
+
+%include "myclass.h"
+```
+]
+]
+
+---
+
+class: top
+
+# Module `venv` - Package example
+
+## .hcenter[`C++` + `Armadillo` + `swig` + `setuptools` = Python module]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.row.w100[
+.col.w30[
+.tree[
+armanpy_python3
+* include
+    * armanpy
+        * armanpy.i
+        * armanpy.hpp
+        * armanpy_1d.i
+        * armanpy_2d.i
+        * armanpy_3d.i
+        * numpy.i
+* myclass.cpp
+* myclass.h
+* setup.py
+* testmod3.i
+* **test.py** :arrow_left:
+]
+]
+.col.w70[
+## .hcenter[`test.py`]
+```python
+#!/usr/bin/env python3
+
+import testmod3
+import numpy as np
+
+numpyArray = np.array([[0.1, 0.2], [0.3, 0.4]], dtype = np.float64, order = 'F')
+print("Initial object:")
+print(numpyArray)
+
+mc = testmod3.Myclass(numpyArray)
+print("Object in the C++ class (constructor with argument):")
+print(mc.myMat)
+
+mc = testmod3.Myclass()
+print("Object in the C++ class (empty constructor):")
+print(mc.myMat)
+
+
+a = mc.getEmptyArma(3)
+a[0,1] = 1.0
+print("Object returned by the C++ method getEmptyArma() and modified:")
+print(a)
+
+print("Object returned by the C++ method testArma() (transposition):")
+print(mc.testArma(a))
+```
+]
+]
+
+---
+
+# Module `venv` - Package example
+
+## .hcenter[Build and install the package in a `venv` with `setuptools`]
+
+.hcenter[
+<asciinema-player src="scripts/setuptools.cast"></asciinema-player>
+]
+
+:arrow_right: Installed packages are stored inside the `venv` directory.  
+:warning: This direct invocation of `setup.py` is **deprecated**. One must use **`pip`** instead.
+
+---
+
+# Module `venv` - Package example
+
+## .hcenter[Build and install the package in a `venv` with `pip`]
+
+.hcenter[
+<asciinema-player src="scripts/pip_module.cast"></asciinema-player>
+]
+
+:arrow_right: Installed packages are stored inside the `venv` directory.  
+:arrow_right: "`pip` is the **prefered** installer program."
+
+---
+
+# Module `venv` - What was this `pip install` thing ?
+
+## :arrow_right: `pip` can build and install **local packages**  
+
+<pre><code><font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">(</font><font color="#FD28FF">myVenv</font>):<font color="#14FFFF">armanpy_python3</font><font color="#FFFFFF">]</font> <font color="#19CB00">pip</font> install <u style="text-decoration-style:single">.</u>             
+Processing /tmp/armanpy_python3
+  Preparing metadata (setup.py) ... done
+Using legacy &apos;setup.py install&apos; for package-test, since package &apos;wheel&apos; is not installed.
+Installing collected packages: package-test
+  Running setup.py install for package-test ... done
+Successfully installed package-test-1.0</code></pre>
+
+
+## :arrow_right: `pip` can fetch, [build] and install **remote packages**  
+
+<pre><code> <font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">(</font><font color="#FD28FF">myVenv</font>):<font color="#14FFFF">armanpy_python3</font><font color="#FFFFFF">]</font> <font color="#19CB00">pip</font> install numpy  
+Collecting numpy
+  Using cached numpy-1.24.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (17.3 MB)
+Installing collected packages: numpy
+Successfully installed numpy-1.24.3
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">(</font><font color="#FD28FF">myVenv</font>):<font color="#14FFFF">armanpy_python3</font><font color="#FFFFFF">]</font> <font color="#19CB00">pip</font> install xkcd==2.4.0
+Collecting xkcd==2.4.0
+  Downloading xkcd-2.4.0.zip (14 kB)
+  Preparing metadata (setup.py) ... done
+Using legacy &apos;setup.py install&apos; for xkcd, since package &apos;wheel&apos; is not installed.
+Installing collected packages: xkcd
+  Running setup.py install for xkcd ... done
+Successfully installed xkcd-2.4.0</code></pre>
+
+:arrow_right: Use `pip install package==x.y.z` to install a **specific version** of a package.
+
+---
+
+# Module `venv` - What was this `pip install` thing ?
+
+## :arrow_right: `pip` can **list** installed packages in the current `venv`  
+
+<pre><code><font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">(</font><font color="#FD28FF">myVenv</font>):<font color="#14FFFF">armanpy_python3</font><font color="#FFFFFF">]</font> <font color="#19CB00">pip</font> list     
+Package      Version
+------------ -------
+numpy        1.24.3
+package-test 1.0
+pip          22.0.2
+setuptools   59.6.0
+xkcd         2.4.0</code></pre>
+
+## :arrow_right: `pip` can **uninstall** packages in the current `venv`  
+
+<pre><code><font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">(</font><font color="#FD28FF">myVenv</font>):<font color="#14FFFF">armanpy_python3</font><font color="#FFFFFF">]</font> <font color="#19CB00">pip</font> uninstall package-test
+Found existing installation: package-test 1.0
+Uninstalling package-test-1.0:
+  Would remove:
+    /tmp/armanpy_python3/myVenv/lib/python3.10/site-packages/_testmod3.cpython-310-x86_64-linux-gnu.so
+    /tmp/armanpy_python3/myVenv/lib/python3.10/site-packages/package_test-1.0.egg-info
+    /tmp/armanpy_python3/myVenv/lib/python3.10/site-packages/testmod3.py
+Proceed (Y/n)? 
+  Successfully uninstalled package-test-1.0
+<font color="#FFFFFF">[</font><font color="#FFFD00">dubrayn</font><font color="#FFFFFF">@</font><font color="#23FD00">dell5290</font><font color="#FFFFFF">(</font><font color="#FD28FF">myVenv</font>):<font color="#14FFFF">armanpy_python3</font><font color="#FFFFFF">]</font> <font color="#19CB00">pip</font> list                  
+Package    Version
+---------- -------
+numpy      1.24.3
+pip        22.0.2
+setuptools 59.6.0
+xkcd       2.4.0</code></pre>
+
+---
+
+# `PyPi` - The Python Package Index
+
+.hcenter.w40[![](images/logo-pypi.svg)]
+
+:arrow_right: "PyPi helps you find and install software developed and shared by the Python community."
+
+---
+
+# PLOP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+# Create a `ManyLinux` package
 
 
 ## Compiling and uploading
