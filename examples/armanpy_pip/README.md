@@ -29,7 +29,6 @@ $ docker run -it --volume $(pwd):/root/ quay.io/pypa/manylinux_2_28_x86_64
 ```bash
 $ python3 -m venv venv
 $ source venv/bin/activate
-$ pip3 install numpy
 $ pip3 install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ armanpypsa
 $ test_package/test.py
 ```

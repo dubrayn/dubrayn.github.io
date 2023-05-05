@@ -826,7 +826,7 @@ $ python setup.py sdist
 ```
 
 :arrow_right: This creates a `pyexample-0.1.0.tar.gz` file that can be distributed.  
-:arrow_right: To customize the content of the archive, you can use a `MANIFEST` file (cf. next slides).  
+:arrow_right: To customize the content of the archive, you can use a `MANIFEST.in` file (cf. next slides).  
 :arrow_right: To send the file to `PyPi`, use the `twine` module (cf. next slides).  
 
 
@@ -901,7 +901,6 @@ $ docker run -it --volume $(pwd):/root/ quay.io/pypa/manylinux_2_28_x86_64
 ```bash
 $ python3 -m venv venv
 $ source venv/bin/activate
-$ pip3 install numpy
 $ pip3 install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ armanpypsa
 $ test_package/test.py
 ```
@@ -910,14 +909,247 @@ $ test_package/test.py
 
 ---
 
+class: top
+
 # `manylinux` - Some explanations
 
-## A lo
+.vspace[]
 
+.vspace[]
+
+.vspace[]
+
+.row.w100[
+.column.w30[
+.tree[
+armanpy_pip/
+* armanpy/
+    * [...]
+* armanpypsa.i
+* go.sh
+* LICENSE
+* MANIFEST.in
+* **pyproject.toml** :arrow_left:
+* README.md
+* setup.py
+* src/
+    * myclass.cpp
+    * myclass.h
+* test_package/
+    * test.py
+]
+]
+.column.w70.middle[
+## .hcenter[`pyproject.toml`]
+```toml
+[build-system]
+requires = ["setuptools>=59.6.0", "wheel", "numpy"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "armanpypsa"
+version = "0.0.11"
+authors = [
+  { name="Dubray N.", email="noel.dubray@gmail.com" },
+]
+description = "Test package for teaching purposes"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = ["numpy"]
+
+[project.urls]
+"Homepage" = "https://github.com/dubrayn/dubrayn.github.io"
+"Bug Tracker" = "https://github.com/dubrayn/dubrayn.github.io/issues"
+```
+
+:arrow_right: Notice the different dependencies:
+* `build-system/requires` (build)
+* `project/dependencies` (runtime)
+
+:warning: `project/version` must not exist in the remote package index.  
+]
+]
 
 ---
 
-# ManyLinux demo
+class: top
+
+# `manylinux` - Some explanations
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.row.w100[
+.column.w30[
+.tree[
+armanpy_pip/
+* armanpy/
+    * [...]
+* armanpypsa.i
+* go.sh
+* LICENSE
+* **MANIFEST.in** :arrow_left:
+* pyproject.toml
+* README.md
+* setup.py
+* src/
+    * myclass.cpp
+    * myclass.h
+* test_package/
+    * test.py
+]
+]
+.column.w70.middle[
+## .hcenter[`MANIFEST.in`]
+```manifest
+include LICENSE
+include README.md
+recursive-include src *.cpp
+recursive-include src *.h
+recursive-include armanpy *.hpp
+recursive-include armanpy *.i
+```
+:arrow_right: List the files to be included in the `venv` for the build process.  
+:arrow_right: Wildcards are accepted.  
+]
+]
+
+---
+
+class: top
+
+# `manylinux` - Some explanations
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.row.w100[
+.column.w30[
+.tree[
+armanpy_pip/
+* armanpy/
+    * [...]
+* armanpypsa.i
+* go.sh
+* LICENSE
+* MANIFEST.in
+* pyproject.toml
+* README.md
+* requirements.txt
+* **setup.py** :arrow_left:
+* src/
+    * myclass.cpp
+    * myclass.h
+* test_package/
+    * test.py
+]
+]
+.column.w70.middle[
+## .hcenter[`setup.py`]
+```python
+from setuptools import setup, Extension
+
+# fix an annoying bug with setuptools
+# https://stackoverflow.com/questions/29477298/setup-py-run-build-ext-before-anything-else/48942866#48942866
+
+from setuptools.command.build_py import build_py as _build_py
+
+class build_py(_build_py):
+    def run(self):
+        self.run_command("build_ext")
+        return super().run()
+
+module1 = Extension('_armanpypsa',
+                    include_dirs = ['./armanpy/', 'src/', '/opt/python/cp310-cp310/lib/python3.10/site-packages/numpy/core/include/'],
+                    libraries = ['m', 'z', 'armadillo'],
+                    sources = ['armanpypsa.i', 'src/myclass.cpp'],
+                    swig_opts = ["-c++", "-Wall", "-I.", "-I./armanpy/", "-Isrc/"])
+
+setup (name = 'armanpypsa',
+       py_modules = ['armanpypsa'],
+       version = '1.0',
+       description = 'This is a test package',
+       options = {"build_ext": {"inplace": False}},
+       cmdclass = {'build_py' : build_py}, # fix for the bug
+       ext_modules = [module1])
+```
+]
+]
+
+:arrow_right: Some tweaks to get it to work:  
+* workaround for a bug in `setuptools` (order of `build` and `build_ext`),
+* hardcoded include path for `numpy` (not sure how to do it better, feel free to PR).
+
+---
+
+class: top
+
+# `manylinux` - Some explanations
+
+.vspace[]
+
+.vspace[]
+
+.vspace[]
+
+.row.w100[
+.column.w30[
+.tree[
+armanpy_pip/
+* armanpy/
+    * [...]
+* armanpypsa.i
+* **go.sh** :arrow_left:
+* LICENSE
+* MANIFEST.in
+* pyproject.toml
+* README.md
+* requirements.txt
+* setup.py
+* src/
+    * myclass.cpp
+    * myclass.h
+* test_package/
+    * test.py
+]
+]
+.column.w70.middle[
+## .hcenter[`go.sh` (launched in the container)]
+```bash
+#!/bin/bash
+
+yum -y install epel-release
+yum -y update
+yum -y install swig armadillo-devel boost-devel
+/opt/python/cp310-cp310/bin/pip3.10 install wheel setuptools numpy twine
+/opt/python/cp310-cp310/bin/pip3.10 wheel . --no-deps -w output
+auditwheel repair output/armanpypsa-*-linux_x86_64.whl -w output
+/opt/python/cp310-cp310/bin/twine upload output/armanpypsa-*-manylinux_2_28_x86_64.whl -r testpypi
+```
+:arrow_right: `armadillo-devel` and its deps. are installed from the `epel` repo,  
+:arrow_right: The chosen Python version is `3.10`.  
+:arrow_right: The build dependencies are manually installed.  
+:arrow_right: `auditwheel` creates the final `manylinux_x_y` wheel.  
+:arrow_right: `twine` is used to upload the wheel directly from the container.  
+]
+]
+
+---
+
+# `manylinux` - Screencast
+
+TODO TODO TODO
 
 .hcenter[
 <asciinema-player src="scripts/manylinux.cast"></asciinema-player>
@@ -925,35 +1157,35 @@ $ test_package/test.py
 
 ---
 
-# `Python` virtual environments
+# Conclusions
 
-1. VENV
-1. what is a virtual env ?
-1. why use a virtual env ?
-1. create a venv
-1. enter a venv
-1. leave a venv
-1. manually install packages in a venv
-1. manually remove packages in a venv
-1. manually list packages in a venv
+## Virtual environments are powerful
 
+:arrow_right: They allow to develop different Python projects on the same computer.  
+:arrow_right: They allow to decouple and isolate the different Python installs and their associated packages.  
 
-1. PIP
-1. the python packages index (Pypi.org)
-1. install packages in a venv
-1. list packages in a venv
-1. remove packages in a venv
-1. install project's dependencies
+## Virtual environments are easy to use and to manage
 
-1. create a "standard" python module with PIP
-1. pyproject.toml
-1. example with setuptools
-1. README.md
-1. LICENSE
-1. build distribution packages (`python3 -m build`)
-1. use `twine` to upload package to Pypi
+:arrow_right: Two standard modules to remember: `venv` and `pip`  
+:arrow_right: Several intuitive commands to remember
+:arrow_right: `python -m venv --help`  
+:arrow_right: `python -m pip --help`  
 
+## Virtual environments are used by other tools
 
+:arrow_right: deployment testing with tox ([https://tox.wiki](https://tox.wiki))  
+:arrow_right: build process (`build`, `pip`...)  
+:arrow_right: CI / CD
+
+## `PyPi` is a blessing
+
+:arrow_right: All Python packages are one `pip` command away ! With their dependencies !  
+:arrow_right: Deploy almost everything almost everywhere (whatever your distro, environment, architecture...),  
+:arrow_right: It is **relatively easy** to publish your packages, even complex ones.  
+
+.vspace[]
+
+## .hcenter[:arrow_right: One Python project ? One virtual environment for its dependencies.]
 
 
 

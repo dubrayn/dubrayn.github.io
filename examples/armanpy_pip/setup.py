@@ -22,7 +22,7 @@ module1 = Extension('_armanpypsa',
                     include_dirs = ['./armanpy/', 'src/', '/opt/python/cp310-cp310/lib/python3.10/site-packages/numpy/core/include/'],
                     libraries = ['m', 'z', 'armadillo'],
                     sources = ['armanpypsa.i', 'src/myclass.cpp'],
-                    swig_opts = ["-c++", "-Wall", "-I.", "-I./armanpy/", "-I/opt/python/cp310-cp310/lib/python3.10/site-packages/numpy/core/include/", "-Isrc/"])
+                    swig_opts = ["-c++", "-Wall", "-I.", "-I./armanpy/", "-Isrc/"])
 
 #===============================================================================
 #===============================================================================
