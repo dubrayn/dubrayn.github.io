@@ -12,21 +12,22 @@ Project:
 
 * introduction
 * project
-* git
+* zen of C++
+* C++ headers
 
 === TP0
 
 ---- WEEK1 ----
 
+* git
 * make
-* Armadillo
-* Doxygen
-* C++ headers
 
 === TP1
 
 ---- WEEK2 ----
 
+* Armadillo
+* Doxygen
 * CxxTest
 * quadratures
 
