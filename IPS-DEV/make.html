@@ -128,7 +128,7 @@ $(TARGET): $(OBJS)
 %.o: %.c %.h
     $(CC) $(CFLAGS) $< -c -o $@
 
-.PHONY: clean
+.PHONY: all clean
 clean:
     rm -f $(OBJS)
     rm -f $(TARGET)
@@ -181,7 +181,7 @@ $(TARGET): $(OBJS)
 %.o: %.c %.h
     $(CC) $(CFLAGS) $< -c -o $@
 
-.PHONY: clean
+.PHONY: all clean
 clean:
     rm -f $(OBJS)
     rm -f $(TARGET)
@@ -373,7 +373,7 @@ $(TARGET): $(OBJS)
 %.o: %.c %.h
 *   $(CC) $(CFLAGS) $< -c -o $@
 
-.PHONY: clean
+.PHONY: all clean
 clean:
     rm -f $(OBJS)
     rm -f $(TARGET)
@@ -413,7 +413,7 @@ $(TARGET): $(OBJS)
 %.o: %.c %.h
     $(CC) $(CFLAGS) $< -c -o $@
 
-.PHONY: clean
+.PHONY: all clean
 clean:
     rm -f $(OBJS)
     rm -f $(TARGET)
@@ -447,7 +447,7 @@ src:
 doc:
     $(MAKE) -C doc
 
-.PHONY: clean src doc
+.PHONY: all clean src doc
 clean:
     $(MAKE) -C src clean
     $(MAKE) -C doc clean
