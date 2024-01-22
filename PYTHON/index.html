@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Introduction to Python Programming</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css">
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css">
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css">
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css">
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css">
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css">
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css">
+    <link rel="stylesheet" type="text/css" href="core/css/katex.css">
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+class: middle
+
+# Introduction to Python Programming
+
+.footnote[
+N. Dubray - ENSIIE - 2024
+]
+
+.vspace[]
+
+.row[
+.w60.column[
+## Content of the module
+
+1. [Introduction](intro.html): author, license, slides...
+1. [.red[Evaluation]](evaluation.html): grades !
+1. [Programming 101](programming.html): basic concepts
+1. [`Python`](python.html): a generic high-level programming language
+1. [`LaTeX`](latex.html): write some nice equations
+1. [`Markdown`](markdown.html): write some nice text
+1. [`Jupyter` notebooks](jupyter.html): use `Python` in a web browser
+1. [`Numpy` module](numpy.html): do some maths
+1. [`Matplotlib` module](matplotlib.html): do some mathematical plots
+
+
+## TPs
+
+1. [TP0](TP0.html): lists, loops, functions
+1. [TP1](TP1.html): numpy, matplotlib
+1. [TP2](TP2.html): statistical evaluation of `\(\pi\)`
+
+]
+
+.w40.middle.column[
+```python
+from ensiie import python_lessons as pl
+from ensiie import tps
+
+if pl not in self.skills:
+  self.skills.append(pl)
+else:
+  print('What am I doing there ?')
+
+for tp in tps:
+  if not self.master(tp):
+    print('What am I doing there ?')
+    break
+```
+]
+]
+
+.vspace[]
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/katex.min.js"></script>
+    <script src="core/javascript/auto-render.min.js"></script>
+    <script src="core/javascript/emojify.js"></script>
+    <script src="core/javascript/mermaid.js"></script>
+    <script src="core/javascript/term.js"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js"></script>
+    <script src="core/javascript/extend-jquery.js"></script>
+    <script src="core/javascript/cinescript.js"></script>
+    <script src="core/javascript/gitgraph.js"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: false
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "\\(", right: "\\)", display: false}], ignoredTags: [] });
+
+    </script>
+  </body>
+</html>
+
