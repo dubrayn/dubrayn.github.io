@@ -15,58 +15,1423 @@
   <body>
     <textarea id="source" readonly>
 
-class: middle
+class: titlepage
 
-# Introduction to Python Programming
+.title[
+Introduction to Python Programming
+]
 
-.footnote[
+.subtitle[
 N. Dubray - ENSIIE - 2024
 ]
 
-.vspace[]
-
-.row[
-.w60.column[
-## Content of the module
-
-1. [Introduction](intro.html): author, license, slides...
-1. [.red[Evaluation]](evaluation.html): grades !
-1. [Programming 101](programming.html): basic concepts
-1. [`Python`](python.html): a generic high-level programming language
-1. [`LaTeX`](latex.html): write some nice equations
-1. [`Markdown`](markdown.html): write some nice text
-1. [`Jupyter` notebooks](jupyter.html): use `Python` in a web browser
-1. [`Numpy` module](numpy.html): do some maths
-1. [`Matplotlib` module](matplotlib.html): do some mathematical plots
-
-
-## TPs
-
-1. [TP0](TP0.html): lists, loops, functions
-1. [TP1](TP1.html): numpy, matplotlib
-1. [TP2](TP2.html): statistical evaluation of `\(\pi\)`
-
+.w50.shadow.hcenter[
+![](images/python_snake.jpg)
 ]
 
-.w40.middle.column[
-```python
-from ensiie import python_lessons as pl
-from ensiie import tps
+---
 
-if pl not in self.skills:
-  self.skills.append(pl)
-else:
-  print('What am I doing there ?')
+layout: true
+class: animated fadeIn middle numbers
 
-for tp in tps:
-  if not self.master(tp):
-    print('What am I doing there ?')
-    break
+.footnote[
+Introduction to Python Programming - N. Dubray - ENSIIE - 2024
+]
+
+---
+
+# These slides
+
+.hcenter.w20[![](images/github-octocat.png)]
+
+.block.hcenter.w100[
+* You can **freely** download, modify and use these slides.
+* Do not hesitate to make some **pull requests** if you want to share your modifications.
+* Repository: [https://github.com/dubrayn/dubrayn.github.io](https://github.com/dubrayn/dubrayn.github.io).
+* Online slides: [https://dubrayn.github.io/PYTHON](http://dubrayn.github.io/PYTHON).
+]
+
+.vspace[&nbsp;]
+
+.block.hcenter.w100[
+To view these slides **locally** with `chromium-browser`:
+```shell
+$ chromium-browser --allow-file-access-from-files index.html
 ```
 ]
+
+.vspace[&nbsp;]
+
+.block.hcenter.w100[
+To view these slides **locally** with `firefox`:
+1. go to `about:config`,
+2. search for the `origin_policy` pattern,
+3. set the property `security.fileuri.strict_origin_policy` to `false`.
 ]
 
-.vspace[]
+---
+
+# Lecturer
+
+## N. Dubray - [`noel.dubray@gmail.com`](mailto:noel.dubray@gmail.com)
+* *job:* researcher at the CEA (french alternative energies and atomic energy commission)
+* *field:* theoretical nuclear physics
+* *research subject:* microscopic description of the fission process
+* *skills:* scientist / developer / HPC user / sysadmin
+
+.hcenter.shadow.w50[![](images/density.png)]
+.hcenter[Example of a simulated fissioning nucleus]
+
+---
+
+# Organization / Schedule
+
+## Day 1 - Linux, Jupyter, Markdown, Latex, Python basics
+
+* 9:00 to 12:45: Lecture :book:
+* 14:00 to 17:45: Tutorial :computer:
+
+.vspace[&nbsp;]
+
+## Day 2 - Numpy, Matplotlib
+
+* 9:00 to 12:45: Lecture :book:
+* 14:00 to 17:45: Tutorial :computer:
+
+.vspace[&nbsp;]
+
+## Day 3 - Project
+
+* 9:00 to 17:45: .red[Evaluated Project] :checkered_flag:
+
+---
+
+# GNU/Linux OS
+
+.hcenter.row.w30[
+.col.w50[ ![](images/gnu_logo.png)
+]
+.col.w50[ ![](images/tux.png)
+]
+]
+
+## Presentation
+
+* A Unix-like, **multi-user**, **multi-processing** operating system for computers
+* Composed of a **kernel** (linux kernel) and a **set of tools** (GNU components)
+* 100% **free** (nothing to pay) and **free** (opensource)
+* Available in multiple distributions (ubuntu, redhat, debian, slackware, pop OS, etc...)
+* Often simply called "**linux**"
+
+## GNU project
+
+* Created in 1983 by R. Stallman, founder of the **Free Software Foundation**
+* Website: [https://www.gnu.org](https://www.gnu.org)
+
+## Linux kernel
+
+* First released in 1991 by L. Torvalds
+* Website: [https://linux.org](https://www.gnu.org)
+
+---
+
+# Why use 'GNU/Linux' ?
+
+:arrow_right: Because it is opensource ! :gift:
+
+## Philosophical consequences
+
+* mostly free (as in free beer)  
+* allows anyone to check, fix, and **get knowledge** on the software  
+* no ads, no spywares, no viruses...  
+* security and stability  
+* no need to update the hardware  
+
+## Opensource in a specific domain
+
+* software development ? The best dev. tools are available in the GNU/Linux ecosystem  
+* high performance computing ? Linux runs **100%** of the [top 500 supercomputers](https://top500.org/statistics/list/)  
+* networking ? The **whole internet** runs thanks to Linux servers  
+* gaming ? SteamOS is based on Linux (most proprietary games can run on specific Linux env.)  
+* phones ? Android is based on Linux  
+* other domains ? Top opensource tools available (Blender, Ardour, Gimp, Krita, Kali, etc...)  
+
+## Why have I never heard of that ?
+
+* marketing (Microsoft, Apple, etc...)  
+* 99% of off-the-shelf computers come pre-installed with Windows  
+* most people do not know/care about their OS
+
+---
+
+# The mainframe and the terminals
+
+.hcenter.w80[
+.shadow[![](images/exa.png)]
+.hcenter[The EXA-HF supercomputer (#30 in 09/2023)]
+]
+
+---
+
+# The mainframe and the terminals
+
+
+
+.hcenter.w100.row[
+.col.w70[
+
+## The mainframe
+
+* has **no screen**
+* has **no keyboard**
+* has a lot of computing resources (disk, CPU, mem...)
+
+:arrow_right: How can **multiple users** access and use the resources ?
+
+## A lightweight terminal
+
+* has one screen
+* has one keyboard
+* has **no computing resource**
+
+:arrow_right: A user type **inputs** that are sent to the mainframe  
+:arrow_right: The mainframe sends back **text** to be displayed  
+:arrow_right: a mainframe can serve multiple terminals/users
+
+## OK, but why is there a terminal in a PC ?
+]
+.col.animated.fadeInRight.wait1s.w30[
+.hcenter[DEC VT100 terminal]
+![](images/vt100.png)
+]
+]
+
+:arrow_right: Typing commands as text and getting results as text is simple to implement  
+:arrow_right: **Almost every electronic gadget** has a serial port (or equiv.)  
+:arrow_right: A Linux PC is like **a mainframe fused with a terminal**  
+:arrow_right: A Linux PC has **terminal emulator(s)**
+
+:moneybag: What is the difference between a terminal emulator and a console ?
+
+---
+
+# The Linux terminal emulators
+
+:arrow_right: To get the computer to do something, one may have to type commands in a Linux **terminal emulator**  
+:arrow_right: Most known Linux terminal emulators: `GNOME terminal`, `Konsole`, `Kitty`, `Foot`, etc...  
+:arrow_right: Inside a terminal emulator, a **shell** is running  
+:arrow_right: Most known shell programs: `bash`, `zsh`, `csh`, `fish`, etc...
+
+.vspace[&nbsp;]
+
+.hcenter.w90.row[
+.col.animated.fadeInLeft.wait1s.w45[
+.hcenter[DEC VT100 terminal]
+![](images/vt100.png)
+]
+.col.animated.fadeInRight.wait2s.w55[
+.hcenter[`GNOME terminal` (terminal emulator)]
+.shadow[![](images/terminal.png)]
+]
+]
+
+---
+
+# `bash` quick howto
+
+## Navigate the filesystem
+
+```shell
+$ pwd             # print the current directory
+/tmp
+$ mkdir toto      # create a directory
+$ cd /tmp/toto    # change the current directory (absolute path)
+$ mkdir tutu
+$ cd ..           # change to parent directory (relative path)
+$ cd toto/tutu/.. # change the current directory using a relative path
+$ rmdir tutu      # remove an empty directory
+```
+
+## Manipulate files
+
+```shell
+$ cd /tmp/toto
+$ touch example_file # create an empty file OR change the file modification time
+$ ls                 # list the content of the current directory
+example_file
+$ cat example_file   # dump a file's content
+$ ls > example_file  # put the result of command ls into file example_file
+$ cat example_file
+example_file
+$ rm example_file            # remove file
+$ cp example_file other_file # copy file
+```
+
+## Other
+
+```shell
+$ ssh user@host # connect to an SSH server
+$ man prog      # browse the man page for prog
+$ which prog    # show the location of prog using PATH env variable
+$ ps ux         # list the current user processes
+$ kill PID      # kill a process
+$ vim file      # edit a file
+```
+
+---
+
+# `bash` demo
+
+.animated.fadeIn.wait1s.hcenter.w60[
+## .hcenter[Demo time !]
+.shadow[![](images/concert.webp)]
+]
+
+---
+
+# Programming workflows
+
+## There are different ways to program a computer
+
+* without writing code (scratch...)  
+* by writing, compiling and running code (C, C++, Rust...)  
+* by writing and interpreting code (bash, Python...)  
+
+## Two main workflows
+
+.mermaid.shadow[
+    graph LR
+    A("write code") --> B
+    B("build/compile") --> C
+    C("execute") --> D
+    D("get results") --> A
+    style A fill:#090 
+]
+
+.mermaid.shadow[
+    graph LR
+    A("launch interpreter") --> B
+    B("write code") --> C
+    C("interpret") --> D
+    D("get results") --> B
+    style B fill:#090 
+]
+
+---
+
+class: top
+
+.vspace[&nbsp;]
+
+.vspace[&nbsp;]
+
+# To compile or not to compile ?
+
+.row.w100[
+.col.w70[
+## To compile !
+
+:+: allows to reach the **highest numerical performance**  
+:x: compilation time **after each change in the code** (compilation chain)  
+:+: errors at compilation (yes this is a good thing)  
+:+: some errors at runtime  
+:arrow_right: only way to develop big projects (HPC, heavy applications...)
+
+.vspace[&nbsp;]
+
+## Not to compile !
+
+:x: rather poor numerical performance in some cases  
+:+: **no compilation time**  
+:x: no errors at compilation  
+:x: **all** errors at runtime (even after several hours... :rage:)  
+:arrow_right: fast development for small projects (prototyping, learning...)  
+:arrow_right: in some specific cases, can be used for big projects (webapps...)  
+]
+.col.w30[
+.shadow[![](images/hamlet.jpg)]
+]
+]
+
+.vspace[&nbsp;]
+
+:bulb: Some scientific codes use **a mix of compiled and interpreted code** (ease of dev. and performance).
+
+.vspace[&nbsp;]
+
+--
+
+:arrow_right: During this lecture, we will write and interpret `Python` code.
+
+---
+
+# Jupyter Notebook
+
+:arrow_right: A **web application** allowing interactive computing across all programming languages
+
+.hcenter.shadow.w80[![](images/jupyter.webp)]
+
+---
+
+class: top
+
+# Jupyter Notebook
+
+## Installation
+
+```bash
+$ pip install jupyter
+```
+
+## Launching the server
+
+```bash
+$ jupyter notebook
+```
+
+:arrow_right: A webpage showing the application should open in your browser.
+
+--
+
+.animated.fadeIn.wait1s.hcenter.w60[
+## .hcenter[Demo time !]
+.shadow[![](images/concert.webp)]
+]
+
+---
+
+# Python
+
+.hcenter.w40[
+![](images/python_logo.png)
+]
+
+.noflex[
+.rightf.animated.middle.fadeInRight.wait1s.shadow.w20[![](images/guido_van_rossum.png)]
+
+## Key points
+
+* created by **Guido van Rossum** in 1989, first released in 1991
+* name comes from the series **Monty Python's Flying Circus**
+* **high-level**, **interpreted** programming language
+* widely used by projects **of every size**
+* emphasis on **code readability** and **powerful and concise syntax**
+* supports **multiple programming paradigms** (object-oriented, imperative...)
+* very large **standard library**
+* reference implementation and interpreter: **`CPython`**
+]
+
+.block[
+* `CPython` repository: [https://github.com/python/cpython](https://github.com/python/cpython)
+* `Python` website: [https://www.python.org](https://www.python.org)
+* `CPython` license: `PSFL` (Python Software Foundation License, compatible with the GPL)
+]
+
+---
+
+# Python core philosophy
+
+.noflex[
+.rightf.animated.fadeInRight.wait1s.shadow.w25[![](images/tim_peters.png)]
+
+## The Zen of Python, by Tim Peters (PEP 20)
+
+1. Beautiful is better than ugly.
+1. Explicit is better than implicit.
+1. Simple is better than complex.
+1. Complex is better than complicated.
+1. Flat is better than nested.
+1. Sparse is better than dense.
+1. Readability counts.
+1. Special cases aren't special enough to break the rules.
+1. Although practicality beats purity.
+1. Errors should never pass silently.
+1. Unless explicitly silenced.
+1. In the face of ambiguity, refuse the temptation to guess.
+1. There should be one *and preferably only one* obvious way to do it.
+1. Although that way may not be obvious at first unless you're Dutch.
+1. Now is better than never.
+1. Although never is often better than *right* now.
+1. If the implementation is hard to explain, it's a bad idea.
+1. If the implementation is easy to explain, it may be a good idea.
+1. Namespaces are one honking great idea -- let's do more of those!
+]
+
+:arrow_right: Some examples of good Python style can be found [here](https://raw.githubusercontent.com/hblanks/zen-of-python-by-example/master/pep20_by_example.pdf).
+
+---
+
+# Python `helloworld`
+
+## .hcenter[`[helloworld.py]`]
+```python
+#!/usr/bin/env python
+
+# ^^ use '#!/usr/bin/env python3' for python3 scripts
+
+# declare variables
+a = 2
+b = 8
+
+# add two numbers
+c = a + b # is it really that simple ?
+
+# print some message
+print("Hello from Python ! (c = %d)" % (c))
+```
+
+## .hcenter[Shell session]
+```shell
+$ chmod +x helloworld.py
+$ ./helloworld.py
+Hello from Python ! (c = 10)
+```
+
+.vspace[&nbsp;]
+
+## Explanations
+
+* Line 1: path to the Python interpreter
+* Lines 3, 5, 9, 10, 12: text after `#` is a comment
+* Lines 6, 7, 10: typing is dynamic
+* Line 13: `%` allows some form of string formatting
+
+---
+
+# Python `helloworld` in a `Jupyter` notebook
+
+.animated.fadeIn.wait1s.hcenter.w60[
+## .hcenter[Demo time !]
+.shadow[![](images/concert.webp)]
+]
+
+---
+
+# Python indentation
+
+.alert.hcenter[
+There is **no symbol** to delimitate blocks of code in `Python`.  
+Blocks of code are defined using **indentation**.
+]
+
+.vspace[&nbsp;]
+
+.numbers[
+
+## Valid syntaxes
+
+.row[
+.column.w30[
+```python
+if True:
+  print("Always")
+
+```]
+.column.w30[
+```python
+if True:
+  print("Always")
+else:
+  print("Never")
+```]
+.column.w30[
+```python
+if True:
+  print("Almost")
+  print("Always")
+else:
+    print("Almost")
+    print("Never")
+```]
+]
+
+.vspace[&nbsp;]
+
+## Invalid syntaxes
+
+.row[
+.column.w30[
+```python
+if True
+  print("Always")
+```]
+.column.w30[
+```python
+if True:
+  print("Almost")
+    print("Always")
+```]
+.column.w30[
+```python
+if True:
+    print("Almost")
+    print("Always")
+  else:
+
+    print("Almost")
+    print("Never")
+```]
+]
+]
+
+---
+
+# Python identifiers
+
+## Identifiers
+
+* Identifiers name variables, functions, classes, modules, objects...
+* They start with `[A-Za-z_]`, followed by zero or more `[A-Za-z0-9_]`.
+* `Python` is **case-sensitive**.
+
+## Reserved words
+
+.block.hcenter[
+<pre>
+and exec not assert finally or break for pass class def print
+continue from global raise with return del import try elif in
+while else is if except lambda yield False True None
+</pre>
+]
+
+## Naming conventions
+
+* Class names start with an **uppercase letter**. All other identifiers start with a **lowercase letter**.
+* Starting an identifier with a **single leading underscore** indicates that the identifier is **private**.
+* Starting an identifier with **two leading underscores** indicates a **strongly private** identifier.
+* If the identifier also ends with **two trailing underscores**, the identifier is a **language-defined special name**.
+
+---
+
+# Functions and classes
+
+```python
+def func0(arg0, arg1 = 6): # define a function
+  c = arg0 + arg1
+  return c
+
+func0(2) # 8
+func0(2, 3) # 5
+func0("abc", "def") # "abcdef"
+```
+
+```python
+class MyClass: # define a class
+  a = 3
+  def __init__(self, b = None):
+    print("Hello from constructor")
+
+    self.c = "toto"
+    print("a = %r" % (self.a))
+    print("b = %r" % (b))
+    print("c = %r" % (self.c))
+    d = self.myMethod(4, 4)
+
+    print("d = %r" % (d))
+
+  def myMethod(self, a, b = 2): # instance method
+    return self.a + a + b
+
+  @classmethod
+  def myClassMethod(MyClass): # class method
+    return 'this is like a static method'
+     
+myClass = MyClass(6)
+# Output:
+# Hello from constructor
+# a = 3
+# b = 6
+# c = 'toto'
+# d = 11
+
+myClass.x = 'new value'        # add a new property
+print(myClass.x)               # 'new value'
+print(MyClass.myClassMethod()) # 'this is like a static method'
+```
+
+---
+
+# Modules
+
+* the `import` keyword allows to access built-in and / or custom modules
+
+```python
+import math # import the "math" module
+
+print(math.sqrt(2)) # 1.41421356237
+```
+
+* the keyword `as` allows to import a module under an alias name
+
+```python
+import math as m # import the "math" module and name it "m"
+
+print(m.sqrt(2)) # 1.41421356237
+```
+
+* the keyword `from` allows to select what to import from a module
+
+```python
+from math import sqrt # import only the "sqrt" function from the math module
+
+print(sqrt(2)) # 1.41421356237
+```
+
+* the wildcard `*` allows to import everything from a module
+
+```python
+from math import * # import everything from the math module
+
+print(sqrt(2)) # 1.41421356237
+```
+
+---
+
+# Custom modules
+
+* create a file containing functions, values, classes, etc...
+
+## .hcenter[`[example.py]`]
+
+```python
+someval = 42 # a value
+
+def func(a, b): # a function
+  return a + b
+```
+
+* if `example.py` is in the current directory (`./example.py`):
+
+```python
+import example
+
+print(example.func("Hello ", "world") # "Hello world"
+
+print(example.someval) # 42
+```
+
+* if `example.py` is in a subdirectory (`./somedir/example.py`):
+
+```python
+import somedir
+
+print(somedir.func("Hello ", "world") # "Hello world"
+
+print(somedir.someval) # 42
+```
+
+or use `as` keyword:
+
+```python
+import somedir as example
+
+print(example.func("Hello ", "world") # "Hello world"
+
+print(example.someval) # 42
+```
+
+---
+
+# Module search path
+
+* when looking for a module to import, python tries the following:
+ 1. search for a built-in module
+ 2. search directories from `sys.path`, in order
+
+```python
+import sys
+
+print(sys.path)
+# Output:
+*# ['',
+#  '/usr/bin', '/usr/lib64/python27.zip', '/usr/lib64/python2.7',
+#  '/usr/lib64/python2.7/plat-linux2', '/usr/lib64/python2.7/lib-tk',
+#  ...
+*#  '.local/lib/python2.7/site-packages',
+#  ...
+#  '/usr/lib/python2.7/site-packages/IPython/Extensions',
+*#  '/home/dubrayn/.ipython']
+```
+
+---
+
+# The docstrings
+
+## What ?
+
+```python
+def mySuperSum(a, b):
+  """This function adds two objects"""
+  return a + b
+
+def mySuperProd(a, b):
+  """This function multiplies two objects.
+
+  Of course, a and b must allow a to be multiplied by b.
+  Try this function with random input objects at your own risk.
+
+  """
+  return a * b
+```
+
+## Why ?
+
+* the python function `help()` will print this documentation
+* some IDE can print this documentation if needed
+* these docstrings can be automatically extracted ( :v: `doxygen` :v: )
+* it is the standard way to document python code
+* the python code can use this docstring
+* some tests and / or examples can be put in the docstrings
+
+## How to use them ?
+
+```python
+help(mySuperSum) # in interactive mode
+print(mySuperSum.__doc__)
+```
+
+---
+
+# The `dir()` built-in function
+
+:arrow_right: this function allows to list objects defined in a module
+
+## .hcenter[`[example.py]`]
+
+```python
+someval = 42 # a value
+
+def func(a, b): # a function
+  return a + b
+```
+
+* if `example.py` is in the current directory (`./example.py`):
+
+```python
+import example
+
+*print(dir(example))
+# Output:
+# ['__builtins__',
+#  '__doc__',
+#  '__file__',
+#  '__name__',
+#  '__package__',
+#  'func',
+#  'someval']
+```
+
+* without arguments, `dir()` returns a list of objects defined in the current namespace
+
+```python
+*print(dir())
+# Output:
+# ['In', 'Out', '__', '_', '__IP', '___', '__builtins__', '__name__',
+#  '_dh', '_i', '_i1', '_ih', '_ii', '_iii', '_ip', '_oh', '_sh', 'help' ]
+```
+
+---
+
+# Built-in types
+
+## Mutability
+
+* a **mutable object** has methods to modify its content
+* an **immutable object** does not have methods to modify its content
+
+:arrow_right: immutable built-in objects are hashable !
+
+## Mutable types
+
+* `list`: an ordered list of objects
+* `set`: an unordered list of **unique hashable objects**
+* `dict`: an unordered list of (key, object) couples (key must be hashable, and should be immutable)
+
+## Immutable types
+
+* `tuple`: like `list`, but immutable
+* `frozenset`: like `set`, but immutable
+* `numbers`: regular numbers
+* `string`: :warning: **strings are immutable in Python** :warning:
+
+## Containers
+
+* they are empty or contain references to other objects
+ * `list`, `tuple`, `dict`, `set`, `frozenset`, etc...
+
+---
+
+class: top
+
+# Containers mutability
+
+## Is a `set` mutable ?
+
+```python
+x = set([1, 2, 3])
+
+x |= set([2, 3, 4]) # is Python copying an immutable object ?
+
+print(x) # set([1, 2, 3, 4])
+```
+
+:arrow_right: **yes**, a `set` is mutable:
+
+```python
+x = set([1, 2, 3])
+
+x.__ior__(set([2, 3, 4])) # "|=" makes Python call .__ior__() method
+
+print(x) # set([1, 2, 3, 4])
+```
+
+## If a `tuple` is immutable, how is this possible ?
+
+```python
+tuple0 = (1, 2) # tuple declaration
+
+list0 = [3, 4] # list declaration
+
+print(type(tuple0)) # <type 'tuple'>
+
+tuple1 = (tuple0, list0) # tuple declaration
+
+print(type(tuple1)) # <type 'tuple'>
+
+print(tuple1) # ((1, 2), [3, 4])
+
+list0[0] = -1 # change list0
+
+print(tuple1) # ((1, 2), [-1, 4])
+```
+
+--
+
+:arrow_right: A container stores **references**, not objects.
+
+---
+
+# Numeric types
+
+## Standard numeric types: `int`, `float` and `complex`
+
+* `int` have **unlimited precision**
+* `float` usually correspond to a `C` `double` (check `sys.float_info`)
+* `complex` number's real and imaginary parts are `float` numbers (`z.real` and `z.imag`)
+
+:arrow_right: other types can be found in the standard library (`fractions`, `decimal`...)
+
+## Operations
+
+```python
+x + y           # sum of x and y
+x - y           # difference of x and y
+x * y           # product of x and y
+x / y           # quotient of x and y
+x // y          # floored quotient of x and y
+x % y           # remainder of x / y
+-x              # x negated
++x              # x unchanged
+abs(x)          # absolute value or magnitude of x
+int(x)          # x converted to integer
+float(x)        # x converted to floating point
+complex(re, im) # a complex number
+c.conjugate()   # conjugate of the complex number c
+divmod(x, y)    # the pair (x // y, x % y)
+pow(x, y)       # x to the power y
+x ** y          # x to the power y
+
+# for int and float numbers:
+
+math.trunc(x)   # x truncated to Integer
+round(x[, n])   # x rounded to n digits, rounding half to even. If n is omitted, it defaults to 0.
+math.floor(x)   # the greatest Integer <= x
+math.ceil(x)    # the least Integer >= x
+```
+
+---
+
+# Specific operations on `int` and `float` numbers
+
+## Bitwise operations for `int`
+
+```python
+x | y  # bitwise or of x and y
+x ^ y  # bitwise exclusive or of x and y
+x & y  # bitwise and of x and y
+x << n # x shifted left by n bits
+x >> n # x shifted right by n bits
+~x     # the bits of x inverted
+```
+
+## Other methods for `int`
+
+```python
+n = -37
+bin(n) # '-0b100101'
+n.bit_length() # 6
+```
+```python
+(1024).to_bytes(2, byteorder='big')                # b'\x04\x00'
+(1024).to_bytes(10, byteorder='big')               # b'\x00\x00\x00\x00\x00\x00\x00\x00\x04\x00'
+(-1024).to_bytes(10, byteorder='big', signed=True) # b'\xff\xff\xff\xff\xff\xff\xff\xff\xfc\x00'
+```
+```python
+int.from_bytes(b'\x00\x10', byteorder='big')               # 16
+int.from_bytes(b'\x00\x10', byteorder='little')            # 4096
+int.from_bytes(b'\xfc\x00', byteorder='big', signed=True)  # -1024
+int.from_bytes(b'\xfc\x00', byteorder='big', signed=False) # 64512
+int.from_bytes([255, 0, 0], byteorder='big')               # 16711680
+```
+
+## Other methods for `float`
+
+```python
+# hex format: [sign] ['0x'] integer ['.' fraction] ['p' exponent]
+
+float.fromhex('0x3.a7p10') # 3740.0
+
+float.hex(3740.0)          # '0x1.d380000000000p+11'
+```
+
+---
+
+# Using `list` objects
+
+```python
+l1 = []             # create an empty list
+
+l1.append(7)        # append value
+l2 = ['final', 'final2']
+l1.extend(l2)       # append another list
+l1.insert(1, 8)     # insert value
+print(l1)           # [7, 8, 'final', 'final2']
+v = l1.pop()        # get and remove last value
+print(v)            # 'final2'
+print(l1)           # [7, 8, 'final']
+del l1[-1]          # remove last value
+print(len(l1))      # 2
+
+l2 = [1, 2, "pipo"] # create another list
+
+l3 = l2             # l3 is another name for l2 list
+
+print(l2)           # [1, 2, 'pipo']
+print(l3)           # [1, 2, 'pipo']
+
+l3.append('new')    # append value to l3
+
+print(l2)           # [1, 2, 'pipo', 'new']
+print(l3)           # [1, 2, 'pipo', 'new']
+
+l4 = list(l2)       # copy a list
+
+l4.append(3.142)    # append value to l4
+
+print(l2)           # [1, 2, 'pipo', 'new']
+print(l4)           # [1, 2, 'pipo', 'new', 3.1419999999999999]
+
+l5 = list('abcdef') # create list from string
+print(l5)           # ['a', 'b', 'c', 'd', 'e', 'f']
+
+l6 = [l1, l2, 3]    # create a list containing lists
+print(l6)           # [[7, 8], [1, 2, 'pipo', 'new'], 3]
+```
+
+---
+
+# Using `list` elements and ranges
+
+## Element access
+```python
+l = range(5)
+l               # [0, 1, 2, 3, 4]
+l[2]            # 2
+l[-1]           # 4
+l[2] = 8
+l               # [0, 1, 8, 3, 4]
+del l[3]
+l               # [0, 1, 8, 4]
+```
+
+## Ranges
+```python
+l = [0, 1, 2, 3, 4]
+l[0:3]          # [0, 1, 2]
+l[::2]          # [0, 2, 4]
+l[-1:]          # [4]
+l[-3:-1]        # [2, 3]
+l[:]            # [0, 1, 2, 3, 4]
+l[2:3]          # [2]
+l[2:3] = ['X', 'Y']
+l               # [0, 1, 'X', 'Y', 3, 4]
+range(3, 6, 2)  # [3, 5]
+```
+
+## Concatenation
+```python
+[1, 2] + [3, 4] # [1, 2, 3, 4]
+[1, 2] * 3      # [1, 2, 1, 2, 1, 2]
+```
+
+## Searching
+```python
+l = [0, 1, 2, 3, 4]
+3 in l          # True
+l.index(3)      # 3
+5 in l          # False
+```
+
+---
+
+# Loops and iterators
+
+## Iterate over values
+```python
+l = list('abcde')
+for v in l:
+  print(v)
+# Output:
+# 'a'
+# 'b'
+# 'c'
+# 'd'
+# 'e'
+```
+
+## Iterate over indices
+```python
+l = list('abcde')
+for i in range(len(l)):
+  print("index: %d val: %r" % (i, l[i]))
+# Output:
+# index: 0 val: 'a'
+# index: 1 val: 'b'
+# index: 2 val: 'c'
+# index: 3 val: 'd'
+# index: 4 val: 'e'
+```
+
+## Iterate over indices and values
+```python
+l = list('abcde')
+for i, v in enumerate(l):
+  print("index: %d val: %r" % (i, v))
+# Output:
+# index: 0 val: 'a'
+# index: 1 val: 'b'
+# index: 2 val: 'c'
+# index: 3 val: 'd'
+# index: 4 val: 'e'
+```
+
+---
+
+# `filter`, `map`, `reduce`
+
+:arrow_right: used in functionnal programming
+
+* `filter` keeps elements matching a criterion
+
+```python
+def f(x):
+  return x % 3 == 0 or x % 5 == 0
+
+l = range(2, 25)
+filter(f, l) # [3, 5, 6, 9, 10, 12, 15, 18, 20, 21, 24]
+```
+
+* `map` applies a function to each element
+
+```python
+def cube(x):
+  return x*x*x
+
+map(cube, range(1, 11)) # [1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]
+
+# Example with two arguments
+
+seq = range(8)
+
+def add(x, y):
+  return x+y
+
+map(add, seq, seq) # [0, 2, 4, 6, 8, 10, 12, 14]
+```
+
+* `reduce` propagates the cumulative result of a function
+
+```python
+def add(x,y):
+  return x+y
+
+reduce(add, range(1, 11)) # 55
+```
+
+---
+
+# List comprehensions
+
+:arrow_right: allows to create lists in a **very concise way**
+
+## Generic syntax
+
+```python
+[ expr for var in expr [for var in expr]* [if expr]* ]
+```
+
+## Examples
+
+```python
+# list of the first 6 even numbers
+[i * 2 for i in range(6)] # [0, 2, 4, 6, 8, 10]
+
+# combine elements of two lists if they differ
+[(x, y) for x in [1,2,3] for y in [3,1,4] if x != y] # [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+
+# is equivalent to
+final = []
+for x in [1,2,3]:
+  for y in [3,1,4]:
+    if x != y:
+      final.append((x, y))
+final                                                # [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+```
+
+---
+
+# Using `string` objects
+
+## Spliting / joining
+
+```python
+s = 'A simple string'
+
+s.split()                 # ['A', 'simple', 'string']
+' '.join(s.split())       # 'A simple string'
+'   some text  '.strip()  # 'some text'
+'some' + ' ' + 'text'     # 'some text'
+'pipo' * 3                # 'pipopipopipo'
+```
+
+## String formatting
+
+```python
+n = 3
+l = range(3)
+'n: %03d l: %r' % (n, l) # 'n: 003 l: [0, 1, 2]'
+```
+
+:warning: **strings are immutable in Python** :warning:
+
+```python
+a = 'Some text'
+print(a[5])               # 't'
+*a[5] = 'T'                # ILLEGAL
+a.replace('text', 'Text') # 'Some Text'
+a[:5] + 'T' + a[6:]       # 'Some Text'
+```
+
+
+---
+
+# Using `dict` objects
+
+* A `dict` stores unordered (`key`, `value`) pairs
+* Keys are unique and not ordered
+
+```python
+# create an empty dict
+d = {}
+d = dict()
+
+# initialize a dict
+other_dict = {'first': 8, 'other': ['a', 'pair'], 'toto': {'pipo': 42}}
+other_dict = dict(first = 8, other = ['a', 'pair'], toto = dict(pipo =  42))
+
+d['key0'] = 'text0'
+d['key1'] = 'text1'
+d['key2'] = 'text2'
+print(d)                 # {'key2': 'text2', 'key0': 'text0', 'key1': 'text1'}
+
+d['key0'] = 'other_text' # replace value for key 'key0'
+del d['key1']            # remove key and value for key 'key1'
+print(d)                 # {'key2': 'text2', 'key0': 'other_text'}
+
+'key1' in d              # False
+'key2' in d              # True
+
+d.keys()                 # ['key2', 'key0']
+d.values()               # ['text2', 'other_text']
+
+for k in d:              # iterate over a dict
+  print(k)
+# Output:
+# key2
+# key0
+```
+
+---
+
+# Using `set` objects
+
+* A `set` stores unordered and unique objects
+
+```python
+# create an empty set
+s = set()
+
+# initialize a set
+s1 = set(['Beta', 'Gamma', 'Alpha', 'Delta', 'Gamma', 'Beta'])
+s2 = set(['Beta', 'Alpha', 'Epsilon', 'Omega', 'Psi'])
+
+s1                          # set(['Alpha', 'Beta', 'Gamma', 'Delta'])
+s2                          # set(['Alpha', 'Beta', 'Omega', 'Psi', 'Epsilon'])
+
+# test if a value is in a set
+'Psi' in s2                 # True
+
+# remove a value
+s2.remove('Psi')
+
+'Psi' in s2                 # False
+s2                          # set(['Alpha', 'Beta', 'Omega', 'Epsilon'])
+```
+
+## Usual `set` operations
+```python
+s1 = set(['Alpha', 'Beta', 'Gamma', 'Delta'])
+s2 = set(['Alpha', 'Beta', 'Omega', 'Epsilon'])
+
+s1.union(s2)                #  set(['Epsilon', 'Beta', 'Delta', 'Alpha', 'Omega', 'Gamma'])
+s1 | s2                     #  set(['Epsilon', 'Beta', 'Delta', 'Alpha', 'Omega', 'Gamma'])
+
+s1.intersection(s2)         # set(['Alpha', 'Beta'])
+s1 & s2                     # set(['Alpha', 'Beta'])
+
+s1.difference(s2)           # set(['Gamma', 'Delta'])
+s1 - s2                     # set(['Gamma', 'Delta'])
+
+s1.symmetric_difference(s2) # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
+s1 ^ s2                     # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
+```
+---
+
+# File IO
+
+## .hcenter[`[data.txt]`]
+```text
+1.0 2.1 3.0 4.9 5.9
+9.0 8.2 5.7 6.2 7.1
+2.2 3.6 4.4
+```
+
+## Read
+```python
+f = open('data.txt')
+lines = f.readlines()
+words = [l.split() for l in lines]
+print(words)
+# Output:
+# [['1.0', '2.1', '3.0', '4.9', '5.9'], ['9.0', '8.2', '5.7', '6.2', '7.1'], ['2.2', '3.6', '4.4'], []]                                                 
+
+# one-liner
+[l.split() for l in open('data.txt').readlines()]
+# Output:
+# [['1.0', '2.1', '3.0', '4.9', '5.9'], ['9.0', '8.2', '5.7', '6.2', '7.1'], ['2.2', '3.6', '4.4'], []]                                                 
+```
+
+---
+
+# Module `pickle`
+
+:arrow_right: allows to serialize / deserialize data
+
+## Write
+```python
+import pickle
+
+data1 = {'a': [1, 2.0, 3, 4+6j],
+         'b': ('string', u'Unicode string'),
+         'c': None}
+output = open('data.pkl', 'wb')
+pickle.dump(data1, output)
+output.close()
+```
+
+## Read
+```python
+import pprint, pickle
+
+pkl_file = open('data.pkl', 'rb')
+data1 = pickle.load(pkl_file)
+pprint.pprint(data1)
+# Output:
+# {'a': [1, 2.0, 3, (4+6j)], 'b': ('string', u'Unicode string'), 'c': None}
+pkl_file.close()
+```
+.hcenter[:warning: `pickle` file formats differ between Python2 and Python3 versions:warning:]
+
+---
+
+# `True`, `False`, `not`, `and`, `or` keywords
+
+* usual Boolean values and operations
+* "`==`" tests value equality
+* `True` is the same object as `1`
+* `False` is the same object as `0`
+
+```python
+3 == 5              # False
+2 == 2              # True
+1 + 1 == 2          # True
+True or False       # True
+True or not True    # True
+True and True       # True
+False and True      # False
+True == 1           # True
+False == 0          # True
+True + True + False # 2
+```
+
+---
+
+# `None` keyword
+
+* special constant representing the absence of a value
+* the type of `None` is `NoneType`
+* :warning: `None` does not imply `False`, `0`, or an empty container
+
+```python
+None == 0 # False
+
+None == [] # False
+
+None == False # False
+
+a = None
+b = None
+a == b # True
+```
+
+:arrow_right: A void function without a `return` statement returns a `None` object.
+
+```python
+def void_function():
+  pass # do nothing
+
+a = void_function()
+a == None # True
+```
+
+---
+
+# Bonus: `virtualenv` and `pip`
+
+.hcenter[
+![](images/present.png)
+]
+
 
     </textarea>
 
