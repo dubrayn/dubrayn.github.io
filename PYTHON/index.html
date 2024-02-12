@@ -89,14 +89,14 @@ To view these slides **locally** with `firefox`:
 ## Day 1 - Linux, Jupyter, Markdown, Latex, Python basics
 
 * 9:00 to 12:30 - Lecture :book:
-* 13:30 to 17:00 - Tutorial :computer:
+* 13:30 to 17:00 - [Exercises :computer:](exercises.ipynb) (right button, "save link as")
 
 .vspace[&nbsp;]
 
 ## Day 2 - Numpy, Matplotlib
 
 * 9:00 to 12:30 - Lecture :book:
-* 13:30 to 17:00 - Tutorial :computer:
+* 13:30 to 17:00 - Exercises :computer:
 
 .vspace[&nbsp;]
 
@@ -1076,6 +1076,9 @@ aksjndf
 3 == 5              # False
 2 == 2              # True
 1 + 1 == 2          # True
+
+not True            # False
+not not True        # True
 True or False       # True
 True or not True    # True
 True and True       # True
@@ -1083,6 +1086,7 @@ False and True      # False
 True == 1           # True
 False == 0          # True
 True + True + False # 2
+
 ```
 
 ---
@@ -1339,8 +1343,8 @@ import example
 ## Main built-in containers
 
 * `list`: ordered set of objects
-* `set`: unordered set of unique objects (no duplicate values)
 * `dict`: unordered set of **(key, value)** pairs (key values are unique)
+* `set`: unordered set of unique objects (no duplicate values)
 * `string`: ordered list of characters
 
 ## Specifics
@@ -1518,6 +1522,76 @@ s1 ^ s2                     # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
 
 ---
 
+# Using `string` objects
+
+## Spliting / joining
+
+```python
+s = 'A simple string'
+
+s.split()                 # ['A', 'simple', 'string']
+' '.join(s.split())       # 'A simple string'
+'   some text  '.strip()  # 'some text'
+'some' + ' ' + 'text'     # 'some text'
+'pipo' * 3                # 'pipopipopipo'
+```
+
+## String formatting
+
+```python
+n = 3
+l = range(3)
+'n: %03d l: %r' % (n, l) # 'n: 003 l: [0, 1, 2]'
+```
+
+## Other string methods
+
+```python
+"a simple sentence".capitalize()     # 'A simple sentence'
+"a simple sentence".find("sentence") # 9
+"a simple sentence".rfind("en")      # 13
+"a simple sentence".find("Sentence") # -1
+"a simple sentence".isalnum()        # True
+"a simple sentence".isalpha()        # True
+"1 simple sentence".isalpha()        # False
+"a simple sentence!".isalnum()       # False
+"123456".isnumeric()                 # True
+"12.3456".isnumeric()                # False
+"Noël".isascii()                     # False
+"YES!123!@*(#&$".isupper()           # True
+"Sentence" in "a simple sentence"    # False
+"a simple sentence!".count('en')     # 2
+"simple".center(20)                  # '       simple       '
+```
+
+---
+
+# User interaction
+
+## The `input()` function
+
+:arrow_right: Asks the user to enter some text  
+:arrow_right: Some validation / conversion may follow  
+
+```python
+userText = input("Enter your value: ") # will let the user enter some text
+
+if not userText.isnumeric(): # test if the text contains non-numeric characters
+  print("bad value entered")
+
+userVal = int(userText) # conversion to 'int' type
+```
+
+## This function is not used widely
+
+:warning: Reproductibility of a calculation may be difficult when using `input()`
+
+* No trace of the values entered in the source code
+* Needs a user interaction each time `input()` is called (or some file redirection)
+* In real life, prefer `json`, `pickle`, `msgpack`, etc... to input data into a Python program
+
+---
+
 # Copying objects
 
 :arrow_right: In `Python`, the `=` operator creates a copy of an object
@@ -1622,49 +1696,6 @@ print(tuple1)            # ((1, 2), [3, 4])
 list0[0] = -1
 
 print(tuple1)            # ((1, 2), [-1, 4])
-```
-
----
-
-# Using `string` objects
-
-## Spliting / joining
-
-```python
-s = 'A simple string'
-
-s.split()                 # ['A', 'simple', 'string']
-' '.join(s.split())       # 'A simple string'
-'   some text  '.strip()  # 'some text'
-'some' + ' ' + 'text'     # 'some text'
-'pipo' * 3                # 'pipopipopipo'
-```
-
-## String formatting
-
-```python
-n = 3
-l = range(3)
-'n: %03d l: %r' % (n, l) # 'n: 003 l: [0, 1, 2]'
-```
-
-## Other string methods
-
-```python
-"a simple sentence".capitalize()     # 'A simple sentence'
-"a simple sentence".find("sentence") # 9
-"a simple sentence".rfind("en")      # 13
-"a simple sentence".find("Sentence") # -1
-"a simple sentence".isalnum()        # True
-"a simple sentence".isalpha()        # True
-"1 simple sentence".isalpha()        # False
-"a simple sentence!".isalnum()       # False
-"12.3456".isnumeric()                # False
-"Noël".isascii()                     # False
-"YES!123!@*(#&$".isupper()           # True
-"Sentence" in "a simple sentence"    # False
-"a simple sentence!".count('en')     # 2
-"simple".center(20)                  # '       simple       '
 ```
 
 ---
