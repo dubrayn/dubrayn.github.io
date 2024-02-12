@@ -480,17 +480,27 @@ class: top
 
 # Containers mutability
 
-## Is a `set` mutable ?
+## In Python, is `a |= b` equivalent to `a = a | b` ?
 
 ```python
 x = set([1, 2, 3])
+y = x
 
-x |= set([2, 3, 4]) # is Python copying an immutable object ?
-
+x = x | set([2, 3, 4])
 print(x) # set([1, 2, 3, 4])
+x is y # False
 ```
 
-:arrow_right: **yes**, a `set` is mutable:
+```python
+x = set([1, 2, 3])
+y = x
+
+x |= set([2, 3, 4])
+print(x) # set([1, 2, 3, 4])
+x is y # True
+```
+
+:arrow_right: **no**, `a |= b` is not equivalent to `a = a | b`.
 
 ```python
 x = set([1, 2, 3])

@@ -15,6 +15,15 @@
   <body>
     <textarea id="source" readonly>
 
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+Introduction to Python Programming - N. Dubray - ENSIIE - 2024
+]
+
+---
+
 class: titlepage
 
 .title[
@@ -27,15 +36,6 @@ N. Dubray - ENSIIE - 2024
 
 .w50.shadow.hcenter[
 ![](images/python_snake.jpg)
-]
-
----
-
-layout: true
-class: animated fadeIn middle numbers
-
-.footnote[
-Introduction to Python Programming - N. Dubray - ENSIIE - 2024
 ]
 
 ---
@@ -88,21 +88,21 @@ To view these slides **locally** with `firefox`:
 
 ## Day 1 - Linux, Jupyter, Markdown, Latex, Python basics
 
-* 9:00 to 12:45: Lecture :book:
-* 14:00 to 17:45: Tutorial :computer:
+* 9:00 to 12:30 - Lecture :book:
+* 13:30 to 17:00 - Tutorial :computer:
 
 .vspace[&nbsp;]
 
 ## Day 2 - Numpy, Matplotlib
 
-* 9:00 to 12:45: Lecture :book:
-* 14:00 to 17:45: Tutorial :computer:
+* 9:00 to 12:30 - Lecture :book:
+* 13:30 to 17:00 - Tutorial :computer:
 
 .vspace[&nbsp;]
 
 ## Day 3 - Project
 
-* 9:00 to 17:45: .red[Evaluated Project] :checkered_flag:
+* 9:00 to 17:00 - :checkered_flag: .red[Evaluated Project] :checkered_flag:
 
 ---
 
@@ -237,7 +237,7 @@ To view these slides **locally** with `firefox`:
 
 ---
 
-# `bash` quick howto
+# `bash`/Linux quick howto
 
 ## Navigate the filesystem
 
@@ -379,6 +379,7 @@ class: top
 
 ## Installation
 
+:arrow_right: Using `pip`, the official dependency manager for `Python`.
 ```bash
 $ pip install jupyter
 ```
@@ -393,10 +394,550 @@ $ jupyter notebook
 
 --
 
-.animated.fadeIn.wait1s.hcenter.w60[
+.animated.fadeIn.wait1s.hcenter.w50[
 ## .hcenter[Demo time !]
 .shadow[![](images/concert.webp)]
 ]
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X]
+
+.hcenter.shadow.w20[![](images/leslie_lamport.png)]
+
+## Key points
+
+* created by Leslie Lamport (winner of the 2013 Turing Award) in the 80s
+* used to communicate and publish scientific documents in **all scientific fields**
+* markup language
+* written in the `TeX` macro language
+
+.block[
+* Repository: [https://www.latex-project.org//svnroot/experimental/trunk](https://www.latex-project.org//svnroot/experimental/trunk)
+* Website: [https://www.latex-project.org](https://www.latex-project.org)
+* License: `LPPL` (LaTeX Project Public License, not `GPL`-compatible)
+]
+
+---
+
+# The .latex[L<sup>a</sup>T<sub>e</sub>X] workflow
+
+## Historical workflow
+
+.hcenter.w80.mermaid[
+    graph LR
+    A("1. Write / modify<br/>the source file") --> B
+    B("2. Generate a .dvi<br/>with latex") --> C
+    C("2. Generate a .ps<br/>with dvips") --> D
+    D("3. Check the result<br/>with a ps viewer") --> A
+    style B fill:#090
+]
+
+## "Recent" workflow
+
+.hcenter.w55.mermaid[
+    graph LR
+    A("1. Write / modify<br/>the source file") --> B
+    B("2. Generate<br/>with pdflatex") --> C
+    C("3. Check the result<br/>with a pdf viewer") --> A
+    style B fill:#090
+]
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] example
+
+## 1. Write / modify the source file
+
+Use your favorite **text editor**, not a WYSIWYG one.
+
+## .hcenter[`[example.tex]`]
+```TeX
+\documentclass[12pt]{article}
+\begin{document}
+\section{My very first \LaTeX\ example}
+\subsection{Excerpt from wikipedia}
+\LaTeX follows the design philosophy of separating presentation from content, so that authors can focus on the
+content of what they are writing without attending simultaneously to its visual appearance. In preparing a \LaTeX
+docu\-ment, the author specifies the logical structure using simple, familiar concepts such as chapter, section,
+table, figure, etc., and lets the \LaTeX system worry about the formatting and layout of these structures. It
+therefore encourages the separation of layout from content while still allowing manual typesetting adjustments
+where needed. This concept is similar to the mechanism by which many word processors allow styles to be defined
+globally for an entire document or the use of Cascading Style Sheets to style HTML. The \LaTeX system is a markup
+language that also handles typesetting and rendering.
+\subsection{Some math ?}
+Yes, \LaTeX can do some math, either inline like $f(x)\equiv x^2e^{\sqrt{x + 1}}$, or in a math block like
+\begin{equation}
+A.B = \frac{-1}{\sqrt{2}} E.B^{-1}
+\end{equation}
+\end{document}
+```
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] example
+
+## 2. Generate with `pdflatex`
+```shell
+*$ pdflatex example.tex
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./example.tex
+LaTeX2e <2017/01/01> patch level 3
+Babel <3.9r> and hyphenation patterns for 3 language(s) loaded.
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo)) (./example.aux)
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./example.aux) )</usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmsy8.pfb>
+Output written on example.pdf (1 page, 70040 bytes).
+Transcript written on example.log.
+```
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] example
+
+## 3. Check the result with a `.pdf` viewer
+.hcenter.shadow.w70[![](images/latex_example.png)]
+
+---
+
+# Remarks on the usual .latex[L<sup>a</sup>T<sub>e</sub>X] workflow
+
+## Using full .latex[L<sup>a</sup>T<sub>e</sub>X]
+* some are **fine** with this workflow
+* some prefer a WYSIWYM editor (`LyX`...)
+* some prefer a WYSIWYG editor (`BaKoMa TeX`, `Scientific Word`...) :warning: **not free**
+
+:arrow_right: **My advice**: for scientific papers only.
+
+## Using only the math engine of .latex[L<sup>a</sup>T<sub>e</sub>X]
+* allows to insert .latex[L<sup>a</sup>T<sub>e</sub>X] math blocks in another formatting tool / language
+* examples: **`MathJax`**, **`Markdown`**, **`Doxygen`**...
+
+:arrow_right: **My advice**: for scientific presentations, documentations, web pages...
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] math syntax
+
+.row[.column.middle.w50[```TeX
+S_i = 1 + 2 + 3 + \ldots + i
+```]
+.column.hcenter.middle.w48[
+`$$
+S_i = 1 + 2 + 3 + \ldots + i
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+S_{ i } =1+2
++
+    3    +\ldots   + i
+```]
+.column.hcenter.middle.w48[
+`$$
+S_{ i } =1+2
++
+    3    +\ldots   + i
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+a_i^j = b_{i + 1}^{-1} + \frac{c^2 + d} { \sqrt{e + f + 0.4} }
+```]
+.column.hcenter.middle.w48[
+`$$
+a_i^j = b_{i + 1}^{-1} + \frac{c^2 + d}{\sqrt{e + f + 0.4}}
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+S \equiv \sum_{k = 1}^\infty \frac{1}{k^2} = \frac{\pi^2}{6}
+```]
+.column.hcenter.middle.w48[
+`$$
+S \equiv \sum_{k = 1}^\infty \frac{1}{k^2} = \frac{\pi^2}{6}
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\hat{\mathcal{H}}|\psi_i\rangle = E_i|\psi_i\rangle
+```]
+.column.hcenter.middle.w48[
+`$$
+\hat{\mathcal{H}}|\psi_i\rangle = E_i|\psi_i\rangle
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\left(\frac{1}{2} + \frac{3}{4}\right) =1 +  \frac{1}{4}
+```]
+.column.hcenter.middle.w48[
+`$$
+\left(\frac{1}{2} + \frac{3}{4}\right) =1 +  \frac{1}{4}
+$$`
+]]
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] math syntax
+
+.row[.column.middle.w50[```TeX
+D = \left|\begin{array}{ccc}
+a & b & c\\
+d & e & f\\
+g & h & i
+\end{array}\right|
+```]
+.column.hcenter.middle.w48[
+`$$
+D = \left|\begin{array}{ccc}
+a & b & c\\
+d & e & f\\
+g & h & i
+\end{array}\right|
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\Psi_\alpha = \int_{-\infty}^{\infty} %
+\exp \left( \sqrt{\alpha} \, -x^2\right) d x
+```]
+.column.hcenter.middle.w48[
+`$$
+\Psi_\alpha = \int_{-\infty}^{\infty} %
+\exp \left( \sqrt{\alpha} \, -x^2\right) d x
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+I_{\sigma} =
+\int_{z=-\infty}^{\infty}
+\int_{\theta=0}^{2\pi}
+\int_{r_\perp = 0}^{\infty}
+e^{-\frac{r_\perp^2+z^2}{\sigma^2}}
+r_\perp dr_\perp d\theta dz
+```]
+.column.hcenter.middle.w48[
+`$$
+I_{\sigma} =
+\int_{z=-\infty}^{\infty}
+\int_{\theta=0}^{2\pi}
+\int_{r_\perp = 0}^{\infty}
+e^{-\frac{r_\perp^2+z^2}{\sigma^2}}
+r_\perp dr_\perp d\theta dz
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\begin{array}{cccccccc}
+\alpha&\theta&o&\tau&\beta&\vartheta&\pi&\upsilon\\
+\gamma&\gamma&\varpi&\phi&\delta&\kappa&\rho&\varphi\\
+\epsilon&\lambda&\varrho&\chi&\varepsilon&\mu& \sigma&\psi\\
+\zeta&\nu&\varsigma&\omega&\eta&\xi\\
+\Gamma&\Lambda&\Sigma&\Psi&\Delta&\Xi&\Upsilon&\Omega\\
+\Theta&\Pi&\Phi\\
+\end{array}
+```]
+.column.hcenter.middle.w48[
+`$$
+\begin{array}{cccccccc}
+\alpha&\theta&o&\tau&\beta&\vartheta&\pi&\upsilon\\
+\gamma&\gamma&\varpi&\phi&\delta&\kappa&\rho&\varphi\\
+\epsilon&\lambda&\varrho&\chi&\varepsilon&\mu& \sigma&\psi\\
+\zeta&\nu&\varsigma&\omega&\eta&\xi\\
+\Gamma&\Lambda&\Sigma&\Psi&\Delta&\Xi&\Upsilon&\Omega\\
+\Theta&\Pi&\Phi\\
+\end{array}
+$$`
+]]
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] math syntax
+
+## Some math symbols
+
+.row[.column.middle.w50[```TeX
+\odot \iiint \oint \smile \fallingdotseq \simeq \subset
+```]
+.column.hcenter.middle.w48[
+`$$
+\odot \iiint \oint \smile \fallingdotseq \simeq \subset
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\sin(\theta) \cos(\theta) \tan(\theta)
+```]
+.column.hcenter.middle.w48[
+`$$
+\sin(\theta) \cos(\theta) \tan(\theta)
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\sinh(x) \cosh (x) \tanh(x)
+```]
+.column.hcenter.middle.w48[
+`$$
+\sinh(x) \cosh (x) \tanh(x)
+$$`
+]]
+
+----
+
+.row[.column.middle.w50[```TeX
+\exp(z) \det(M)
+```]
+.column.hcenter.middle.w48[
+`$$
+\exp(z) \det(M)
+$$`
+]]
+
+## List of math symbols
+* [http://tug.ctan.org/info/symbols/comprehensive/symbols-a4.pdf](http://tug.ctan.org/info/symbols/comprehensive/symbols-a4.pdf) (338 pages !)
+* [http://oeis.org/wiki/List_of_LaTeX_mathematical_symbols](http://oeis.org/wiki/List_of_LaTeX_mathematical_symbols)
+
+---
+
+# `Markdown`
+
+.row.hcenter.w60[
+.column.shadow.w30.animated.fadeInLeft.wait1s[
+![](images/john_gruber.png)
+]
+.column.w30[
+![](images/markdown_logo.png)
+]
+.column.shadow.w30.animated.fadeInRight.wait1s[
+![](images/aaron_swartz.png)
+]
+]
+
+## Key points
+
+* created by *John Gruber* and *Aaron Swartz* in 2004
+* text-to-HTML conversion tool + plain text formatting syntax
+* **easy to read and easy to write**
+* generates valid `XHTML`
+* no standard implementation
+* variants used by GitHub, Bitbucket, Reddit, Diaspora, Stack Exchange, OpenStreetMap, SourceForge, **`remark.js`**...
+
+.block[
+* Website: [https://daringfireball.net/projects/markdown](https://daringfireball.net/projects/markdown)
+* License: `BSD`
+]
+
+---
+
+# `Markdown` example
+
+.row[
+.column.w48.middle[
+## .hcenter[`[example.md]`]
+
+```markdown
+A second level header
+---------------------
+
+## Another second level header
+
+The first level header is reserved for the title of
+the slides. The quick brown fox jumped over the lazy
+dog.
+
+### Header 3
+
+> This is a blockquote.
+> 
+> This is the second paragraph in the blockquote.
+>
+> ## This is an H2 in a blockquote
+
+| Here is a table   |   easy ! |
+| ----------------- | -------- |
+| some regular text | **bold** |
+```
+]
+
+.column.w48.middle.border[
+A second level header
+---------------------
+
+## Another second level header
+
+The first level header is reserved for the title of
+the slides. The quick brown fox jumped over the lazy
+dog.
+
+### Header 3
+
+> This is a blockquote.
+> 
+> This is the second paragraph in the blockquote.
+>
+> ## This is an H2 in a blockquote
+
+| Here is a table   |   easy ! |
+| ----------------- | -------- |
+| some regular text | **bold** |
+]]
+
+---
+
+# `Markdown` example
+
+.row[
+.column.w48.middle[
+```markdown
+Some `\(\LaTeX\ )` thanks to **`KaTeX`**:
+`$$ \pi \simeq 3.1415926535 \ldots $ $`
+``` ]
+.column.w48.middle.border[
+Some `\(\LaTeX\)` thanks to **`KaTeX`**:
+`$$ \pi \simeq 3.1415926535 \ldots $$`
+]]
+
+----
+
+.row[
+.column.w48.middle[
+```markdown
+## Item list
+ * first item
+ * second item
+ * third item
+
+## Enumerated list
+1. first item
+2. second item
+3. third item
+``` ]
+.column.w48.middle.border[
+## Item list
+ * first item
+ * second item
+ * third item
+
+## Enumerated list
+1. first item
+2. second item
+3. third item
+]]
+
+----
+
+.row[
+.column.w48.middle[
+<pre><code>Include some code:
+```C++
+double calcSquare(double a)
+{
+  double result = a * a;
+  return result;
+}
+```</code></pre>
+]
+.column.w48.middle.border[
+Include some code:
+```C++
+double calcSquare(double a)
+{
+  double result = a * a;
+  return result;
+}
+```
+]]
+
+---
+
+# These slides use `remark.js`
+
+:warning: Important concept in `remark.js`:
+
+.row[
+.column.w47.middle[
+```markdown
+.class0.class1.class2[
+some text
+]
+```
+]
+.column.w5.middle[
+:arrow_right:
+]
+.column.w47.middle[
+```HTML
+<div class="class0 class1 class2">
+<p>some text</p>
+</div>
+```]]
+
+.row[
+.column.w47.middle[
+```markdown
+.class0.class1.class2[ some text ]
+```
+]
+.column.w5.middle[
+:arrow_right:
+]
+.column.w47.middle[
+```HTML
+<span class="class0 class1 class2">some text</span>
+```]]
+
+.vspace[]
+
+----
+
+.vspace[]
+
+:arrow_right: These slides use original or slightly modified versions of the following **opensource** projects:
+
+* [remark.js](https://remarkjs.com): `Markdown` slides generator and presentation tool.
+* [mermaid.js](https://mermaidjs.github.io): Generate diagrams with a Markdown-like syntax.
+* [cinescript.js](https://github.com/arnehilmann/cinescript): Replay terminal capture.
+* [highlight.js](https://highlightjs.org): Highlight source code.
+* [gitgraph.js](http://gitgraphjs.com): Make nice `git` graphs.
+* [katex](https://katex.org): Use `\(\LaTeX\)` math blocks.
+* [emojify.js](https://github.com/emojione/emojify.js): Use emoticons in your `Markdown` source :-)
+* [term.js](https://github.com/chjj/term.js): Display a terminal emulator in Javascript.
+* [plotly.js](https://plot.ly/Javascript): Generate interactive plots in Javascript.
+* [animate.css](https://daneden.github.io/animate.css): Pure `CSS` animations.
+* [asciinema.js](https://github.com/asciinema/asciinema-player): Replay terminal capture.
+* [bokeh.js](https://docs.bokeh.org/en/latest/): Generate interactive plots in Javascript.
 
 ---
 
@@ -465,9 +1006,7 @@ $ jupyter notebook
 
 ## .hcenter[`[helloworld.py]`]
 ```python
-#!/usr/bin/env python
-
-# ^^ use '#!/usr/bin/env python3' for python3 scripts
+#!/usr/bin/env python3
 
 # declare variables
 a = 2
@@ -492,9 +1031,9 @@ Hello from Python ! (c = 10)
 ## Explanations
 
 * Line 1: path to the Python interpreter
-* Lines 3, 5, 9, 10, 12: text after `#` is a comment
-* Lines 6, 7, 10: typing is dynamic
-* Line 13: `%` allows some form of string formatting
+* Lines 3, 7, 8, 10: text after `#` is a comment
+* Lines 4, 5, 8: typing is dynamic
+* Line 11: `%` allows some form of string formatting
 
 ---
 
@@ -507,6 +1046,47 @@ Hello from Python ! (c = 10)
 
 ---
 
+# Python error messages
+
+
+.hcenter.w60[![](images/errors.webp)]
+.hcenter[[source: medium.com](https://medium.com/@e.ghelbur/feeling-stupid-while-learning-to-code-overcoming-self-doubt-in-programming-de6f1107bdcb)]
+
+```python
+aksjndf
+# Output:
+# Traceback (most recent call last):
+#   File "<stdin>", line 1, in <module>
+# NameError: name 'aksjndf' is not defined
+```
+
+:arrow_right: The indented text is the 'Traceback' (location in the execution stack where the error happened)  
+:arrow_right: The **last** message is the type of error followed by an explanation  
+
+---
+
+# `True`, `False`, `not`, `and`, `or` keywords
+
+* usual Boolean values and operations
+* "`==`" tests value equality
+* `True` is the same object as `1`
+* `False` is the same object as `0`
+
+```python
+3 == 5              # False
+2 == 2              # True
+1 + 1 == 2          # True
+True or False       # True
+True or not True    # True
+True and True       # True
+False and True      # False
+True == 1           # True
+False == 0          # True
+True + True + False # 2
+```
+
+---
+
 # Python indentation
 
 .alert.hcenter[
@@ -516,6 +1096,7 @@ Blocks of code are defined using **indentation**.
 
 .vspace[&nbsp;]
 
+:warning: **Always** start a block with the `:` symbol !
 .numbers[
 
 ## Valid syntaxes
@@ -603,60 +1184,19 @@ while else is if except lambda yield False True None
 
 ---
 
-# Functions and classes
-
-```python
-def func0(arg0, arg1 = 6): # define a function
-  c = arg0 + arg1
-  return c
-
-func0(2) # 8
-func0(2, 3) # 5
-func0("abc", "def") # "abcdef"
-```
-
-```python
-class MyClass: # define a class
-  a = 3
-  def __init__(self, b = None):
-    print("Hello from constructor")
-
-    self.c = "toto"
-    print("a = %r" % (self.a))
-    print("b = %r" % (b))
-    print("c = %r" % (self.c))
-    d = self.myMethod(4, 4)
-
-    print("d = %r" % (d))
-
-  def myMethod(self, a, b = 2): # instance method
-    return self.a + a + b
-
-  @classmethod
-  def myClassMethod(MyClass): # class method
-    return 'this is like a static method'
-     
-myClass = MyClass(6)
-# Output:
-# Hello from constructor
-# a = 3
-# b = 6
-# c = 'toto'
-# d = 11
-
-myClass.x = 'new value'        # add a new property
-print(myClass.x)               # 'new value'
-print(MyClass.myClassMethod()) # 'this is like a static method'
-```
-
----
-
 # Modules
 
 * the `import` keyword allows to access built-in and / or custom modules
 
 ```python
 import math # import the "math" module
+```
+
+* the 'dot' notation allows to reach a **member** of an **object**  
+* possible member types : property, function, method, constant, class, type, ...  
+
+```python
+import math
 
 print(math.sqrt(2)) # 1.41421356237
 ```
@@ -743,51 +1283,11 @@ import sys
 
 print(sys.path)
 # Output:
-*# ['',
-#  '/usr/bin', '/usr/lib64/python27.zip', '/usr/lib64/python2.7',
-#  '/usr/lib64/python2.7/plat-linux2', '/usr/lib64/python2.7/lib-tk',
-#  ...
-*#  '.local/lib/python2.7/site-packages',
-#  ...
-#  '/usr/lib/python2.7/site-packages/IPython/Extensions',
-*#  '/home/dubrayn/.ipython']
-```
-
----
-
-# The docstrings
-
-## What ?
-
-```python
-def mySuperSum(a, b):
-  """This function adds two objects"""
-  return a + b
-
-def mySuperProd(a, b):
-  """This function multiplies two objects.
-
-  Of course, a and b must allow a to be multiplied by b.
-  Try this function with random input objects at your own risk.
-
-  """
-  return a * b
-```
-
-## Why ?
-
-* the python function `help()` will print this documentation
-* some IDE can print this documentation if needed
-* these docstrings can be automatically extracted ( :v: `doxygen` :v: )
-* it is the standard way to document python code
-* the python code can use this docstring
-* some tests and / or examples can be put in the docstrings
-
-## How to use them ?
-
-```python
-help(mySuperSum) # in interactive mode
-print(mySuperSum.__doc__)
+# ['',
+# '/usr/lib/python311.zip',
+# '/usr/lib/python3.11',
+# '/usr/lib/python3.11/lib-dynload',
+# '/usr/lib/python3.11/site-packages']
 ```
 
 ---
@@ -832,167 +1332,21 @@ import example
 
 ---
 
-# Built-in types
+# Containers
 
-## Mutability
+:arrow_right: There are some objects which can **contain** other objects
 
-* a **mutable object** has methods to modify its content
-* an **immutable object** does not have methods to modify its content
+## Main built-in containers
 
-:arrow_right: immutable built-in objects are hashable !
+* `list`: ordered set of objects
+* `set`: unordered set of unique objects (no duplicate values)
+* `dict`: unordered set of **(key, value)** pairs (key values are unique)
+* `string`: ordered list of characters
 
-## Mutable types
-
-* `list`: an ordered list of objects
-* `set`: an unordered list of **unique hashable objects**
-* `dict`: an unordered list of (key, object) couples (key must be hashable, and should be immutable)
-
-## Immutable types
-
-* `tuple`: like `list`, but immutable
-* `frozenset`: like `set`, but immutable
-* `numbers`: regular numbers
-* `string`: :warning: **strings are immutable in Python** :warning:
-
-## Containers
-
-* they are empty or contain references to other objects
- * `list`, `tuple`, `dict`, `set`, `frozenset`, etc...
-
----
-
-class: top
-
-# Containers mutability
-
-## Is a `set` mutable ?
-
-```python
-x = set([1, 2, 3])
-
-x |= set([2, 3, 4]) # is Python copying an immutable object ?
-
-print(x) # set([1, 2, 3, 4])
-```
-
-:arrow_right: **yes**, a `set` is mutable:
-
-```python
-x = set([1, 2, 3])
-
-x.__ior__(set([2, 3, 4])) # "|=" makes Python call .__ior__() method
-
-print(x) # set([1, 2, 3, 4])
-```
-
-## If a `tuple` is immutable, how is this possible ?
-
-```python
-tuple0 = (1, 2) # tuple declaration
-
-list0 = [3, 4] # list declaration
-
-print(type(tuple0)) # <type 'tuple'>
-
-tuple1 = (tuple0, list0) # tuple declaration
-
-print(type(tuple1)) # <type 'tuple'>
-
-print(tuple1) # ((1, 2), [3, 4])
-
-list0[0] = -1 # change list0
-
-print(tuple1) # ((1, 2), [-1, 4])
-```
-
---
-
-:arrow_right: A container stores **references**, not objects.
-
----
-
-# Numeric types
-
-## Standard numeric types: `int`, `float` and `complex`
-
-* `int` have **unlimited precision**
-* `float` usually correspond to a `C` `double` (check `sys.float_info`)
-* `complex` number's real and imaginary parts are `float` numbers (`z.real` and `z.imag`)
-
-:arrow_right: other types can be found in the standard library (`fractions`, `decimal`...)
-
-## Operations
-
-```python
-x + y           # sum of x and y
-x - y           # difference of x and y
-x * y           # product of x and y
-x / y           # quotient of x and y
-x // y          # floored quotient of x and y
-x % y           # remainder of x / y
--x              # x negated
-+x              # x unchanged
-abs(x)          # absolute value or magnitude of x
-int(x)          # x converted to integer
-float(x)        # x converted to floating point
-complex(re, im) # a complex number
-c.conjugate()   # conjugate of the complex number c
-divmod(x, y)    # the pair (x // y, x % y)
-pow(x, y)       # x to the power y
-x ** y          # x to the power y
-
-# for int and float numbers:
-
-math.trunc(x)   # x truncated to Integer
-round(x[, n])   # x rounded to n digits, rounding half to even. If n is omitted, it defaults to 0.
-math.floor(x)   # the greatest Integer <= x
-math.ceil(x)    # the least Integer >= x
-```
-
----
-
-# Specific operations on `int` and `float` numbers
-
-## Bitwise operations for `int`
-
-```python
-x | y  # bitwise or of x and y
-x ^ y  # bitwise exclusive or of x and y
-x & y  # bitwise and of x and y
-x << n # x shifted left by n bits
-x >> n # x shifted right by n bits
-~x     # the bits of x inverted
-```
-
-## Other methods for `int`
-
-```python
-n = -37
-bin(n) # '-0b100101'
-n.bit_length() # 6
-```
-```python
-(1024).to_bytes(2, byteorder='big')                # b'\x04\x00'
-(1024).to_bytes(10, byteorder='big')               # b'\x00\x00\x00\x00\x00\x00\x00\x00\x04\x00'
-(-1024).to_bytes(10, byteorder='big', signed=True) # b'\xff\xff\xff\xff\xff\xff\xff\xff\xfc\x00'
-```
-```python
-int.from_bytes(b'\x00\x10', byteorder='big')               # 16
-int.from_bytes(b'\x00\x10', byteorder='little')            # 4096
-int.from_bytes(b'\xfc\x00', byteorder='big', signed=True)  # -1024
-int.from_bytes(b'\xfc\x00', byteorder='big', signed=False) # 64512
-int.from_bytes([255, 0, 0], byteorder='big')               # 16711680
-```
-
-## Other methods for `float`
-
-```python
-# hex format: [sign] ['0x'] integer ['.' fraction] ['p' exponent]
-
-float.fromhex('0x3.a7p10') # 3740.0
-
-float.hex(3740.0)          # '0x1.d380000000000p+11'
-```
+## Specifics
+* access to contained objects with `[]` operato
+* they can contain **nothing** or **references** to other objects
+* some containers can have **mutable** or **immutable** variants
 
 ---
 
@@ -1084,6 +1438,324 @@ l.index(3)      # 3
 
 ---
 
+# Using `dict` objects
+
+* A `dict` stores unordered (`key`, `value`) pairs
+* Keys are unique and not ordered
+
+```python
+# create an empty dict
+d = {}
+d = dict()
+
+# initialize a dict
+other_dict = {'first': 8, 'other': ['a', 'pair'], 'toto': {'pipo': 42}}
+other_dict = dict(first = 8, other = ['a', 'pair'], toto = dict(pipo =  42))
+
+d['key0'] = 'text0'
+d['key1'] = 'text1'
+d['key2'] = 'text2'
+print(d)                 # {'key2': 'text2', 'key0': 'text0', 'key1': 'text1'}
+
+d['key0'] = 'other_text' # replace value for key 'key0'
+del d['key1']            # remove key and value for key 'key1'
+print(d)                 # {'key2': 'text2', 'key0': 'other_text'}
+
+'key1' in d              # False
+'key2' in d              # True
+
+d.keys()                 # ['key2', 'key0']
+d.values()               # ['text2', 'other_text']
+
+for k in d:              # iterate over a dict
+  print(k)
+# Output:
+# key2
+# key0
+```
+
+---
+
+# Using `set` objects
+
+* A `set` stores unordered and unique objects
+
+```python
+# create an empty set
+s = set()
+# initialize a 
+s1 = set(['Beta', 'Gamma', 'Alpha', 'Delta', 'Gamma', 'Beta'])
+s2 = set(['Beta', 'Alpha', 'Epsilon', 'Omega', 'Psi'])
+s1                          # set(['Alpha', 'Beta', 'Gamma', 'Delta'])
+s2                          # set(['Alpha', 'Beta', 'Omega', 'Psi', 'Epsilon'])
+# test if a value is in a set
+'Psi' in s2                 # True
+# remove a value
+s2.remove('Psi')
+'Psi' in s2                 # False
+s2                          # set(['Alpha', 'Beta', 'Omega', 'Epsilon'])
+# convert to a list
+list(s2)                    # ['Alpha', 'Beta', 'Omega', 'Epsilon']
+```
+
+## Usual `set` operations
+```python
+s1 = set(['Alpha', 'Beta', 'Gamma', 'Delta'])
+s2 = set(['Alpha', 'Beta', 'Omega', 'Epsilon'])
+
+s1.union(s2)                #  set(['Epsilon', 'Beta', 'Delta', 'Alpha', 'Omega', 'Gamma'])
+s1 | s2                     #  set(['Epsilon', 'Beta', 'Delta', 'Alpha', 'Omega', 'Gamma'])
+
+s1.intersection(s2)         # set(['Alpha', 'Beta'])
+s1 & s2                     # set(['Alpha', 'Beta'])
+
+s1.difference(s2)           # set(['Gamma', 'Delta'])
+s1 - s2                     # set(['Gamma', 'Delta'])
+
+s1.symmetric_difference(s2) # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
+s1 ^ s2                     # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
+```
+
+---
+
+# Copying objects
+
+:arrow_right: In `Python`, the `=` operator creates a copy of an object
+```python
+# create a listA object
+listA = [1, 2]
+
+# create a copy of listA
+listB = listA
+
+# modify listA
+listA.append(3)
+
+# check listA
+print(listA) # [1, 2, 3]
+
+# check listB
+print(listB) # [1, 2, 3] !?!?!?
+```
+
+:warning: A copy of an object **may not create a new object** !  
+
+&nbsp;
+
+:arrow_right: Use `is` to check for **aliasing** or `==` to check for **equality**
+```python
+listA = [1, 2]
+listB = listA
+listA.append(3)
+listA is listB   # True
+listA == listB   # True
+
+listB = [1, 2, 3]
+listA is listB   # False
+listA == listB   # True
+
+listB = listA[:] # could also be 'listB = list(listA)' or 'listB = listA.copy()'
+listA is listB   # False
+listA == listB   # True
+```
+
+---
+
+# Mutability of containers
+
+## Mutability
+
+* **mutable object**: content **can be changed** after its creation
+* **immutable object**: content **is constant**
+
+:arrow_right: immutable built-in objects are hashable (can be used as a key) !
+
+## Mutable types
+
+* `list`: an ordered list of objects
+* `set`: an unordered list of **unique hashable objects**
+* `dict`: an unordered list of (key, object) couples (key must be hashable, and should be immutable)
+
+## Immutable types
+
+* `tuple`: like `list`, but immutable
+* `frozenset`: like `set`, but immutable
+* `numbers`: regular numbers
+* `string`: :warning: **strings are immutable in Python** :warning:
+
+---
+
+# Immutable containers - examples
+
+## How can I modify a `string` if it is immutable ?
+
+```python
+a = 'Some text'
+print(a[5])               # 't'
+*a[5] = 'T'                # ILLEGAL
+a.replace('text', 'Text') # 'Some Text'
+a[:5] + 'T' + a[6:]       # 'Some Text'
+print(a)                  # 'Some text'
+
+a = "strings in python are immutable"
+b = a
+a.replace("immutable", "mutable")     # "strings in python are mutable"
+print(a)                              # "strings in python are immutable"
+a is b                                # True
+
+a = a.replace("immutable", "mutable")
+print(a)                              # "strings in python are mutable"
+a is b                                # False
+```
+
+
+## If a `tuple` is immutable, how is this even possible ?
+
+```python
+tuple0 = (1, 2)          # tuple declaration
+list0  = [3, 4]          # list declaration
+tuple1 = (tuple0, list0) # tuple declaration
+
+print(tuple1)            # ((1, 2), [3, 4])
+
+# let's change the content of list0
+list0[0] = -1
+
+print(tuple1)            # ((1, 2), [-1, 4])
+```
+
+---
+
+# Using `string` objects
+
+## Spliting / joining
+
+```python
+s = 'A simple string'
+
+s.split()                 # ['A', 'simple', 'string']
+' '.join(s.split())       # 'A simple string'
+'   some text  '.strip()  # 'some text'
+'some' + ' ' + 'text'     # 'some text'
+'pipo' * 3                # 'pipopipopipo'
+```
+
+## String formatting
+
+```python
+n = 3
+l = range(3)
+'n: %03d l: %r' % (n, l) # 'n: 003 l: [0, 1, 2]'
+```
+
+## Other string methods
+
+```python
+"a simple sentence".capitalize()     # 'A simple sentence'
+"a simple sentence".find("sentence") # 9
+"a simple sentence".rfind("en")      # 13
+"a simple sentence".find("Sentence") # -1
+"a simple sentence".isalnum()        # True
+"a simple sentence".isalpha()        # True
+"1 simple sentence".isalpha()        # False
+"a simple sentence!".isalnum()       # False
+"12.3456".isnumeric()                # False
+"Noël".isascii()                     # False
+"YES!123!@*(#&$".isupper()           # True
+"Sentence" in "a simple sentence"    # False
+"a simple sentence!".count('en')     # 2
+"simple".center(20)                  # '       simple       '
+```
+
+---
+
+# Numeric types
+
+## Standard numeric types: `int`, `float` and `complex`
+
+* `int` have **unlimited precision**
+* `float` usually correspond to a `C` `double` (check `sys.float_info`)
+* `complex` number's real and imaginary parts are `float` numbers (`z.real` and `z.imag`)
+
+:arrow_right: other types can be found in the standard library (`fractions`, `decimal`...)
+
+## Operations
+
+```python
+x + y           # sum of x and y
+x - y           # difference of x and y
+x * y           # product of x and y
+x / y           # quotient of x and y
+x // y          # floored quotient of x and y
+x % y           # remainder of x / y
+-x              # x negated
++x              # x unchanged
+abs(x)          # absolute value or magnitude of x
+int(x)          # x converted to integer
+float(x)        # x converted to floating point
+complex(re, im) # a complex number
+c.conjugate()   # conjugate of the complex number c
+divmod(x, y)    # the pair (x // y, x % y)
+pow(x, y)       # x to the power y
+x ** y          # x to the power y
+
+# for int and float numbers:
+
+import math
+
+math.trunc(x)   # x truncated to Integer
+round(x[, n])   # x rounded to n digits, rounding half to even. If n is omitted, it defaults to 0.
+math.floor(x)   # the greatest Integer <= x
+math.ceil(x)    # the least Integer >= x
+```
+
+---
+
+# Specific operations on `int` and `float` numbers
+
+## Bitwise operations for `int`
+
+```python
+x | y  # bitwise or of x and y
+x ^ y  # bitwise exclusive or of x and y
+x & y  # bitwise and of x and y
+x << n # x shifted left by n bits
+x >> n # x shifted right by n bits
+~x     # the bits of x inverted
+```
+
+## Other methods for `int`
+
+```python
+n = -37
+bin(n) # '-0b100101'
+n.bit_length() # 6
+```
+```python
+(1024).to_bytes(2, byteorder='big')                # b'\x04\x00'
+(1024).to_bytes(10, byteorder='big')               # b'\x00\x00\x00\x00\x00\x00\x00\x00\x04\x00'
+(-1024).to_bytes(10, byteorder='big', signed=True) # b'\xff\xff\xff\xff\xff\xff\xff\xff\xfc\x00'
+```
+```python
+int.from_bytes(b'\x00\x10', byteorder='big')               # 16
+int.from_bytes(b'\x00\x10', byteorder='little')            # 4096
+int.from_bytes(b'\xfc\x00', byteorder='big', signed=True)  # -1024
+int.from_bytes(b'\xfc\x00', byteorder='big', signed=False) # 64512
+int.from_bytes([255, 0, 0], byteorder='big')               # 16711680
+```
+
+## Other methods for `float`
+
+```python
+# hex format: [sign] ['0x'] integer ['.' fraction] ['p' exponent]
+
+float.fromhex('0x3.a7p10') # 3740.0
+
+float.hex(3740.0)          # '0x1.d380000000000p+11'
+```
+
+---
+
 # Loops and iterators
 
 ## Iterate over values
@@ -1123,6 +1795,240 @@ for i, v in enumerate(l):
 # index: 2 val: 'c'
 # index: 3 val: 'd'
 # index: 4 val: 'e'
+```
+
+---
+
+# List comprehensions
+
+:arrow_right: allows to create lists in a **very concise way**
+
+## Generic syntax
+
+```python
+[ expr for var in expr [for var in expr]* [if expr]* ]
+```
+
+## Examples
+
+```python
+# list of the first 6 even numbers
+[i * 2 for i in range(6)] # [0, 2, 4, 6, 8, 10]
+
+# combine elements of two lists if they differ
+[(x, y) for x in [1,2,3] for y in [3,1,4] if x != y] # [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+
+# is equivalent to
+final = []
+for x in [1,2,3]:
+  for y in [3,1,4]:
+    if x != y:
+      final.append((x, y))
+final                                                # [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+```
+
+---
+
+# Functions
+
+:arrow_right: Define a part of code which can be used for different objects / values  
+
+## Function declaration
+
+* declare with `def` keyword
+* the body of the function is a code block (do not forget `:` and indentation)
+* the **arguments** are defined inside the parentheses on the `def` line
+* the name of the function follows the `def` keyword
+* the function can return an object with `return`
+* the body of the function **is not executed** before being called
+* to execute a function, it must be **called** with the **right number of parameter values**
+* default values can be given to arguments
+
+```python
+def func0(arg0, arg1 = 6): # define a function
+  c = arg0 + arg1
+  return c
+
+func0(2)            # 8
+func0(2, 3) + 1     # 6
+func0("abc", "def") # "abcdef"
+```
+
+---
+
+# Classes
+
+:arrow_right: Allow to group data and functions acting on these data **in an object type**
+
+## Class declaration
+
+* declare with `class` keyword
+* declare methods as functions **inside the class**
+* the first received argument of non-static methods will be a reference to the calling instance
+* the special method `__init__()` is called when creating an instance (possibly with arguments)
+
+```python
+class MyClass: # define a class
+  a = 3
+  def __init__(self, b = None):
+    print("Hello from constructor")
+
+    self.c = "toto"
+    print("a = %r" % (self.a))
+    print("b = %r" % (b))
+    print("c = %r" % (self.c))
+    d = self.myMethod(4, 4)
+    print("d = %r" % (d))
+
+  def myMethod(self, a, b = 2): # instance method
+    return self.a + a + b
+
+myClass = MyClass(6)
+# Output:
+# Hello from constructor
+# a = 3
+# b = 6
+# c = 'toto'
+# d = 11
+
+print(myClass.myMethod(3))     # 8
+myClass.x = 'new value'        # add a new property
+print(myClass.x)               # 'new value'
+```
+
+---
+
+# Docstrings
+
+## What ?
+
+```python
+def mySuperSum(a, b):
+  """This function adds two objects"""
+  return a + b
+
+def mySuperProd(a, b):
+  """This function multiplies two objects.
+
+  Of course, a and b must allow a to be multiplied by b.
+  Try this function with random input objects at your own risk.
+
+  """
+  return a * b
+```
+
+## Why ?
+
+* the python function `help()` will print this documentation
+* some IDE can print this documentation if needed
+* these docstrings can be automatically extracted ( :v: `doxygen` :v: )
+* it is **the standard way** to document python code
+* the python code can use this docstring
+* some tests and / or examples can be put in the docstrings
+
+## How to use them ?
+
+```python
+help(mySuperSum) # in interactive mode
+print(mySuperSum.__doc__)
+```
+
+---
+
+# File IO
+
+:arrow_right: Allows to **write data to disk** or **read data from disk**
+
+## Howto
+
+* open a file with `open()` function
+* first argument: filename
+* second argument (default `"r"`): access type, combination of
+  * `"r"`: read, `"w"`: write, `"a"`: append
+  * `"b"`: binary access, `"+"`: create file if needed
+
+
+## .hcenter[`[data.txt]`]
+```text
+1.0 2.1 3.0 4.9 5.9
+9.0 8.2 5.7 6.2 7.1
+2.2 3.6 4.4
+```
+
+## Read
+```python
+f = open('data.txt')
+lines = f.readlines()
+words = [l.split() for l in lines]
+print(words)
+# Output:
+# [['1.0', '2.1', '3.0', '4.9', '5.9'], ['9.0', '8.2', '5.7', '6.2', '7.1'], ['2.2', '3.6', '4.4'], []]
+
+# one-liner
+[l.split() for l in open('data.txt').readlines()]
+# Output:
+# [['1.0', '2.1', '3.0', '4.9', '5.9'], ['9.0', '8.2', '5.7', '6.2', '7.1'], ['2.2', '3.6', '4.4'], []]
+```
+
+---
+
+# Module `pickle`
+
+:arrow_right: allows to serialize / deserialize data
+
+## Write
+```python
+import pickle
+
+data1 = {'a': [1, 2.0, 3, 4+6j],
+         'b': ('string', u'Unicode string'),
+         'c': None}
+output = open('data.pkl', 'wb')
+pickle.dump(data1, output)
+output.close()
+```
+
+## Read
+```python
+import pprint, pickle
+
+pkl_file = open('data.pkl', 'rb')
+data1 = pickle.load(pkl_file)
+pprint.pprint(data1)
+# Output:
+# {'a': [1, 2.0, 3, (4+6j)], 'b': ('string', u'Unicode string'), 'c': None}
+pkl_file.close()
+```
+.hcenter[:warning: `pickle` file formats differ between Python2 and Python3 versions:warning:]
+
+---
+
+# `None` keyword
+
+* special constant representing the absence of a value
+* the type of `None` is `NoneType`
+* :warning: `None` does not imply `False`, `0`, or an empty container
+
+```python
+None == 0 # False
+
+None == [] # False
+
+None == False # False
+
+a = None
+b = None
+a == b # True
+```
+
+:arrow_right: A void function without a `return` statement returns a `None` object.
+
+```python
+def void_function():
+  pass # do nothing
+
+a = void_function()
+a == None # True
 ```
 
 ---
@@ -1170,262 +2076,6 @@ reduce(add, range(1, 11)) # 55
 
 ---
 
-# List comprehensions
-
-:arrow_right: allows to create lists in a **very concise way**
-
-## Generic syntax
-
-```python
-[ expr for var in expr [for var in expr]* [if expr]* ]
-```
-
-## Examples
-
-```python
-# list of the first 6 even numbers
-[i * 2 for i in range(6)] # [0, 2, 4, 6, 8, 10]
-
-# combine elements of two lists if they differ
-[(x, y) for x in [1,2,3] for y in [3,1,4] if x != y] # [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
-
-# is equivalent to
-final = []
-for x in [1,2,3]:
-  for y in [3,1,4]:
-    if x != y:
-      final.append((x, y))
-final                                                # [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
-```
-
----
-
-# Using `string` objects
-
-## Spliting / joining
-
-```python
-s = 'A simple string'
-
-s.split()                 # ['A', 'simple', 'string']
-' '.join(s.split())       # 'A simple string'
-'   some text  '.strip()  # 'some text'
-'some' + ' ' + 'text'     # 'some text'
-'pipo' * 3                # 'pipopipopipo'
-```
-
-## String formatting
-
-```python
-n = 3
-l = range(3)
-'n: %03d l: %r' % (n, l) # 'n: 003 l: [0, 1, 2]'
-```
-
-:warning: **strings are immutable in Python** :warning:
-
-```python
-a = 'Some text'
-print(a[5])               # 't'
-*a[5] = 'T'                # ILLEGAL
-a.replace('text', 'Text') # 'Some Text'
-a[:5] + 'T' + a[6:]       # 'Some Text'
-```
-
-
----
-
-# Using `dict` objects
-
-* A `dict` stores unordered (`key`, `value`) pairs
-* Keys are unique and not ordered
-
-```python
-# create an empty dict
-d = {}
-d = dict()
-
-# initialize a dict
-other_dict = {'first': 8, 'other': ['a', 'pair'], 'toto': {'pipo': 42}}
-other_dict = dict(first = 8, other = ['a', 'pair'], toto = dict(pipo =  42))
-
-d['key0'] = 'text0'
-d['key1'] = 'text1'
-d['key2'] = 'text2'
-print(d)                 # {'key2': 'text2', 'key0': 'text0', 'key1': 'text1'}
-
-d['key0'] = 'other_text' # replace value for key 'key0'
-del d['key1']            # remove key and value for key 'key1'
-print(d)                 # {'key2': 'text2', 'key0': 'other_text'}
-
-'key1' in d              # False
-'key2' in d              # True
-
-d.keys()                 # ['key2', 'key0']
-d.values()               # ['text2', 'other_text']
-
-for k in d:              # iterate over a dict
-  print(k)
-# Output:
-# key2
-# key0
-```
-
----
-
-# Using `set` objects
-
-* A `set` stores unordered and unique objects
-
-```python
-# create an empty set
-s = set()
-
-# initialize a set
-s1 = set(['Beta', 'Gamma', 'Alpha', 'Delta', 'Gamma', 'Beta'])
-s2 = set(['Beta', 'Alpha', 'Epsilon', 'Omega', 'Psi'])
-
-s1                          # set(['Alpha', 'Beta', 'Gamma', 'Delta'])
-s2                          # set(['Alpha', 'Beta', 'Omega', 'Psi', 'Epsilon'])
-
-# test if a value is in a set
-'Psi' in s2                 # True
-
-# remove a value
-s2.remove('Psi')
-
-'Psi' in s2                 # False
-s2                          # set(['Alpha', 'Beta', 'Omega', 'Epsilon'])
-```
-
-## Usual `set` operations
-```python
-s1 = set(['Alpha', 'Beta', 'Gamma', 'Delta'])
-s2 = set(['Alpha', 'Beta', 'Omega', 'Epsilon'])
-
-s1.union(s2)                #  set(['Epsilon', 'Beta', 'Delta', 'Alpha', 'Omega', 'Gamma'])
-s1 | s2                     #  set(['Epsilon', 'Beta', 'Delta', 'Alpha', 'Omega', 'Gamma'])
-
-s1.intersection(s2)         # set(['Alpha', 'Beta'])
-s1 & s2                     # set(['Alpha', 'Beta'])
-
-s1.difference(s2)           # set(['Gamma', 'Delta'])
-s1 - s2                     # set(['Gamma', 'Delta'])
-
-s1.symmetric_difference(s2) # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
-s1 ^ s2                     # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
-```
----
-
-# File IO
-
-## .hcenter[`[data.txt]`]
-```text
-1.0 2.1 3.0 4.9 5.9
-9.0 8.2 5.7 6.2 7.1
-2.2 3.6 4.4
-```
-
-## Read
-```python
-f = open('data.txt')
-lines = f.readlines()
-words = [l.split() for l in lines]
-print(words)
-# Output:
-# [['1.0', '2.1', '3.0', '4.9', '5.9'], ['9.0', '8.2', '5.7', '6.2', '7.1'], ['2.2', '3.6', '4.4'], []]                                                 
-
-# one-liner
-[l.split() for l in open('data.txt').readlines()]
-# Output:
-# [['1.0', '2.1', '3.0', '4.9', '5.9'], ['9.0', '8.2', '5.7', '6.2', '7.1'], ['2.2', '3.6', '4.4'], []]                                                 
-```
-
----
-
-# Module `pickle`
-
-:arrow_right: allows to serialize / deserialize data
-
-## Write
-```python
-import pickle
-
-data1 = {'a': [1, 2.0, 3, 4+6j],
-         'b': ('string', u'Unicode string'),
-         'c': None}
-output = open('data.pkl', 'wb')
-pickle.dump(data1, output)
-output.close()
-```
-
-## Read
-```python
-import pprint, pickle
-
-pkl_file = open('data.pkl', 'rb')
-data1 = pickle.load(pkl_file)
-pprint.pprint(data1)
-# Output:
-# {'a': [1, 2.0, 3, (4+6j)], 'b': ('string', u'Unicode string'), 'c': None}
-pkl_file.close()
-```
-.hcenter[:warning: `pickle` file formats differ between Python2 and Python3 versions:warning:]
-
----
-
-# `True`, `False`, `not`, `and`, `or` keywords
-
-* usual Boolean values and operations
-* "`==`" tests value equality
-* `True` is the same object as `1`
-* `False` is the same object as `0`
-
-```python
-3 == 5              # False
-2 == 2              # True
-1 + 1 == 2          # True
-True or False       # True
-True or not True    # True
-True and True       # True
-False and True      # False
-True == 1           # True
-False == 0          # True
-True + True + False # 2
-```
-
----
-
-# `None` keyword
-
-* special constant representing the absence of a value
-* the type of `None` is `NoneType`
-* :warning: `None` does not imply `False`, `0`, or an empty container
-
-```python
-None == 0 # False
-
-None == [] # False
-
-None == False # False
-
-a = None
-b = None
-a == b # True
-```
-
-:arrow_right: A void function without a `return` statement returns a `None` object.
-
-```python
-def void_function():
-  pass # do nothing
-
-a = void_function()
-a == None # True
-```
-
----
-
 # Bonus: `virtualenv` and `pip`
 
 .hcenter[
@@ -1451,7 +2101,7 @@ a == None # True
     var slideshow = remark.create({
       highlightStyle: 'monokai',
       countIncrementalSlides: false,
-      highlightLines: false
+      highlightLines: true
     });
 
     // === Mermaid.js initialization ===
