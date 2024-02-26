@@ -1318,7 +1318,7 @@ math.ceil(x)    # the least Integer >= x
 ## Example program
 
 1. Ask the user to enter his/her age
-2. Test if the input is alphanumeric
+2. Test if the input is numeric
 3. Convert the input to an integer value
 4. Print a greeting message including the age value
 
@@ -1329,7 +1329,7 @@ userText = input("Enter your age: ")
 if not userText.isnumeric():
   print("bad value entered")
 else:
-  age = int(age)
+  age = int(userText)
   print(f"Your age is {age}.")
 ```
 
