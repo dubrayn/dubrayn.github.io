@@ -86,14 +86,14 @@ To view these slides **locally** with `firefox`:
 
 # Organization / Schedule
 
-## Day 1 - Linux, Jupyter, Markdown, Latex, Python basics
+## Day 1 - Linux, Jupyter, Python basics
 
 * 9:00 to 12:30 - Lecture :book:
 * 13:30 to 17:00 - [Exercises :computer:](exercises.ipynb) (right button, "save link as")
 
 .vspace[&nbsp;]
 
-## Day 2 - Numpy, Matplotlib
+## Day 2 - More Python, Markdown, Latex, Numpy, Matplotlib
 
 * 9:00 to 12:30 - Lecture :book:
 * 13:30 to 17:00 - Exercises :computer:
@@ -257,7 +257,7 @@ $ rmdir tutu      # remove an empty directory
 ```shell
 $ cd /tmp/toto
 $ touch example_file # create an empty file OR change the file modification time
-$ ls                 # list the content of the current directory
+$ ls                 # list the contents of the current directory
 example_file
 $ cat example_file   # dump a file's content
 $ ls > example_file  # put the result of command ls into file example_file
@@ -398,6 +398,1391 @@ $ jupyter notebook
 ## .hcenter[Demo time !]
 .shadow[![](images/concert.webp)]
 ]
+
+---
+
+# Python
+
+.hcenter.w40[
+![](images/python_logo.png)
+]
+
+.noflex[
+.rightf.animated.middle.fadeInRight.wait1s.shadow.w20[![](images/guido_van_rossum.png)]
+
+## Key points
+
+* created by **Guido van Rossum** in 1989, first released in 1991
+* name comes from the series **Monty Python's Flying Circus**
+* **high-level**, **interpreted** programming language
+* widely used by projects **of every size**
+* emphasis on **code readability** and **powerful and concise syntax**
+* supports **multiple programming paradigms** (object-oriented, imperative...)
+* very large **standard library**
+* reference implementation and interpreter: **`CPython`**
+]
+
+.block[
+* `CPython` repository: [https://github.com/python/cpython](https://github.com/python/cpython)
+* `Python` website: [https://www.python.org](https://www.python.org)
+* `CPython` license: `PSFL` (Python Software Foundation License, compatible with the GPL)
+]
+
+---
+
+# Python core philosophy
+
+.noflex[
+.rightf.animated.fadeInRight.wait1s.shadow.w25[![](images/tim_peters.png)]
+
+## The Zen of Python, by Tim Peters (PEP 20)
+
+1. Beautiful is better than ugly.
+1. Explicit is better than implicit.
+1. Simple is better than complex.
+1. Complex is better than complicated.
+1. Flat is better than nested.
+1. Sparse is better than dense.
+1. Readability counts.
+1. Special cases aren't special enough to break the rules.
+1. Although practicality beats purity.
+1. Errors should never pass silently.
+1. Unless explicitly silenced.
+1. In the face of ambiguity, refuse the temptation to guess.
+1. There should be one *and preferably only one* obvious way to do it.
+1. Although that way may not be obvious at first unless you're Dutch.
+1. Now is better than never.
+1. Although never is often better than *right* now.
+1. If the implementation is hard to explain, it's a bad idea.
+1. If the implementation is easy to explain, it may be a good idea.
+1. Namespaces are one honking great idea -- let's do more of those!
+]
+
+:arrow_right: Some examples of good Python style can be found [here](https://raw.githubusercontent.com/hblanks/zen-of-python-by-example/master/pep20_by_example.pdf).
+
+---
+
+# Python `helloworld`
+
+## .hcenter[`[helloworld.py]`]
+```python
+#!/usr/bin/env python3
+
+# declare variables
+a = 2
+b = 8
+
+# add two numbers
+c = a + b # is it really that simple ?
+
+# print some message
+print("Hello from Python ! (c = %d)" % (c))
+```
+
+## .hcenter[Shell session]
+```shell
+$ chmod +x helloworld.py
+$ ./helloworld.py
+Hello from Python ! (c = 10)
+```
+
+.vspace[&nbsp;]
+
+## Explanations
+
+* Line 1: path to the Python interpreter
+* Lines 3, 7, 8, 10: text after `#` is a comment
+* Lines 4, 5, 8: typing is dynamic
+* Line 11: `%` allows some form of string formatting
+
+---
+
+# Python `helloworld` in a `Jupyter` notebook
+
+.animated.fadeIn.wait1s.hcenter.w60[
+## .hcenter[Demo time !]
+.shadow[![](images/concert.webp)]
+]
+
+---
+
+# Python error messages
+
+
+.hcenter.w60[![](images/errors.webp)]
+.hcenter[[source: medium.com](https://medium.com/@e.ghelbur/feeling-stupid-while-learning-to-code-overcoming-self-doubt-in-programming-de6f1107bdcb)]
+
+```python
+aksjndf
+# Output:
+# Traceback (most recent call last):
+#   File "<stdin>", line 1, in <module>
+# NameError: name 'aksjndf' is not defined
+```
+
+:arrow_right: The indented text is the 'Traceback' (location in the execution stack where the error happened)  
+:arrow_right: The **last** message is the type of error followed by an explanation  
+
+---
+
+# `True`, `False`, `not`, `and`, `or` keywords
+
+* usual Boolean values and operations
+* "`==`" tests value equality
+* `True` is the same object as `1`
+* `False` is the same object as `0`
+
+```python
+3 == 5              # False
+2 == 2              # True
+1 + 1 == 2          # True
+
+not True            # False
+not not True        # True
+True or False       # True
+True or not True    # True
+True and True       # True
+False and True      # False
+True == 1           # True
+False == 0          # True
+True + True + False # 2
+
+```
+
+---
+
+# Branching
+
+:arrow_right: The `if` instruction allows to execute different blocks of code depending on the value of a condition.
+
+## .hcenter[`[example.py]`]
+```python
+a = 5
+b = 3
+
+if a == b:
+  print("equality !")
+  print("a and b evaluate to the same value")
+else:
+  print("inequality !")
+  print("a and b evaluate to different values")
+```
+
+## Example run
+
+```bash
+$ python3 example.py
+inequality !
+a and b evaluate to different values
+```
+
+---
+
+# Python indentation
+
+.alert.hcenter[
+There is **no symbol** to delimitate blocks of code in `Python`.  
+Blocks of code are defined using **indentation**.
+]
+
+.vspace[&nbsp;]
+
+:warning: **Always** start a block with the `:` symbol !
+.numbers[
+
+## Valid syntaxes
+
+.row[
+.column.w30[
+```python
+if True:
+  print("Always")
+
+```]
+.column.w30[
+```python
+if True:
+  print("Always")
+else:
+  print("Never")
+```]
+.column.w30[
+```python
+if True:
+  print("Almost")
+  print("Always")
+else:
+    print("Almost")
+    print("Never")
+```]
+]
+
+.vspace[&nbsp;]
+
+## Invalid syntaxes
+
+.row[
+.column.w30[
+```python
+if True
+  print("Always")
+```]
+.column.w30[
+```python
+if True:
+  print("Almost")
+    print("Always")
+```]
+.column.w30[
+```python
+if True:
+    print("Almost")
+    print("Always")
+  else:
+
+    print("Almost")
+    print("Never")
+```]
+]
+]
+
+---
+
+# Python identifiers
+
+## Identifiers
+
+* Identifiers name variables, functions, classes, modules, objects...
+* They start with `[A-Za-z_]`, followed by zero or more `[A-Za-z0-9_]`.
+* `Python` is **case-sensitive**.
+
+## Reserved words
+
+.block.hcenter[
+<pre>
+and exec not assert finally or break for pass class def print
+continue from global raise with return del import try elif in
+while else is if except lambda yield False True None
+</pre>
+]
+
+## Naming conventions
+
+* Class names start with an **uppercase letter**. All other identifiers start with a **lowercase letter**.
+* Starting an identifier with a **single leading underscore** indicates that the identifier is **private**.
+* Starting an identifier with **two leading underscores** indicates a **strongly private** identifier.
+* If the identifier also ends with **two trailing underscores**, the identifier is a **language-defined special name**.
+
+---
+
+# The `print()` function
+
+## `print(var0, var1, ...)`
+
+:arrow_right: This function call prints
+1. the **string representation** of `var0`,
+2. a space character,
+3. the **string representation** of `var1`,
+4. etc...
+
+:arrow_right: The **string representation** of a variable can be obtained by calling `str(variable)`  
+
+## Example - printing the content of variables
+
+```python
+a = 55
+b = 3.1415926535
+c = "some text"
+d = "55"
+e = "3.1415926535"
+
+print("hello")                 # hello
+print("hello", "Noel")         # hello Noel
+print("value of a:", a)        # value of a: 55
+print("value of b:", b)        # value of b: 3.1415926535
+print("value of c:", c)        # value of c: some text
+print("value of d:", d)        # value of d: 55
+print("value of d: " + str(d)) # value of d: 55
+print("value of e:", e)        # value of e: 3.1415926535
+```
+
+---
+
+# Constructing strings including some variables content
+
+:arrow_right: there are several ways to construct a string including some content from some variables.
+
+## 1. The explicit string concatenation
+
+```python
+name = "Noël"
+age  = 32
+note = 18.5
+
+mesg = "Bonjour " + name + " ! Vous avez " + str(age) + " ans et votre note est " + str(note) + "/20."
+print(mesg) # Bonjour Noël ! Vous avez 32 ans et votre note est 18.5/20.
+```
+
+## 2. The `%` operator
+
+```python
+name = "Noël"
+age  = 32
+note = 18.5
+
+mesg = "Bonjour %s ! Vous avez %d ans et votre note est %f/20." % (name, age, note)
+print(mesg) # Bonjour Noël ! Vous avez 32 ans et votre note est 18.500000/20.
+
+mesg = "Bonjour %s ! Vous avez %d ans et votre note est %.1f/20." % (name, age, note)
+print(mesg) # Bonjour Noël ! Vous avez 32 ans et votre note est 18.5/20.
+```
+
+## 3. The `F-String` :tada:
+
+```python
+name = "Noël"
+age  = 32
+note = 18.5
+
+mesg = f"Bonjour {name} ! Vous avez {age} ans et votre note est {note}/20."
+print(mesg) # Bonjour Noël ! Vous avez 32 ans et votre note est 18.5/20.
+```
+
+---
+
+# Example - simple user interaction
+
+## The `input(msg)` function
+
+1. The content of `msg` is printed
+2. The user enters some text
+3. The entered text is returned by the function
+
+## Example program
+
+1. Ask the user to enter his/her name
+2. Print a greeting message including the entered name
+
+## .hcenter[`[example.py]`]
+```python
+name = input("Enter your name: ")
+
+print(f"Your name is {name}.")
+```
+
+## Example runs
+
+```bash
+$ python3 example.py
+Enter your name: Noel
+Your name is Noel.
+$ python3 example.py
+Enter your name: whatever @@ 32 laksfdj!@$
+Your name is whatever @@ 32 laksfdj!@$.
+```
+
+---
+
+# Containers
+
+:arrow_right: There are some objects called **containers** which can **contain** other objects
+
+## Main built-in containers
+
+* `list`: ordered set of objects
+* `dict`: unordered set of **(key, value)** pairs (key values are unique)
+* `set`: unordered set of unique objects (no duplicate values)
+* `string`: ordered list of characters
+
+## Specifics
+* access to contained objects with `[]` operator
+* they can contain **nothing** or **references** to other objects
+* some containers can have **mutable** or **immutable** variants
+
+---
+
+# Using `list` objects
+
+```python
+l1 = []             # create an empty list
+
+l1.append(7)        # append value
+l2 = ['final', 'final2']
+l1.extend(l2)       # append another list
+l1.insert(1, 8)     # insert value
+print(l1)           # [7, 8, 'final', 'final2']
+v = l1.pop()        # get and remove last value
+print(v)            # 'final2'
+print(l1)           # [7, 8, 'final']
+del l1[-1]          # remove last value
+print(len(l1))      # 2
+
+l2 = [1, 2, "pipo"] # create another list
+l3 = l2             # l3 is another name for l2 list
+print(l2)           # [1, 2, 'pipo']
+print(l3)           # [1, 2, 'pipo']
+
+l3.append('new')    # append value to l3
+
+print(l2)           # [1, 2, 'pipo', 'new']
+print(l3)           # [1, 2, 'pipo', 'new']
+
+l4 = list(l2)       # copy a list
+
+l4.append(3.142)    # append value to l4
+
+print(l2)           # [1, 2, 'pipo', 'new']
+print(l4)           # [1, 2, 'pipo', 'new', 3.1419999999999999]
+
+l5 = list('abcdef') # create list from string
+print(l5)           # ['a', 'b', 'c', 'd', 'e', 'f']
+
+l6 = [l1, l2, 3]    # create a list containing lists
+print(l6)           # [[7, 8], [1, 2, 'pipo', 'new'], 3]
+
+l7 = [2, 6, 1, 8]   # sort by increasing values or sum all elements
+print(sorted(l7))   # [1, 2, 6, 8]
+print(sum(l7))      # 17
+```
+
+---
+
+# Using `list` elements and ranges
+
+## Element access
+```python
+l = range(5)
+l               # [0, 1, 2, 3, 4]
+l[2]            # 2
+l[-1]           # 4
+l[2] = 8
+l               # [0, 1, 8, 3, 4]
+del l[3]
+l               # [0, 1, 8, 4]
+```
+
+## Ranges
+```python
+l = [0, 1, 2, 3, 4]
+l[0:3]          # [0, 1, 2]
+l[::2]          # [0, 2, 4]
+l[-1:]          # [4]
+l[-3:-1]        # [2, 3]
+l[:]            # [0, 1, 2, 3, 4]
+l[2:3]          # [2]
+l[2:3] = ['X', 'Y']
+l               # [0, 1, 'X', 'Y', 3, 4]
+range(3, 6, 2)  # [3, 5]
+```
+
+## Concatenation
+```python
+[1, 2] + [3, 4] # [1, 2, 3, 4]
+[1, 2] * 3      # [1, 2, 1, 2, 1, 2]
+```
+
+## Searching
+```python
+l = [0, 1, 2, 3, 4]
+3 in l          # True
+l.index(3)      # 3
+5 in l          # False
+```
+
+---
+
+# Using `dict` objects
+
+* A `dict` stores unordered (`key`, `value`) pairs
+* Keys are unique and not ordered
+
+```python
+# create an empty dict
+d = {}
+d = dict()
+
+# initialize a dict
+other_dict = {'first': 8, 'other': ['a', 'pair'], 'toto': {'pipo': 42}}
+other_dict = dict(first = 8, other = ['a', 'pair'], toto = dict(pipo =  42))
+
+d['key0'] = 'text0'
+d['key1'] = 'text1'
+d['key2'] = 'text2'
+print(d)                 # {'key2': 'text2', 'key0': 'text0', 'key1': 'text1'}
+
+d['key0'] = 'other_text' # replace value for key 'key0'
+del d['key1']            # remove key and value for key 'key1'
+print(d)                 # {'key2': 'text2', 'key0': 'other_text'}
+
+'key1' in d              # False
+'key2' in d              # True
+
+d.keys()                 # ['key2', 'key0']
+d.values()               # ['text2', 'other_text']
+
+for k in d:              # iterate over a dict
+  print(k)
+# Output:
+# key2
+# key0
+```
+
+---
+
+# Using `set` objects
+
+* A `set` stores unordered and unique objects
+
+```python
+# create an empty set
+s = set()
+# initialize a 
+s1 = set(['Beta', 'Gamma', 'Alpha', 'Delta', 'Gamma', 'Beta'])
+s2 = set(['Beta', 'Alpha', 'Epsilon', 'Omega', 'Psi'])
+s1                          # set(['Alpha', 'Beta', 'Gamma', 'Delta'])
+s2                          # set(['Alpha', 'Beta', 'Omega', 'Psi', 'Epsilon'])
+# test if a value is in a set
+'Psi' in s2                 # True
+# remove a value
+s2.remove('Psi')
+'Psi' in s2                 # False
+s2                          # set(['Alpha', 'Beta', 'Omega', 'Epsilon'])
+# convert to a list
+list(s2)                    # ['Alpha', 'Beta', 'Omega', 'Epsilon']
+```
+
+## Usual `set` operations
+```python
+s1 = set(['Alpha', 'Beta', 'Gamma', 'Delta'])
+s2 = set(['Alpha', 'Beta', 'Omega', 'Epsilon'])
+
+s1.union(s2)                #  set(['Epsilon', 'Beta', 'Delta', 'Alpha', 'Omega', 'Gamma'])
+s1 | s2                     #  set(['Epsilon', 'Beta', 'Delta', 'Alpha', 'Omega', 'Gamma'])
+
+s1.intersection(s2)         # set(['Alpha', 'Beta'])
+s1 & s2                     # set(['Alpha', 'Beta'])
+
+s1.difference(s2)           # set(['Gamma', 'Delta'])
+s1 - s2                     # set(['Gamma', 'Delta'])
+
+s1.symmetric_difference(s2) # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
+s1 ^ s2                     # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
+```
+
+---
+
+# Using `string` objects
+
+## Spliting / joining
+
+```python
+s = 'A simple string'
+
+s.split()                 # ['A', 'simple', 'string']
+' '.join(s.split())       # 'A simple string'
+'   some text  '.strip()  # 'some text'
+'some' + ' ' + 'text'     # 'some text'
+'pipo' * 3                # 'pipopipopipo'
+```
+
+## String formatting
+
+```python
+n = 3
+l = range(3)
+'n: %03d l: %r' % (n, l) # 'n: 003 l: [0, 1, 2]'
+```
+
+## Other string methods
+
+```python
+"a simple sentence".capitalize()     # 'A simple sentence'
+"a simple sentence".find("sentence") # 9
+"a simple sentence".rfind("en")      # 13
+"a simple sentence".find("Sentence") # -1
+"a simple sentence".isalnum()        # True
+"a simple sentence".isalpha()        # True
+"1 simple sentence".isalpha()        # False
+"a simple sentence!".isalnum()       # False
+"123456".isnumeric()                 # True
+"12.3456".isnumeric()                # False
+"Noël".isascii()                     # False
+"YES!123!@*(#&$".isupper()           # True
+"Sentence" in "a simple sentence"    # False
+"a simple sentence!".count('en')     # 2
+"simple".center(20)                  # '       simple       '
+```
+
+---
+
+# Copying objects
+
+:arrow_right: In `Python`, the `=` operator creates a copy of an object
+```python
+# create a listA object
+listA = [1, 2]
+
+# create a copy of listA
+listB = listA
+
+# modify listA
+listA.append(3)
+
+# check listA
+print(listA) # [1, 2, 3]
+
+# check listB
+print(listB) # [1, 2, 3] !?!?!?
+```
+
+:warning: A copy of an object **may not create a new object** !  
+
+&nbsp;
+
+:arrow_right: Use `is` to check for **aliasing** or `==` to check for value **equality**
+```python
+listA = [1, 2]
+listB = listA
+listA.append(3)
+listA is listB   # True
+listA == listB   # True
+
+listB = [1, 2, 3]
+listA is listB   # False
+listA == listB   # True
+
+listB = listA[:] # could also be 'listB = list(listA)' or 'listB = listA.copy()'
+listA is listB   # False
+listA == listB   # True
+```
+
+---
+
+# Mutability of containers
+
+## Mutability
+
+* **mutable object**: content **can be changed** after its creation
+* **immutable object**: content **is constant**
+
+:arrow_right: immutable built-in objects are hashable (can be used as a key) !
+
+## Mutable types
+
+* `list`: an ordered list of objects
+* `set`: an unordered list of **unique hashable objects**
+* `dict`: an unordered list of (key, object) couples (key must be hashable, and should be immutable)
+
+## Immutable types
+
+* `tuple`: like `list`, but immutable
+* `frozenset`: like `set`, but immutable
+* `numbers`: regular numbers
+* `string`: :warning: **strings are immutable in Python** :warning:
+
+---
+
+# Immutable containers - examples
+
+## How can I modify a `string` if it is immutable ?
+
+```python
+a = 'Some text'
+print(a[5])               # 't'
+*a[5] = 'T'                # ILLEGAL
+a.replace('text', 'Text') # 'Some Text'
+a[:5] + 'T' + a[6:]       # 'Some Text'
+print(a)                  # 'Some text'
+
+a = "strings in python are immutable"
+b = a
+a.replace("immutable", "mutable")     # "strings in python are mutable"
+print(a)                              # "strings in python are immutable"
+a is b                                # True
+
+c = a.replace("immutable", "mutable")
+print(a)                              # "strings in python are immutable"
+print(c)                              # "strings in python are mutable"
+a is c                                # False
+```
+
+
+## If a `tuple` is immutable, how is this even possible ?
+
+```python
+tuple0 = (1, 2)          # tuple declaration
+list0  = [3, 4]          # list declaration
+tuple1 = (tuple0, list0) # tuple declaration
+
+print(tuple1)            # ((1, 2), [3, 4])
+
+# let's change the content of list0
+list0[0] = -1
+
+print(tuple1)            # ((1, 2), [-1, 4])
+```
+
+:arrow_right: Containers store **references to objects**.
+
+---
+
+# Loops and iterators
+
+## Iterate over values
+```python
+l = list('abcde')
+for v in l:
+  print(v)
+# Output:
+# 'a'
+# 'b'
+# 'c'
+# 'd'
+# 'e'
+```
+
+## Iterate over indices
+```python
+l = list('abcde')
+for i in range(len(l)):
+  print("index: %d val: %r" % (i, l[i]))
+# Output:
+# index: 0 val: 'a'
+# index: 1 val: 'b'
+# index: 2 val: 'c'
+# index: 3 val: 'd'
+# index: 4 val: 'e'
+```
+
+## Iterate over indices and values
+```python
+l = list('abcde')
+for i, v in enumerate(l):
+  print("index: %d val: %r" % (i, v))
+# Output:
+# index: 0 val: 'a'
+# index: 1 val: 'b'
+# index: 2 val: 'c'
+# index: 3 val: 'd'
+# index: 4 val: 'e'
+```
+
+---
+
+# Example - sum of square numbers
+
+:arrow_right: print the sum of the first 1000 non-zero squares
+
+## Solution 0
+
+```python
+numberOfIntegers = 1000
+sumOfSquares     = 0
+
+for n in range(1, numberOfIntegers + 1):
+  sumOfSquares += n * n
+
+print(f"The sum is {sumOfSquares}") # The sum is 333833500
+```
+
+## Solution 1
+
+```python
+numberOfIntegers = 1000
+listOfIntegers   = range(1, numberOfIntegers + 1)
+listOfSquares    = []
+
+for n in listOfIntegers:
+  listOfSquares.append(n * n)
+
+sumOfSquares = sum(listOfSquares)
+
+print(f"The sum is {sumOfSquares}") # The sum is 333833500
+```
+
+---
+
+# List comprehension
+
+:arrow_right: allows to create lists in a **very concise way**
+
+## Generic syntax
+
+```python
+[ expr for var in expr [for var in expr]* [if expr]* ]
+```
+
+## Examples
+
+```python
+# list of the first 6 even numbers
+[i * 2 for i in range(6)] # [0, 2, 4, 6, 8, 10]
+
+# combine elements of two lists if they differ
+[(x, y) for x in [1,2,3] for y in [3,1,4] if x != y] # [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+
+# is equivalent to
+final = []
+for x in [1,2,3]:
+  for y in [3,1,4]:
+    if x != y:
+      final.append((x, y))
+final                                                # [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+```
+
+---
+
+# Example - sum of square numbers
+
+:arrow_right: print the sum of the first 1000 non-zero squares
+
+## Solution 1
+
+```python
+numberOfIntegers = 1000
+listOfIntegers   = range(1, numberOfIntegers + 1)
+listOfSquares    = []
+
+for n in listOfIntegers:
+  listOfSquares.append(n * n)
+
+sumOfSquares = sum(listOfSquares)
+
+print(f"The sum is {sumOfSquares}") # The sum is 333833500
+```
+
+## Solution 2
+
+```python
+numberOfIntegers = 1000
+listOfIntegers   = range(1, numberOfIntegers + 1)
+listOfSquares    = [n * n for n in listOfIntegers] 
+
+sumOfSquares = sum(listOfSquares)
+
+print(f"The sum is {sumOfSquares}") # The sum is 333833500
+```
+
+## Solution 3
+
+```python
+print(f"The sum is {sum([n * n for n in range(1, 1000 + 1)])}") # The sum is 333833500
+```
+
+---
+
+# Numeric types
+
+## Standard numeric types: `int`, `float` and `complex`
+
+* `int` have **unlimited precision**
+* `float` usually correspond to a `C` `double` (check `sys.float_info`)
+* `complex` number's real and imaginary parts are `float` numbers (`z.real` and `z.imag`)
+
+:arrow_right: other types can be found in the standard library (`fractions`, `decimal`...)
+
+## Operations
+
+```python
+x + y           # sum of x and y
+x - y           # difference of x and y
+x * y           # product of x and y
+x / y           # quotient of x and y
+x // y          # floored quotient of x and y
+x % y           # remainder of x / y
+-x              # x negated
++x              # x unchanged
+abs(x)          # absolute value or magnitude of x
+int(x)          # x converted to integer
+float(x)        # x converted to floating point
+complex(re, im) # a complex number
+c.conjugate()   # conjugate of the complex number c
+divmod(x, y)    # the pair (x // y, x % y)
+pow(x, y)       # x to the power y
+x ** y          # x to the power y
+
+# for int and float numbers:
+
+import math
+
+math.trunc(x)   # x truncated to Integer
+round(x[, n])   # x rounded to n digits, rounding half to even. If n is omitted, it defaults to 0.
+math.floor(x)   # the greatest Integer <= x
+math.ceil(x)    # the least Integer >= x
+```
+
+---
+
+# Example - value conversion
+
+## Example program
+
+1. Ask the user to enter his/her age
+2. Test if the input is alphanumeric
+3. Convert the input to an integer value
+4. Print a greeting message including the age value
+
+## .hcenter[`[example.py]`]
+```python
+userText = input("Enter your age: ")
+
+if not userText.isnumeric():
+  print("bad value entered")
+else:
+  age = int(age)
+  print(f"Your age is {age}.")
+```
+
+## Example runs
+
+```bash
+$ python3 example.py
+Enter your age: 32
+Your age is 32.
+$ python3 example.py
+Enter your age: this is really not a number
+bad value entered
+```
+
+---
+
+# Modules
+
+* the `import` keyword allows to access built-in and / or custom modules
+
+```python
+import math # import the "math" module
+```
+
+* the 'dot' notation allows to reach a **member** of an **object**  
+* possible member types : property, function, method, constant, class, type, ...  
+
+```python
+import math
+
+print(math.sqrt(2)) # 1.41421356237
+```
+
+* the keyword `as` allows to import a module under an alias name
+
+```python
+import math as m # import the "math" module and name it "m"
+
+print(m.sqrt(2)) # 1.41421356237
+```
+
+* the keyword `from` allows to select what to import from a module
+
+```python
+from math import sqrt # import only the "sqrt" function from the math module
+
+print(sqrt(2)) # 1.41421356237
+```
+
+* the wildcard `*` allows to import everything from a module
+
+```python
+from math import * # import everything from the math module
+
+print(sqrt(2)) # 1.41421356237
+```
+
+---
+
+# Custom modules
+
+* create a file containing functions, values, classes, etc...
+
+## .hcenter[`[example.py]`]
+
+```python
+someval = 42 # a value
+
+def func(a, b): # a function
+  return a + b
+```
+
+* if `example.py` is in the current directory (`./example.py`):
+
+```python
+import example
+
+print(example.func("Hello ", "world") # "Hello world"
+
+print(example.someval) # 42
+```
+
+* if `example.py` is in a subdirectory (`./somedir/example.py`):
+
+```python
+import somedir
+
+print(somedir.func("Hello ", "world") # "Hello world"
+
+print(somedir.someval) # 42
+```
+
+or use `as` keyword:
+
+```python
+import somedir as example
+
+print(example.func("Hello ", "world") # "Hello world"
+
+print(example.someval) # 42
+```
+
+---
+
+# Module search path
+
+* when looking for a module to import, python tries the following:
+ 1. search for a built-in module
+ 2. search directories from `sys.path`, in order
+
+```python
+import sys
+
+print(sys.path)
+# Output:
+# ['',
+# '/usr/lib/python311.zip',
+# '/usr/lib/python3.11',
+# '/usr/lib/python3.11/lib-dynload',
+# '/usr/lib/python3.11/site-packages']
+```
+
+---
+
+# The `dir()` built-in function
+
+:arrow_right: this function allows to list objects defined in a module
+
+## .hcenter[`[example.py]`]
+
+```python
+someval = 42 # a value
+
+def func(a, b): # a function
+  return a + b
+```
+
+* if `example.py` is in the current directory (`./example.py`):
+
+```python
+import example
+
+*print(dir(example))
+# Output:
+# ['__builtins__',
+#  '__doc__',
+#  '__file__',
+#  '__name__',
+#  '__package__',
+#  'func',
+#  'someval']
+```
+
+* without arguments, `dir()` returns a list of objects defined in the current namespace
+
+```python
+*print(dir())
+# Output:
+# ['In', 'Out', '__', '_', '__IP', '___', '__builtins__', '__name__',
+#  '_dh', '_i', '_i1', '_ih', '_ii', '_iii', '_ip', '_oh', '_sh', 'help' ]
+```
+
+---
+
+# Functions
+
+:arrow_right: Define a part of code which can be used and re-used with different objects / values  
+
+## Function declaration
+
+* declare with `def` keyword
+* the body of the function is a code block (do not forget `:` and indentation)
+* the **arguments** are defined inside the parentheses on the `def` line
+* the name of the function follows the `def` keyword
+* the function can return an object with `return`
+* the body of the function **is not executed** before being called
+* to execute a function, it must be **called** with the **right number of parameter values**
+* default values can be given to arguments
+
+```python
+def func0(arg0, arg1 = 6): # define a function
+  c = arg0 + arg1
+  return c
+
+func0(2)            # 8
+func0(2, 3) + 1     # 6
+func0("abc", "def") # "abcdef"
+```
+
+---
+
+# Classes
+
+:arrow_right: Allow to group data and functions acting on these data in a **class** (also called an **object**)
+
+## Class declaration
+
+* declare with `class` keyword
+* declare methods as functions **inside the class**
+* the first received argument of non-static methods will be a reference to the calling instance
+* the special method `__init__()` is called when creating an instance (possibly with arguments)
+
+```python
+class MyClass: # define a class
+  a = 3
+  def __init__(self, b = None):
+    print("Hello from constructor")
+
+    self.c = "toto"
+    print("a = %r" % (self.a))
+    print("b = %r" % (b))
+    print("c = %r" % (self.c))
+    d = self.myMethod(4, 4)
+    print("d = %r" % (d))
+
+  def myMethod(self, a, b = 2): # instance method
+    return self.a + a + b
+
+myClass = MyClass(6)
+# Output:
+# Hello from constructor
+# a = 3
+# b = 6
+# c = 'toto'
+# d = 11
+
+print(myClass.myMethod(3))     # 8
+myClass.x = 'new value'        # add a new property
+print(myClass.x)               # 'new value'
+```
+
+---
+
+# Docstrings
+
+## What ?
+
+```python
+def mySuperSum(a, b):
+  """This function adds two objects"""
+  return a + b
+
+def mySuperProd(a, b):
+  """This function multiplies two objects.
+
+  Of course, a and b must allow a to be multiplied by b.
+  Try this function with random input objects at your own risk.
+
+  """
+  return a * b
+```
+
+## Why ?
+
+* the python function `help()` will print this documentation
+* some IDE can print this documentation if needed
+* these docstrings can be automatically extracted ( :v: `doxygen` :v: )
+* it is **the standard way** to document python code
+* the python code can use this docstring
+* some tests and / or examples can be put in the docstrings
+
+## How to use them ?
+
+```python
+help(mySuperSum) # in interactive mode
+print(mySuperSum.__doc__)
+```
+
+---
+
+# File IO
+
+:arrow_right: Allows to **write data to disk** or **read data from disk**
+
+## Howto
+
+* open a file with `open()` function
+* first argument: filename
+* second argument (default `"r"`): access type, combination of
+  * `"r"`: read, `"w"`: write, `"a"`: append
+  * `"b"`: binary access, `"+"`: create file if needed
+
+
+## .hcenter[`[data.txt]`]
+```text
+1.0 2.1 3.0 4.9 5.9
+9.0 8.2 5.7 6.2 7.1
+2.2 3.6 4.4
+```
+
+## Read
+```python
+f = open('data.txt')
+lines = f.readlines()
+words = [l.split() for l in lines]
+print(words)
+# Output:
+# [['1.0', '2.1', '3.0', '4.9', '5.9'], ['9.0', '8.2', '5.7', '6.2', '7.1'], ['2.2', '3.6', '4.4'], []]
+
+# one-liner
+[l.split() for l in open('data.txt').readlines()]
+# Output:
+# [['1.0', '2.1', '3.0', '4.9', '5.9'], ['9.0', '8.2', '5.7', '6.2', '7.1'], ['2.2', '3.6', '4.4'], []]
+```
+
+---
+
+# Module `pickle`
+
+:arrow_right: allows to serialize / deserialize data
+
+## Write
+```python
+import pickle
+
+data1 = {'a': [1, 2.0, 3, 4+6j],
+         'b': ('string', u'Unicode string'),
+         'c': None}
+output = open('data.pkl', 'wb')
+pickle.dump(data1, output)
+output.close()
+```
+
+## Read
+```python
+import pprint, pickle
+
+pkl_file = open('data.pkl', 'rb')
+data1 = pickle.load(pkl_file)
+pprint.pprint(data1)
+# Output:
+# {'a': [1, 2.0, 3, (4+6j)], 'b': ('string', u'Unicode string'), 'c': None}
+pkl_file.close()
+```
+.hcenter[:warning: `pickle` file formats differ between Python2 and Python3 versions:warning:]
+
+---
+
+# `None` keyword
+
+* special constant representing the absence of a value
+* the type of `None` is `NoneType`
+* :warning: `None` does not imply `False`, `0`, or an empty container
+
+```python
+None == 0 # False
+
+None == [] # False
+
+None == False # False
+
+a = None
+b = None
+a == b # True
+```
+
+:arrow_right: A void function without a `return` statement returns a `None` object.
+
+```python
+def void_function():
+  pass # do nothing
+
+a = void_function()
+a == None # True
+```
+
+---
+
+# `filter`, `map`, `reduce`
+
+:arrow_right: used in functionnal programming
+
+* `filter` keeps elements matching a criterion
+
+```python
+def f(x):
+  return x % 3 == 0 or x % 5 == 0
+
+l = range(2, 25)
+filter(f, l) # [3, 5, 6, 9, 10, 12, 15, 18, 20, 21, 24]
+```
+
+* `map` applies a function to each element
+
+```python
+def cube(x):
+  return x*x*x
+
+map(cube, range(1, 11)) # [1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]
+
+# Example with two arguments
+
+seq = range(8)
+
+def add(x, y):
+  return x+y
+
+map(add, seq, seq) # [0, 2, 4, 6, 8, 10, 12, 14]
+```
+
+* `reduce` propagates the cumulative result of a function
+
+```python
+def add(x,y):
+  return x+y
+
+reduce(add, range(1, 11)) # 55
+```
+
+---
+
+# Specific operations on `int` and `float` numbers
+
+## Bitwise operations for `int`
+
+```python
+x | y  # bitwise or of x and y
+x ^ y  # bitwise exclusive or of x and y
+x & y  # bitwise and of x and y
+x << n # x shifted left by n bits
+x >> n # x shifted right by n bits
+~x     # the bits of x inverted
+```
+
+## Other methods for `int`
+
+```python
+n = -37
+bin(n) # '-0b100101'
+n.bit_length() # 6
+```
+```python
+(1024).to_bytes(2, byteorder='big')                # b'\x04\x00'
+(1024).to_bytes(10, byteorder='big')               # b'\x00\x00\x00\x00\x00\x00\x00\x00\x04\x00'
+(-1024).to_bytes(10, byteorder='big', signed=True) # b'\xff\xff\xff\xff\xff\xff\xff\xff\xfc\x00'
+```
+```python
+int.from_bytes(b'\x00\x10', byteorder='big')               # 16
+int.from_bytes(b'\x00\x10', byteorder='little')            # 4096
+int.from_bytes(b'\xfc\x00', byteorder='big', signed=True)  # -1024
+int.from_bytes(b'\xfc\x00', byteorder='big', signed=False) # 64512
+int.from_bytes([255, 0, 0], byteorder='big')               # 16711680
+```
+
+## Other methods for `float`
+
+```python
+# hex format: [sign] ['0x'] integer ['.' fraction] ['p' exponent]
+
+float.fromhex('0x3.a7p10') # 3740.0
+
+float.hex(3740.0)          # '0x1.d380000000000p+11'
+```
 
 ---
 
@@ -941,1178 +2326,690 @@ some text
 
 ---
 
-# Python
+# NumPy
 
-.hcenter.w40[
-![](images/python_logo.png)
-]
-
-.noflex[
-.rightf.animated.middle.fadeInRight.wait1s.shadow.w20[![](images/guido_van_rossum.png)]
+.hcenter.w40[![](images/numpy_logo.png)]
 
 ## Key points
 
-* created by **Guido van Rossum** in 1989, first released in 1991
-* name comes from the series **Monty Python's Flying Circus**
-* **high-level**, **interpreted** programming language
-* widely used by projects **of every size**
-* emphasis on **code readability** and **powerful and concise syntax**
-* supports **multiple programming paradigms** (object-oriented, imperative...)
-* very large **standard library**
-* reference implementation and interpreter: **`CPython`**
-]
+* core library for scientific computing in Python
+* very close from MATLAB (but open-source :v:)
+* provides very efficient multi-dimensional arrays
+* provides several tools to integrate C/C++ and Fortran codes
+* provides functions for: linear algebra, RNG, Fourier transforms, etc...
 
 .block[
-* `CPython` repository: [https://github.com/python/cpython](https://github.com/python/cpython)
-* `Python` website: [https://www.python.org](https://www.python.org)
-* `CPython` license: `PSFL` (Python Software Foundation License, compatible with the GPL)
+* Repository: [https://github.com/numpy/numpy](https://github.com/numpy/numpy)
+* Website: [http://www.numpy.org](http://www.numpy.org)
+* License: `BSD`
 ]
 
 ---
 
-# Python core philosophy
+# NumPy - Arrays
 
-.noflex[
-.rightf.animated.fadeInRight.wait1s.shadow.w25[![](images/tim_peters.png)]
+:arrow_right: The main object of the `numpy` package is the **homogeneous multidimensional array**.
+## Array initialization
+```Python
+import numpy as np
 
-## The Zen of Python, by Tim Peters (PEP 20)
-
-1. Beautiful is better than ugly.
-1. Explicit is better than implicit.
-1. Simple is better than complex.
-1. Complex is better than complicated.
-1. Flat is better than nested.
-1. Sparse is better than dense.
-1. Readability counts.
-1. Special cases aren't special enough to break the rules.
-1. Although practicality beats purity.
-1. Errors should never pass silently.
-1. Unless explicitly silenced.
-1. In the face of ambiguity, refuse the temptation to guess.
-1. There should be one *and preferably only one* obvious way to do it.
-1. Although that way may not be obvious at first unless you're Dutch.
-1. Now is better than never.
-1. Although never is often better than *right* now.
-1. If the implementation is hard to explain, it's a bad idea.
-1. If the implementation is easy to explain, it may be a good idea.
-1. Namespaces are one honking great idea -- let's do more of those!
-]
-
-:arrow_right: Some examples of good Python style can be found [here](https://raw.githubusercontent.com/hblanks/zen-of-python-by-example/master/pep20_by_example.pdf).
-
----
-
-# Python `helloworld`
-
-## .hcenter[`[helloworld.py]`]
-```python
-#!/usr/bin/env python3
-
-# declare variables
-a = 2
-b = 8
-
-# add two numbers
-c = a + b # is it really that simple ?
-
-# print some message
-print("Hello from Python ! (c = %d)" % (c))
+a = np.array([2, 3, 4])
+v = np.array([2.1, 3.4, 2.7])
 ```
 
-## .hcenter[Shell session]
-```shell
-$ chmod +x helloworld.py
-$ ./helloworld.py
-Hello from Python ! (c = 10)
+## Type of the stored data
+:arrow_right: The type is infered from the values.  
+
+```Python
+import numpy as np
+
+np.array([2, 3, 4  ]).dtype # dtype('int64')
+np.array([2, 3, 4.0]).dtype # dtype('float64')
 ```
 
-.vspace[&nbsp;]
+## Size of each element
+:arrow_right: Useful to calculate the memory footprint of an array.  
 
-## Explanations
+```Python
+import numpy as np
 
-* Line 1: path to the Python interpreter
-* Lines 3, 7, 8, 10: text after `#` is a comment
-* Lines 4, 5, 8: typing is dynamic
-* Line 11: `%` allows some form of string formatting
-
----
-
-# Python `helloworld` in a `Jupyter` notebook
-
-.animated.fadeIn.wait1s.hcenter.w60[
-## .hcenter[Demo time !]
-.shadow[![](images/concert.webp)]
-]
-
----
-
-# Python error messages
-
-
-.hcenter.w60[![](images/errors.webp)]
-.hcenter[[source: medium.com](https://medium.com/@e.ghelbur/feeling-stupid-while-learning-to-code-overcoming-self-doubt-in-programming-de6f1107bdcb)]
-
-```python
-aksjndf
-# Output:
-# Traceback (most recent call last):
-#   File "<stdin>", line 1, in <module>
-# NameError: name 'aksjndf' is not defined
-```
-
-:arrow_right: The indented text is the 'Traceback' (location in the execution stack where the error happened)  
-:arrow_right: The **last** message is the type of error followed by an explanation  
-
----
-
-# `True`, `False`, `not`, `and`, `or` keywords
-
-* usual Boolean values and operations
-* "`==`" tests value equality
-* `True` is the same object as `1`
-* `False` is the same object as `0`
-
-```python
-3 == 5              # False
-2 == 2              # True
-1 + 1 == 2          # True
-
-not True            # False
-not not True        # True
-True or False       # True
-True or not True    # True
-True and True       # True
-False and True      # False
-True == 1           # True
-False == 0          # True
-True + True + False # 2
-
+np.array([2, 3, 4  ]).itemsize # 8
+np.array([2, 3, 4.0]).itemsize # 8
 ```
 
 ---
 
-# Python indentation
+# NumPy - Arrays
 
-.alert.hcenter[
-There is **no symbol** to delimitate blocks of code in `Python`.  
-Blocks of code are defined using **indentation**.
-]
+## Initialization from a list [of tuple [of list [...]]]
+```Python
+import numpy as np
 
-.vspace[&nbsp;]
+dvec  = np.array([1.0, 2.0, 3.0])                                  #     3 double vector
+dmat  = np.array([[1, 2, 3], (2, 3, 4.0)])                         #   2x3 double matrix
+icube = np.array([[[1, 2, 3], [2, 3, 4]], [[3, 4, 5], [4, 5, 6]]]) # 2x2x3 integer cube
+```
 
-:warning: **Always** start a block with the `:` symbol !
-.numbers[
+## Explicit type specification
+```Python
+import numpy as np
 
-## Valid syntaxes
+cmat  = np.array([[1, 2], [3, 4]], dtype = complex) # 2x2 complex double matrix
+```
+
+## Initialization by conversion
+```Python
+import numpy as np
+
+dvec  = np.array([1.0, 2.0, 3.0])       # 3 double vector
+cvec  = np.array(dvec, dtype = complex) # 3 complex double vector
+```
+
+## Initialization by copy
+```Python
+import numpy as np
+
+ivec  = np.array([1, 2, 3])
+a = ivec
+a is ivec # True <- WARNING !!!
+b = np.array(ivec)
+b is ivec # False
+c = ivec[:]
+c is ivec # False
+d = np.copy(ivec)
+d is ivec # False
+```
+
+---
+
+# NumPy - Arrays
+
+## Rank (number of axes)
+```Python
+import numpy as np
+
+a = np.array([1, 2, 3])
+a.ndim # 1
+
+b = np.array([[1, 2], [3, 4]])
+b.ndim # 2
+```
+
+## Dimensions
+```Python
+import numpy as np
+
+a = np.array([1, 2, 3])
+a.shape # (3,)
+
+b = np.array([[1, 2], [3, 4]])
+b.shape # (2, 2)
+```
+
+## Number of elements
+```Python
+import numpy as np
+
+a = np.array([1, 2, 3])
+a.size # 3
+
+b = np.array([[1, 2], [3, 4]])
+b.size # 4
+```
+
+---
+
+# NumPy - Array creation
 
 .row[
-.column.w30[
-```python
-if True:
-  print("Always")
+ .column.w48[
+## Ones and zeros
+```Python
+import numpy as np
 
-```]
-.column.w30[
-```python
-if True:
-  print("Always")
-else:
-  print("Never")
-```]
-.column.w30[
-```python
-if True:
-  print("Almost")
-  print("Always")
-else:
-    print("Almost")
-    print("Never")
-```]
+print(np.eye(3, 4))
+# [[ 1.  0.  0.  0.]
+#  [ 0.  1.  0.  0.]
+#  [ 0.  0.  1.  0.]]
+
+print(np.identity(3))
+# [[ 1.  0.  0.]
+#  [ 0.  1.  0.]
+#  [ 0.  0.  1.]]
+
+print(np.zeros([3, 4]))
+# [[ 0.  0.  0.  0.]
+#  [ 0.  0.  0.  0.]
+#  [ 0.  0.  0.  0.]]
+
+print(np.ones([3, 4]))
+# [[ 1.  1.  1.  1.]
+#  [ 1.  1.  1.  1.]
+#  [ 1.  1.  1.  1.]]
+
+print(np.tri(3, dtype = int))
+# [[1 0 0]
+#  [1 1 0]
+#  [1 1 1]]
+
+print(np.full([3, 4], 6))
+# [[6 6 6 6]
+#  [6 6 6 6]
+#  [6 6 6 6]]
+```
 ]
 
-.vspace[&nbsp;]
+.column.w48[
+## Copy the shape of another array
+```Python
+import numpy as np
 
-## Invalid syntaxes
+# uninitialized 3x4 int16 matrix:
+a = np.empty([3, 4], dtype = np.int16)
+# uninitialized 3x4 int16 matrix
+b = np.empty_like(a)
+
+print(np.zeros_like(a))
+# [[0 0 0 0]
+#  [0 0 0 0]
+#  [0 0 0 0]]
+
+print(np.ones_like(a))
+# [[1 1 1 1]
+#  [1 1 1 1]
+#  [1 1 1 1]]
+
+print(np.full_like(a, 7))
+# [[7 7 7 7]
+#  [7 7 7 7]
+#  [7 7 7 7]]
+
+print(np.full_like(a, 7.5))
+# [[7 7 7 7]
+#  [7 7 7 7]
+#  [7 7 7 7]]
+
+```
+]
+]
+
+---
+
+# NumPy - Arrays
 
 .row[
-.column.w30[
-```python
-if True
-  print("Always")
-```]
-.column.w30[
-```python
-if True:
-  print("Almost")
-    print("Always")
-```]
-.column.w30[
-```python
-if True:
-    print("Almost")
-    print("Always")
-  else:
+ .column.w48[
+## Matrix methods
+```Python
+import numpy as np
 
-    print("Almost")
-    print("Never")
-```]
+a = np.arange(12).reshape([3, 4])
+print(a)
+# [[ 0  1  2  3]
+#  [ 4  5  6  7]
+#  [ 8  9 10 11]]
+
+print(np.diag(a))
+# [ 0  5 10]
+
+print(a.diagonal())
+# [ 0  5 10]
+
+print(a.diagonal(1))
+# [ 1  6 11]
+
+print(a.diagonal(2))
+# [2  7]
+
+print(np.tril(a))
+# [[ 0  0  0  0]
+#  [ 4  5  0  0]
+#  [ 8  9 10  0]]
+
+print(np.triu(a))
+# [[ 0  1  2  3]
+#  [ 0  5  6  7]
+#  [ 0  0 10 11]]
+```
+]
+.column.w48[
+## Matrix multiplication
+```Python
+import numpy as np
+
+a = np.arange(9).reshape([3, 3])
+print(a)
+# [[0 1 2]
+#  [3 4 5]
+#  [6 7 8]]
+
+b = np.arange(-4, 5).reshape([3, 3])
+print(b)
+# [[-4 -3 -2]
+#  [-1  0  1]
+#  [ 2  3  4]]
+
+print(a * b) # element-wise multiplication !
+# [[ 0 -3 -4]
+#  [-3  0  5]
+#  [12 21 32]]
+
+print(a.dot(b)) # matrix multiplication
+# [[  3   6   9]
+#  [ -6   6  18]
+#  [-15   6  27]]
+
+print(np.linalg.matrix_power(a, 4))
+# [[ 2430  3132  3834]
+#  [ 7452  9612 11772]
+#  [12474 16092 19710]]
+```
+]]
+
+---
+
+# NumPy - Arrays
+
+## Main linear algebra methods
+```Python
+import numpy as np
+
+b = np.arange(-4, 5).reshape([3, 3])
+print(b)
+# [[-4 -3 -2]
+#  [-1  0  1]
+#  [ 2  3  4]]
+
+print(b.transpose())
+# [[-4 -1  2]
+#  [-3  0  3]
+#  [-2  1  4]]
+
+print(np.det(b))
+# 0.0
+
+print(np.linalg.norm(b))
+# 7.745966692414834
+
+eigval, eigvec = np.linalg.eig(b)
+print(eigval) 
+# [ -4.24264069e+00   3.81639165e-17   4.24264069e+00]
+
+print(eigvec)
+# [[ 0.90104757  0.40824829 -0.3236973 ]
+#  [ 0.28867513 -0.81649658  0.28867513]
+#  [-0.3236973   0.40824829  0.90104757]]
+
+print(np.matmul(b, eigvec[:,[0]]) - eigval[0] * eigvec[:,[0]])
+# [[  4.44089210e-16]
+#  [  4.44089210e-16]
+#  [  6.66133815e-16]]
+
+
+```
+
+
+---
+
+# NumPy - Arrays
+
+## Change the rank and dimensions (not the data)
+```Python
+import numpy as np
+
+a = np.arange(12)
+print(a)
+# [ 0 1 2 3 4 5 6 7 8 9 10 11]
+
+b = a.reshape([3, 4])
+print(b)
+# [[ 0  1  2  3]
+#  [ 4  5  6  7]
+#  [ 8  9 10 11]]
+
+print(b.reshape([1, 12]))
+# [[ 0  1  2  3  4  5  6  7  8  9 10 11]]
+```
+
+.row[
+ .column.w48[
+## Access to rows
+```Python
+import numpy as np
+
+a = np.arange(12).reshape([3, 4])
+print(a)
+# [[ 0  1  2  3]
+#  [ 4  5  6  7]
+#  [ 8  9 10 11]]
+
+print(a[2, :])
+# [ 8  9 10 11]
+
+print(a[[2], :])
+# [[ 8  9 10 11]]
+
+a[2, :] = [9, 9, 9, 9]
+print(a)
+# [[0 1 2 3]
+#  [4 5 6 7]
+#  [9 9 9 9]]
+```
+]
+
+.column.w48[
+## Access to columns
+```Python
+import numpy as np
+
+a = np.arange(12).reshape([3, 4]); print(a)
+# [[ 0  1  2  3]
+#  [ 4  5  6  7]
+#  [ 8  9 10 11]]
+
+print(a[:, 3])
+# [ 3  7 11]
+
+print(a[:, [3]])
+# [[ 3]
+#  [ 7]
+#  [11]]
+
+a[:, 3] = [9, 9, 9]; print(a)
+# [[ 0  1  2  9]
+#  [ 4  5  6  9]
+#  [ 8  9 10  9]]
+
+```
 ]
 ]
 
 ---
 
-# Python identifiers
+# NumPy - Arrays
 
-## Identifiers
+## Generate a sequence of numbers
 
-* Identifiers name variables, functions, classes, modules, objects...
-* They start with `[A-Za-z_]`, followed by zero or more `[A-Za-z0-9_]`.
-* `Python` is **case-sensitive**.
+* to generate an array instead of a list
+* accepts **float arguments**
 
-## Reserved words
+```Python
+import numpy as np
 
-.block.hcenter[
-<pre>
-and exec not assert finally or break for pass class def print
-continue from global raise with return del import try elif in
-while else is if except lambda yield False True None
-</pre>
+np.arange(8)            # array([ 0  ,  1  ,  2  ,  3  ,  4,   5 , 6 , 7 ])
+np.arange(8.)           # array([ 0. ,  1. ,  2. ,  3. ,  4. , 5., 6., 7.])
+
+np.arange(8, 13)        # array([ 8  ,  9  , 10  , 11  , 12  ])
+np.arange(8, 13.2)      # array([ 8. ,  9. , 10. , 11. , 12., 13. ])
+np.arange(8.2, 13)      # array([ 8.2,  9.2, 10.2, 11.2, 12.2])
+
+np.arange(8, 13, 2)     # array([ 8  , 10  , 12  ])
+np.arange(8, 13, 2.2)   # array([ 8. , 10.2, 12.4])
+np.arange(8.2, 13, 2.2) # array([ 8.2, 10.4, 12.6])
+```
+
+## Subdivise a range
+```Python
+import numpy as np
+
+np.linspace(0, 1, 3) # array([ 0., 0.5, 1. ])
+np.linspace(3, 7, 9) # array([ 3., 3.5, 4. , 4.5, 5. , 5.5, 6. , 6.5, 7. ])
+```
+
+---
+
+# NumPy - Some broadcast functions
+
+.row[
+.column.w55.middle[
+## `Sin()` and `Cos()` functions
+```Python
+import numpy as np
+import matplotlib.pyplot as plt
+
+t = np.linspace(0, 2 * np.pi, 200)
+a = np.sin(t)
+b = np.cos(t)
+plt.plot(t, a, 'r')
+plt.plot(t, b, 'g')
+plt.show()
+```
+]
+.column.w40.middle[
+![](images/sin_cos.png)
+]
 ]
 
-## Naming conventions
+## List of trigonometric functions
 
-* Class names start with an **uppercase letter**. All other identifiers start with a **lowercase letter**.
-* Starting an identifier with a **single leading underscore** indicates that the identifier is **private**.
-* Starting an identifier with **two leading underscores** indicates a **strongly private** identifier.
-* If the identifier also ends with **two trailing underscores**, the identifier is a **language-defined special name**.
+```Python
+sin cos tan arcsin arccos arctan arctan2 hypot sinh cosh tanh arcsinh arccosh arctanh deg2rad rad2deg
+```
+
 
 ---
 
-# Modules
+# NumPy - Print arrays
 
-* the `import` keyword allows to access built-in and / or custom modules
+## Long arrays
 
-```python
-import math # import the "math" module
-```
+:arrow_right: When an array is too large, only the corners are printed.
 
-* the 'dot' notation allows to reach a **member** of an **object**  
-* possible member types : property, function, method, constant, class, type, ...  
+```Python
+import numpy as np
 
-```python
-import math
+np.get_printoptions()['threshold'] # 1000
 
-print(math.sqrt(2)) # 1.41421356237
-```
+print(np.arange(1002).reshape([3, 334]))
+# [[   0    1    2 ...,  331  332  333]
+#  [ 334  335  336 ...,  665  666  667]
+#  [ 668  669  670 ...,  999 1000 1001]]
 
-* the keyword `as` allows to import a module under an alias name
+np.set_printoptions(threshold = 100)
 
-```python
-import math as m # import the "math" module and name it "m"
+print(np.arange(100).reshape([10, 10]))
+# [[ 0  1  2  3  4  5  6  7  8  9]
+#  [10 11 12 13 14 15 16 17 18 19]
+#  [20 21 22 23 24 25 26 27 28 29]
+#  [30 31 32 33 34 35 36 37 38 39]
+#  [40 41 42 43 44 45 46 47 48 49]
+#  [50 51 52 53 54 55 56 57 58 59]
+#  [60 61 62 63 64 65 66 67 68 69]
+#  [70 71 72 73 74 75 76 77 78 79]
+#  [80 81 82 83 84 85 86 87 88 89]
+#  [90 91 92 93 94 95 96 97 98 99]]
 
-print(m.sqrt(2)) # 1.41421356237
-```
-
-* the keyword `from` allows to select what to import from a module
-
-```python
-from math import sqrt # import only the "sqrt" function from the math module
-
-print(sqrt(2)) # 1.41421356237
-```
-
-* the wildcard `*` allows to import everything from a module
-
-```python
-from math import * # import everything from the math module
-
-print(sqrt(2)) # 1.41421356237
-```
-
----
-
-# Custom modules
-
-* create a file containing functions, values, classes, etc...
-
-## .hcenter[`[example.py]`]
-
-```python
-someval = 42 # a value
-
-def func(a, b): # a function
-  return a + b
-```
-
-* if `example.py` is in the current directory (`./example.py`):
-
-```python
-import example
-
-print(example.func("Hello ", "world") # "Hello world"
-
-print(example.someval) # 42
-```
-
-* if `example.py` is in a subdirectory (`./somedir/example.py`):
-
-```python
-import somedir
-
-print(somedir.func("Hello ", "world") # "Hello world"
-
-print(somedir.someval) # 42
-```
-
-or use `as` keyword:
-
-```python
-import somedir as example
-
-print(example.func("Hello ", "world") # "Hello world"
-
-print(example.someval) # 42
+print(np.arange(110).reshape([11, 10]))
+# [[  0   1   2 ...,   7   8   9]
+#  [ 10  11  12 ...,  17  18  19]
+#  [ 20  21  22 ...,  27  28  29]
+#  ..., 
+#  [ 80  81  82 ...,  87  88  89]
+#  [ 90  91  92 ...,  97  98  99]
+#  [100 101 102 ..., 107 108 109]]
 ```
 
 ---
 
-# Module search path
+# NumPy - RNG functions
 
-* when looking for a module to import, python tries the following:
- 1. search for a built-in module
- 2. search directories from `sys.path`, in order
+.row[
+.column.w55.middle[
+## White noise
+```Python
+import numpy as np
+import matplotlib.pyplot as plt
 
-```python
-import sys
+*data = np.random.rand(10000)
 
-print(sys.path)
-# Output:
-# ['',
-# '/usr/lib/python311.zip',
-# '/usr/lib/python3.11',
-# '/usr/lib/python3.11/lib-dynload',
-# '/usr/lib/python3.11/site-packages']
+print(data.mean()) # mean value:  0.494221
+print(data.var())  # variance  :  0.083729
+
+plt.hist(data, bins=100)
+plt.show()
 ```
-
----
-
-# The `dir()` built-in function
-
-:arrow_right: this function allows to list objects defined in a module
-
-## .hcenter[`[example.py]`]
-
-```python
-someval = 42 # a value
-
-def func(a, b): # a function
-  return a + b
-```
-
-* if `example.py` is in the current directory (`./example.py`):
-
-```python
-import example
-
-*print(dir(example))
-# Output:
-# ['__builtins__',
-#  '__doc__',
-#  '__file__',
-#  '__name__',
-#  '__package__',
-#  'func',
-#  'someval']
-```
-
-* without arguments, `dir()` returns a list of objects defined in the current namespace
-
-```python
-*print(dir())
-# Output:
-# ['In', 'Out', '__', '_', '__IP', '___', '__builtins__', '__name__',
-#  '_dh', '_i', '_i1', '_ih', '_ii', '_iii', '_ip', '_oh', '_sh', 'help' ]
-```
-
----
-
-# Containers
-
-:arrow_right: There are some objects which can **contain** other objects
-
-## Main built-in containers
-
-* `list`: ordered set of objects
-* `dict`: unordered set of **(key, value)** pairs (key values are unique)
-* `set`: unordered set of unique objects (no duplicate values)
-* `string`: ordered list of characters
-
-## Specifics
-* access to contained objects with `[]` operato
-* they can contain **nothing** or **references** to other objects
-* some containers can have **mutable** or **immutable** variants
-
----
-
-# Using `list` objects
-
-```python
-l1 = []             # create an empty list
-
-l1.append(7)        # append value
-l2 = ['final', 'final2']
-l1.extend(l2)       # append another list
-l1.insert(1, 8)     # insert value
-print(l1)           # [7, 8, 'final', 'final2']
-v = l1.pop()        # get and remove last value
-print(v)            # 'final2'
-print(l1)           # [7, 8, 'final']
-del l1[-1]          # remove last value
-print(len(l1))      # 2
-
-l2 = [1, 2, "pipo"] # create another list
-
-l3 = l2             # l3 is another name for l2 list
-
-print(l2)           # [1, 2, 'pipo']
-print(l3)           # [1, 2, 'pipo']
-
-l3.append('new')    # append value to l3
-
-print(l2)           # [1, 2, 'pipo', 'new']
-print(l3)           # [1, 2, 'pipo', 'new']
-
-l4 = list(l2)       # copy a list
-
-l4.append(3.142)    # append value to l4
-
-print(l2)           # [1, 2, 'pipo', 'new']
-print(l4)           # [1, 2, 'pipo', 'new', 3.1419999999999999]
-
-l5 = list('abcdef') # create list from string
-print(l5)           # ['a', 'b', 'c', 'd', 'e', 'f']
-
-l6 = [l1, l2, 3]    # create a list containing lists
-print(l6)           # [[7, 8], [1, 2, 'pipo', 'new'], 3]
-```
-
----
-
-# Using `list` elements and ranges
-
-## Element access
-```python
-l = range(5)
-l               # [0, 1, 2, 3, 4]
-l[2]            # 2
-l[-1]           # 4
-l[2] = 8
-l               # [0, 1, 8, 3, 4]
-del l[3]
-l               # [0, 1, 8, 4]
-```
-
-## Ranges
-```python
-l = [0, 1, 2, 3, 4]
-l[0:3]          # [0, 1, 2]
-l[::2]          # [0, 2, 4]
-l[-1:]          # [4]
-l[-3:-1]        # [2, 3]
-l[:]            # [0, 1, 2, 3, 4]
-l[2:3]          # [2]
-l[2:3] = ['X', 'Y']
-l               # [0, 1, 'X', 'Y', 3, 4]
-range(3, 6, 2)  # [3, 5]
-```
-
-## Concatenation
-```python
-[1, 2] + [3, 4] # [1, 2, 3, 4]
-[1, 2] * 3      # [1, 2, 1, 2, 1, 2]
-```
-
-## Searching
-```python
-l = [0, 1, 2, 3, 4]
-3 in l          # True
-l.index(3)      # 3
-5 in l          # False
-```
-
----
-
-# Using `dict` objects
-
-* A `dict` stores unordered (`key`, `value`) pairs
-* Keys are unique and not ordered
-
-```python
-# create an empty dict
-d = {}
-d = dict()
-
-# initialize a dict
-other_dict = {'first': 8, 'other': ['a', 'pair'], 'toto': {'pipo': 42}}
-other_dict = dict(first = 8, other = ['a', 'pair'], toto = dict(pipo =  42))
-
-d['key0'] = 'text0'
-d['key1'] = 'text1'
-d['key2'] = 'text2'
-print(d)                 # {'key2': 'text2', 'key0': 'text0', 'key1': 'text1'}
-
-d['key0'] = 'other_text' # replace value for key 'key0'
-del d['key1']            # remove key and value for key 'key1'
-print(d)                 # {'key2': 'text2', 'key0': 'other_text'}
-
-'key1' in d              # False
-'key2' in d              # True
-
-d.keys()                 # ['key2', 'key0']
-d.values()               # ['text2', 'other_text']
-
-for k in d:              # iterate over a dict
-  print(k)
-# Output:
-# key2
-# key0
-```
-
----
-
-# Using `set` objects
-
-* A `set` stores unordered and unique objects
-
-```python
-# create an empty set
-s = set()
-# initialize a 
-s1 = set(['Beta', 'Gamma', 'Alpha', 'Delta', 'Gamma', 'Beta'])
-s2 = set(['Beta', 'Alpha', 'Epsilon', 'Omega', 'Psi'])
-s1                          # set(['Alpha', 'Beta', 'Gamma', 'Delta'])
-s2                          # set(['Alpha', 'Beta', 'Omega', 'Psi', 'Epsilon'])
-# test if a value is in a set
-'Psi' in s2                 # True
-# remove a value
-s2.remove('Psi')
-'Psi' in s2                 # False
-s2                          # set(['Alpha', 'Beta', 'Omega', 'Epsilon'])
-# convert to a list
-list(s2)                    # ['Alpha', 'Beta', 'Omega', 'Epsilon']
-```
-
-## Usual `set` operations
-```python
-s1 = set(['Alpha', 'Beta', 'Gamma', 'Delta'])
-s2 = set(['Alpha', 'Beta', 'Omega', 'Epsilon'])
-
-s1.union(s2)                #  set(['Epsilon', 'Beta', 'Delta', 'Alpha', 'Omega', 'Gamma'])
-s1 | s2                     #  set(['Epsilon', 'Beta', 'Delta', 'Alpha', 'Omega', 'Gamma'])
-
-s1.intersection(s2)         # set(['Alpha', 'Beta'])
-s1 & s2                     # set(['Alpha', 'Beta'])
-
-s1.difference(s2)           # set(['Gamma', 'Delta'])
-s1 - s2                     # set(['Gamma', 'Delta'])
-
-s1.symmetric_difference(s2) # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
-s1 ^ s2                     # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
-```
-
----
-
-# Using `string` objects
-
-## Spliting / joining
-
-```python
-s = 'A simple string'
-
-s.split()                 # ['A', 'simple', 'string']
-' '.join(s.split())       # 'A simple string'
-'   some text  '.strip()  # 'some text'
-'some' + ' ' + 'text'     # 'some text'
-'pipo' * 3                # 'pipopipopipo'
-```
-
-## String formatting
-
-```python
-n = 3
-l = range(3)
-'n: %03d l: %r' % (n, l) # 'n: 003 l: [0, 1, 2]'
-```
-
-## Other string methods
-
-```python
-"a simple sentence".capitalize()     # 'A simple sentence'
-"a simple sentence".find("sentence") # 9
-"a simple sentence".rfind("en")      # 13
-"a simple sentence".find("Sentence") # -1
-"a simple sentence".isalnum()        # True
-"a simple sentence".isalpha()        # True
-"1 simple sentence".isalpha()        # False
-"a simple sentence!".isalnum()       # False
-"123456".isnumeric()                 # True
-"12.3456".isnumeric()                # False
-"Noël".isascii()                     # False
-"YES!123!@*(#&$".isupper()           # True
-"Sentence" in "a simple sentence"    # False
-"a simple sentence!".count('en')     # 2
-"simple".center(20)                  # '       simple       '
-```
-
----
-
-# User interaction
-
-## The `input()` function
-
-:arrow_right: Asks the user to enter some text  
-:arrow_right: Some validation / conversion may follow  
-
-```python
-userText = input("Enter your value: ") # will let the user enter some text
-
-if not userText.isnumeric(): # test if the text contains non-numeric characters
-  print("bad value entered")
-
-userVal = int(userText) # conversion to 'int' type
-```
-
-## This function is not used widely
-
-:warning: Reproductibility of a calculation may be difficult when using `input()`
-
-* No trace of the values entered in the source code
-* Needs a user interaction each time `input()` is called (or some file redirection)
-* In real life, prefer `json`, `pickle`, `msgpack`, etc... to input data into a Python program
-
----
-
-# Copying objects
-
-:arrow_right: In `Python`, the `=` operator creates a copy of an object
-```python
-# create a listA object
-listA = [1, 2]
-
-# create a copy of listA
-listB = listA
-
-# modify listA
-listA.append(3)
-
-# check listA
-print(listA) # [1, 2, 3]
-
-# check listB
-print(listB) # [1, 2, 3] !?!?!?
-```
-
-:warning: A copy of an object **may not create a new object** !  
-
-&nbsp;
-
-:arrow_right: Use `is` to check for **aliasing** or `==` to check for **equality**
-```python
-listA = [1, 2]
-listB = listA
-listA.append(3)
-listA is listB   # True
-listA == listB   # True
-
-listB = [1, 2, 3]
-listA is listB   # False
-listA == listB   # True
-
-listB = listA[:] # could also be 'listB = list(listA)' or 'listB = listA.copy()'
-listA is listB   # False
-listA == listB   # True
-```
-
----
-
-# Mutability of containers
-
-## Mutability
-
-* **mutable object**: content **can be changed** after its creation
-* **immutable object**: content **is constant**
-
-:arrow_right: immutable built-in objects are hashable (can be used as a key) !
-
-## Mutable types
-
-* `list`: an ordered list of objects
-* `set`: an unordered list of **unique hashable objects**
-* `dict`: an unordered list of (key, object) couples (key must be hashable, and should be immutable)
-
-## Immutable types
-
-* `tuple`: like `list`, but immutable
-* `frozenset`: like `set`, but immutable
-* `numbers`: regular numbers
-* `string`: :warning: **strings are immutable in Python** :warning:
-
----
-
-# Immutable containers - examples
-
-## How can I modify a `string` if it is immutable ?
-
-```python
-a = 'Some text'
-print(a[5])               # 't'
-*a[5] = 'T'                # ILLEGAL
-a.replace('text', 'Text') # 'Some Text'
-a[:5] + 'T' + a[6:]       # 'Some Text'
-print(a)                  # 'Some text'
-
-a = "strings in python are immutable"
-b = a
-a.replace("immutable", "mutable")     # "strings in python are mutable"
-print(a)                              # "strings in python are immutable"
-a is b                                # True
-
-a = a.replace("immutable", "mutable")
-print(a)                              # "strings in python are mutable"
-a is b                                # False
-```
-
-
-## If a `tuple` is immutable, how is this even possible ?
-
-```python
-tuple0 = (1, 2)          # tuple declaration
-list0  = [3, 4]          # list declaration
-tuple1 = (tuple0, list0) # tuple declaration
-
-print(tuple1)            # ((1, 2), [3, 4])
-
-# let's change the content of list0
-list0[0] = -1
-
-print(tuple1)            # ((1, 2), [-1, 4])
-```
-
----
-
-# Numeric types
-
-## Standard numeric types: `int`, `float` and `complex`
-
-* `int` have **unlimited precision**
-* `float` usually correspond to a `C` `double` (check `sys.float_info`)
-* `complex` number's real and imaginary parts are `float` numbers (`z.real` and `z.imag`)
-
-:arrow_right: other types can be found in the standard library (`fractions`, `decimal`...)
-
-## Operations
-
-```python
-x + y           # sum of x and y
-x - y           # difference of x and y
-x * y           # product of x and y
-x / y           # quotient of x and y
-x // y          # floored quotient of x and y
-x % y           # remainder of x / y
--x              # x negated
-+x              # x unchanged
-abs(x)          # absolute value or magnitude of x
-int(x)          # x converted to integer
-float(x)        # x converted to floating point
-complex(re, im) # a complex number
-c.conjugate()   # conjugate of the complex number c
-divmod(x, y)    # the pair (x // y, x % y)
-pow(x, y)       # x to the power y
-x ** y          # x to the power y
-
-# for int and float numbers:
-
-import math
-
-math.trunc(x)   # x truncated to Integer
-round(x[, n])   # x rounded to n digits, rounding half to even. If n is omitted, it defaults to 0.
-math.floor(x)   # the greatest Integer <= x
-math.ceil(x)    # the least Integer >= x
-```
-
----
-
-# Specific operations on `int` and `float` numbers
-
-## Bitwise operations for `int`
-
-```python
-x | y  # bitwise or of x and y
-x ^ y  # bitwise exclusive or of x and y
-x & y  # bitwise and of x and y
-x << n # x shifted left by n bits
-x >> n # x shifted right by n bits
-~x     # the bits of x inverted
-```
-
-## Other methods for `int`
-
-```python
-n = -37
-bin(n) # '-0b100101'
-n.bit_length() # 6
-```
-```python
-(1024).to_bytes(2, byteorder='big')                # b'\x04\x00'
-(1024).to_bytes(10, byteorder='big')               # b'\x00\x00\x00\x00\x00\x00\x00\x00\x04\x00'
-(-1024).to_bytes(10, byteorder='big', signed=True) # b'\xff\xff\xff\xff\xff\xff\xff\xff\xfc\x00'
-```
-```python
-int.from_bytes(b'\x00\x10', byteorder='big')               # 16
-int.from_bytes(b'\x00\x10', byteorder='little')            # 4096
-int.from_bytes(b'\xfc\x00', byteorder='big', signed=True)  # -1024
-int.from_bytes(b'\xfc\x00', byteorder='big', signed=False) # 64512
-int.from_bytes([255, 0, 0], byteorder='big')               # 16711680
-```
-
-## Other methods for `float`
-
-```python
-# hex format: [sign] ['0x'] integer ['.' fraction] ['p' exponent]
-
-float.fromhex('0x3.a7p10') # 3740.0
-
-float.hex(3740.0)          # '0x1.d380000000000p+11'
-```
-
----
-
-# Loops and iterators
-
-## Iterate over values
-```python
-l = list('abcde')
-for v in l:
-  print(v)
-# Output:
-# 'a'
-# 'b'
-# 'c'
-# 'd'
-# 'e'
-```
-
-## Iterate over indices
-```python
-l = list('abcde')
-for i in range(len(l)):
-  print("index: %d val: %r" % (i, l[i]))
-# Output:
-# index: 0 val: 'a'
-# index: 1 val: 'b'
-# index: 2 val: 'c'
-# index: 3 val: 'd'
-# index: 4 val: 'e'
-```
-
-## Iterate over indices and values
-```python
-l = list('abcde')
-for i, v in enumerate(l):
-  print("index: %d val: %r" % (i, v))
-# Output:
-# index: 0 val: 'a'
-# index: 1 val: 'b'
-# index: 2 val: 'c'
-# index: 3 val: 'd'
-# index: 4 val: 'e'
-```
-
----
-
-# List comprehensions
-
-:arrow_right: allows to create lists in a **very concise way**
-
-## Generic syntax
-
-```python
-[ expr for var in expr [for var in expr]* [if expr]* ]
-```
-
-## Examples
-
-```python
-# list of the first 6 even numbers
-[i * 2 for i in range(6)] # [0, 2, 4, 6, 8, 10]
-
-# combine elements of two lists if they differ
-[(x, y) for x in [1,2,3] for y in [3,1,4] if x != y] # [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
-
-# is equivalent to
-final = []
-for x in [1,2,3]:
-  for y in [3,1,4]:
-    if x != y:
-      final.append((x, y))
-final                                                # [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
-```
-
----
-
-# Functions
-
-:arrow_right: Define a part of code which can be used for different objects / values  
-
-## Function declaration
-
-* declare with `def` keyword
-* the body of the function is a code block (do not forget `:` and indentation)
-* the **arguments** are defined inside the parentheses on the `def` line
-* the name of the function follows the `def` keyword
-* the function can return an object with `return`
-* the body of the function **is not executed** before being called
-* to execute a function, it must be **called** with the **right number of parameter values**
-* default values can be given to arguments
-
-```python
-def func0(arg0, arg1 = 6): # define a function
-  c = arg0 + arg1
-  return c
-
-func0(2)            # 8
-func0(2, 3) + 1     # 6
-func0("abc", "def") # "abcdef"
-```
-
----
-
-# Classes
-
-:arrow_right: Allow to group data and functions acting on these data **in an object type**
-
-## Class declaration
-
-* declare with `class` keyword
-* declare methods as functions **inside the class**
-* the first received argument of non-static methods will be a reference to the calling instance
-* the special method `__init__()` is called when creating an instance (possibly with arguments)
-
-```python
-class MyClass: # define a class
-  a = 3
-  def __init__(self, b = None):
-    print("Hello from constructor")
-
-    self.c = "toto"
-    print("a = %r" % (self.a))
-    print("b = %r" % (b))
-    print("c = %r" % (self.c))
-    d = self.myMethod(4, 4)
-    print("d = %r" % (d))
-
-  def myMethod(self, a, b = 2): # instance method
-    return self.a + a + b
-
-myClass = MyClass(6)
-# Output:
-# Hello from constructor
-# a = 3
-# b = 6
-# c = 'toto'
-# d = 11
-
-print(myClass.myMethod(3))     # 8
-myClass.x = 'new value'        # add a new property
-print(myClass.x)               # 'new value'
-```
-
----
-
-# Docstrings
-
-## What ?
-
-```python
-def mySuperSum(a, b):
-  """This function adds two objects"""
-  return a + b
-
-def mySuperProd(a, b):
-  """This function multiplies two objects.
-
-  Of course, a and b must allow a to be multiplied by b.
-  Try this function with random input objects at your own risk.
-
-  """
-  return a * b
-```
-
-## Why ?
-
-* the python function `help()` will print this documentation
-* some IDE can print this documentation if needed
-* these docstrings can be automatically extracted ( :v: `doxygen` :v: )
-* it is **the standard way** to document python code
-* the python code can use this docstring
-* some tests and / or examples can be put in the docstrings
-
-## How to use them ?
-
-```python
-help(mySuperSum) # in interactive mode
-print(mySuperSum.__doc__)
-```
-
----
-
-# File IO
-
-:arrow_right: Allows to **write data to disk** or **read data from disk**
-
-## Howto
-
-* open a file with `open()` function
-* first argument: filename
-* second argument (default `"r"`): access type, combination of
-  * `"r"`: read, `"w"`: write, `"a"`: append
-  * `"b"`: binary access, `"+"`: create file if needed
-
-
-## .hcenter[`[data.txt]`]
-```text
-1.0 2.1 3.0 4.9 5.9
-9.0 8.2 5.7 6.2 7.1
-2.2 3.6 4.4
-```
-
-## Read
-```python
-f = open('data.txt')
-lines = f.readlines()
-words = [l.split() for l in lines]
-print(words)
-# Output:
-# [['1.0', '2.1', '3.0', '4.9', '5.9'], ['9.0', '8.2', '5.7', '6.2', '7.1'], ['2.2', '3.6', '4.4'], []]
-
-# one-liner
-[l.split() for l in open('data.txt').readlines()]
-# Output:
-# [['1.0', '2.1', '3.0', '4.9', '5.9'], ['9.0', '8.2', '5.7', '6.2', '7.1'], ['2.2', '3.6', '4.4'], []]
-```
-
----
-
-# Module `pickle`
-
-:arrow_right: allows to serialize / deserialize data
-
-## Write
-```python
-import pickle
-
-data1 = {'a': [1, 2.0, 3, 4+6j],
-         'b': ('string', u'Unicode string'),
-         'c': None}
-output = open('data.pkl', 'wb')
-pickle.dump(data1, output)
-output.close()
-```
-
-## Read
-```python
-import pprint, pickle
-
-pkl_file = open('data.pkl', 'rb')
-data1 = pickle.load(pkl_file)
-pprint.pprint(data1)
-# Output:
-# {'a': [1, 2.0, 3, (4+6j)], 'b': ('string', u'Unicode string'), 'c': None}
-pkl_file.close()
-```
-.hcenter[:warning: `pickle` file formats differ between Python2 and Python3 versions:warning:]
-
----
-
-# `None` keyword
-
-* special constant representing the absence of a value
-* the type of `None` is `NoneType`
-* :warning: `None` does not imply `False`, `0`, or an empty container
-
-```python
-None == 0 # False
-
-None == [] # False
-
-None == False # False
-
-a = None
-b = None
-a == b # True
-```
-
-:arrow_right: A void function without a `return` statement returns a `None` object.
-
-```python
-def void_function():
-  pass # do nothing
-
-a = void_function()
-a == None # True
-```
-
----
-
-# `filter`, `map`, `reduce`
-
-:arrow_right: used in functionnal programming
-
-* `filter` keeps elements matching a criterion
-
-```python
-def f(x):
-  return x % 3 == 0 or x % 5 == 0
-
-l = range(2, 25)
-filter(f, l) # [3, 5, 6, 9, 10, 12, 15, 18, 20, 21, 24]
-```
-
-* `map` applies a function to each element
-
-```python
-def cube(x):
-  return x*x*x
-
-map(cube, range(1, 11)) # [1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]
-
-# Example with two arguments
-
-seq = range(8)
-
-def add(x, y):
-  return x+y
-
-map(add, seq, seq) # [0, 2, 4, 6, 8, 10, 12, 14]
-```
-
-* `reduce` propagates the cumulative result of a function
-
-```python
-def add(x,y):
-  return x+y
-
-reduce(add, range(1, 11)) # 55
-```
-
----
-
-# Bonus: `virtualenv` and `pip`
-
-.hcenter[
-![](images/present.png)
+]
+.column.w40.middle[
+![](images/hist_rand.png)
+]
 ]
 
+.row[
+.column.w55.middle[
+## Normal distribution
+```Python
+import numpy as np
+import matplotlib.pyplot as plt
+
+*data = np.random.randn(10000)
+
+print(data.mean()) # mean value: -0.000091
+print(data.var())  # variance  :  1.002125
+
+plt.hist(data, bins=100)
+plt.show()
+```
+]
+.column.w40.middle[
+![](images/hist_randn.png)
+]
+]
+
+---
+
+# NumPy - Arrays
+
+## Load and save arrays
+```Python
+import numpy as np
+
+dmat0 = np.eye(5)
+np.save("filename", dmat0)
+dmat1 = np.load("filename.npy")
+np.linalg.norm(dmat0 - dmat1) # 0.0
+```
+
+* save an array in the binary `.npy` format
+* avoid `np.fromfile()` and `x.tofile()`
+
+## Construct an array from a function
+
+```Python
+import numpy as np
+
+imat = np.fromfunction(lambda i, j: i + j, (3, 3), dtype = int)
+
+print(imat)
+# [[0 1 2]
+#  [1 2 3]
+#  [2 3 4]]
+```
+
+---
+# NumPy - Arrays
+
+## Iterate over all elements of an array
+```Python
+import numpy as np
+
+a = np.arange(6).reshape(2,3)
+print(a)
+# [[0 1 2]
+#  [3 4 5]]
+
+for x in np.nditer(a):                         # readonly access
+  print x,
+# 0 1 2 3 4 5
+
+for x in np.nditer(a, op_flags=['readwrite']): # readwrite access
+  x[...] = 2 * x
+print(a)
+# [[ 0  2  4]
+#  [ 6  8 10]]
+```
+
+## Iterate over all elements of an array and get index values
+```Python
+import numpy as np
+
+a = np.arange(6).reshape(2,3)
+print(a)
+# [[0 1 2]
+#  [3 4 5]]
+
+it = np.nditer(a, flags=['multi_index'])
+while not it.finished:
+  print "%d <%s>" % (it[0], it.multi_index),
+  it.iternext()
+# 0 <(0, 0)> 1 <(0, 1)> 2 <(0, 2)> 3 <(1, 0)> 4 <(1, 1)> 5 <(1, 2)>
+```
+---
+
+# NumPy - Arrays
+
+## Mesh grid
+:arrow_right: Use this to fill arrays with index-dependent expressions.
+```Python
+import numpy as np
+
+print(np.mgrid[0:3, 0:4][0])
+# [[0 0 0 0]
+#  [1 1 1 1]
+#  [2 2 2 2]]
+
+print(np.mgrid[0:3, 0:4][1])
+# [[0 1 2 3]
+#  [0 1 2 3]
+#  [0 1 2 3]]
+```
+
+## Example
+`$$
+\forall i \in [0..2],
+\forall j \in [0..3],
+A_{ij} \equiv i + 0.1 j
+$$`
+
+```Python
+import numpy as np
+
+i = np.mgrid[0:3, 0:4][0]
+j = np.mgrid[0:3, 0:4][1]
+
+A = i + j * 0.1
+
+print(A)
+# [[ 0.   0.1  0.2  0.3]
+#  [ 1.   1.1  1.2  1.3]
+#  [ 2.   2.1  2.2  2.3]]
+```
+
+---
+
+# Matplotlib - plot series as crosses
+
+.row[
+.column.w55.middle[
+## Example with two series
+```Python
+import numpy as np
+import matplotlib.pyplot as ply
+
+x0 = [1, 3, 5, 6]
+y0 = [2, 1, 4, 5]
+
+x1 = [2, 6, 3, 3]
+y1 = [3, 1, 5, 2]
+
+plt.plot(x0, y0, 'r+') # red  crosses
+plt.plot(x1, y1, 'b+') # blue crosses
+plt.show()
+```
+]
+.column.w40.middle[
+![](images/plot_crosses.png)
+]
+]
 
     </textarea>
 
