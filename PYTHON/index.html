@@ -497,6 +497,42 @@ Hello from Python ! (c = 10)
 
 ---
 
+# What is a variable ?
+
+:arrow_right: One can assign an expression's **value** to a **variable** using the special operator `=`.  
+:arrow_right: A variable can be seen as a **value kept under a name**.  
+
+```Python
+# assign a value to a variable
+var0 = 34
+
+# replace the value of an existing variable
+var0 = 88
+
+# create a copy of an existing variable
+var1 = var0
+
+# assign an expression's value to a variable
+var2 = var0 + var1
+
+# print the value of a variable
+print(var2)        # 176
+
+# print the value of an expression
+print(var0 + var1) # 176
+
+# assign the return value of a function to a variable
+var3 = abs(-4)
+
+# print the value of a variable
+print(var3) # 4
+```
+
+:arrow_right: **An expression containing a single variable name evaluates to the variable's value**.  
+:arrow_right: **Every function call in an expression evaluates to the return value of the function.**  
+
+---
+
 # Python `helloworld` in a `Jupyter` notebook
 
 .animated.fadeIn.wait1s.hcenter.w60[
