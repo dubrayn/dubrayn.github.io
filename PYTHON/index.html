@@ -533,6 +533,33 @@ print(var3) # 4
 
 ---
 
+# Python identifiers
+
+## Identifiers
+
+* Identifiers name variables, functions, classes, modules, objects...
+* They start with `[A-Za-z_]`, followed by zero or more `[A-Za-z0-9_]`.
+* `Python` is **case-sensitive**.
+
+## Reserved words
+
+.block.hcenter[
+<pre>
+and exec not assert finally or break for pass class def print
+continue from global raise with return del import try elif in
+while else is if except lambda yield False True None
+</pre>
+]
+
+## Naming conventions
+
+* Class names start with an **uppercase letter**. All other identifiers start with a **lowercase letter**.
+* Starting an identifier with a **single leading underscore** indicates that the identifier is **private**.
+* Starting an identifier with **two leading underscores** indicates a **strongly private** identifier.
+* If the identifier also ends with **two trailing underscores**, the identifier is a **language-defined special name**.
+
+---
+
 # Python `helloworld` in a `Jupyter` notebook
 
 .animated.fadeIn.wait1s.hcenter.w60[
@@ -681,33 +708,6 @@ if True:
 ```]
 ]
 ]
-
----
-
-# Python identifiers
-
-## Identifiers
-
-* Identifiers name variables, functions, classes, modules, objects...
-* They start with `[A-Za-z_]`, followed by zero or more `[A-Za-z0-9_]`.
-* `Python` is **case-sensitive**.
-
-## Reserved words
-
-.block.hcenter[
-<pre>
-and exec not assert finally or break for pass class def print
-continue from global raise with return del import try elif in
-while else is if except lambda yield False True None
-</pre>
-]
-
-## Naming conventions
-
-* Class names start with an **uppercase letter**. All other identifiers start with a **lowercase letter**.
-* Starting an identifier with a **single leading underscore** indicates that the identifier is **private**.
-* Starting an identifier with **two leading underscores** indicates a **strongly private** identifier.
-* If the identifier also ends with **two trailing underscores**, the identifier is a **language-defined special name**.
 
 ---
 
