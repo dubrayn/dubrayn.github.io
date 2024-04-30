@@ -1,7 +1,8 @@
+import numpy
 from setuptools import setup, Extension
 
 module1 = Extension('_testmod3',
-                    include_dirs = ['./include/armanpy/'],
+                    include_dirs = ['./include/armanpy/', numpy.get_include()],
                     libraries = ['m', 'z', 'armadillo'],
                     sources = ['testmod3.i', 'myclass.cpp'],
                     swig_opts = ["-c++", "-Wall", "-I.", "-I./include/armanpy/"])
