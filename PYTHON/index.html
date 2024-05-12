@@ -952,8 +952,8 @@ d['key0'] = 'other_text' # replace value for key 'key0'
 del d['key1']            # remove key and value for key 'key1'
 print(d)                 # {'key2': 'text2', 'key0': 'other_text'}
 
-'key1' in d              # False
-'key2' in d              # True
+print('key1' in d)       # False
+print('key2' in d)       # True
 
 d.keys()                 # ['key2', 'key0']
 d.values()               # ['text2', 'other_text']
@@ -974,7 +974,7 @@ for k in d:              # iterate over a dict
 ```python
 # create an empty set
 s = set()
-# initialize a 
+# initialize a
 s1 = set(['Beta', 'Gamma', 'Alpha', 'Delta', 'Gamma', 'Beta'])
 s2 = set(['Beta', 'Alpha', 'Epsilon', 'Omega', 'Psi'])
 s1                          # set(['Alpha', 'Beta', 'Gamma', 'Delta'])
@@ -1203,6 +1203,48 @@ for i, v in enumerate(l):
 # index: 2 val: 'c'
 # index: 3 val: 'd'
 # index: 4 val: 'e'
+```
+
+---
+
+# Special "infinite" loop
+
+:arrow_right: Loop until a condition is fulfilled.
+
+```python
+while True:
+  print("this goes on...")
+  print("forever...")
+
+# Output:
+# this goes on...
+# forever...
+# this goes on...
+# forever...
+# this goes on...
+# forever...
+# this goes on...
+# forever...
+# [...]
+```
+
+:arrow_right: Use `break` to exit the loop.
+
+```python
+i = 0
+
+while True:
+  print("will this end ?")
+  i = i + 1
+  if i == 2:
+    break
+
+print("exited !")
+
+# Output:
+# will this end ?
+# will this end ?
+# exited !
 ```
 
 ---
