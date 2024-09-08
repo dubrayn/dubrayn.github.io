@@ -32,9 +32,247 @@ class: animated fadeIn middle numbers
 
 ---
 
+# `C++` Hello world !
+
+:arrow_right: `examples/helloworld_cpp`
+
+.row[
+.column.w48[
+## .hcenter[`myclass.h`]
+```C++
+#ifndef MYCLASS_H
+#define MYCLASS_H
+
+class MyClass
+{
+  public:
+  MyClass(int);
+  int myFunc(int);
+  int a;
+};
+#endif // MYCLASS_H
+```
+]
+
+.column.w48[
+## .hcenter[`myclass.cpp`]
+```C++
+#include "myclass.h"
+
+MyClass::MyClass(int _a) : a(_a)
+{
+// possible other ways: "a = int(_a);" or "a = _a;"
+}
+
+int MyClass::myFunc(int b)
+{
+  return a + b; // "a" is the same as "this->a"
+}
+```
+]
+]
+
+.row[
+.column.w48[
+## .hcenter[`main.cpp`]
+
+```C++
+#include "myclass.h"
+
+#include <iostream>
+
+int main(int charc, char** argv)
+{
+  MyClass myClass(2);
+
+  std::cout << "Result: " << myClass.myFunc(3);
+  std::cout << std::endl;
+
+  return 0;
+}
+```
+]
+
+.column.w48[
+## .hcenter[Build & launch `main`]
+```shell
+$ g++ -Wall -c myclass.cpp -o myclass.o
+$ g++ -Wall -c main.cpp -o main.o
+$ g++ main.o myclass.o -o main
+$ ./main
+Result: 5
+```
+
+]
+]
+
+---
+
+# Compiler / linker
+
+.mermaid[
+    graph LR
+              source["source files<br>.cpp / .cxx"] -- compilation --> objects[object files<br>.o]
+              objects -- link --> executable[executable file]
+]
+
+:arrow_right: Separate invocations of `g++`
+
+```shell
+* compilation
+$ g++ -Wall -c myclass.cpp -o myclass.o
+
+* compilation
+$ g++ -Wall -c main.cpp -o main.o
+
+* link
+$ g++ main.o myclass.o -o main
+```
+
+:arrow_right: 2-in-1 command :warning:
+```shell
+* compilation + link
+$ g++ -Wall -c myclass.cpp main.cpp -o main
+```
+
+---
+
+# `g++` main options
+
+.row[.column.w48[
+## Compiler mode
+
+* `-c` compile, do not link
+* `-Wall` display all warnings
+* `-Werror` treat warnings as errors (stop)
+* `-Ox` optimization level (x = 0..4)
+* `-g` generate debugging symbols
+* `-I` specify additional path for include files
+* `-std=c++11` specify the C++ version
+]
+.column.w48[
+## Linker mode
+* `-L` specify additional path for library files
+* `-ltoto` use library file `toto.so`
+* `-o result` specify output file `result`
+]
+]
+
+## Example
+```shell
+$ g++ -std=c++11 -g -O3 -I../inc -Wall -Werror -L~/.local/lib -L../lib -lsuper -larma sol.cpp main.cpp -o go
+```
+
+1. which file(s) will be generated ?
+2. what can be an issue when debugging ?
+3. what can be an issue when developping ?
+
+---
+
+# General `C++` advices
+
+:bulb: Beginner-friendly advices for "simple" scientific code
+
+## Do not use `new` and `delete`
+
+.row[
+.column.w48[
+```C++
+MyClass *myClass = new MyClass(2);
+std::cout << "Result: " << myClass->myFunc(3);
+delete(myClass);
+```
+]
+.column.w5.middle[
+:arrow_right:
+]
+.column.w48[
+```C++
+MyClass myClass(2);
+std::cout << "Result: " << myClass.myFunc(3);
+```
+]
+]
+
+## Do not use `char*`
+
+.row[
+.column.w48[
+```C++
+char mesg[] = "my name is Noël";
+std::cout << mesg << "\n";
+```
+]
+.column.w5.middle[
+:arrow_right:
+]
+.column.w48[
+```C++
+std::string mesg = "my name is Noël";
+std::cout << mesg << "\n";
+```
+]
+]
+
+## Do not use `this->`
+
+.row[
+.column.w48[
+```C++
+class Pipo
+{
+  public:
+  Pipo() { std::cout << this->a << std::endl; }
+  int a = 5;
+};
+```
+]
+.column.w5.middle[
+:arrow_right:
+]
+.column.w48[
+```C++
+class Pipo
+{
+  public:
+  Pipo() { std::cout << a << std::endl; }
+  int a = 5;
+};
+```
+]
+]
+
+## Use brace initializers and auto iterators when possible
+
+.row[
+.column.w48[
+```C++
+  std::vector<std::string> toto;
+  toto.push_back("tutu");
+  toto.push_back("titi");
+  for (int i = 0; i < toto.size(); i++)
+    std::cout << toto[i] << std::endl;
+```
+]
+.column.w5.middle[
+:arrow_right:
+]
+.column.w48[
+```C++
+std::list<std::string> toto = {"tutu", "titi"};
+
+
+for (auto s: toto)
+  std::cout << s << std::endl;
+```
+]
+]
+
+---
+
 class:top
 
-# `C++` files: main rules
+# `C++` files: organizing, naming, testing
 
 ## One class = two files
 
@@ -614,6 +852,36 @@ int MyClass::myFunc(double e)
 ```
 ]
 ]
+
+---
+
+# Conclusions
+
+* **always** read the output from the compiler, **even warnings**,
+* use `-Wall` and `-Werror`,
+* read and understand some existing, well-written `C++` code,
+* do some coding exercices,
+* know the main differences (`C++03`, `C++11`, `C++14`, `C++17`, `C++20`, etc...),
+.hcenter[
+## Yes, `C++` code can be beautiful :heart: (from `C++11` at least)
+]
+
+---
+
+class: top
+
+# A `C++` joke
+
+* yes, some `C++` jokes exist,
+* source: [https://www.learncpp.com](https://www.learncpp.com) (nice site to learn how to write some nice `C++` code).
+
+.hcenter.shadow.w60[![](images/microphone.png)]
+
+## .hcenter[What’s the best naming prefix for a global variable ?]
+
+--
+
+## .hcenter[Answer: `//`]
 
     </textarea>
 
