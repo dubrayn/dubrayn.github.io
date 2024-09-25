@@ -12,37 +12,38 @@ Project:
 
 * introduction
 * project
-* zen of C++
-* C++ headers
+* git (start)
 
 === TP0
 
 ---- WEEK1 ----
 
-* git
-* make
+* zen of C++
+* git (end)
 
 === TP1
 
 ---- WEEK2 ----
 
+* make
 * Armadillo
-* Doxygen
-* CxxTest
-* quadratures
+* quadratures (-> slide 13)
 
 === TP2
 
 ---- WEEK3 ----
 
-* astyle
-* latex
-* markdown
+* quadratures (end)
+* Doxygen
+* CxxTest
 
 === TP3
 
 ---- WEEK4 ----
 
+* astyle
+* latex
+* markdown
 * Python
 
 === TP4
