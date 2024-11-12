@@ -608,7 +608,41 @@ for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
 }
 ```
 
+---
 
+class: middle
+
+# IPS-PROD - Execution timing
+
+:arrow_right: Use `arma::wall_clock`:
+
+## .hcenter[`[examples/armadillo_timer/main.cpp]`]
+```C++
+#include <armadillo>
+
+int main(int, char**)
+{
+  arma::wall_clock wclock;
+
+  wclock.tic();
+
+  sleep(1); // do some stuff
+
+  double length = wclock.toc();
+
+  std::cout << "total time: " << length << " [s]" << std::endl;
+
+  return 0;
+}
+```
+
+## .hcenter[`[shell]`]
+```bash
+$ make && ./main
+g++ -Wall -O3 -std=c++14 main.cpp -c -o main.o
+g++  main.o -o main -larmadillo
+total time: 1.0005 [s]
+```
 
     </textarea>
 
