@@ -66,12 +66,12 @@ Project:
 
 * debrif projet IPS-DEV
 * project
+* sum optimization
 
 === TP0
 
 ---- WEEK1 ----
 
-* sum optimization
 * POVray
 
 === TP1
@@ -85,7 +85,8 @@ Project:
 
 ---- WEEK3 ----
 
-* numpy / python accerelators
+* python (end)
+* numpy / python accelerators
 
 === TP3
 
