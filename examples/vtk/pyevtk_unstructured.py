@@ -1,8 +1,8 @@
 #! /usr/bin/env python3
 
-######################################################################################
+###############################################################################
 # MIT License
-# 
+#
 # Copyright (c) 2010-2021 Paulo A. Herrera
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -12,9 +12,9 @@
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
 #
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-# 
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,7 +22,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-######################################################################################
+###############################################################################
 
 # ************************************************************************
 # * Example of how to use the high level unstructuredGridToVTK function. *
@@ -36,12 +36,15 @@ from pyevtk.vtk import VtkTriangle, VtkQuad
 import numpy as np
 
 FILE_PATH = "./unstructured"
+
+
 def clean():
     try:
         os.remove(FILE_PATH + ".vtu")
-    except:
+    except Exception:
         pass
-        
+
+
 def run():
     print("Running unstructured...")
 
@@ -75,15 +78,20 @@ def run():
     ctype = np.zeros(3)
     ctype[0], ctype[1] = VtkTriangle.tid, VtkTriangle.tid
     ctype[2] = VtkQuad.tid
-    
+
     cd = np.random.rand(3)
-    cellData = {"pressure" : cd}
-    
+    cellData = {"pressure": cd}
+
     pd = np.random.rand(6)
-    pointData = {"ec" : pd}
-    
-    unstructuredGridToVTK(FILE_PATH, x, y, z, connectivity = conn, offsets = offset, cell_types = ctype, cellData = cellData, pointData = pointData)
+    pointData = {"ec": pd}
+
+    unstructuredGridToVTK(FILE_PATH, x, y, z,
+                          connectivity=conn,
+                          offsets=offset,
+                          cell_types=ctype,
+                          cellData=cellData,
+                          pointData=pointData)
+
 
 if __name__ == "__main__":
     run()
-
