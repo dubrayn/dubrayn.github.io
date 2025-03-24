@@ -214,6 +214,7 @@
 %armanpy_mat_byvalue_typemaps( arma::Mat< double > )
 %armanpy_mat_byvalue_typemaps( arma::Mat< float >  )
 %armanpy_mat_byvalue_typemaps( arma::Mat< int > )
+%armanpy_mat_byvalue_typemaps( arma::Mat< long long unsigned int > )
 %armanpy_mat_byvalue_typemaps( arma::Mat< unsigned >  )
 %armanpy_mat_byvalue_typemaps( arma::Mat< arma::sword >  )
 %armanpy_mat_byvalue_typemaps( arma::Mat< arma::uword >  )
@@ -276,6 +277,7 @@
 %armanpy_mat_const_ref_typemaps( arma::Mat< double > )
 %armanpy_mat_const_ref_typemaps( arma::Mat< float >  )
 %armanpy_mat_const_ref_typemaps( arma::Mat< int > )
+%armanpy_mat_const_ref_typemaps( arma::Mat< long long unsigned int > )
 %armanpy_mat_const_ref_typemaps( arma::Mat< unsigned >  )
 %armanpy_mat_const_ref_typemaps( arma::Mat< arma::sword >  )
 %armanpy_mat_const_ref_typemaps( arma::Mat< arma::uword >  )
@@ -331,6 +333,7 @@
 %armanpy_mat_ref_typemaps( arma::Mat< double > )
 %armanpy_mat_ref_typemaps( arma::Mat< float >  )
 %armanpy_mat_ref_typemaps( arma::Mat< int > )
+%armanpy_mat_ref_typemaps( arma::Mat< long long unsigned int > )
 %armanpy_mat_ref_typemaps( arma::Mat< unsigned >  )
 %armanpy_mat_ref_typemaps( arma::Mat< arma::sword >  )
 %armanpy_mat_ref_typemaps( arma::Mat< arma::uword >  )
@@ -358,13 +361,14 @@
     {
       PyObject* array = armanpy_mat_copy_to_numpy< ARMA_MAT_TYPE >( &$1 );
       if ( !array ) { PyErr_SetString( PyExc_RuntimeError, "Return by value failed (armanpy_mat_copy_to_numpy)." ); SWIG_fail; }
-      $result = SWIG_Python_AppendOutput($result, array);
+      $result = SWIG_AppendOutput($result, array);
     }
 %enddef
 
 %armanpy_mat_return_by_value_typemaps( arma::Mat< double > )
 %armanpy_mat_return_by_value_typemaps( arma::Mat< float >  )
 %armanpy_mat_return_by_value_typemaps( arma::Mat< int > )
+%armanpy_mat_return_by_value_typemaps( arma::Mat< long long unsigned int > )
 %armanpy_mat_return_by_value_typemaps( arma::Mat< unsigned >  )
 %armanpy_mat_return_by_value_typemaps( arma::Mat< arma::sword >  )
 %armanpy_mat_return_by_value_typemaps( arma::Mat< arma::uword >  )
@@ -389,13 +393,14 @@
     {
       PyObject* array = armanpy_mat_copy_to_numpy< ARMA_MAT_TYPE >( $1 );
       if ( !array )  { PyErr_SetString( PyExc_RuntimeError, "Return by reference failed (armanpy_mat_copy_to_numpy)." ); SWIG_fail; }
-      $result = SWIG_Python_AppendOutput($result, array);
+      $result = SWIG_AppendOutput($result, array);
     }
 %enddef
 
 %armanpy_mat_return_by_reference_typemaps( arma::Mat< double > )
 %armanpy_mat_return_by_reference_typemaps( arma::Mat< float >  )
 %armanpy_mat_return_by_reference_typemaps( arma::Mat< int > )
+%armanpy_mat_return_by_reference_typemaps( arma::Mat< long long unsigned int > )
 %armanpy_mat_return_by_reference_typemaps( arma::Mat< unsigned >  )
 %armanpy_mat_return_by_reference_typemaps( arma::Mat< arma::sword >  )
 %armanpy_mat_return_by_reference_typemaps( arma::Mat< arma::uword >  )
@@ -425,13 +430,14 @@
     {
       PyObject* array = armanpy_mat_bsptr_as_numpy_with_shared_memory< ARMA_MAT_TYPE >( $1 );
       if ( !array ) { PyErr_SetString( PyExc_RuntimeError, "Return boost::shared_ptr< ARMA_MAT_TYPE > failed (armanpy_mat_bsptr_as_numpy_with_shared_memory)." ); SWIG_fail; }
-      $result = SWIG_Python_AppendOutput($result, array);
+      $result = SWIG_AppendOutput($result, array);
     }
 %enddef
 
 %armanpy_mat_return_by_bsptr_typemaps( arma::Mat< double > )
 %armanpy_mat_return_by_bsptr_typemaps( arma::Mat< float >  )
 %armanpy_mat_return_by_bsptr_typemaps( arma::Mat< int > )
+%armanpy_mat_return_by_bsptr_typemaps( arma::Mat< long long unsigned int > )
 %armanpy_mat_return_by_bsptr_typemaps( arma::Mat< unsigned >  )
 %armanpy_mat_return_by_bsptr_typemaps( arma::Mat< arma::sword >  )
 %armanpy_mat_return_by_bsptr_typemaps( arma::Mat< arma::uword >  )

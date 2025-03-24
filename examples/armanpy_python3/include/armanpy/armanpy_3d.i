@@ -205,6 +205,7 @@
 %armanpy_cube_byvalue_typemaps( arma::Cube< double > )
 %armanpy_cube_byvalue_typemaps( arma::Cube< float >  )
 %armanpy_cube_byvalue_typemaps( arma::Cube< int > )
+%armanpy_cube_byvalue_typemaps( arma::Cube< long long unsigned int > )
 %armanpy_cube_byvalue_typemaps( arma::Cube< unsigned >  )
 %armanpy_cube_byvalue_typemaps( arma::Cube< arma::sword >  )
 %armanpy_cube_byvalue_typemaps( arma::Cube< arma::uword >  )
@@ -267,6 +268,7 @@
 %armanpy_cube_const_ref_typemaps( arma::Cube< double > )
 %armanpy_cube_const_ref_typemaps( arma::Cube< float >  )
 %armanpy_cube_const_ref_typemaps( arma::Cube< int > )
+%armanpy_cube_const_ref_typemaps( arma::Cube< long long unsigned int > )
 %armanpy_cube_const_ref_typemaps( arma::Cube< unsigned >  )
 %armanpy_cube_const_ref_typemaps( arma::Cube< arma::sword >  )
 %armanpy_cube_const_ref_typemaps( arma::Cube< arma::uword >  )
@@ -322,6 +324,7 @@
 %armanpy_cube_ref_typemaps( arma::Cube< double > )
 %armanpy_cube_ref_typemaps( arma::Cube< float >  )
 %armanpy_cube_ref_typemaps( arma::Cube< int > )
+%armanpy_cube_ref_typemaps( arma::Cube< long long unsigned int > )
 %armanpy_cube_ref_typemaps( arma::Cube< unsigned >  )
 %armanpy_cube_ref_typemaps( arma::Cube< arma::sword >  )
 %armanpy_cube_ref_typemaps( arma::Cube< arma::uword >  )
@@ -349,13 +352,14 @@
     {
       PyObject* array = armanpy_cube_copy_to_numpy< ARMA_MAT_TYPE >( &$1 );
       if ( !array ) { PyErr_SetString( PyExc_RuntimeError, "Return by value failed (armanpy_cube_copy_to_numpy)." ); SWIG_fail; }
-      $result = SWIG_Python_AppendOutput($result, array);
+      $result = SWIG_AppendOutput($result, array);
     }
 %enddef
 
 %armanpy_cube_return_by_value_typemaps( arma::Cube< double > )
 %armanpy_cube_return_by_value_typemaps( arma::Cube< float >  )
 %armanpy_cube_return_by_value_typemaps( arma::Cube< int > )
+%armanpy_cube_return_by_value_typemaps( arma::Cube< long long unsigned int > )
 %armanpy_cube_return_by_value_typemaps( arma::Cube< unsigned >  )
 %armanpy_cube_return_by_value_typemaps( arma::Cube< arma::sword >  )
 %armanpy_cube_return_by_value_typemaps( arma::Cube< arma::uword >  )
@@ -380,13 +384,14 @@
     {
       PyObject* array = armanpy_cube_copy_to_numpy< ARMA_MAT_TYPE >( $1 );
       if ( !array ) { PyErr_SetString( PyExc_RuntimeError, "Return by reference failed (armanpy_cube_copy_to_numpy)." ); SWIG_fail; }
-      $result = SWIG_Python_AppendOutput($result, array);
+      $result = SWIG_AppendOutput($result, array);
     }
 %enddef
 
 %armanpy_cube_return_by_reference_typemaps( arma::Cube< double > )
 %armanpy_cube_return_by_reference_typemaps( arma::Cube< float >  )
 %armanpy_cube_return_by_reference_typemaps( arma::Cube< int > )
+%armanpy_cube_return_by_reference_typemaps( arma::Cube< long long unsigned int > )
 %armanpy_cube_return_by_reference_typemaps( arma::Cube< unsigned >  )
 %armanpy_cube_return_by_reference_typemaps( arma::Cube< arma::sword >  )
 %armanpy_cube_return_by_reference_typemaps( arma::Cube< arma::uword >  )
@@ -417,13 +422,14 @@
     {
       PyObject* array = armanpy_cube_bsptr_as_numpy_with_shared_memory< ARMA_MAT_TYPE >( $1 );
       if ( !array ) { PyErr_SetString( PyExc_RuntimeError, "Return boost::shared_ptr< ARMA_MAT_TYPE > failed (armanpy_cube_bsptr_as_numpy_with_shared_memory)." ); SWIG_fail; }
-      $result = SWIG_Python_AppendOutput($result, array);
+      $result = SWIG_AppendOutput($result, array);
     }
 %enddef
 
 %armanpy_cube_return_by_bsptr_typemaps( arma::Cube< double > )
 %armanpy_cube_return_by_bsptr_typemaps( arma::Cube< float >  )
 %armanpy_cube_return_by_bsptr_typemaps( arma::Cube< int > )
+%armanpy_cube_return_by_bsptr_typemaps( arma::Cube< long long unsigned int > )
 %armanpy_cube_return_by_bsptr_typemaps( arma::Cube< unsigned >  )
 %armanpy_cube_return_by_bsptr_typemaps( arma::Cube< arma::sword >  )
 %armanpy_cube_return_by_bsptr_typemaps( arma::Cube< arma::uword >  )

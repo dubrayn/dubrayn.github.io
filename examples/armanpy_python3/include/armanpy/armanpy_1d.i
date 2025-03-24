@@ -156,6 +156,7 @@
 %armanpy_vec_byvalue_typemaps( arma::Col< double > )
 %armanpy_vec_byvalue_typemaps( arma::Col< float >  )
 %armanpy_vec_byvalue_typemaps( arma::Col< int > )
+%armanpy_vec_byvalue_typemaps( arma::Col< long long unsigned int > )
 %armanpy_vec_byvalue_typemaps( arma::Col< unsigned >  )
 %armanpy_vec_byvalue_typemaps( arma::Col< arma::sword >  )
 %armanpy_vec_byvalue_typemaps( arma::Col< arma::uword >  )
@@ -185,6 +186,7 @@
 %armanpy_vec_byvalue_typemaps( arma::Row< double > )
 %armanpy_vec_byvalue_typemaps( arma::Row< float >  )
 %armanpy_vec_byvalue_typemaps( arma::Row< int > )
+%armanpy_vec_byvalue_typemaps( arma::Row< long long unsigned int > )
 %armanpy_vec_byvalue_typemaps( arma::Row< unsigned >  )
 %armanpy_vec_byvalue_typemaps( arma::Row< arma::sword >  )
 %armanpy_vec_byvalue_typemaps( arma::Row< arma::uword >  )
@@ -247,6 +249,7 @@
 %armanpy_vec_const_ref_typemaps( arma::Col< double > )
 %armanpy_vec_const_ref_typemaps( arma::Col< float >  )
 %armanpy_vec_const_ref_typemaps( arma::Col< int > )
+%armanpy_vec_const_ref_typemaps( arma::Col< long long unsigned int > )
 %armanpy_vec_const_ref_typemaps( arma::Col< unsigned >  )
 %armanpy_vec_const_ref_typemaps( arma::Col< arma::sword >  )
 %armanpy_vec_const_ref_typemaps( arma::Col< arma::uword >  )
@@ -276,6 +279,7 @@
 %armanpy_vec_const_ref_typemaps( arma::Row< double > )
 %armanpy_vec_const_ref_typemaps( arma::Row< float >  )
 %armanpy_vec_const_ref_typemaps( arma::Row< int > )
+%armanpy_vec_const_ref_typemaps( arma::Row< long long unsigned int > )
 %armanpy_vec_const_ref_typemaps( arma::Row< unsigned >  )
 %armanpy_vec_const_ref_typemaps( arma::Row< arma::sword >  )
 %armanpy_vec_const_ref_typemaps( arma::Row< arma::uword >  )
@@ -331,6 +335,7 @@
 %armanpy_vec_ref_typemaps( arma::Col< double > )
 %armanpy_vec_ref_typemaps( arma::Col< float >  )
 %armanpy_vec_ref_typemaps( arma::Col< int > )
+%armanpy_vec_ref_typemaps( arma::Col< long long unsigned int > )
 %armanpy_vec_ref_typemaps( arma::Col< unsigned >  )
 %armanpy_vec_ref_typemaps( arma::Col< arma::sword >  )
 %armanpy_vec_ref_typemaps( arma::Col< arma::uword >  )
@@ -361,6 +366,7 @@
 %armanpy_vec_ref_typemaps( arma::Row< double > )
 %armanpy_vec_ref_typemaps( arma::Row< float >  )
 %armanpy_vec_ref_typemaps( arma::Row< int > )
+%armanpy_vec_ref_typemaps( arma::Row< long long unsigned int > )
 %armanpy_vec_ref_typemaps( arma::Row< unsigned >  )
 %armanpy_vec_ref_typemaps( arma::Row< arma::sword >  )
 %armanpy_vec_ref_typemaps( arma::Row< arma::uword >  )
@@ -388,13 +394,14 @@
     {
       PyObject* array = armanpy_vec_copy_to_numpy< ARMA_MAT_TYPE >( &$1 );
       if ( !array ) { PyErr_SetString( PyExc_RuntimeError, "Return by value failed (armanpy_vec_copy_to_numpy)." ); SWIG_fail; }
-      $result = SWIG_Python_AppendOutput($result, array);
+      $result = SWIG_AppendOutput($result, array);
     }
 %enddef
 
 %armanpy_vec_return_by_value_typemaps( arma::Col< double > )
 %armanpy_vec_return_by_value_typemaps( arma::Col< float >  )
 %armanpy_vec_return_by_value_typemaps( arma::Col< int > )
+%armanpy_vec_return_by_value_typemaps( arma::Col< long long unsigned int > )
 %armanpy_vec_return_by_value_typemaps( arma::Col< unsigned >  )
 %armanpy_vec_return_by_value_typemaps( arma::Col< arma::sword >  )
 %armanpy_vec_return_by_value_typemaps( arma::Col< arma::uword >  )
@@ -424,6 +431,7 @@
 %armanpy_vec_return_by_value_typemaps( arma::Row< double > )
 %armanpy_vec_return_by_value_typemaps( arma::Row< float >  )
 %armanpy_vec_return_by_value_typemaps( arma::Row< int > )
+%armanpy_vec_return_by_value_typemaps( arma::Row< long long unsigned int > )
 %armanpy_vec_return_by_value_typemaps( arma::Row< unsigned >  )
 %armanpy_vec_return_by_value_typemaps( arma::Row< arma::sword >  )
 %armanpy_vec_return_by_value_typemaps( arma::Row< arma::uword >  )
@@ -448,13 +456,14 @@
     {
       PyObject* array = armanpy_vec_copy_to_numpy< ARMA_MAT_TYPE >( $1 );
       if ( !array ) { PyErr_SetString( PyExc_RuntimeError, "Return by reference failed (armanpy_vec_copy_to_numpy)." ); SWIG_fail; }
-      $result = SWIG_Python_AppendOutput($result, array);
+      $result = SWIG_AppendOutput($result, array);
     }
 %enddef
 
 %armanpy_vec_return_by_reference_typemaps( arma::Col< double > )
 %armanpy_vec_return_by_reference_typemaps( arma::Col< float >  )
 %armanpy_vec_return_by_reference_typemaps( arma::Col< int > )
+%armanpy_vec_return_by_reference_typemaps( arma::Col< long long unsigned int > )
 %armanpy_vec_return_by_reference_typemaps( arma::Col< unsigned >  )
 %armanpy_vec_return_by_reference_typemaps( arma::Col< arma::sword >  )
 %armanpy_vec_return_by_reference_typemaps( arma::Col< arma::uword >  )
@@ -484,6 +493,7 @@
 %armanpy_vec_return_by_reference_typemaps( arma::Row< double > )
 %armanpy_vec_return_by_reference_typemaps( arma::Row< float >  )
 %armanpy_vec_return_by_reference_typemaps( arma::Row< int > )
+%armanpy_vec_return_by_reference_typemaps( arma::Row< long long unsigned int > )
 %armanpy_vec_return_by_reference_typemaps( arma::Row< unsigned >  )
 %armanpy_vec_return_by_reference_typemaps( arma::Row< arma::sword >  )
 %armanpy_vec_return_by_reference_typemaps( arma::Row< arma::uword >  )
@@ -513,13 +523,14 @@
     {
       PyObject* array = armanpy_vec_bsptr_as_numpy_with_shared_memory< ARMA_MAT_TYPE >( $1 );
       if ( !array ) { PyErr_SetString( PyExc_RuntimeError, "Return boost::shared_ptr< ARMA_MAT_TYPE > failed (armanpy_vec_bsptr_as_numpy_with_shared_memory)." ); SWIG_fail; }
-      $result = SWIG_Python_AppendOutput($result, array);
+      $result = SWIG_AppendOutput($result, array);
     }
 %enddef
 
 %armanpy_vec_return_by_bsptr_typemaps( arma::Col< double > )
 %armanpy_vec_return_by_bsptr_typemaps( arma::Col< float >  )
 %armanpy_vec_return_by_bsptr_typemaps( arma::Col< int > )
+%armanpy_vec_return_by_bsptr_typemaps( arma::Col< long long unsigned int > )
 %armanpy_vec_return_by_bsptr_typemaps( arma::Col< unsigned >  )
 %armanpy_vec_return_by_bsptr_typemaps( arma::Col< arma::sword >  )
 %armanpy_vec_return_by_bsptr_typemaps( arma::Col< arma::uword >  )
@@ -549,6 +560,7 @@
 %armanpy_vec_return_by_bsptr_typemaps( arma::Row< double > )
 %armanpy_vec_return_by_bsptr_typemaps( arma::Row< float >  )
 %armanpy_vec_return_by_bsptr_typemaps( arma::Row< int > )
+%armanpy_vec_return_by_bsptr_typemaps( arma::Row< long long unsigned int > )
 %armanpy_vec_return_by_bsptr_typemaps( arma::Row< unsigned >  )
 %armanpy_vec_return_by_bsptr_typemaps( arma::Row< arma::sword >  )
 %armanpy_vec_return_by_bsptr_typemaps( arma::Row< arma::uword >  )
