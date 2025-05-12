@@ -1705,8 +1705,22 @@ p = Pool(5)
 print(p.map(f, [1, 2, 3])) # [1, 4, 9]
 ```
 
+* in case of multiple arguments:
+
+```Python
+from multiprocessing import Pool
+
+def f(a, b):
+  return a*b
+
+p = Pool(5)
+print(p.starmap(f, [(1, 1), (2, 2), (3, 3)])) # [1, 4, 9]
+```
+
 * `multiprocessing.Pipe`: thread- and process-safe **duplex pipe**,
 * local and **remote** multiprocessing,
+
+
 
 ---
 
