@@ -15,74 +15,145 @@
   <body>
     <textarea id="source" readonly>
 
-class: titlepage
-
-.title[
-Introduction to Scientific Programming
-]
-
-.subtitle[
-`IPS-PROD` - J. NEWSOME - ENSIIE
-]
-
-.row[
-`$$\int_{-\infty}^\infty f(x)e^{-x^2} dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
-]
-
-.footnote[
-`IPS-PROD` - J. NEWSOME - ENSIIE - [:book:](../index.html)
-]
-
----
-
 layout: true
 class: animated fadeIn middle numbers
 
 .footnote[
-`IPS-PROD` - J. NEWSOME - ENSIIE - [:book:](../index.html)
+`IPS-PROD` - J. NEWSOME - ENSIIE - 2024 - [:book:](../index.html)
 ]
 
 ---
 
-# These slides
+# Avoid Nesting
 
-.hcenter.w20[![](images/github-octocat.png)]
+Linux Kernel coding standards:
 
-.block.hcenter.w100[
-* You can **freely** download, modify and use these slides.
-* Do not hesitate to make some **pull requests** if you want to share your modifications.
-* Repository: [https://github.com/dubrayn/dubrayn.github.io](https://github.com/dubrayn/dubrayn.github.io).
-* Online slides: [https://dubrayn.github.io](http://dubrayn.github.io).
-]
+> Now, some people will claim that having 8-character indentations makes the code move too far to the right, and makes it hard to read on a 80-character terminal screen. 
+> The answer to that is that if you need more than 3 levels of indentation, you're screwed anyway, and should fix your program. 
 
-.vspace[]
+## Guard clauses: return early and often
 
-.block.hcenter.w100[
-To view these slides **locally** with `chromium-browser`:
-```shell
-$ chromium-browser --allow-file-access-from-files index.html
+.row[
+.column.w48[
+```cpp
+void f(int status)
+{
+  if (status == OK)
+  {
+    dosomething();
+  }
+}
 ```
 ]
 
-.vspace[]
+.column.w48[
+```cpp
+void f(int status)
+{
+  if (status != OK) return;
 
-.block.hcenter.w100[
-To view these slides **locally** with `firefox`:
-1. go to `about:config`,
-2. search for the `origin_policy` pattern,
-3. set the property `security.fileuri.strict_origin_policy` to `false`.
+  dosomething();
+}
+```
+]
+]
+
+:arrow_right: put the `[[unlikely]]` branch first and the `[[likely]]` branch after
+
+## Extract into a function
+
+---
+
+# Naming things
+
+
+---
+
+# Comments
+
+## Self-documenting code
+
+```cpp
+// You can update a message IF the current user is the author of the message
+// AND the message was delivered less than 5 minutes ago OR if the current user
+// is an administrator.
+// You can also edit the message if the message was not delivered yet
+if (((message.user.id == current_user.id) 
+    && (message.delivered_time() is None)
+  || (datetime.now() - message.delivered_time < 10*60))
+|| (current_user.type == User::ADMINISTRATOR))
+{
+  message.update_text(text)
+}
+```
+
+:arrow_right: Use meaningful variable names
+
+```cpp
+bool user_is_author = (message.user.id == current_user.id)
+bool is_recent      = ((message.delivered_time() is None) || (datetime.now() - message.delivered_time < 300)
+bool user_is_adming = (current_user.type == User::ADMINISTRATOR) {
+
+if ( (user_is_author && is_recent) || user_is_admin())
+  message.update_text(text)
+}
+```
+
+## Avoid magic numbers
+
+
+.row[
+.column.w48[
+```cpp
+if (status == 5) {
+  state.finalize();
+}
+```
+]
+
+.column.w48[
+```cpp
+if (status == MessageStatus::RECEIVED) {
+  state.finalize();
+}
+```
+]
 ]
 
 ---
 
-# Author
+## Comments get out of sync
 
-## Junah "Jun" NEWSOME - [`junah.newsome@gmail.com`](mailto:junah.newsome@gmail.com)
+Comments do not benefit from:
+* Tests
+* Compiler checks
+* Linting
 
-* 3rd year PHD Student at **CEA**
-* Microscopic description of the nuclear fission process
-* **ENSIIE** HPC - 2020-2023
-* skills: scientist / developer / HPC user
+---
+
+# Make use  of the standard library
+
+## C++
+
+Some interesting c++ features:
+https://github.com/AnthonyCalandra/modern-cpp-features
+
+* `std::optional`
+* smart pointers
+* structured binding declarations
+
+## Python
+
+https://docs.python.org/3/library/index.html
+
+Some interesting libraries:
+* `dataclass`
+* `json`, `csv`
+* `itertools`
+* `pathlib`
+* `hashlib`
+* `time`
+* `multiprocessing`
 
     </textarea>
 

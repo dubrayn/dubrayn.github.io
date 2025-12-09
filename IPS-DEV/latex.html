@@ -152,6 +152,8 @@ Transcript written on example.log.
 
 # .latex[L<sup>a</sup>T<sub>e</sub>X] math syntax
 
+* Indent does not matter
+
 .row[.column.middle.w50[```TeX
 S_i = 1 + 2 + 3 + \ldots + i
 ```]
@@ -160,8 +162,6 @@ S_i = 1 + 2 + 3 + \ldots + i
 S_i = 1 + 2 + 3 + \ldots + i
 $$`
 ]]
-
-----
 
 .row[.column.middle.w50[```TeX
 S_{ i } =1+2
@@ -176,10 +176,11 @@ S_{ i } =1+2
 $$`
 ]]
 
-----
+* subscripts, superscripts, fractions
 
 .row[.column.middle.w50[```TeX
-a_i^j = b_{i + 1}^{-1} + \frac{c^2 + d} { \sqrt{e + f + 0.4} }
+a_i^j = b_{i + 1}^{-1}
++ \frac{c^2 + d}{\sqrt{e + f + 0.4}}
 ```]
 .column.hcenter.middle.w48[
 `$$
@@ -187,10 +188,9 @@ a_i^j = b_{i + 1}^{-1} + \frac{c^2 + d}{\sqrt{e + f + 0.4}}
 $$`
 ]]
 
-----
-
 .row[.column.middle.w50[```TeX
-S \equiv \sum_{k = 1}^\infty \frac{1}{k^2} = \frac{\pi^2}{6}
+S \equiv \sum_{k = 1}^\infty \frac{1}{k^2} 
+= \frac{\pi^2}{6}
 ```]
 .column.hcenter.middle.w48[
 `$$
@@ -198,7 +198,7 @@ S \equiv \sum_{k = 1}^\infty \frac{1}{k^2} = \frac{\pi^2}{6}
 $$`
 ]]
 
-----
+* braket notation
 
 .row[.column.middle.w50[```TeX
 \hat{\mathcal{H}}|\psi_i\rangle = E_i|\psi_i\rangle
@@ -209,73 +209,13 @@ $$`
 $$`
 ]]
 
-----
-
-.row[.column.middle.w50[```TeX
-\left(\frac{1}{2} + \frac{3}{4}\right) =1 +  \frac{1}{4}
-```]
-.column.hcenter.middle.w48[
-`$$
-\left(\frac{1}{2} + \frac{3}{4}\right) =1 +  \frac{1}{4}
-$$`
-]]
+⚠️ Use the `braket` package or make some macros
 
 ---
 
 # .latex[L<sup>a</sup>T<sub>e</sub>X] math syntax
 
-.row[.column.middle.w50[```TeX
-D = \left|\begin{array}{ccc}
-a & b & c\\
-d & e & f\\
-g & h & i
-\end{array}\right|
-```]
-.column.hcenter.middle.w48[
-`$$
-D = \left|\begin{array}{ccc}
-a & b & c\\
-d & e & f\\
-g & h & i
-\end{array}\right|
-$$`
-]]
-
-----
-
-.row[.column.middle.w50[```TeX
-\Psi_\alpha = \int_{-\infty}^{\infty} %
-\exp \left( \sqrt{\alpha} \, -x^2\right) d x
-```]
-.column.hcenter.middle.w48[
-`$$
-\Psi_\alpha = \int_{-\infty}^{\infty} %
-\exp \left( \sqrt{\alpha} \, -x^2\right) d x
-$$`
-]]
-
-----
-
-.row[.column.middle.w50[```TeX
-I_{\sigma} =
-\int_{z=-\infty}^{\infty}
-\int_{\theta=0}^{2\pi}
-\int_{r_\perp = 0}^{\infty}
-e^{-\frac{r_\perp^2+z^2}{\sigma^2}}
-r_\perp dr_\perp d\theta dz
-```]
-.column.hcenter.middle.w48[
-`$$
-I_{\sigma} =
-\int_{z=-\infty}^{\infty}
-\int_{\theta=0}^{2\pi}
-\int_{r_\perp = 0}^{\infty}
-e^{-\frac{r_\perp^2+z^2}{\sigma^2}}
-r_\perp dr_\perp d\theta dz
-$$`
-]]
-
-----
+* Greek letters
 
 .row[.column.middle.w50[```TeX
 \begin{array}{cccccccc}
@@ -299,6 +239,95 @@ $$`
 \end{array}
 $$`
 ]]
+
+* Mathematical fonts
+
+.row[.column.middle.w45[```TeX
+          ABCDEFGHIJKLMNOPQRSTUVWXYZ  \\
+\mathbb{  ABCDEFGHIJKLMNOPQRSTUVWXYZ} \\
+\mathcal{ ABCDEFGHIJKLMNOPQRSTUVWXYZ} \\
+\mathfrak{ABCDEFGHIJKLMNOPQRSTUVWXYZ} \\
+```]
+.column.hcenter.middle.w60[
+`$$
+          ABCDEFGHIJKLMNOPQRSTUVWXYZ  \\
+\mathbb{  ABCDEFGHIJKLMNOPQRSTUVWXYZ} \\
+\mathcal{ ABCDEFGHIJKLMNOPQRSTUVWXYZ} \\
+\mathfrak{ABCDEFGHIJKLMNOPQRSTUVWXYZ} \\
+$$`
+]]
+
+
+
+---
+
+# .latex[L<sup>a</sup>T<sub>e</sub>X] math syntax
+
+* Left right (scaling) delimiters
+
+.row[.column.middle.w50[```TeX
+\left(\frac{1}{2} + \frac{3}{4}\right) =1 +  \frac{1}{4}
+```]
+.column.hcenter.middle.w48[
+`$$
+\left(\frac{1}{2} + \frac{3}{4}\right) =1 +  \frac{1}{4}
+$$`
+]]
+
+* Matrices
+
+.row[.column.middle.w50[```TeX
+D = \left|\begin{array}{ccc}
+a & b & c\\
+d & e & f\\
+g & h & i
+\end{array}\right|
+```]
+.column.hcenter.middle.w48[
+`$$
+D = \left|\begin{array}{ccc}
+a & b & c\\
+d & e & f\\
+g & h & i
+\end{array}\right|
+$$`
+]]
+
+* Integrals
+
+.row[.column.middle.w50[```TeX
+\Psi_\alpha = \int_{-\infty}^{\infty} %
+\exp \left( \sqrt{\alpha} \, -x^2\right) d x
+```]
+.column.hcenter.middle.w48[
+`$$
+\Psi_\alpha = \int_{-\infty}^{\infty} %
+\exp \left( \sqrt{\alpha} \, -x^2\right) d x
+$$`
+]]
+
+➡️ The `\( d \)` is not right, use `\( \text{d} \)` instead (`\mathrm{d}`)
+
+
+.row[.column.middle.w50[```TeX
+I_{\sigma} =
+\int_{z=-\infty}^{\infty}
+\int_{\theta=0}^{2\pi}
+\int_{r_\perp = 0}^{\infty}
+e^{-\frac{r_\perp^2+z^2}{\sigma^2}}
+r_\perp \mathrm{d} r_\perp \mathrm{d} \theta \mathrm{d}z
+```]
+.column.hcenter.middle.w48[
+`$$
+I_{\sigma} =
+\int_{z=-\infty}^{\infty}
+\int_{\theta=0}^{2\pi}
+\int_{r_\perp = 0}^{\infty}
+e^{-\frac{r_\perp^2+z^2}{\sigma^2}}
+r_\perp \mathrm{d} r_\perp \mathrm{d} \theta \mathrm{d}z
+$$`
+]]
+
 
 ---
 
@@ -315,8 +344,6 @@ $$`
 $$`
 ]]
 
-----
-
 .row[.column.middle.w50[```TeX
 \sin(\theta) \cos(\theta) \tan(\theta)
 ```]
@@ -326,31 +353,68 @@ $$`
 $$`
 ]]
 
-----
-
 .row[.column.middle.w50[```TeX
 \sinh(x) \cosh (x) \tanh(x)
 ```]
 .column.hcenter.middle.w48[
 `$$
 \sinh(x) \cosh (x) \tanh(x)
-$$`
-]]
-
-----
-
-.row[.column.middle.w50[```TeX
-\exp(z) \det(M)
-```]
-.column.hcenter.middle.w48[
-`$$
-\exp(z) \det(M)
 $$`
 ]]
 
 ## List of math symbols
 * [http://tug.ctan.org/info/symbols/comprehensive/symbols-a4.pdf](http://tug.ctan.org/info/symbols/comprehensive/symbols-a4.pdf) (338 pages !)
 * [http://oeis.org/wiki/List_of_LaTeX_mathematical_symbols](http://oeis.org/wiki/List_of_LaTeX_mathematical_symbols)
+
+---
+
+# Overleaf: open source real-time collaborative LaTeX editor
+
+.w40.hcenter[
+![](images/overleaf.jpg)
+]
+
+❌ Do not use overleaf if
+
+* your project **must** remain local (confidentiality)
+* your project requires **no collaboration**
+* your project is **big** (compilation time is limited)
+
+✅ Do use overleaf if
+
+* It makes it **easy to collaborate** (with users that may have a hard time with `git`)
+
+➡️ You can **host** your own overleaf instance (although limited) 
+
+---
+
+# Bonus: Inkscape + latex
+
+## Option 1: Render text with latex
+
+1. Save as pdf
+2. Omit text in PDF and create LaTeX file
+3. Include the magic
+
+```tex
+\usepackage{import}
+\usepackage{xifthen}
+\usepackage{pdfpages}
+
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{\columnwidth}
+    \import{./figures/}{#1.pdf_tex}
+}
+```
+Include the figure
+
+```tex
+\incfig{drawing}
+```
+
+## Option 2: use the inkscape extension
+
+1. extension > render > mathematics > latex
 
     </textarea>
 

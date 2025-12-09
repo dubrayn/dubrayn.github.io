@@ -61,27 +61,37 @@ class: animated fadeIn middle numbers
 ## The Zen of Python, by Tim Peters (PEP 20)
 
 1. Beautiful is better than ugly.
-1. Explicit is better than implicit.
-1. Simple is better than complex.
+1. **Explicit is better than implicit.**
+1. **Simple is better than complex.**
 1. Complex is better than complicated.
 1. Flat is better than nested.
 1. Sparse is better than dense.
-1. Readability counts.
-1. Special cases aren't special enough to break the rules.
+1. **Readability counts.**
+1. **Special cases aren't special enough to break the rules.**
 1. Although practicality beats purity.
-1. Errors should never pass silently.
+1. **Errors should never pass silently.**
 1. Unless explicitly silenced.
 1. In the face of ambiguity, refuse the temptation to guess.
 1. There should be one *and preferably only one* obvious way to do it.
 1. Although that way may not be obvious at first unless you're Dutch.
 1. Now is better than never.
 1. Although never is often better than *right* now.
-1. If the implementation is hard to explain, it's a bad idea.
+1. **If the implementation is hard to explain, it's a bad idea.**
 1. If the implementation is easy to explain, it may be a good idea.
-1. Namespaces are one honking great idea -- let's do more of those!
+1. **Namespaces** are one honking great idea -- let's do more of those!
 ]
 
 :arrow_right: Some examples of good Python style can be found [here](https://raw.githubusercontent.com/hblanks/zen-of-python-by-example/master/pep20_by_example.pdf).
+
+---
+
+# Table of content
+
+## 1. Basic syntax of python
+
+## 2. Function, classes, modules
+
+## 3. Built-in python objects
 
 ---
 
@@ -199,76 +209,212 @@ if True:
 * They start with `[A-Za-z_]`, followed by zero or more `[A-Za-z0-9_]`.
 * `Python` is **case-sensitive**.
 
-## Reserved words
+## Reserved keywords
 
-.block.hcenter[
-<pre>
-and exec not assert finally or break for pass class def print
-continue from global raise with return del import try elif in
-while else is if except lambda yield False True None
-</pre>
-]
-
-## Naming conventions
-
-* Class names start with an **uppercase letter**. All other identifiers start with a **lowercase letter**.
-* Starting an identifier with a **single leading underscore** indicates that the identifier is **private**.
-* Starting an identifier with **two leading underscores** indicates a **strongly private** identifier.
-* If the identifier also ends with **two trailing underscores**, the identifier is a **language-defined special name**.
+* `True False not and or          :` **Boolean algebra**
+* `None is                        :` **Identity testing**
+* `if elif else                   :` **Conditionals**
+* `for while break continue pass  :` **Loops**
+* `del                            :` ⚠️ Delete a name from the scope or...
+* `global nonlocal                :` ⚠️ Global variables, name shadowing...
+* `def class return               :` **Functions and Classes**
+* `in                             :` **Container testing**
+* `import from as                 :` **Module import**
+* `with                           :` **Context managers**
+* `try except raise finally       :` Error handling
+* `yield                          :` Generator functions
+* `assert                         :` Assertion/unit testing
+* `lambda                         :` Lambda functions
+* `async await                    :` Asynchronous programming [What color is your function](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/)
 
 ---
 
-# Functions and classes
+
+# Naming conventions
+
+## [PEP 8 – Style Guide for Python Code](https://peps.python.org/pep-0008/)
+
+```py
+# Class names start with an **uppercase letter**
+class MyClass:
+
+  # Starting an identifier with _ indicates that the identifier is **protected**.
+  _protected = 2
+
+  # Starting an identifier with __ indicates that the identifier is **private**.
+  __private = 4
+
+  # If the identifier also ends with __ , the identifier is a **language-defined special name**.
+  __dict__ = {}
+
+# Everything else starts with a **lowercase letter**
+myInstance = MyClass()
+
+# Or
+my_instance = MyClass()
+```
+
+
+---
+
+# Functions
+
+## A simple function
 
 ```python
-def func0(arg0, arg1 = 6): # define a function
+
+# arg0: a **mandatory** argument
+# arg1: an **optional** argument
+def fun(arg0, arg1=6):
   c = arg0 + arg1
   return c
 
-func0(2) # 8
-func0(2, 3) # 5
-func0("abc", "def") # "abcdef"
+fun(2)              # Pass 1 (positional) argument
+fun(2, 3)           # Pass 2 (positional) arguments
+fun("abc", "def")   # They do not have to be doubles !
+fun(arg1=3, arg0=2) # Here the arguments are **keyword** arguments, order does not matter
 ```
 
+Python knows about the **argument names** - `help()` function
+
+```
+>>> help(fun)
+
+Help on function fun in module __main__:
+
+fun(arg0, arg1=6)
+```
+
+And it can also know about **the argument types** (type hints)
+
+```py
+>>> def fun(arg0: int, arg1: int = 6) -> int:
+>>>   return 0
+>>> help(fun)
+
+fun(arg0: int, arg1: int = 6) -> int
+```
+
+---
+
+# Functions
+
+## Variable number of arguments `*args`
+
+```py
+def myprint(*args):
+  for x in args:
+    print(x)
+
+myprint("some", "text", "to", "print")
+```
+
+➡️ `args` is a `list` of arguments
+
+## Variable number of keyword arguments `**kwargs`
+
+```py
+def myprint(**kwargs):
+  for name, symbol in kwargs.items():
+    print(name, symbol)
+
+myprint(hydrogen="H", helium="He")
+```
+
+➡️ `kwargs` is a `dict` of arguments
+
+## You can use both
+
+```py
+def f(arg0, *args, **kwargs):
+```
+
+---
+
+# Classes
+
 ```python
-class MyClass: # define a class
-  a = 3
-  def __init__(self, b = None):
-    print("Hello from constructor")
+class MyClass:
+  a = 3                            # static variable
 
-    self.c = "toto"
-    print("a = %r" % (self.a))
-    print("b = %r" % (b))
-    print("c = %r" % (self.c))
-    d = self.myMethod(4, 4)
+  def __init__(self, b=None):      # "constructor"
+    self.c = "toto"                # Initialize c member
+    print(self.a)                  # print static variable
+    print(b)                       # print function argument
+    print(self.c)                  # print member of class
+    d = self.myMethod(4, 4)        # call a method (inside a class)
 
-    print("d = %r" % (d))
-
-  def myMethod(self, a, b = 2): # instance method
+  def myMethod(self, a, b = 2):    # instance method
     return self.a + a + b
 
-  @classmethod
-  def myClassMethod(MyClass): # class method
-    return 'this is like a static method'
-     
-myClass = MyClass(6)
-# Output:
-# Hello from constructor
-# a = 3
-# b = 6
-# c = 'toto'
-# d = 11
+  @staticmethod
+  def myStaticMethod():            # static method
+    return 'static method'
 
-myClass.x = 'new value'        # add a new property
-print(myClass.x)               # 'new value'
-print(MyClass.myClassMethod()) # 'this is like a static method'
+instance = MyClass(6)              # Instanciate a class
+instance.x = 'new value'           # Set a member variable on the instance
+instance.myMethod(4, 4)            # call a method of the object
+
+print(MyClass.myStaticMethod())    # Call a static method
+```
+
+* Difference between a **class** and an **instance** of a class
+
+```
+>>> class A:
+>>>   pass
+
+>>> type(A)
+<class 'type'>
+>>> type(A())
+<class '__main__.A'>
+```
+
+---
+
+# How do i document my functions/classes ?
+
+## Docstring
+
+```python
+def mySuperSum(a, b):
+  """This function adds two objects"""
+  return a + b
+
+def mySuperProd(a, b):
+  """This function multiplies two objects.
+
+  Of course, a and b must allow a to be multiplied by b.
+  Try this function with random input objects at your own risk.
+
+  """
+  return a * b
+```
+
+## Why ?
+
+* The python function `help()` will print this documentation
+* Some IDE can print this documentation if needed
+* These docstrings can be automatically extracted ( :v: `doxygen` :v: )
+* It is the standard way to document python code
+* The python code can use this docstring
+* Some tests and / or examples can be put in the docstrings `doctest`
+
+## `help()` built-in
+
+```python
+help(mySuperSum) # in interactive mode
+print(mySuperSum.__doc__)
 ```
 
 ---
 
 # Modules
 
-* the `import` keyword allows to access built-in and / or custom modules
+* A module is a collection of objects: classes, functions, variables, ...
+* It is equivalent to a c++ namespace
+
+* `import`: import the Module
 
 ```python
 import math # import the "math" module
@@ -276,7 +422,7 @@ import math # import the "math" module
 print(math.sqrt(2)) # 1.41421356237
 ```
 
-* the keyword `as` allows to import a module under an alias name
+* `as`: rename (alias) the module
 
 ```python
 import math as m # import the "math" module and name it "m"
@@ -284,7 +430,7 @@ import math as m # import the "math" module and name it "m"
 print(m.sqrt(2)) # 1.41421356237
 ```
 
-* the keyword `from` allows to select what to import from a module
+* `from`: import specific objects from the module
 
 ```python
 from math import sqrt # import only the "sqrt" function from the math module
@@ -292,13 +438,15 @@ from math import sqrt # import only the "sqrt" function from the math module
 print(sqrt(2)) # 1.41421356237
 ```
 
-* the wildcard `*` allows to import everything from a module
+* ⚠️ the wildcard `*` allows to import everything from a module 
 
 ```python
 from math import * # import everything from the math module
 
 print(sqrt(2)) # 1.41421356237
 ```
+
+This is as bad as `using namespace std;`
 
 ---
 
@@ -335,16 +483,6 @@ print(somedir.func("Hello ", "world") # "Hello world"
 print(somedir.someval) # 42
 ```
 
-or use `as` keyword:
-
-```python
-import somedir as example
-
-print(example.func("Hello ", "world") # "Hello world"
-
-print(example.someval) # 42
-```
-
 ---
 
 # Module search path
@@ -368,48 +506,12 @@ print(sys.path)
 *#  '/home/dubrayn/.ipython']
 ```
 
----
-
-# The docstrings
-
-## What ?
-
-```python
-def mySuperSum(a, b):
-  """This function adds two objects"""
-  return a + b
-
-def mySuperProd(a, b):
-  """This function multiplies two objects.
-
-  Of course, a and b must allow a to be multiplied by b.
-  Try this function with random input objects at your own risk.
-
-  """
-  return a * b
-```
-
-## Why ?
-
-* the python function `help()` will print this documentation
-* some IDE can print this documentation if needed
-* these docstrings can be automatically extracted ( :v: `doxygen` :v: )
-* it is the standard way to document python code
-* the python code can use this docstring
-* some tests and / or examples can be put in the docstrings
-
-## How to use them ?
-
-```python
-help(mySuperSum) # in interactive mode
-print(mySuperSum.__doc__)
-```
 
 ---
 
 # The `dir()` built-in function
 
-:arrow_right: this function allows to list objects defined in a module
+:arrow_right: list of valid attributes of an object
 
 ## .hcenter[`[example.py]`]
 
@@ -419,8 +521,6 @@ someval = 42 # a value
 def func(a, b): # a function
   return a + b
 ```
-
-* if `example.py` is in the current directory (`./example.py`):
 
 ```python
 import example
@@ -436,7 +536,7 @@ import example
 #  'someval']
 ```
 
-* without arguments, `dir()` returns a list of objects defined in the current namespace
+* without arguments, `dir()` returns a list of objects defined in the current scope
 
 ```python
 *print(dir())
@@ -445,85 +545,193 @@ import example
 #  '_dh', '_i', '_i1', '_ih', '_ii', '_iii', '_ip', '_oh', '_sh', 'help' ]
 ```
 
+
 ---
 
 # Built-in types
 
-## Mutability
+An 🔒 **immutable object** cannot be modified
 
-* a **mutable object** has methods to modify its content
-* an **immutable object** does not have methods to modify its content
+## Numeric types
 
-:arrow_right: immutable built-in objects are hashable !
+* 🔒 `bool              :` boolean type
+* 🔒 `int float complex :` numeric types
 
-## Mutable types
+## Sequence types: lists of objects
 
-* `list`: an ordered list of objects
-* `set`: an unordered list of **unique hashable objects**
-* `dict`: an unordered list of (key, object) couples (key must be hashable, and should be immutable)
+* ✏️ `list              :` an ordered list of objects
+* 🔒 `tuple             :` an immutable `list`
+* 🔒 `range             :` a range of values
+* 🔒 `str               :` an immutable text sequence
 
-## Immutable types
+## Set types: Unordered collection of **distinct hashable objects**
+* ✏️ `set      `
+* 🔒 `frozenset`
 
-* `tuple`: like `list`, but immutable
-* `frozenset`: like `set`, but immutable
-* `numbers`: regular numbers
-* `string`: :warning: **strings are immutable in Python** :warning:
+## Mapping types        : Maps (hashable) values to arbitrary objects
 
-## Containers
+* ✏️ `dict              :` an unordered list of (key, object) pairs
 
-* they are empty or contain references to other objects
- * `list`, `tuple`, `dict`, `set`, `frozenset`, etc...
+## Other types
+
+* `NoneType`
+* `function` `module`
+
 
 ---
 
-class: top
+# Bool: `True False not and or` keywords
 
-# Containers mutability
-
-## In Python, is `a |= b` equivalent to `a = a | b` ?
-
-```python
-x = set([1, 2, 3])
-y = x
-
-x = x | set([2, 3, 4])
-print(x) # set([1, 2, 3, 4])
-x is y # False
-```
+* Boolean algebra
+  * `not equivalent to c++ !`
+  * `and equivalent to c++ &&`
+  * `or  equivalent to c++ ||`
+* Equality testing
+  * `== !=`
+  * `< >`
+  * `<= >=`
+* `True` and `False` can be treated like 0 and 1 in most cases
 
 ```python
-x = set([1, 2, 3])
-y = x
+3 == 5              # False
+2 == 2              # True
+1 + 1 == 2          # True
 
-x |= set([2, 3, 4])
-print(x) # set([1, 2, 3, 4])
-x is y # True
+True or False       # True
+True or not True    # True
+True and True       # True
+False and True      # False
+
+True == 1           # True
+False == 0          # True
+True + True + False # 2
 ```
 
-:arrow_right: **No**, `a |= b` is not equivalent to `a = a | b`.
+---
+
+# Bool: truth
+
+Booleans represent **truth** values: `True` or `False`
+
+
+The built-in function `bool()` gives the truth value of any object
+
+```py
+>>> a = []
+>>> bool(a)
+False
+```
+
+`None False 0 '' () [] set() range(0)` have a `False` truth value
+
+The **truth** value of an object can be used in boolean operations.
+
+```py
+if a:
+  ...
+
+while a:
+  ...
+```
+
+An object is considered true unless it defines a `__bool__` method:
+
+```py
+class Myclass:
+  def __bool__(self):
+    return True
+
+a = A()
+if a:
+  print('🎉')
+```
+
+(The `__len__` method is used as a fallback for truth testing)
+
+---
+
+# What `is` an object ?
+
+## A value
+
+```py
+l1 = [2, 3]
+print(l1)
+```
+
+## A type - `type()`
+
+```py
+>>> type([])
+<class 'list'>
+>>> type({})
+<class 'dict'>
+>>> type(())
+<class 'tuple'>
+```
+
+## An identity - `is`
+
+```py
+>>> l1 = []
+>>> l2 = []
+>>> l3 = l1 # aliasing l1
+>>> id(l1)
+140247995728960
+>>> id(l2)
+140247995729024
+
+>>> l1 == l2 # compares equality
+True
+>>> l1 is l2 # compares identity
+False
+>>> l3 is l1
+True
+```
+
+---
+
+# `None`, `is` keywords
+
+* `None` is a special constant representing the absence of a value
+* a function without a `return` statement returns a `None` object
+* the type of `None` is `NoneType`
+
+Its **truth** value is False
+
+```py
+>>> a = None
+>>> print(bool(a))
+False
+```
+
+This is very useful to implement optionals
+
+```py
+# python 3.10 syntax otherwise, use typing.Optional
+def getFile(path: str) -> File | None:
+  ...
+  if noSpaceOnDevice:
+    return None
+  else:
+    return file
+
+f = getFile()
+if f:
+  f.write(...)
+```
+
+❌ You should **NEVER** use `==` to compare against `None` and always use `is`
 
 ```python
-x = set([1, 2, 3])
-x.__ior__(set([2, 3, 4])) # "|=" makes Python call .__ior__() method
-print(x) # set([1, 2, 3, 4])
+class Foo:
+    def __eq__(self, other):
+        return True
+
+foo = Foo()
+print(foo == None) # True
+print(foo is None) # False
 ```
-
-## If a `tuple` is immutable, how is this possible ?
-
-```python
-tuple0 = (1, 2) # tuple declaration
-list0 = [3, 4] # list declaration
-print(type(tuple0)) # <type 'tuple'>
-tuple1 = (tuple0, list0) # tuple declaration
-print(type(tuple1)) # <type 'tuple'>
-print(tuple1) # ((1, 2), [3, 4])
-list0[0] = -1 # change list0
-print(tuple1) # ((1, 2), [-1, 4])
-```
-
---
-
-:arrow_right: A container stores **references**, not objects.
 
 ---
 
@@ -612,6 +820,107 @@ float.hex(3740.0)          # '0x1.d380000000000p+11'
 
 ---
 
+# Strings
+
+
+## Defining a string
+
+```py
+s1 = 'single quote'
+s2 = "double quote"
+s3 = '''
+single quote
+multiline
+'''
+s4 = """
+double quote
+multiline
+"""
+```
+
+## Escape sequences
+
+```py
+\\ -> \
+\' -> '
+\" -> "
+\uxxxx -> unicode character
+\n -> new line
+```
+
+## :warning: **strings are immutable in Python** :warning:
+
+```python
+a = 'Some text'
+print(a[5])               # 't'
+*a[5] = 'T'                # ILLEGAL
+a.replace('text', 'Text') # 'Some Text'
+a[:5] + 'T' + a[6:]       # 'Some Text'
+```
+
+
+---
+
+# Strings
+
+## Spliting / joining
+
+```python
+s = 'A simple string'
+
+s.split()                 # ['A', 'simple', 'string']
+' '.join(s.split())       # 'A simple string'
+'   some text  '.strip()  # 'some text'
+'some' + ' ' + 'text'     # 'some text'
+'pipo' * 3                # 'pipopipopipo'
+```
+
+## String formatting - f-string since python 3.6 🎉
+
+```py
+# String interpolation
+>>> surname = "Junah"
+>>> name = "Newsome"
+>>> print(f"Hello {name} {surname}")
+Hello Newsome Junah
+
+# Format - 9 characters long 7 digits
+>>> val = math.pi
+>>> print(f"{val:9.3}")
+  3.141593
+
+# Cool debugging trick - print variable and name
+>>> print(f"{name=}")
+"name='Newsome'"
+```
+
+---
+
+class: top
+
+# Containers mutability
+
+## If a `tuple` is immutable, how is this possible ?
+
+```python
+tuple0 = (1, 2)          # tuple declaration
+list0 = [3, 4]           # list declaration
+tuple1 = (tuple0, list0) # tuple declaration
+print(tuple1)            # ((1, 2), [3, 4])
+
+list0[0] = -1            # change list0
+print(tuple1)            # ((1, 2), [-1, 4])
+```
+
+--
+
+.hcenter[
+## A container stores **references**, not objects.
+]
+
+
+---
+
 # Using `list` objects
 
 ```python
@@ -670,7 +979,7 @@ del l[3]
 l               # [0, 1, 8, 4]
 ```
 
-## Ranges
+## Ranges (slicing)
 ```python
 l = [0, 1, 2, 3, 4]
 l[0:3]          # [0, 1, 2]
@@ -700,52 +1009,41 @@ l.index(3)      # 3
 
 ---
 
-# Loops and iterators
+# Iterating
 
-## Iterate over values
+## On one iterable
+
 ```python
+# Iterate over values
 l = list('abcde')
 for v in l:
   print(v)
-# Output:
-# 'a'
-# 'b'
-# 'c'
-# 'd'
-# 'e'
-```
 
-## Iterate over indices
-```python
-l = list('abcde')
+# Iterate over indices - try to avoid doing this
 for i in range(len(l)):
-  print("index: %d val: %r" % (i, l[i]))
-# Output:
-# index: 0 val: 'a'
-# index: 1 val: 'b'
-# index: 2 val: 'c'
-# index: 3 val: 'd'
-# index: 4 val: 'e'
-```
+  print(f"index: %d val: %r" % (i, l[i]))
 
-## Iterate over indices and values
-```python
+# Iterate over indices and values
 l = list('abcde')
 for i, v in enumerate(l):
   print("index: %d val: %r" % (i, v))
-# Output:
-# index: 0 val: 'a'
-# index: 1 val: 'b'
-# index: 2 val: 'c'
-# index: 3 val: 'd'
-# index: 4 val: 'e'
+```
+
+## On multiple iterables - `zip()` built-in
+
+```py
+l1 = [1, 3]
+l2 = [2, 4]
+for a, b in zip(l1, l2):
+  print(a, b)
+# Output: 1 2
+#         3 4
 ```
 
 ---
 
 # `filter`, `map`, `reduce`
 
-:arrow_right: used in functionnal programming
 
 * `filter` keeps elements matching a criterion
 
@@ -755,6 +1053,8 @@ def f(x):
 
 l = range(2, 25)
 filter(f, l) # [3, 5, 6, 9, 10, 12, 15, 18, 20, 21, 24]
+
+[x for x in l if f(x)] # is equivalent
 ```
 
 * `map` applies a function to each element
@@ -765,17 +1065,17 @@ def cube(x):
 
 map(cube, range(1, 11)) # [1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]
 
+[cube(x) for x in l] # is equivalent
+
 # Example with two arguments
-
-seq = range(8)
-
 def add(x, y):
   return x+y
 
+seq = range(8)
 map(add, seq, seq) # [0, 2, 4, 6, 8, 10, 12, 14]
 ```
 
-* `reduce` propagates the cumulative result of a function
+* `reduce` propagates the cumulative result of a function (`fold` in caml/haskel)
 
 ```python
 def add(x,y):
@@ -783,6 +1083,8 @@ def add(x,y):
 
 reduce(add, range(1, 11)) # 55
 ```
+
+:arrow_right: used in functionnal programming
 
 ---
 
@@ -793,7 +1095,7 @@ reduce(add, range(1, 11)) # 55
 ## Generic syntax
 
 ```python
-[ expr for var in expr [for var in expr]* [if expr]* ]
+[ expr [for var in expr]+ [if expr]* ]
 ```
 
 ## Examples
@@ -812,40 +1114,6 @@ for x in [1,2,3]:
     if x != y:
       final.append((x, y))
 final                                                # [(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
-```
-
----
-
-# Using `string` objects
-
-## Spliting / joining
-
-```python
-s = 'A simple string'
-
-s.split()                 # ['A', 'simple', 'string']
-' '.join(s.split())       # 'A simple string'
-'   some text  '.strip()  # 'some text'
-'some' + ' ' + 'text'     # 'some text'
-'pipo' * 3                # 'pipopipopipo'
-```
-
-## String formatting
-
-```python
-n = 3
-l = range(3)
-'n: %03d l: %r' % (n, l) # 'n: 003 l: [0, 1, 2]'
-```
-
-:warning: **strings are immutable in Python** :warning:
-
-```python
-a = 'Some text'
-print(a[5])               # 't'
-*a[5] = 'T'                # ILLEGAL
-a.replace('text', 'Text') # 'Some Text'
-a[:5] + 'T' + a[6:]       # 'Some Text'
 ```
 
 
@@ -933,6 +1201,8 @@ s1 ^ s2                     # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
 ```
 ---
 
+class: top
+
 # File IO
 
 ## .hcenter[`[data.txt]`]
@@ -943,23 +1213,81 @@ s1 ^ s2                     # set(['Epsilon', 'Delta', 'Omega', 'Gamma'])
 ```
 
 ## Read
-```python
-f = open('data.txt')
-lines = f.readlines()
-words = [l.split() for l in lines]
-print(words)
-# Output:
-# [['1.0', '2.1', '3.0', '4.9', '5.9'], ['9.0', '8.2', '5.7', '6.2', '7.1'], ['2.2', '3.6', '4.4'], []]                                                 
 
-# one-liner
-[l.split() for l in open('data.txt').readlines()]
-# Output:
-# [['1.0', '2.1', '3.0', '4.9', '5.9'], ['9.0', '8.2', '5.7', '6.2', '7.1'], ['2.2', '3.6', '4.4'], []]                                                 
+```python
+f = open('data.txt', 'r')          # open the file for reading
+lines = f.readlines()              # read the lines: list[str]
+for line in lines:                 # print the line
+  print(line)
+```
+
+## Write
+
+```python
+f = open('data.txt', 'w')          # open the file for writing
+f.write("some text")
+```
+
+--
+
+## Oops, I forgot to `close()` the file 😫
+
+--
+
+## 🎉 Context managers: `with`
+
+```python
+with open('data.txt') as f:        # the file is automatically closed once the context ends
+  lines = f.readlines()            # read the lines: list[str]
+
+for line in lines:                 # print the line
+  print(line)
 ```
 
 ---
 
-# Module `pickle`
+# Python typing
+
+* javascript -> typescript
+
+```py
+def f(a: int, b: list[int]) -> dict[int, int]:
+  pass
+```
+
+* `mypy`: optional static type checker
+* you can have the **safety of a static type language**
+* `typing`: the built-in module where most of python typing lived
+  * now features a lot of experimental typing features (generics, ...)
+
+➡️ This help your lsp (language server protocol) help you (DEMO)
+
+## What should be type-hinted ? Interfaces
+
+✅ function arguments and return values
+
+✅ class attributes
+
+❌ usually not necessary to annotate variables
+
+```
+a: list = []
+a = []
+```
+
+❌ `self: Self` not necessary...
+
+---
+
+# Bonus: `pip` and `venv`
+
+.hcenter[
+![](images/present.png)
+]
+
+---
+
+# Bonus: `pickle` and `json`
 
 :arrow_right: allows to serialize / deserialize data
 
@@ -967,86 +1295,31 @@ print(words)
 ```python
 import pickle
 
-data1 = {'a': [1, 2.0, 3, 4+6j],
-         'b': ('string', u'Unicode string'),
-         'c': None}
-output = open('data.pkl', 'wb')
-pickle.dump(data1, output)
-output.close()
+data1 = {
+  'a': [1, 2.0, 3, 4+6j],
+  'b': ('string', u'Unicode string'),
+  'c': None
+}
+with open('data.pkl', 'wb') as output:
+  pickle.dump(data1, output)
 ```
 
 ## Read
+
 ```python
 import pprint, pickle
 
 pkl_file = open('data.pkl', 'rb')
-data1 = pickle.load(pkl_file)
+with open('data.pkl', 'wb') as output:
+  data1 = pickle.load(pkl_file)
 pprint.pprint(data1)
 # Output:
 # {'a': [1, 2.0, 3, (4+6j)], 'b': ('string', u'Unicode string'), 'c': None}
-pkl_file.close()
-```
-.hcenter[:warning: `pickle` file formats differ between Python2 and Python3 versions:warning:]
-
----
-
-# `True`, `False`, `not`, `and`, `or` keywords
-
-* usual Boolean values and operations
-* "`==`" tests value equality
-* `True` is the same object as `1`
-* `False` is the same object as `0`
-
-```python
-3 == 5              # False
-2 == 2              # True
-1 + 1 == 2          # True
-True or False       # True
-True or not True    # True
-True and True       # True
-False and True      # False
-True == 1           # True
-False == 0          # True
-True + True + False # 2
 ```
 
----
+🎉 The `json` module has exactly the same syntax: `dump` and `load` 
 
-# `None` keyword
-
-* special constant representing the absence of a value
-* the type of `None` is `NoneType`
-* :warning: `None` does not imply `False`, `0`, or an empty container
-
-```python
-None == 0 # False
-
-None == [] # False
-
-None == False # False
-
-a = None
-b = None
-a == b # True
-```
-
-:arrow_right: A void function without a `return` statement returns a `None` object.
-
-```python
-def void_function():
-  pass # do nothing
-
-a = void_function()
-a == None # True
-```
-
----
-
-# Bonus: `virtualenv` and `pip`
-
-.hcenter[
-![](images/present.png)
-]
+➡️ But the data must be json serializable
 
     </textarea>
 

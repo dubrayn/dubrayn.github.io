@@ -60,9 +60,107 @@ During this 6-week-long project, the **local density** of a nuclear system will 
 
 ---
 
+
+## Basis decomposition of a state
+
+
+
+## Wave functions
+
+The associated wave function of a state is given by projecting on the basis r
+
+`;b$
+\langle r \lvert ψ \rangle = ψ(r)
+$$`
+
+---
+
+# IPS-PROD - Project description
+
+## Operators
+
+A linear **operator** maps a ket to another ket
+
+`$$
+A : E \rightarrow E
+$$`
+
+## Basis decomposition of an operator
+
+Given any (decomposed) ket ψ and φ
+
+`$$
+\lvert ψ\rangle = \sum_a \langle a \lvert ψ \rangle \lvert a \rangle
+$$`
+
+`$$
+\lvert φ \rangle = \sum_b \langle b \lvert φ \rangle \lvert b \rangle
+$$`
+
+We have
+
+`$$
+\langle ψ \rvert A \lvert φ \rangle = \sum_{a b} 
+\langle a \lvert φ \rangle^*
+\langle b \lvert ψ \rangle 
+\langle a \rvert A \lvert b \rangle
+$$`
+
+And thus the (infinite) matrix 
+
+`$$
+A_{ab} = \langle a \rvert A \lvert b \rangle
+$$`
+
+contains the same information as the operator, it is the decomposition of the
+operator on basis `\( \{\lvert a \rangle \} \)`
+
+---
+
+## Local density
+
+We consider the **density** operator of ψ
+
+`$$
+ρ = \lvert ψ \rangle \langle ψ \rvert
+$$`
+
+We define the local density
+
+`$$
+ρ(r) \equiv \langle r \rvert ρ \lvert r \rangle
+$$`
+
+and can show that it equals the probabiltiy to find nuclear matter at a given location in space
+`$$
+\langle r \rvert ρ \lvert r \rangle
+=
+\langle r \rvert ψ \rangle \langle ψ \lvert r \rangle
+= ψ(r) ψ^*(r)
+= |ψ(r)|^2
+$$`
+
+Making use of the decomposition we can express it as
+
+`$$
+ρ(r) =
+\sum_{a b}
+\langle a \lvert r \rangle^*
+\langle b \lvert r \rangle 
+\langle a \rvert ρ \lvert b \rangle
+=
+\sum_{a b}
+a^*(r)
+b(r)
+ρ_{a b}
+$$`
+
+---
+
 # IPS-PROD - Project description
 
 ## Basis expansion
+
 The nuclear local density `\(\rho(\mathbf{r})\)`
 can be obtained from the complex **density matrix** `\(\{\rho_{ab}\}\)`
 using a set of complex **basis functions** `\(\{\psi_i(\mathbf{r})\}\)`:
@@ -195,11 +293,15 @@ The parameters `\(N\in \mathbb{N}^+, Q\in \mathbb{R}^+\)` are called the **basis
 * calculate z- and r- functions
 * define the basis quantum number values
 * calculate the nuclear local density with the **naive** algorithm
-* calculate the nuclear local density with an **optimized algorithm** (see below)
 * implement the mandatory unit tests
 * plot the nuclear local density in the `\((x, z)\)` plane (with Matplotlib, Plotly.js...)
 * plot the nuclear local density in the `\((x, y, z)\)` space (with POV-Ray, Blender...)
-* present your results using the [presentation template](../template/index.html)
+
+Once everything works:
+
+* calculate the nuclear local density with the **optimized** algorithm
+* **document** the process (speedup, perf, ...)
+
 
 .row[
 .column.w60[
@@ -218,26 +320,30 @@ The parameters `\(N\in \mathbb{N}^+, Q\in \mathbb{R}^+\)` are called the **basis
 ]
 ]
 
+:arrow_right: present your results using the [presentation template](../template/index.html)
+
 ---
 
 # IPS-PROD - Project rules
 
 ## Rules:
 * an "`AUTHORS`" file **must** be present and contain your name(s)
-* the source **must** be written in `C++11`
-* the source **must** be documented with `Doxygen`
+* the source **must** be written in `C++20`
 * the compilation chain **must** use `GNU Make`
 * the presentation **must** be at the location "`pres/index.html`"
 * using branches is OK but **only master will be checked**
 * the presentation **must** use `remark.js`
-* mandatory unit tests **must** pass  
-* :warning: use Armadillo containers, **not** `std::vector<...>`
+* mandatory unit tests **must** pass
+* the source **must** be documented with `Doxygen`
+
+:warning: prefer using Armadillo containers, **not** `std::vector<...>` (especially for performance critical code)
 
 ## :moneybag: Bonuses:
-* no warning at {compilation, tests, doc}
-* project is implementing other methods
+
+* no warning at {compilation, tests, doc} with `-Wall -Wextra`
 * source code is well written (comments, easy to read, etc...)
 * commits are small and explicit
+* project is implementing other methods
 
 ---
 

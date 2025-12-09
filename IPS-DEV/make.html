@@ -159,6 +159,8 @@ main.c  main.h  Makefile
 ]
 ]
 
+⚠️ Indent using **tabs** not spaces
+
 ---
 
 # `Makefile` wizardry
@@ -194,11 +196,15 @@ clean:
 * replace by env. variable: `${VAR}`
 * replace by target: `$@`
 * replace by first dependency: `$<`
-* replace by dependencies more recent than target: `$?`
 * replace by all dependencies: `$^`
+* replace by dependencies more recent than target: `$?`
 * target must always be updated: `.PHONY: target`
 * launch `GNU Make` in a given directory: `make -C dir`
+
+
 .hcenter.w50[![](images/wizard.png)]
+
+[List of automatic variables](https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html)
 ]
 ]
 
@@ -495,6 +501,20 @@ $(SUBDIRS_TARGETS) :
     $(MAKE) -C $(@D) $(@F:.%=%)
 ```
 ]]
+---
+
+# Bonus: Cmake
+
+## A makefile generator
+
+## Quick usage guide
+
+```sh
+mkdir build
+cd build
+cmake .. # this creates the makefile using cmake
+make     # this runs the makefile
+```
 
     </textarea>
 

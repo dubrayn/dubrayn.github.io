@@ -167,6 +167,20 @@ $ git log --draw --oneline --color
 
 ---
 
+# CLI tool `tig`
+
+.hcenter.w90.shadow[![](images/tig.png)]
+
+---
+
+# `gitgraph.nvim`
+
+.hcenter.w90.shadow[![](images/git-nvim.png)]
+
+https://github.com/isakbm/gitgraph.nvim
+
+---
+
 # `git` branches
 
 .row[
@@ -299,7 +313,7 @@ $ git commit -m "Commit F"
 * you create a branch to fix the issue
 ```shell
 $ git checkout master
-$ git checkout -b fixit
+$ git checkout -b hotfix
 $ # some work
 $ git commit -m "Commit G"
 ...
@@ -335,7 +349,7 @@ $ git commit -m "Commit F"
 * you create a branch to fix the issue
 ```shell
 $ git checkout master
-$ git checkout -b fixit
+$ git checkout -b hotfix
 $ # some work
 $ git commit -m "Commit G"
 ...
@@ -372,7 +386,7 @@ $ git commit -m "Commit F"
 * you create a branch to fix the issue
 ```shell
 $ git checkout master
-$ git checkout -b fixit
+$ git checkout -b hotfix
 $ # some work
 $ git commit -m "Commit G"
 ...
@@ -382,7 +396,7 @@ $ git commit -m "Fixed issue #627"
 * you merge your fix in `master`
 ```shell
 $ git checkout master
-$ git merge fixit
+$ git merge hotfix
 $ git tag v0.2.1 # lightweight tag
 ```
 ]
@@ -557,7 +571,6 @@ $ git pull farAway
     slideshow.on('afterShowSlide', initMermaid);
     initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
 
-    
     // === Emojify.js initialization ===
     emojify.run();
 

@@ -3,14 +3,14 @@
   <head>
     <title>IPS-PROD</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css">
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css">
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css">
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css">
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css">
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css">
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css">
+    <link rel="stylesheet" type="text/css" href="core/css/katex.css">
   </head>
   <body>
     <textarea id="source" readonly>
@@ -31,17 +31,16 @@ class: animated fadeIn middle numbers
 * `Valgrind` is a **virtual machine**
 * it uses JIT compilation techniques
 * it allows to easily instrument binary code (with or without debug symbols)
-* there is no need to source access nor recompilation
 * it provides different tools for binary code profiling
 * it is language-agnostic
 * it has a **huge impact** on execution times (x20)
 
 ## Tools provided
-* `Memcheck`: default tool, checks validity, adressability, memory leaks...
-* `None`: get the traceback of a segfault
-* `Helrind`: detects race conditions in multithreaded code
+* `Memcheck`: default tool, checks validity, adressability, memory leaks.et the traceba..
 * `Callgrind`: logs and profiles the function call tree
+* `Nulgrind`: get the traceback of a segfault
 * `Cachegrind`: profiles cache use
+* `Helrind`: detects race conditions in multithreaded code
 * `exp-sgcheck`, `exp-dhat`, `exp-bbv`, etc...
 
 .block[
@@ -100,7 +99,7 @@ $ valgrind ./test
 ==6434== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
 ==6434== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
 ==6434== Command: ./test
-==6434== 
+==6434==
 *table[0]=0
 *table[1]=1
 *table[2]=2
@@ -109,13 +108,13 @@ $ valgrind ./test
 ==6434==  Address 0x520104c is 0 bytes after a block of size 12 alloc'd
 ==6434==    at 0x4C2DB2F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
 ==6434==    by 0x108708: main (in /home/dubrayn/temp/ensiie/lectures/tools/gdb/test)
-==6434== 
+==6434==
 *table[3]=0
-==6434== 
+==6434==
 ==6434== HEAP SUMMARY:
 ==6434==     in use at exit: 12 bytes in 1 blocks
 ==6434==   total heap usage: 2 allocs, 1 frees, 1,036 bytes allocated
-==6434== 
+==6434==
 ==6434== LEAK SUMMARY:
 ==6434==    definitely lost: 12 bytes in 1 blocks
 ==6434==    indirectly lost: 0 bytes in 0 blocks
@@ -123,7 +122,7 @@ $ valgrind ./test
 ==6434==    still reachable: 0 bytes in 0 blocks
 ==6434==         suppressed: 0 bytes in 0 blocks
 ==6434== Rerun with --leak-check=full to see details of leaked memory
-==6434== 
+==6434==
 ==6434== For counts of detected and suppressed errors, rerun with: -v
 ==6434== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 ```
@@ -139,7 +138,7 @@ $ valgrind ./test
 ==6434== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
 ==6434== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
 ==6434== Command: ./test
-==6434== 
+==6434==
 table[0]=0
 table[1]=1
 table[2]=2
@@ -148,13 +147,13 @@ table[2]=2
 ==6434==  Address 0x520104c is 0 bytes after a block of size 12 alloc'd
 ==6434==    at 0x4C2DB2F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
 ==6434==    by 0x108708: main (in /home/dubrayn/temp/ensiie/lectures/tools/gdb/test)
-==6434== 
+==6434==
 table[3]=0
-==6434== 
+==6434==
 ==6434== HEAP SUMMARY:
 ==6434==     in use at exit: 12 bytes in 1 blocks
 ==6434==   total heap usage: 2 allocs, 1 frees, 1,036 bytes allocated
-==6434== 
+==6434==
 ==6434== LEAK SUMMARY:
 ==6434==    definitely lost: 12 bytes in 1 blocks
 ==6434==    indirectly lost: 0 bytes in 0 blocks
@@ -162,7 +161,7 @@ table[3]=0
 ==6434==    still reachable: 0 bytes in 0 blocks
 ==6434==         suppressed: 0 bytes in 0 blocks
 ==6434== Rerun with --leak-check=full to see details of leaked memory
-==6434== 
+==6434==
 ==6434== For counts of detected and suppressed errors, rerun with: -v
 *==6434== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 ```
@@ -178,7 +177,7 @@ $ valgrind ./test
 ==6434== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
 ==6434== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
 ==6434== Command: ./test
-==6434== 
+==6434==
 table[0]=0
 table[1]=1
 table[2]=2
@@ -187,13 +186,13 @@ table[2]=2
 *==6434==  Address 0x520104c is 0 bytes after a block of size 12 alloc'd
 *==6434==    at 0x4C2DB2F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
 *==6434==    by 0x108708: main (in /home/dubrayn/temp/ensiie/lectures/tools/gdb/test)
-==6434== 
+==6434==
 table[3]=0
-==6434== 
+==6434==
 ==6434== HEAP SUMMARY:
 ==6434==     in use at exit: 12 bytes in 1 blocks
 ==6434==   total heap usage: 2 allocs, 1 frees, 1,036 bytes allocated
-==6434== 
+==6434==
 ==6434== LEAK SUMMARY:
 ==6434==    definitely lost: 12 bytes in 1 blocks
 ==6434==    indirectly lost: 0 bytes in 0 blocks
@@ -201,7 +200,7 @@ table[3]=0
 ==6434==    still reachable: 0 bytes in 0 blocks
 ==6434==         suppressed: 0 bytes in 0 blocks
 ==6434== Rerun with --leak-check=full to see details of leaked memory
-==6434== 
+==6434==
 ==6434== For counts of detected and suppressed errors, rerun with: -v
 ==6434== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 ```
@@ -217,7 +216,7 @@ $ valgrind ./test
 ==6434== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
 ==6434== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
 ==6434== Command: ./test
-==6434== 
+==6434==
 table[0]=0
 table[1]=1
 table[2]=2
@@ -226,13 +225,13 @@ table[2]=2
 ==6434==  Address 0x520104c is 0 bytes after a block of size 12 alloc'd
 ==6434==    at 0x4C2DB2F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
 ==6434==    by 0x108708: main (in /home/dubrayn/temp/ensiie/lectures/tools/gdb/test)
-==6434== 
+==6434==
 table[3]=0
-==6434== 
+==6434==
 ==6434== HEAP SUMMARY:
 *==6434==     in use at exit: 12 bytes in 1 blocks
 ==6434==   total heap usage: 2 allocs, 1 frees, 1,036 bytes allocated
-==6434== 
+==6434==
 ==6434== LEAK SUMMARY:
 *==6434==    definitely lost: 12 bytes in 1 blocks
 ==6434==    indirectly lost: 0 bytes in 0 blocks
@@ -240,7 +239,7 @@ table[3]=0
 ==6434==    still reachable: 0 bytes in 0 blocks
 ==6434==         suppressed: 0 bytes in 0 blocks
 ==6434== Rerun with --leak-check=full to see details of leaked memory
-==6434== 
+==6434==
 ==6434== For counts of detected and suppressed errors, rerun with: -v
 ==6434== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 ```
@@ -296,7 +295,7 @@ $ valgrind ./test
 ==6522== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
 ==6522== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
 ==6522== Command: ./test
-==6522== 
+==6522==
 table[0]=0
 table[1]=1
 table[2]=2
@@ -305,13 +304,13 @@ table[2]=2
 ==6522==  Address 0x520104c is 0 bytes after a block of size 12 alloc'd
 ==6522==    at 0x4C2DB2F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
 ==6522==    by 0x108708: main (test.c:8)
-==6522== 
+==6522==
 table[3]=0
-==6522== 
+==6522==
 ==6522== HEAP SUMMARY:
 ==6522==     in use at exit: 12 bytes in 1 blocks
 ==6522==   total heap usage: 2 allocs, 1 frees, 1,036 bytes allocated
-==6522== 
+==6522==
 ==6522== LEAK SUMMARY:
 ==6522==    definitely lost: 12 bytes in 1 blocks
 ==6522==    indirectly lost: 0 bytes in 0 blocks
@@ -319,7 +318,7 @@ table[3]=0
 ==6522==    still reachable: 0 bytes in 0 blocks
 ==6522==         suppressed: 0 bytes in 0 blocks
 ==6522== Rerun with --leak-check=full to see details of leaked memory
-==6522== 
+==6522==
 ==6522== For counts of detected and suppressed errors, rerun with: -v
 ==6522== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 ```
@@ -375,7 +374,7 @@ $ valgrind ./test
 ==6522== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
 ==6522== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
 ==6522== Command: ./test
-==6522== 
+==6522==
 table[0]=0
 table[1]=1
 table[2]=2
@@ -384,13 +383,13 @@ table[2]=2
 ==6522==  Address 0x520104c is 0 bytes after a block of size 12 alloc'd
 ==6522==    at 0x4C2DB2F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
 ==6522==    by 0x108708: main (test.c:8)
-==6522== 
+==6522==
 table[3]=0
-==6522== 
+==6522==
 ==6522== HEAP SUMMARY:
 ==6522==     in use at exit: 12 bytes in 1 blocks
 ==6522==   total heap usage: 2 allocs, 1 frees, 1,036 bytes allocated
-==6522== 
+==6522==
 ==6522== LEAK SUMMARY:
 ==6522==    definitely lost: 12 bytes in 1 blocks
 ==6522==    indirectly lost: 0 bytes in 0 blocks
@@ -398,7 +397,7 @@ table[3]=0
 ==6522==    still reachable: 0 bytes in 0 blocks
 ==6522==         suppressed: 0 bytes in 0 blocks
 *==6522== Rerun with --leak-check=full to see details of leaked memory
-==6522== 
+==6522==
 ==6522== For counts of detected and suppressed errors, rerun with: -v
 ==6522== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 ```
@@ -415,7 +414,7 @@ table[3]=0
 ==6554== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
 ==6554== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
 ==6554== Command: ./test
-==6554== 
+==6554==
 table[0]=0
 table[1]=1
 table[2]=2
@@ -424,24 +423,24 @@ table[2]=2
 ==6554==  Address 0x520104c is 0 bytes after a block of size 12 alloc'd
 ==6554==    at 0x4C2DB2F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
 ==6554==    by 0x108708: main (test.c:8)
-==6554== 
+==6554==
 table[3]=0
-==6554== 
+==6554==
 ==6554== HEAP SUMMARY:
 ==6554==     in use at exit: 12 bytes in 1 blocks
 ==6554==   total heap usage: 2 allocs, 1 frees, 1,036 bytes allocated
-==6554== 
+==6554==
 *==6554== 12 bytes in 1 blocks are definitely lost in loss record 1 of 1
 *==6554==    at 0x4C2DB2F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
 *==6554==    by 0x108708: main (test.c:8)
-==6554== 
+==6554==
 ==6554== LEAK SUMMARY:
 ==6554==    definitely lost: 12 bytes in 1 blocks
 ==6554==    indirectly lost: 0 bytes in 0 blocks
 ==6554==      possibly lost: 0 bytes in 0 blocks
 ==6554==    still reachable: 0 bytes in 0 blocks
 ==6554==         suppressed: 0 bytes in 0 blocks
-==6554== 
+==6554==
 ==6554== For counts of detected and suppressed errors, rerun with: -v
 ==6554== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
 ```
@@ -537,17 +536,17 @@ $ valgrind ./test
 ==6614== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
 ==6614== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
 ==6614== Command: ./test
-==6614== 
+==6614==
 table[0]=0
 table[1]=1
 table[2]=2
-==6614== 
+==6614==
 ==6614== HEAP SUMMARY:
 *==6614==     in use at exit: 0 bytes in 0 blocks
 ==6614==   total heap usage: 2 allocs, 2 frees, 1,036 bytes allocated
-==6614== 
+==6614==
 *==6614== All heap blocks were freed -- no leaks are possible
-==6614== 
+==6614==
 ==6614== For counts of detected and suppressed errors, rerun with: -v
 *==6614== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
@@ -570,12 +569,49 @@ table[2]=2
 :warning: huge impact on performances  
 :warning: slightly verbose ?  
 
-:arrow_right: **My advice:** Strange bug ? Segfault ? Unexpected behavior ? **Valgrind !!!** No excuse.  
+:arrow_right: **My advice:** Strange bug ? Segfault ? Unexpected behavior ? **Valgrind !!!** No excuse.
 
-.hcenter.w90[![](images/xkcd_722.png)]
+.hcenter.w80[![](images/xkcd_722.png)]
 .hcenter[[source: xkcd](https://xkcd.com/722)]
 
 :arrow_right: Nothing visible with **Valgrind** ? Time to move to... **GDB** !
+
+---
+
+# Sanitizers
+
+:arrow_right: Requires source access (contrary to `valgrind`)
+
+:+: MUCH faster than valgrind
+
+## ASan : a fast memory error detector
+
+Compile with `-fsanitize=address`
+
+```
+==15412==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60200000001c at pc 0x00000040126c bp 0x7fffbd31c390 sp 0x7fffbd31c380
+*READ of size 4 at 0x60200000001c thread T0
+*   #0 0x40126b in main /home/newsomej/ips/valgrind.c:17
+    #1 0x7f5f77c295cf in __libc_start_call_main (/lib64/libc.so.6+0x295cf)
+    #2 0x7f5f77c2967f in __libc_start_main@GLIBC_2.2.5 (/lib64/libc.so.6+0x2967f)
+    #3 0x4010d4 in _start (/home/newsomej/ips/val+0x4010d4)
+
+0x60200000001c is located 0 bytes to the right of 12-byte region [0x602000000010,0x60200000001c)
+allocated by thread T0 here:
+    #0 0x7f5f780b4a07 in __interceptor_malloc (/lib64/libasan.so.6+0xb4a07)
+    #1 0x4011ae in main /home/newsomej/ips/valgrind.c:8
+    #2 0x7f5f77c295cf in __libc_start_call_main (/lib64/libc.so.6+0x295cf)
+
+*SUMMARY: AddressSanitizer: heap-buffer-overflow /home/newsomej/ips/valgrind.c:17 in main
+```
+
+## Other sanitizers
+
+* `-fsanitize=thread` a fast data race detector
+* `-fsanitize=leak` a memory leak detector
+* `-fsanitize=undefined` a fast undefined behavior detector
+
+:'( cannot all be used at the same
 
     </textarea>
 
@@ -624,7 +660,7 @@ table[2]=2
     slideshow.on('afterShowSlide', initMermaid);
     initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
 
-    
+
     // === Emojify.js initialization ===
     emojify.run();
 

@@ -24,6 +24,26 @@ class: animated fadeIn middle numbers
 
 ---
 
+# Linear algebra
+
+## What is linear alegbra ?
+
+* Vector spaces
+* Vectors `\( \vec{u} = \begin{pmatrix} x \\ y \\ z \end{pmatrix} \)`
+* Linear transformations
+  * Matrices `\( A = \begin{pmatrix} a & b \\ c & d \end{pmatrix} \)`
+* Linear equation systems
+  * Matrix diagonalization `\( B^{-1} A B = D \)`
+  * Eigendecomposition `\( A \vec{u}_λ = λ \vec{u}_λ \)`
+
+## Why use a (linear algebra) library ?
+
+* ⏲️ Save time by not reinventing the wheel
+* 🚀 Better Performance
+* 🐛 No bugs (hopefully) 
+
+---
+
 # Let your code do some linear algebra
 
 ## Low-level linear algebra libraries
@@ -36,10 +56,52 @@ class: animated fadeIn middle numbers
 * `Boost`: medium-level, verbose, average efficiency
 * `Eigen`: high-level, recent, fast, small
 * **`Armadillo`**: high-level, recent, **very fast**, small, **elegant**
+* 🎉 `C++26`: Basic linear algebra algorithms
 
 ## Most known linear algebra python modules
 * `NumPy`: manipulate vectors and matrices, uses `LAPACK` and `BLAS`
 * `SciPy`: includes `NumPy` and other **very useful modules**
+
+---
+
+class: top
+
+# BLAS - Basic Linear Algebra Subroutines 
+
+## Notation
+
+- scalar: `\( α \)`
+- vector: `\( \vec{x} \)`
+- matrix: `\( A \)`
+
+--
+
+## Level 1 - vector vector - `\(O(n)\)`
+
+`$$
+\vec{y} = α \vec{x} + \vec{y}
+$$`
+
+* Dot products
+* Vectors norms
+
+--
+
+## Level 2 - vector matrix - `\(O(n^2)\)`
+
+`$$
+\vec{y} = α A \vec{x} + β \vec{y}
+$$`
+
+--
+
+## Level 3 - matrix matrix - `\(O(n^3)\)`
+
+`$$
+H = α A B + β C
+$$`
+
+➡️ gemm: general matrix multiplication
 
 ---
 
@@ -624,6 +686,79 @@ arma::mat E = arma::diagmat(B);
 Mandatory bookmark in your browser:
 
 [http://arma.sourceforge.net/docs.html](http://arma.sourceforge.net/docs.html)
+
+---
+
+# Bonus: Armadillo lazy evaluation 💤
+
+## Matrix multiplication example
+
+`$$
+\forall i j ; [A B]_{i j} = \sum_k A_{i k} B_{k j}
+$$`
+
+This is (naively) `\(O(n^3)\)` 
+
+We consider
+
+`$$
+x = \text{Tr}(A B) = \sum_i [A B]_{i i}
+$$`
+
+If we evaluate AB directly, we pay the `\(O(n^3)\)` cost.
+
+```c++
+arma::mat C = A * B       // O(n^3)
+double x = arma::trace(C) // O(n)
+```
+
+We know that we only need the diagonal elements so this can be computed in `\(O(n^2)\)`
+
+`$$
+x = \sum_i [A B]_{i i} = \sum_i \sum_j A_{i j} B_{j i}
+$$`
+
+And armadillo knows this
+
+```c++
+double x = arma::trace(A * B) // O(n^2)
+```
+
+---
+
+# Header only library
+
+```
+## NOTE: This installation script generates a runtime wrapper library by default,
+## NOTE: which links with OpenBLAS, LAPACK, etc.
+## NOTE: 
+## NOTE: If you prefer to link your programs directly with OpenBLAS, LAPACK, etc
+## NOTE: there are two options:
+## NOTE: 
+## NOTE: (1) use the HEADER_ONLY option when running this installation script,
+## NOTE: or
+## NOTE: (2) do not use this installation script; instead compile your programs
+## NOTE:     using the include folder directly obtained from the armadillo archive.
+## NOTE: 
+## NOTE: To forcefully disable use of the runtime wrapper library,
+## NOTE: compile your programs with ARMA_DONT_USE_WRAPPER enabled.
+## NOTE: Example:
+## NOTE: g++ prog.cpp -o prog -O2 -I /home/user/armadillo-14.0.0/include -DARMA_DONT_USE_WRAPPER -lopenblas -llapack
+## NOTE: 
+## NOTE: The above assumes that the armadillo archive is unpacked into /home/user/  
+## NOTE: Adjust for newer versions of Armadillo (change "14.0.0"),
+## NOTE: and/or if the armadillo archive has been unpacked into a different folder.
+## NOTE: 
+## NOTE: Replace -lopenblas with -lblas if you don't have OpenBLAS.
+## NOTE: On macOS, replace -lblas -llapack with -framework Accelerate
+## NOTE: More details: https://arma.sourceforge.net/faq.html
+```
+
+* ➡️ Only need to compile with the armadillo headers `-I`
+* ⚠️ HOWEVER, one must link with blas and lapack `-llapack -lblas`
+* ℹ️ For convenience, armadillo provides a wrapper library `libarmadillo.so`
+  * you can link with it  using `-larmadillo` instead
+
 
     </textarea>
 

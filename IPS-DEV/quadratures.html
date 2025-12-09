@@ -36,20 +36,297 @@ class: animated fadeIn middle numbers
 * usual form:
 
 `$$\int_{-1}^1 f(x) dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
+
+---
+
+# Reminder: Properties of integrals
+
+## Linearity
+
+`$$
+\int (α f + β g)(x) dx = 
+α \int f(x) dx + β \int  g(x) dx
+$$`
+
+## Subintervals
+
+`$$
+\int_{a}^b f(x) dx = \int_{a}^c f(x) dx + \int_{c}^b f(x) dx
+$$`
+
+## Integral of a polynomial
+
+`$$
+\int x^n dx = \frac{x^{n+1}}{n+1}
+$$`
+
+---
+
+# Introduction to numerical integration
+
+## Rectangle method - `\( x^0 \)`
+.row[
+
+.col.w50[
+
+Approximate with a constant function
+
+`$$
+\int_a^b f(x) dx = (b-a) f(a)
+$$`
+
+➡️ Slightly better to use the midpoint
+
+`$$
+\int_a^b f(x) dx = (b-a) f((a+b)/2)
+$$`
+
+]
+
+.col.w50[
+![](images/rectangle.svg)
+]
+
+
+]
+
+---
+
+# Introduction to numerical integration
+
+## Trapeze method - `\( x^1 \)`
+.row[
+
+.col.w50[
+Approximate with a linear function
+
+`$$
+\int_a^b f(x) dx = (b-a) \frac{f(a)+f(b)}{2}
+$$`
+]
+
+.col.w50[
+![](images/trapeze.png)
+]
+
+
+]
+
+---
+
+# Introduction to numerical integration
+
+## Simpson method - `\( x^2 \)`
+.row[
+
+.col.w50[
+
+➡️ One more evaluation per interval
+
+Approximate with a quadratic function
+
+`$$
+\int_a^b f(x) dx = (b-a) \frac{f(a)+4f(\frac{a+b}{2})+f(b)}{6}
+$$`
+
+]
+
+.col.w50[
+![](images/simpson.png)
+]
+
+]
+
+---
+
+# Generalization
+
+## Newton-Cotes - `\( x^n \)`
+
+.row[
+
+.col.w50[
+
+➡️ Idea: Find the unique `\( n-1\)` order polynomial passing through the `\( n \)` evaluated points
+
+]
+
+.col.w50[
+![](images/fitpoly.svg)
+]
+
+]
+
+---
+
+# Generalization
+
+## Lagrange interpolating polynomial
+
+Let `\( \{x_i\} \)` be a set of n nodes
+
+`$$
+l_i(x) = \prod_{j \in \{1..n\}, j \neq i} \frac{x - x_j}{x_i - x_j}
+\quad \quad \quad
+L(x) = \sum_{j \in \{1..n\} } f(x_i) l_i(x)
+$$`
+
+.col.w50.hcenter[
+![](images/lagrangepoly.png)
+]
+
+---
+
+# Nodes and weights
+
+## Newton-Cotes - `\( x^n \)` - Proof
+
+`$$
+\begin{aligned}
+\int_a^b f(x) dx 
+&\approx \int_a^b L(x)
+\\&= \int_a^b \sum_{i=0}^n f(x_i) l_i(x) dx
+\\&= \sum_{i=0}^n f(x_i) [\int_a^b l_i(x) dx] 
+\\&= \sum_{i=0}^n f(x_i) w_i
+\end{aligned}
+$$`
+
+
+---
+
+class: top
+
+## We can integrate polynomials of rank n exactly 🥳
+
+`$$
+\begin{aligned}
+\int_a^b f(x) dx 
+&= \sum_{i=0}^n w_i f(x_i) 
+\end{aligned}
+$$`
+
+* `\(x_i\)`: **equally** spaced nodes
+* `\(w_i\)`: weights
+
+`$$
+w_i = \int_a^b l_i(x) dx
+$$`
+
+
+## Can we do better ?
+
+--
+
+.vspace[
+]
+
+.hcenter[
+## ✨✨✨ Non-equally spaced nodes ✨✨✨
+]
+
 ---
 
 # Exact Gauss quadrature
 
 ## `\(n\)`-point gaussian quadrature rule
 
- * allows to calculate **exactly** the integral of polynomials of degree `\(2n-1\)` or less.
+ * allows to calculate **exactly** the integral of a polynomial F of **degree `\(2n-1\)`** or less.
 
-`$$\textrm{If }\deg{(P(x)}) \le 2n-1,$$`
-`$$\int_{-1}^1 P(x) dx = \sum_{i=0}^{n-1}w_iP(x_i).$$`
+`$$\textrm{If }\deg{(F(x)}) \le 2n-1,$$`
+`$$\int_{-1}^1 F(x) dx = \sum_{i=0}^{n-1} w_i F(x_i)$$`
 
- * if `\(f(x)\)` is well approximated by a polynomial function on the `\([-1, 1]\)` range,
+ * **only n evaluations** of F
+ * if `\(f(x)\)` is well approximated by `\(F(x)\)` over `\([-1, 1]\)`,
 the quadrature gives a good approximation of the definite integral.
 
+---
+
+# Example n=2
+
+`$$
+F(x) = a x^3 + b x^2 + c x + d
+$$`
+
+.col.w50.hcenter[
+![](images/quad.png)
+]
+
+.vspace[
+]
+
+🤯 Sampling only 2 points of the function, we can estimate the integral of a 3rd order polynomial 
+
+.vspace[
+]
+
+## Try it for `\(n=1\)` and `\(F(x) = ax + b\)` 😉
+
+
+---
+
+# Why does it work ?
+
+## Idea 1: Polynomial division
+
+* Let F be a polynomial of degree `\(< 2n \)`
+* Let P be a polynomial of degree `\( n \)`
+
+`$$
+F = Q P + R
+$$`
+
+* We get Q and R polynomials of degree `\(< n \)`
+
+## Idea 2: Legendre polynomials (orthogonal polynomials)
+
+They are orthogonal polynomials
+
+`$$
+\int_{-1}^{1} P_n P_m = δ_{m n}
+$$`
+
+If Q has degree `\(< n \)`
+
+`$$
+\int_{-1}^{1} P_n Q = 0
+$$`
+
+---
+
+# Why does it work
+
+## Proof
+
+Let us divide F with the legendre polynomial of degree n
+
+`$$
+\int_{-1}^{1} F(x) dx =
+\int_{-1}^{1} (Q P_n + R)(x) dx = 
+\int_{-1}^{1} R(x) dx
+$$`
+
+We can **exactly interpolate R** with n points `\( \{x_i\} \)` (not fixed for now)
+
+`$$
+\int_{-1}^{1} R(x) dx = 
+\sum_{i=0}^n w_i R(x_i)
+$$`
+
+If we now **choose the `\( \{x_i\} \)`** to be the roots of `\(P_n\)`
+
+`$$
+\sum_{i=0}^n w_i R(x_i) =
+\sum_{i=0}^n w_i P_n(x_i) Q(x_i) + R(x_i)
+=
+\sum_{i=0}^n w_i F(x_i)
+$$`
+
+And so we have proven
+
+`$$
+\int_{-1}^{1} F(x) dx =
+\sum_{i=0}^n w_i F(x_i)
+$$`
 
 ---
 
@@ -274,13 +551,18 @@ print(numpy.polynomial.hermite.hermgauss(10))
 
 ---
 
+class: top
+
 # Example of use
 
 ## Calculate the following integral:
 
 `$$I\equiv \int_{r=0}^\infty \int_{\theta=0}^{2\pi} e^{-r^2} g(r, \theta) r\, dr\, d\theta $$`
 
-----
+--
+
+.vspace[
+]
 
 We introduce the following substitutions:
 
@@ -295,6 +577,8 @@ $$`
 One then has
 
 `$$I = \frac{\pi}{2} \int_{R=0}^\infty \int_{T=-1}^1 e^{-R} g(\sqrt{R}, \pi(T+1))\, dR\, dT$$`
+
+--
 
 We use GLA and GLE quadrature rules and obtain
 
@@ -341,81 +625,6 @@ sum(numpy.polynomial.legendre.leggauss(10)[1]) # Output: 2.0
 
 ---
 
-# Usage in quantum mechanics
-
-## Too short introduction to quantum mechanics
-
-* states are described by "vectors" noted `\(|a\rangle\)`
-* operators act on states to give new states:
-
-`$$\hat{X}|a\rangle = |d\rangle$$`
-
-* the scalar product between two states is defined as
-
-`$$\langle a|.|c \rangle \equiv \langle a|c \rangle \equiv \int_\Omega a^*(\mathbf{r}) c(\mathbf{r}) \mathbf{dr}$$`
-
----
-
-# Usage in quantum mechanics
-
-## Basis definition
-
-* if you define a basis of states `\(\{|b_i\rangle\}\)` such as
-
-`$$\begin{array}{rcl}
-|b_i\rangle: b_i(\mathbf{r}) &\equiv& A.e^{-B\mathbf{r}^2} P(\mathbf{r})\\
-\langle b_i|b_j \rangle &=& \delta_{ij}
-\end{array}
-$$`
-
-  with `\(P(\mathbf{r})\)` a polynomial function, then you can express your states in this basis and have
-
-`$$\begin{array}{rcl}
-\langle a | &=& \sum_i a_i \langle b_i |\\
-|c \rangle &=& \sum_j c_j |b_i\rangle\\
-\langle a | \hat{X} | c \rangle &=& \sum_i \sum_j a_i c_j \langle b_i| \hat{X} | b_j\rangle
-\end{array}
-$$`
-
-  and, if `\(\hat{X}\)` is nice enough,
-
-  `$$\langle b_i| \hat{X} | b_j\rangle = A \int_\Omega e^{-C \mathbf{r}^2} P'(\mathbf{r}) \mathbf{dr}.$$`
-
-  :arrow_right: if you use a quadrature rule to approximate the last integral, you can have an **exact** result.
-
----
-
-# Which basis states ?
-
-## Widely used in nuclear physics, chemistry, etc...
-
-* eigenvectors of **any** operator are orthonormal
-* the HO is a good first approximation of **any** potential minimum:
-
-`$$
-f(z) = f(0) + \underbrace{\frac{1}{1!}\frac{d}{dz}f(z)}_{=0} + \frac{1}{2!}\frac{d^2}{dz^2}f(z) + O(z^2)
-$$`
-
-* the HO states are of the form `\(A.e^{-B\mathbf{r}^2}.P(\mathbf{r})\)`
-* the HO states have an **infinite support**, like physical states
-* the HO **can be deformed** without loosing its nice properties
-
-.hcenter[
-:arrow_right: Use HO states as basis states
-]
-
-.vspace[]
-
-## Other possible choices
-
-* `\(\mathbf{r}\)`-bases
-* Finite Elements
-* Wavelets
-* special non-orthogonal bases (e.g. unions of different HO solution sets)
-* etc...
-
----
-
 # Full-space integrations
 
 ## 1D-space (GHE)
@@ -452,14 +661,26 @@ $$`
 
 ---
 
-# Conclusions on the Gaussian quadrature
+# Bonus: table of integrals
 
- * if possible, place yourself in a case where the quadratures are **exact** (COV, combinations, etc...)
+## 📚 Table of integrals, series and products - Gradshteyn & Ryzhik
 
-.hcenter.shadow.w80.animated.fadeInRight.wait2s[![](images/chosen_wisely.png)]
+.vspace[
+]
 
- * there are many other quadrature rules in the litterature with different pros/cons, find the ones that suit your problem.
- * the rectangle and trapezoidal rules can be seen as special (very simple) Gaussian quadrature rules.
+.row[
+.col.w60[
+
+![](images/hermite-table.png)
+
+]
+
+.col.w40[
+
+![](images/tableofintegrals.png)
+
+]
+]
 
     </textarea>
 

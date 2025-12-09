@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IPS-PROD</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`IPS-PROD` - N. Dubray - ENSIIE - 2024 - [:book:](../index.html)
+]
+
+---
+
+class: top
+
+# About our numpy discussion...
+
+```py
+import numpy as np
+
+N = 5000
+a = np.zeros((N, N))
+
+# inefficient initialization with python
+for i in range(N):
+  for j in range(N):
+    a[i, j] = (i + j * 0.1) * 0.1
+
+# efficient diagonalization with blas
+b = np.linalg.eig(a)
+```
+
+--
+
+🕑 Measure: make sure there is a **real** problem
+
+```
+init:   3.25s
+diag: 110.04s
+```
+
+--
+
+> We should forget about small efficiencies, say about 97% of the time: premature optimization is the root of all evil. Yet we should not pass up our opportunities in that critical 3%
+- Donald Knuth
+
+--
+
+❓ Find the **Hotspots** - 80% of the ressources are used by 20% of the operations. 
+
+.hcenter[
+## Use a profiler
+]
+
+---
+
+# PERF linux profiller
+
+## Key points
+
+* Included in the Linux kernel
+* Count CPU hardware events such as instructions executed, cache-misses, ... - with `perf stat`
+* Count system calls with `perf trace` efficiently
+* **VERY** low impact on program performance (unlike valgrind and strace :()
+* **Samples** profiling data with `perf record`
+  * Displayed in a TUI with `perf report` and `perf annotate`
+* :tada: Works with python https://docs.python.org/3/howto/perf_profiling.html
+
+---
+
+# Basics of performance - Algorithmic complexity
+
+## Common asymptotic complexity
+
+| complexity | name        | example                              |
+| ---        | ---         | ---                                  |
+| O(1)       | constant    | hash tables (i.e. python dict)       |
+| O(log n)   | logarithmic | binary search in list of size n      |
+| O(n)       | linear      |                                      |
+| O(n^2)     | quadratic   |                                      |
+| O(e^n)     | exponential | travelling saleman problem (n nodes) |
+
+## Strength reduction techniques
+
+```cpp
+// O(N)
+for (i = 1; i <= N; ++i) {
+  sum += i;
+}
+
+// O(1)
+int sum = N * (1 + N) / 2;
+```
+
+## Matrix multiplication
+
+```py
+for i in range(n):
+  for j in range(n):
+    for k in range(n):
+      c[i,j] = a[i,k] * b[k, j]
+```
+
+➡️ `\(O(n^3)\)`
+
+---
+
+# Basics of performance - Algorithmic complexity
+
+## Matrix multiplication complexity - `\(O(n^\omega)\)`
+
+![](images/complexity.svg)
+
+---
+
+# Basics of performance - Algorithmic complexity
+
+.w60.hcenter[
+![](images/dgemm.png)
+]
+
+https://github.com/briancpark/mm
+
+Same **algorithmic complexity**, different **constants**
+
+
+---
+
+# Basics of performance - Micro-optimization
+
+## GCC Optimization flags
+
+https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
+
+* `-O0`: (default) no optimizations
+* `-Og`: best for debugging
+* `-O1`: optimize a little, good compilation time
+* `-O2`: performs all supported optimizations (w/out space-speed tradeoff)
+* `-O3`: optimize a lot, favoring speed
+* `-Ofast`: optimize agressively, disregard standards compliance
+* `-Os`: optimize for size
+
+## Example optimizations:
+
+* dead code elimination
+* moving loop invariants
+* vectorizing/unrolling loops
+
+## Example `-floop-interchange`
+
+```cpp
+for (int i = 0; i < N; i++)
+  for (int j = 0; j < N; j++)
+    for (int k = 0; k < N; k++)
+      c[i][j] = c[i][j] + a[i][k]*b[k][j];
+```
+```cpp
+for (int i = 0; i < N; i++)
+  for (int k = 0; k < N; k++)
+    for (int j = 0; j < N; j++)
+      c[i][j] = c[i][j] + a[i][k]*b[k][j];
+```
+
+---
+
+# Architecture
+
+
+## Compile for a specific architecture
+
+```
+-march=native
+-march=alderlake
+```
+
+Enables specific instructions of this architecture, ex:
+* Advanced Vector Extensions (AVX)
+* Streaming SIMD Extensions (SSE)
+
+## Compare generated assembly - Godbolt
+
+https://gcc.godbolt.org/z/nnozeqxf5
+
+.vspace[
+]
+
+➡️ We will go back to this with a specific example
+
+
+---
+
+class: top
+
+# Performance - Readability tradeoff
+
+🎯 Goal: Copy the `count` first characters of `to` into `from`
+
+```cpp
+void copy1(char *to, char *from, int count) {
+  for (int i = 0; i < count; i++) {
+    to[i] = from[i];
+  }
+}
+```
+--
+
+:( Introducting pointer arithmetic
+
+```cpp
+void copy2(char *to, char *from, int count)
+{
+  while (count > 0) {
+    *to++ = *from++, count--;
+  }
+}
+```
+
+--
+
+😵‍💫 And manual loop unrolling
+
+```cpp
+void copy3(char *to, char *from, int count)
+{
+  if (count <= 0) return;
+
+  int n = (count + 7) / 8;
+  switch (count % 8) {
+    do {
+      case 0: *to++ = *from++;
+      case 7: *to++ = *from++;
+      case 6: *to++ = *from++;
+      case 5: *to++ = *from++;
+      case 4: *to++ = *from++;
+      case 3: *to++ = *from++;
+      case 2: *to++ = *from++;
+      case 1: *to++ = *from++;
+    } while (--n > 0);
+  }
+}
+```
+
+---
+
+# Result
+
+## Benchmark at different optimization levels
+
+```
+## `-O0`
+copy1: 146 620 042 ns
+copy2:  72 576 838 ns
+copy3:  53 533 506 ns
+
+## `-O2`
+copy1:  26 423 949 ns
+copy2:  27 262 554 ns
+copy3:  17 121 862 ns
+
+## `-O3`
+copy1:     855 515 ns
+copy2:     887 187 ns
+copy3:   1 087 099 ns
+
+## `-O3 -march=native`
+copy1:     855 975 ns
+copy2:     880 559 ns
+copy3:     885 584 ns
+```
+
+If you implement a "trick" make sure it has a **sizable impact on performance** and **document** it.
+
+---
+
+# A small example
+
+`Usage: ./scale vectorSize iterations`
+
+```cpp
+const std::vector<float> input(vectorSize, 0.0);
+std::vector<float> output(vectorSize, 0.0);
+
+// repeat benchmark
+for (int iter = 0; iter < iterations; iter++) {
+
+    assumeAccessed(input);
+
+    for (int i = 0; i < vectorSize; i++) {
+
+      // scale by 4
+      output[i] = input[i] * 4.2;
+
+    }
+
+    assumeAccessed(output);
+}
+
+```
+
+https://grasland.pages.in2p3.fr/tp-perf/
+
+---
+
+# Before profilling
+
+## cpu info
+
+<pre><code><font color="#12488B">~/ips/perf</font>
+<font color="#C01C28">❯</font> lscpu
+
+*Architecture:             x86_64
+  CPU op-mode(s):         32-bit, 64-bit
+  Address sizes:          42 bits physical, 48 bits virtual
+  Byte Order:             Little Endian
+*CPU(s):                   20
+  On-line CPU(s) list:    0-19
+Vendor ID:                GenuineIntel
+  Model name:             12th Gen Intel(R) Core(TM) i7-12800H
+    CPU family:           6
+    Model:                154
+    Thread(s) per core:   2
+    Core(s) per socket:   14
+    Socket(s):            1
+    Stepping:             3
+    CPU(s) scaling MHz:   19%
+    CPU max MHz:          4800.0000
+    CPU min MHz:          400.0000
+    BogoMIPS:             5606.40
+*   Flags:                [...] sse sse2 avx avx2
+Caches (sum of all):      
+* L1d:                    544 KiB (14 instances)
+* L1i:                    704 KiB (14 instances)
+* L2:                     11.5 MiB (8 instances)
+* L3:                     24 MiB (1 instance)
+NUMA:                     
+  NUMA node(s):           1
+  NUMA node0 CPU(s):      0-19
+</code></pre>
+
+:+: Has vectorized instructions: sse, avx, ...  
+:+: 3 cache levels
+
+---
+
+# Before profilling
+
+## Not all cores are made equal !
+
+```
+lstopo
+```
+
+.hcenter[![](images/lstopo.png)]
+
+* Power cores (0-5)
+* Efficiency cores (6-13)
+
+---
+
+# Before profilling
+
+❌ Make sure there are no bugs
+
+* `gcc -g -Og`
+* `gdb ...`
+* `valgrind ...`
+
+.vspace[
+]
+
+:arrow_right: Compile with maximum optimization 
+
+* `gcc -O3`
+
+
+:arrow_right: Compile for the specific architecture you want to test
+
+* `gcc -march=native`
+
+:arrow_right: Fix the cpu affinity to prevent context-switches
+
+* `taskset -c 0`
+
+
+---
+
+# Event counting
+
+## Usage
+
+<pre><code><font color="#12488B">~/ips/perf</font>
+<font color="#A347BA">❯</font> perf stat ./scale.bin 2048 10000000
+
+ Performance counter stats for &apos;./scale.bin 2048 10000000&apos;:
+
+            570.42 msec task-clock                       #    0.999 CPUs utilized             
+                 4      context-switches                 #    7.012 /sec                      
+                 2      cpu-migrations                   #    3.506 /sec                      
+               140      page-faults                      #  245.434 /sec                      
+     2,095,921,686      cpu_atom/cycles/                 #    3.674 GHz                         (1.02%)
+     2,458,155,710      cpu_core/cycles/                 #    4.309 GHz                         (98.63%)
+     2,579,319,765      cpu_atom/instructions/           #    1.23  insn per cycle              (1.19%)
+     6,380,923,975      cpu_core/instructions/           #    3.04  insn per cycle              (98.63%)
+       198,982,760      cpu_atom/branches/               #  348.837 M/sec                       (1.19%)
+       394,388,952      cpu_core/branches/               #  691.404 M/sec                       (98.63%)
+         1,965,179      cpu_atom/branch-misses/          #    0.99% of all branches             (1.19%)
+             9,060      cpu_core/branch-misses/          #    0.00% of all branches             (98.63%)
+             TopdownL1 (cpu_core)                 # <font color="#C01C28">    39.0</font> %  tma_backend_bound      
+                                                  # <font color="#26A269">     0.0</font> %  tma_bad_speculation    
+                                                  # <font color="#26A269">     2.8</font> %  tma_frontend_bound     
+                                                  #     58.3 %  tma_retiring             (98.63%)
+             TopdownL1 (cpu_atom)                 # <font color="#26A269">    -0.2</font> %  tma_bad_speculation    
+                                                  # <font color="#26A269">    41.9</font> %  tma_retiring             (1.19%)
+                                                  # <font color="#C01C28">    55.2</font> %  tma_backend_bound      
+                                                  # <font color="#26A269">     3.1</font> %  tma_frontend_bound       (1.19%)
+
+       0.571050691 seconds time elapsed
+
+       0.569698000 seconds user
+       0.000000000 seconds sys
+
+</code></pre>
+
+:x: 2 CPU migrations -> use `taskset`  
+:( cpu_atom: E core registers  
+:) cpu_core: P core registers  
+
+---
+
+# Fixing cpu affinity
+
+<pre><code><font color="#12488B">~/ips/perf</font> <font color="#A2734C">6s</font>
+<font color="#A347BA">❯</font> taskset -c 0 perf stat ./scale.bin 2048 100000000
+
+ Performance counter stats for &apos;./scale.bin 2048 100000000&apos;:
+
+          5,649.34 msec task-clock                       #    0.999 CPUs utilized             
+                53      context-switches                 #    9.382 /sec                      
+*                0      cpu-migrations                   #    0.000 /sec                      
+               140      page-faults                      #   24.782 /sec                      
+       not counted      cpu_atom/cycles/                                                        (0.00%)
+    24,374,238,527      cpu_core/cycles/                 #    4.315 GHz                       
+       not counted      cpu_atom/instructions/                                                  (0.00%)
+    63,231,685,074      cpu_core/instructions/                                                
+       not counted      cpu_atom/branches/                                                      (0.00%)
+     3,905,956,719      cpu_core/branches/               #  691.400 M/sec                     
+       not counted      cpu_atom/branch-misses/                                                 (0.00%)
+           171,796      cpu_core/branch-misses/                                               
+             TopdownL1 (cpu_core)                 # <font color="#C01C28">    38.8</font> %  tma_backend_bound      
+                                                  # <font color="#26A269">     0.0</font> %  tma_bad_speculation    
+                                                  # <font color="#26A269">     2.7</font> %  tma_frontend_bound     
+                                                  #     58.4 %  tma_retiring           
+
+       5.655266440 seconds time elapsed
+
+       5.640616000 seconds user
+       0.000000000 seconds sys
+</code></pre>
+
+:+: No cpu migrations  
+:+: Only the useful info from `cpu_core`  
+
+:arrow_right: ~ 3 Instructions/cycle
+
+---
+
+# More events
+
+## `--detailed`
+
+<pre><code><font color="#12488B">~/ips/perf</font>
+<font color="#A347BA">❯</font> perf stat -d ./scale.bin 2048 10000000
+
+[...]
+
+     2,584,032,986      L1-dcache-loads                  #    4.590 G/sec                       (99.91%)
+            74,941      L1-dcache-load-misses                                                   (99.91%)
+            36,739      LLC-loads                        #   65.264 K/sec                       (99.91%)
+             1,172      LLC-load-misses                                                         (99.91%)
+
+[...]
+</code></pre>
+
+**LLC**: Last level cache - L3 cache in our case
+
+---
+
+# Hardware limitations and multiplexing
+
+## Filtering with `--event`
+
+```
+❯ perf stat -e L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses
+```
+
+## Too many events
+
+<pre><code><font color="#12488B">~/ips/perf</font>
+<font color="#A347BA">❯</font> taskset -c 0 perf stat -e cycles,instructions,branches,branch-misses,L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,mem-loads,mem-stores ./scale.bin 2048 10000000
+
+ Performance counter stats for &apos;./scale.bin 2048 10000000&apos;:
+
+     3,242,995,257      cpu_core/cycles/                                                        (59.95%)
+    13,007,114,443      cpu_core/instructions/           #    4.01  insn per cycle              (69.96%)
+     2,621,471,546      cpu_core/branches/                                                      (79.98%)
+        10,028,996      cpu_core/branch-misses/          #    0.38% of all branches             (89.99%)
+     2,582,550,554      cpu_core/L1-dcache-loads/                                               (89.99%)
+           144,212      cpu_core/L1-dcache-load-misses/  #    0.01% of all L1-dcache accesses   (89.98%)
+            15,383      cpu_core/LLC-loads/                                                     (89.99%)
+               988      cpu_core/LLC-load-misses/        # <font color="#A2734C">   6.42%</font> of all LL-cache accesses    (80.01%)
+                 0      cpu_core/mem-loads/                                                     (90.03%)
+     2,563,042,743      cpu_core/mem-stores/                                                    (50.03%)
+</code></pre>
+
+:arrow_right: Multiplexing (alternates between monitored counters)
+
+---
+
+# Events
+
+## Filtering with `--metrics`
+
+<pre><code><font color="#12488B">~/ips/perf</font> <font color="#A2734C">6s</font>
+<font color="#A347BA">❯</font> taskset -c 0 perf stat -M tma_info_core_flopc ./scale.bin 2048 10000000 
+
+ Performance counter stats for &apos;./scale.bin 2048 10000000&apos;:
+
+     2,560,000,000      cpu_core/FP_ARITH_INST_RETIRED.256B_PACKED_SINGLE/ #     8.42 tma_info_core_flopc       
+                 0      cpu_core/FP_ARITH_INST_RETIRED.128B_PACKED_DOUBLE/                                      
+     2,432,000,177      cpu_core/CPU_CLK_UNHALTED.DISTRIBUTED/                                      
+                 0      cpu_core/FP_ARITH_INST_RETIRED.SCALAR/                                      
+                 0      cpu_core/FP_ARITH_INST_RETIRED.4_FLOPS/                                      
+
+       0.560831565 seconds time elapsed
+
+       0.559020000 seconds user
+       0.000995000 seconds sys
+</code></pre>
+
+:+: We are using 256bit vectorization, all good (avx512 is not available on this cpu)
+
+https://www.uops.info/html-instr/VMULPS_YMM_YMM_YMM.html
+
+* Alder-lake P cores: throughput is 0.5
+* Alder-lake E cores: throughput is 1.0
+
+
+
+---
+
+# Even more options
+
+## Repeat `--repeat`
+
+## Delay `--delay`
+
+## Timeout `--timeout`
+
+---
+
+# Types of profiling
+
+## Instrumenting (`callgrind`)
+
+* Time the execution of every function call.
+* ❌ Can prevent some optimizations (inlining, ...)
+* ❌ High overhead
+
+## Sampling
+
+* Pause the code every `x` ms
+* Records the position of the instruction pointer (and/or call stack)
+* :+: Realistic conditions
+* :+: No overhead
+* :arrow_right: It takes multiple CPU cycles to write the position of the instruction pointer
+* :+: `perf` is a REALLY good sampling profiler because it can correlate system events (cache miss, IO, ...) to some parts of the code
+
+---
+
+# How to use
+
+## Record
+
+```sh
+perf record ...
+perf record --call-graph=dwarf ... # if you want access to the call graph
+```
+
+## Report
+
+```
+perf report
+```
+
+.vspace[
+]
+
+## Beforehand
+
+:warning: Compile your code with debug symbols `-g`
+
+Disable some security features
+
+```
+sudo sysctl kernel.perf_event_paranoid=-1
+sudo sysctl kernel.kptr_restrict=0
+```
+
+---
+
+# `perf annotate`
+
+---
+
+# perf GUI
+
+:arrow_right: We need easy interactive **flamegraph**
+
+## Hotspot
+
+:+: Easy to use (can record)  
+:+: Nice timeline with  all cpus  
+:x: Does not use perf to interpret `perf.data`  
+
+## Firefox Profiler
+
+:arrow_right: Must record from the cli  
+:+: Uses perf to read `perf.data`  
+
+## ... use the CLI for advanced features not available
+
+:+: Annotated assembly
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/katex.min.js"></script>
+    <script src="core/javascript/auto-render.min.js"></script>
+    <script src="core/javascript/emojify.js"></script>
+    <script src="core/javascript/mermaid.js"></script>
+    <script src="core/javascript/term.js"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js"></script>
+    <script src="core/javascript/extend-jquery.js"></script>
+    <script src="core/javascript/cinescript.js"></script>
+    <script src="core/javascript/gitgraph.js"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "\\(", right: "\\)", display: false}], ignoredTags: [] });
+
+    </script>
+  </body>
+</html>
+

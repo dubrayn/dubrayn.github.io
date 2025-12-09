@@ -31,10 +31,10 @@ class: animated fadeIn middle numbers
 ## Key points
 
 * core library for scientific computing in Python
-* very close from MATLAB (but open-source :v:)
-* provides very efficient multi-dimensional arrays
+* very close to MATLAB (but open-source :v:)
+* provides very **efficient multi-dimensional arrays**
 * provides several tools to integrate C/C++ and Fortran codes
-* provides functions for: linear algebra, RNG, Fourier transforms, etc...
+* provides functions for: **linear algebra**, RNG, Fourier transforms, etc...
 
 .block[
 * Repository: [https://github.com/numpy/numpy](https://github.com/numpy/numpy)
@@ -55,8 +55,8 @@ a = np.array([2, 3, 4])
 v = np.array([2.1, 3.4, 2.7])
 ```
 
-## Type of the stored data
-:arrow_right: The type is infered from the values.  
+## Type of the stored data - `dtype`
+:arrow_right: The type is infered from the values.
 
 ```Python
 import numpy as np
@@ -65,7 +65,7 @@ np.array([2, 3, 4  ]).dtype # dtype('int64')
 np.array([2, 3, 4.0]).dtype # dtype('float64')
 ```
 
-## Size of each element
+## Size of each element - `itemsize`
 :arrow_right: Useful to calculate the memory footprint of an array.  
 
 ```Python
@@ -92,15 +92,15 @@ icube = np.array([[[1, 2, 3], [2, 3, 4]], [[3, 4, 5], [4, 5, 6]]]) # 2x2x3 integ
 ```Python
 import numpy as np
 
-cmat  = np.array([[1, 2], [3, 4]], dtype = complex) # 2x2 complex double matrix
+cmat  = np.array([[1, 2], [3, 4]], dtype=complex) # 2x2 complex double matrix
 ```
 
 ## Initialization by conversion
 ```Python
 import numpy as np
 
-dvec  = np.array([1.0, 2.0, 3.0])       # 3 double vector
-cvec  = np.array(dvec, dtype = complex) # 3 complex double vector
+dvec  = np.array([1.0, 2.0, 3.0])     # 3 double vector
+cvec  = np.array(dvec, dtype=complex) # 3 complex double vector
 ```
 
 ## Initialization by copy
@@ -120,9 +120,9 @@ d is ivec # False
 
 ---
 
-# NumPy - Arrays
+# NumPy - Shape
 
-## Rank (number of axes)
+## Dimensions - `ndim`
 ```Python
 import numpy as np
 
@@ -133,7 +133,7 @@ b = np.array([[1, 2], [3, 4]])
 b.ndim # 2
 ```
 
-## Dimensions
+## Shape - `shape`
 ```Python
 import numpy as np
 
@@ -150,9 +150,11 @@ import numpy as np
 
 a = np.array([1, 2, 3])
 a.size # 3
+len(a) # 3
 
 b = np.array([[1, 2], [3, 4]])
 b.size # 4
+len(b) # 4
 ```
 
 ---
@@ -222,6 +224,7 @@ print(np.full_like(a, 7))
 #  [7 7 7 7]
 #  [7 7 7 7]]
 
+# resulting array is of the same type !!!
 print(np.full_like(a, 7.5))
 # [[7 7 7 7]
 #  [7 7 7 7]
@@ -292,7 +295,8 @@ print(a * b) # element-wise multiplication !
 #  [-3  0  5]
 #  [12 21 32]]
 
-print(a.dot(b)) # matrix multiplication
+print(a @ b   ) # matrix multiplication
+print(a.dot(b)) # dot product
 # [[  3   6   9]
 #  [ -6   6  18]
 #  [-15   6  27]]
@@ -332,7 +336,6 @@ print(np.linalg.norm(b))
 eigval, eigvec = np.linalg.eig(b)
 print(eigval) 
 # [ -4.24264069e+00   3.81639165e-17   4.24264069e+00]
-
 print(eigvec)
 # [[ 0.90104757  0.40824829 -0.3236973 ]
 #  [ 0.28867513 -0.81649658  0.28867513]
@@ -351,7 +354,7 @@ print(np.matmul(b, eigvec[:,[0]]) - eigval[0] * eigvec[:,[0]])
 
 # NumPy - Arrays
 
-## Change the rank and dimensions (not the data)
+## Change the shape (not the data) - `reshape`
 ```Python
 import numpy as np
 
@@ -426,7 +429,7 @@ a[:, 3] = [9, 9, 9]; print(a)
 
 # NumPy - Arrays
 
-## Generate a sequence of numbers
+## Generate a sequence of numbers - `arange`
 
 * to generate an array instead of a list
 * accepts **float arguments**
@@ -446,12 +449,13 @@ np.arange(8, 13, 2.2)   # array([ 8. , 10.2, 12.4])
 np.arange(8.2, 13, 2.2) # array([ 8.2, 10.4, 12.6])
 ```
 
-## Subdivise a range
+## Range - `linspace` `logspace`
 ```Python
 import numpy as np
 
 np.linspace(0, 1, 3) # array([ 0., 0.5, 1. ])
 np.linspace(3, 7, 9) # array([ 3., 3.5, 4. , 4.5, 5. , 5.5, 6. , 6.5, 7. ])
+np.logspace(1, 5, 6) # array([1.e+00, 1.e+01, 1.e+02, 1.e+03, 1.e+04, 1.e+05])
 ```
 
 ---
@@ -575,7 +579,7 @@ plt.show()
 
 ---
 
-# NumPy - Arrays
+# NumPy - I/O
 
 ## Load and save arrays
 ```Python
@@ -604,9 +608,9 @@ print(imat)
 ```
 
 ---
-# NumPy - Arrays
+# NumPy - Efficient iterating
 
-## Iterate over all elements of an array
+## Iterate over all elements of an array - `nditer`
 ```Python
 import numpy as np
 
@@ -616,7 +620,7 @@ print(a)
 #  [3 4 5]]
 
 for x in np.nditer(a):                         # readonly access
-  print x,
+  print(x)
 # 0 1 2 3 4 5
 
 for x in np.nditer(a, op_flags=['readwrite']): # readwrite access
@@ -626,21 +630,21 @@ print(a)
 #  [ 6  8 10]]
 ```
 
-## Iterate over all elements of an array and get index values
+
+## `enumerate` an ndarray
 ```Python
-import numpy as np
-
-a = np.arange(6).reshape(2,3)
-print(a)
-# [[0 1 2]
-#  [3 4 5]]
-
-it = np.nditer(a, flags=['multi_index'])
-while not it.finished:
-  print "%d <%s>" % (it[0], it.multi_index),
-  it.iternext()
-# 0 <(0, 0)> 1 <(0, 1)> 2 <(0, 2)> 3 <(1, 0)> 4 <(1, 1)> 5 <(1, 2)>
+for i, x in np.ndenumerate(a): # convenient
+  print(i, x)
+# (0, 0) 0
+# (0, 1) 1
+# (0, 2) 2
+# (1, 0) 3
+# (1, 1) 4
+# (1, 2) 5
 ```
+
+Advanced: use `multi_index` flag of `nditer`
+
 ---
 
 # NumPy - Arrays
@@ -883,13 +887,12 @@ n1 = 2000
 print("===== Numpy 2 =====")
 time0 = time.time()
 A = np.empty((n0, n1))
-*it = np.nditer(A, flags = ['multi_index'],
-*              op_flags = ['writeonly'])
+*it = np.nditer(A, flags = ['multi_index'], op_flags = ['writeonly'])
 *while not it.finished:
 * it[0] = (it.multi_index[0]
-*       + it.multi_index[1] * 0.1) * 0.1
+*       +  it.multi_index[1] * 0.1) * 0.1
 * it.iternext()
-B = A.transpose()  
+B = A.transpose()
 
 time1 = time.time()
 N = np.linalg.norm(A.dot(B), ord = 'fro')
@@ -1036,349 +1039,6 @@ result    : 6.17895105956704e+10
 * **Pythran**:  
  * generate and compile `C++` code from annotated Python code (supports only a subset of the Python language)  
  * website: [http://pythran.readthedocs.io/en/latest](http://pythran.readthedocs.io/en/latest)
-
----
-
-# NumPy - Numba
-
-## Usage
-* add `@jit` decorator before the functions to be JIT compiled
-
-.row[
-.column.w48[
-
-## Example
-
-```Python
-import numpy as np
-import time
-from numba import jit
-
-print("===== Numba =====")
-time0 = time.time()
-n0 = 2000
-n1 = 2000
-@jit
-def fill(n0, n1):
-  a = np.empty((n0, n1))
-  for i in range(n0):
-    for j in range(n1):
-      a[i, j] = (i + j * 0.1) * 0.1
-  b = a.transpose()
-  return a, b
-
-@jit
-def calc(a, b):
-  return np.linalg.norm(a.dot(b), ord = 'fro')
-
-time1 = time.time()
-A, B = fill(n0, n1) 
-time2 = time.time()
-N = calc(A, B)
-time3 = time.time()
-print("comp. time: %fs" % (time1 - time0))
-print("fill. time: %fs" % (time2 - time1))
-print("calc. time: %fs" % (time3 - time2))
-print("TOTAL time: %fs" % (time3 - time0))
-print("result    : %20.14e" % (N))
-
-
-```
-]
-.column.w48.middle[
-
-## Result
-```text
-===== Numba ===== 
-comp. time: 0.023121s
-fill. time: 0.339344s
-calc. time: 0.277222s
-TOTAL time: 0.639687s
-result    : 6.17895105956704e+10
-```
-]
-]
-
----
-
-# NumPy - Cython
-
-## Module compilation
-* write a `calc.pyx` file
-* write a `setup_cython.py` file
-* compile the module with
-
-```shell
-$ python setup_cython.py build_ext --inplace
-```
-
-.row[
-.column.w55[
-
-## .hcenter[`[calc.pyx]`]
-```Python
-import numpy as np
-cimport numpy as np
-DTYPE = np.float64
-ctypedef np.float64_t DTYPE_t
-
-cimport cython
-# turn off bounds-checking for entire function
-@cython.boundscheck(False)
-# turn off negative index wrapping for entire function
-@cython.wraparound(False)
-def fill(int n0, int n1):
-  cdef int i
-  cdef int j
-  cdef np.ndarray A = np.empty((n0, n1), dtype = DTYPE)
-  cdef DTYPE_t value
-  for i in range(n0):
-    for j in range(n1):
-      value = (i + j * 0.1) * 0.1
-      A[i, j] = value
-  B = A.transpose()
-  return A, B
-
-def calc(np.ndarray A, np.ndarray B):
-  return np.linalg.norm(A.dot(B), ord = 'fro')
-```
-]
-
-.column.w40.middle[
-## .hcenter[`[setup_cython.py]`]
-```Python
-from distutils.core import setup
-from Cython.Build import cythonize
-
-setup(
-  ext_modules=cythonize("calc.pyx"),
-)
-```
-]
-]
-
----
-
-class: top
-
-# NumPy - Cython
-
-.row[
-.column.w48[
-## Using `np.mgrid`
-```Python
-import numpy as np
-import time
-
-n0 = 2000
-n1 = 2000
-
-print("===== Numpy 3 =====")
-time0 = time.time()
-
-*im, jm = np.mgrid[0:n0, 0:n1]
-*A = (im + jm * 0.1) * 0.1
-*B = A.transpose()
-
-time1 = time.time()
-
-*N = np.linalg.norm(A.dot(B), ord = 'fro')
-
-time2 = time.time()
-
-print("fill. time: %fs" % (time1 - time0))
-print("calc. time: %fs" % (time2 - time1))
-print("total time: %fs" % (time2 - time0))
-print("result    : %20.14e" % (N))
-
-```
-]
-
-.column.w48[
-## Using Cython
-```Python
-import numpy as np
-import time
-
-n0 = 2000
-n1 = 2000
-
-print("===== Cython =====")
-time0 = time.time()
-
-*import calc
-time1 = time.time()
-
-*A, B = calc.fill(n0, n1)
-time2 = time.time()
-
-*N = calc.calc(A, B)
-time3 = time.time()
-
-print("init. time: %fs" % (time1 - time0))
-print("fill. time: %fs" % (time2 - time1))
-print("calc. time: %fs" % (time3 - time2))
-print("TOTAL time: %fs" % (time3 - time0))
-print("result    : %20.14e" % (N))
-```
-]
-]
-
---
-
-.row[
-.column.w48[
-## Result
-```text
-===== Numpy 3 =====
-*fill. time: 0.078148s
-*calc. time: 0.198162s
-total time: 0.276310s
-result    : 6.17895105956704e+10
-```
-]
-
-.column.w48[
-## Result
-```text
-===== Cython =====
-init. time: 0.000356s
-*fill. time: 0.789828s
-*calc. time: 0.429509s
-TOTAL time: 1.219693s
-result    : 6.17895105956704e+10
-```
-]
-]
-
-
----
-
-# NumPy - Pythran
-
-## Module compilation
-* write a `matrix_multiply.py` file
-* use Pythran special decorators and directives
-* compile the module with
-
-```shell
-$ pythran matrix_multiply.py
-```
-
-## .hcenter[`[matrix_multiply.py]`]
-```Python
-#pythran export matrix_multiply(float list list, float list list)
-def zero(n, m):
-  return [[0 for row in xrange(n)] for col in xrange(m)]
-
-def matrix_multiply(m0, m1):
-  new_matrix = zero(len(m0), len(m1[0]))
-  for i in xrange(len(m0)):
-    for j in xrange(len(m1[0])):
-      r = 0
-      "omp parallel for reduction(+:r)"
-      for k in xrange(len(m0)):
-        r += m0[i][k] * m1[k][j]
-      new_matrix[i][j] = r
-  return new_matrix
-```
-
----
-
-class: top
-
-# NumPy - Pythran
-
-.row[
-.column.w48[
-## Using `np.mgrid`
-```Python
-import numpy as np
-import time
-
-n0 = 2000
-n1 = 2000
-
-print("===== Numpy 3 =====")
-time0 = time.time()
-
-*im, jm = np.mgrid[0:n0, 0:n1]
-*A = (im + jm * 0.1) * 0.1
-*B = A.transpose()
-
-time1 = time.time()
-
-*N = np.linalg.norm(A.dot(B), ord = 'fro')
-
-time2 = time.time()
-
-print("fill. time: %fs" % (time1 - time0))
-print("calc. time: %fs" % (time2 - time1))
-print("total time: %fs" % (time2 - time0))
-print("result    : %20.14e" % (N))
-
-```
-]
-
-.column.w48[
-## Using Pythran
-```Python
-import numpy as np
-import time
-
-n0 = 2000
-n1 = 2000
-
-print("===== Pythran =====")
-time0 = time.time()
-*import matrix_multiply
-time1 = time.time()
-*A = [[((i + j * 0.1) * 0.1)
-*     for i in xrange(n0)] for j in xrange(n1)]
-*B = A.transpose()
-time2 = time.time()
-*mat = matrix_multiply.matrix_multiply(A, B)
-time3 = time.time()
-*N = np.linalg.norm(mat, ord = 'fro')
-time4 = time.time()
-
-print("init. time: %fs" % (time1 - time0))
-print("fill. time: %fs" % (time2 - time1))
-print("mult. time: %fs" % (time3 - time2))
-print("norm. time: %fs" % (time4 - time3))
-print("TOTAL time: %fs" % (time4 - time0))
-print("result    : %e" % (N))
-```
-]
-]
-
---
-
-.row[
-.column.w48[
-## Result
-```text
-===== Numpy 3 =====
-fill. time: 0.078148s
-*calc. time: 0.198162s
-total time: 0.276310s
-result    : 6.17895105956704e+10
-```
-]
-
-.column.w48[
-## Result
-```text
-===== Pythran =====
-init. time: 0.000120s
-fill. time: 1.526504s
-*mult. time: 113.829122s
-norm. time: 0.094946s
-TOTAL time: 115.450692s
-result    : 6.17895105956707e+10
-```
-]
-]
 
 ---
 

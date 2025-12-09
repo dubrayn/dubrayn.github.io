@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IPS-DEV</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`IPS-DEV` - N. Dubray - ENSIIE - 2024 - [:book:](../index.html)
+]
+
+---
+
+# IPS-PROD - Too short introduction to quantum mechanics
+
+## States: kets
+
+States are described by (complex) vectors called **kets**, noted `\( \ket{ψ} \)`.
+
+We can decompose a 3D vector in representation (x,y,z) as
+
+`$$
+\vec{a} = c_x \vec{x} + c_y \vec{y} + c_z \vec{z}
+$$`
+
+Or in representation (u,v,w)
+
+`$$
+\vec{a} = c_u \vec{u} + c_v \vec{v} + c_w \vec{w}
+$$`
+
+We can also decompose a ket on an (arbitrary) basis `\( \{\lvert α \rangle \} \)` of `\(E\)`; 
+
+`$$
+\lvert ψ \rangle = \sum_a c_a \lvert α \rangle
+$$`
+
+Or we may use a continuous basis, for instance the  `\( r \)`-basis
+
+`$$
+\lvert ψ \rangle = \int_r ψ(r) \lvert r \rangle
+$$`
+
+`\( ψ(r) \)` is the wavefunction associated to our state.
+
+## Space of states: a vector space
+
+The set of all quantum states is a **vector space** we call `\(E\)`
+
+---
+
+## Scalar product
+
+For usual 3D vectors, we have a **scalar product** (dot product) in the frame (x,y,z)
+
+`$$
+\vec{a} \cdot \vec{b} = a_x b_x + a_y b_y + a_z b_z
+$$`
+
+The scalar product is **independant of the frame/representation** used
+
+`$$
+\vec{a} \cdot \vec{b} = a_u b_u + a_v b_v + a_w b_w
+$$`
+
+We can also define a (hermitian) scalar product on E (upgrading it to a **hilbert space**)
+
+`$$
+\ket{a} . \ket{b}
+\equiv \langle a|b \rangle \equiv \int_\Omega a^*(\mathbf{r}) b(\mathbf{r}) \mathbf{dr}
+$$`
+
+For a 3d vector this is how we get the coordinates of a vector (by projecting)
+
+`$$
+\vec{a} = \braket{x}{a} \vec{x} + \braket{y}{a} \vec{y} + \braket{z}{a} \vec{z}
+$$`
+
+This is also true for kets
+
+`$$
+\lvert ψ \rangle = \int_r \braket{r}{ψ} \ket{r}
+$$`
+
+---
+
+## Linear forms
+
+`$$
+\begin{aligned}
+\bra{α}: E[\mathbb{C}] &→ \mathbb{C} \\
+\ket{β} &\mapsto x = \bra{α}(\ket{β}) = \braket{a}{β}
+\end{aligned}
+$$`
+
+The space of all linear forms is called the **dual space** E*
+
+An element of E* is called a bra and is written `\(\bra{α}\)`
+
+## Braket correspondance
+
+For a given ket `\(\ket{α}\)`, there exists a bra `\(\bra{α}\)` such that the scalar product coincides
+
+---
+
+## Operators
+
+`$$
+\begin{aligned}
+\hat{X}: E[\mathbb{C}] &→ E[\mathbb{C}] \\
+\ket{α} &\mapsto \ket{β}
+\end{aligned}
+$$`
+
+➡️ operators act on states to give new states:
+
+To continue the parallel with vectors, an operator is a matrix
+
+`$$
+\begin{aligned}
+\begin{pmatrix} X_{00} & X_{01} \\ X_{10} & X_{11} \end{pmatrix}
+\begin{pmatrix} α_0 \\ α_1 \end{pmatrix}
+=
+\begin{pmatrix} β_0 \\ β_1 \end{pmatrix}
+\end{aligned}
+$$`
+
+
+The **matrix elements** of an operator in basis `\( \{u_i\} \)` read
+
+`$$
+X_{ij}
+=
+\bra{u_j} X \ket{u_i}
+$$`
+
+Knowing the matrix elements of the operator is enough to know its effect on any bra or ket
+
+`$$
+\bra{β} X \ket{α} 
+= \sum_{i j} \braket{β}{u_i} X_{ij} \braket{u_j}{α}
+= \sum_{i j} β_i^* X_{ij} α_j
+$$`
+
+---
+
+# Usage in quantum mechanics
+
+## Basis definition
+
+If you define a basis of states `\(\{|b_i\rangle\}\)` such as
+
+`$$\begin{array}{rcl}
+|b_i\rangle: b_i(\mathbf{r}) &\equiv& A.e^{-B\mathbf{r}^2} P(\mathbf{r})\\
+\langle b_i|b_j \rangle &=& \delta_{ij}
+\end{array}
+$$`
+
+  with `\(P(\mathbf{r})\)` a polynomial function, then you can express your states in this basis and have
+
+`$$\begin{array}{rcl}
+\langle a | &=& \sum_i a_i \langle b_i |\\
+|c \rangle &=& \sum_j c_j |b_i\rangle\\
+\langle a | \hat{X} | c \rangle &=& \sum_i \sum_j a_i c_j \langle b_i| \hat{X} | b_j\rangle
+\end{array}
+$$`
+
+  and, if `\(\hat{X}\)` is nice enough,
+
+  `$$\langle b_i| \hat{X} | b_j\rangle = A \int_\Omega e^{-C \mathbf{r}^2} P'(\mathbf{r}) \mathbf{dr}.$$`
+
+  :arrow_right: if you use a quadrature rule to approximate the last integral, you can have an **exact** result.
+
+---
+
+# Which basis states ?
+
+## Widely used in nuclear physics, chemistry, etc...
+
+* eigenvectors of (non-degenerate) hermitian operators are orthonormal
+* the HO is a good first approximation of **any** potential minimum:
+
+`$$
+f(z) = f(0) + \underbrace{\frac{1}{1!}\frac{d}{dz}f(z)}_{=0} + \frac{1}{2!}\frac{d^2}{dz^2}f(z) + O(z^2)
+$$`
+
+* the HO states are of the form `\(A.e^{-B\mathbf{r}^2}.P(\mathbf{r})\)`
+* the HO states have an **infinite support**, like physical states
+* the HO **can be deformed** without loosing its nice properties
+
+.hcenter[
+:arrow_right: Use HO states as basis states
+]
+
+.vspace[]
+
+## Other possible choices
+
+* `\(\mathbf{r}\)`-bases
+* Finite Elements
+* Wavelets
+* special non-orthogonal bases (e.g. unions of different HO solution sets)
+* etc...
+
+---
+
+# Conclusions
+
+ * if possible, place yourself in a case where the quadratures are **exact**
+
+.hcenter.shadow.w80.animated.fadeInRight.wait2s[![](images/chosen_wisely.png)]
+
+ * there are many other quadrature rules in the litterature with different pros/cons, find the ones that suit your problem.
+
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/katex.min.js"></script>
+    <script src="core/javascript/auto-render.min.js"></script>
+    <script src="core/javascript/emojify.js"></script>
+    <script src="core/javascript/mermaid.js"></script>
+    <script src="core/javascript/term.js"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js"></script>
+    <script src="core/javascript/extend-jquery.js"></script>
+    <script src="core/javascript/cinescript.js"></script>
+    <script src="core/javascript/gitgraph.js"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    renderMathInElement(
+      document.body,
+      {
+        trust: true,
+        strict: false,
+        delimiters: [
+          {left: "$$", right: "$$", display: true},
+          {left: "$", right: "$", display: false},
+          {left: "\\(", right: "\\)", display: false}
+        ],
+        macros: {
+          "\\ket": "{\\lvert #1\\rangle}",
+          "\\bra": "{\\langle #1\\rvert}",
+          "\\braket": "{\\langle #1 \\rvert #2 \\rangle}",
+          "\\expval": "{\\langle #2 \\rvert #1 \\rvert #2 \\rangle}",
+        },
+        ignoredTags: [],
+      }
+    );
+
+    </script>
+  </body>
+</html>
+

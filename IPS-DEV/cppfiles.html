@@ -46,9 +46,9 @@ class: animated fadeIn middle numbers
 class MyClass
 {
   public:
-  MyClass(int);
-  int myFunc(int);
-  int a;
+  MyClass(int);    // constructor
+  int myFunc(int); // method
+  int a;           // member
 };
 #endif // MYCLASS_H
 ```
@@ -95,11 +95,11 @@ int main(int charc, char** argv)
 
 .column.w48[
 ## .hcenter[Build & launch `main`]
-```shell
+```sh
 $ g++ -Wall -c myclass.cpp -o myclass.o
 $ g++ -Wall -c main.cpp -o main.o
 $ g++ main.o myclass.o -o main
-$ ./main
+./main
 Result: 5
 ```
 
@@ -146,7 +146,7 @@ $ g++ -Wall -c myclass.cpp main.cpp -o main
 * `-Wall` display all warnings
 * `-Werror` treat warnings as errors (stop)
 * `-Ox` optimization level (x = 0..4)
-* `-g` generate debugging symbols
+* `-g` generate debug symbols
 * `-I` specify additional path for include files
 * `-std=c++11` specify the C++ version
 ]
@@ -166,6 +166,108 @@ $ g++ -std=c++11 -g -O3 -I../inc -Wall -Werror -L~/.local/lib -L../lib -lsuper -
 1. which file(s) will be generated ?
 2. what can be an issue when debugging ?
 3. what can be an issue when developping ?
+
+---
+
+# Where does g++ look ?
+
+## For include files `-I`
+
+```sh
+$ gcc -I/tmp/ -c valgrind.cpp -v
+
+#include "..." search starts here:
+#include <...> search starts here:
+ /tmp
+ /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11
+ /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/x86_64-redhat-linux
+ /usr/lib/gcc/x86_64-redhat-linux/11/../../../../include/c++/11/backward
+ /usr/lib/gcc/x86_64-redhat-linux/11/include
+ /usr/local/include
+ /usr/include
+End of search list.
+```
+
+## For libraries `-L`
+
+```
+$ gcc -L/tmp -v valgrind.o 2>&1 | grep "\-L"
+
+/usr/libexec/gcc/x86_64-redhat-linux/11/collect2 -plugin /usr/libexec/gcc/x86_64-redhat-linux/11/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/x86_64-redhat-linux/11/lto-wrapper -plugin-opt=-fresolution=/tmp/cc1M7eKZ.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --no-add-needed --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crt1.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crti.o /usr/lib/gcc/x86_64-redhat-linux/11/crtbegin.o -L/tmp -L/usr/lib/gcc/x86_64-redhat-linux/11 -L/usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib/gcc/x86_64-redhat-linux/11/../../.. valgrind.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-redhat-linux/11/crtend.o /usr/lib/gcc/x86_64-redhat-linux/11/../../../../lib64/crtn.o
+```
+
+---
+
+# What are object files ?
+
+## `nm`
+
+> List symbols from object files
+
+```c
+double x = 0;
+
+double f(int a) {
+  return 0.;
+}
+```
+
+⚙️ Compile to object with gcc
+
+```
+> gcc -c a.c
+> nm a.o
+0000000000000000 B x
+0000000000000000 T f
+```
+
+⚠️ c++ name mangling
+
+```
+> gcc -c a.cpp
+> nm a.o
+0000000000000000 B x
+0000000000000000 T _Z1fi
+```
+
+## dynamic library symbols
+
+```
+> nm -D /lib64/libm.so.6 | grep cos
+```
+
+* more detailed tool: `objdump`
+
+---
+
+# How does library resolution work ?
+
+## ldd
+
+> prints the shared objects required by each program
+
+```sh
+❯ ldd main
+	linux-vdso.so.1 (0x00007ffd109a5000)
+	libarmadillo.so.12 => /lib64/libarmadillo.so.12 (0x00007f72dcfdd000)
+	libstdc++.so.6 => /lib64/libstdc++.so.6 (0x00007f72dcc00000)
+	libm.so.6 => /lib64/libm.so.6 (0x00007f72dcf02000)
+	libgcc_s.so.1 => /lib64/libgcc_s.so.1 (0x00007f72dcee8000)
+	libc.so.6 => /lib64/libc.so.6 (0x00007f72dc800000)
+	libopenblaso.so.0 => /lib64/libopenblaso.so.0 (0x00007f72d9e00000)
+	liblapack.so.3 => /lib64/liblapack.so.3 (0x00007f72d9600000)
+	libarpack.so.2 => /lib64/libarpack.so.2 (0x00007f72dce9a000)
+	libsuperlu.so.6 => /lib64/libsuperlu.so.6 (0x00007f72dcb8a000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007f72dd009000)
+	libgfortran.so.5 => /lib64/libgfortran.so.5 (0x00007f72d9200000)
+	libgomp.so.1 => /lib64/libgomp.so.1 (0x00007f72dce54000)
+	libblas.so.3 => /lib64/libblas.so.3 (0x00007f72dcb00000)
+	libflexiblas.so.3 => /lib64/libflexiblas.so.3 (0x00007f72d8e00000)
+	libquadmath.so.0 => /lib64/libquadmath.so.0 (0x00007f72dcab6000)
+	libmetis.so.0 => /lib64/libmetis.so.0 (0x00007f72dca4c000)
+	libpcre2-posix.so.3 => /lib64/libpcre2-posix.so.3 (0x00007f72dce4d000)
+	libpcre2-8.so.0 => /lib64/libpcre2-8.so.0 (0x00007f72dc764000)
+```
 
 ---
 
@@ -242,7 +344,7 @@ class Pipo
 ]
 ]
 
-## Use brace initializers and auto iterators when possible
+## Use brace initializers
 
 .row[
 .column.w48[
@@ -250,8 +352,6 @@ class Pipo
   std::vector<std::string> toto;
   toto.push_back("tutu");
   toto.push_back("titi");
-  for (int i = 0; i < toto.size(); i++)
-    std::cout << toto[i] << std::endl;
 ```
 ]
 .column.w5.middle[
@@ -259,14 +359,186 @@ class Pipo
 ]
 .column.w48[
 ```C++
-std::list<std::string> toto = {"tutu", "titi"};
-
-
-for (auto s: toto)
-  std::cout << s << std::endl;
+std::list<std::string> toto = {
+  "tutu", 
+  "titi"
+};
 ```
 ]
 ]
+
+---
+
+class: top
+
+# General `C++` advices - for loops
+
+```C++
+const std::list<std::tuple<std::string, std::string>> countryCodes {
+    { "Switzerland", "41"},
+    { "Italy", "39"},
+    { "France", "33"},
+    { "UK", "44"},
+};
+
+for (int i=0; i < countryCodes.size(); i++)
+    std::cout << countryCodes[i].first << " " << countryCodes[i].second << "\n";
+```
+
+--
+
+## Use range-based for loops `c++11`
+
+```C++
+const std::list<std::tuple<std::string, std::string>> countryCodes {
+    { "Switzerland", "41"},
+    { "Italy", "39"},
+    { "France", "33"},
+    { "UK", "44"},
+};
+
+*for (auto& elem: countryCodes)
+    std::cout << elem.first << " " << elem.second << "\n";
+```
+
+--
+
+## ... and structured bindings `c++17`
+
+```C++
+const std::list<std::tuple<std::string, std::string>> countryCodes {
+    { "Switzerland", "41"},
+    { "Italy", "39"},
+    { "France", "33"},
+    { "UK", "44"},
+};
+
+*for (auto& [country, code]: countryCodes)
+    std::cout << country << " " << code << "\n";
+```
+
+---
+
+class: top
+
+# General `C++` advices - nesting
+
+
+## Linux Kernel coding standards
+
+.row[
+.col.w10[
+![](images/linus.jpg)
+]
+.col.w90[
+> "Now, some people will claim that having **8-character indentations** makes the code move too far to the right, and makes it hard to read on a 80-character terminal screen. 
+> The answer to that is that if you need more than **3 levels of indentation**, you're screwed anyway, and should fix your program."
+]
+]
+
+--
+
+## Guard clauses: return as early as possible
+
+.row[
+.column.w48[
+```cpp
+void f(int status)
+{
+  if (status == OK)
+  {
+    dosomething();
+  }
+}
+```
+]
+
+.column.w48[
+```cpp
+void f(int status)
+{
+  if (status != OK) return;
+
+  dosomething();
+}
+```
+]
+]
+
+* Removes 1 level of indentation
+* All edge cases are dealt with at the beginning
+
+--
+
+## Extract complex logic in another function
+
+---
+
+class: top
+
+# General `C++` advices - naming things
+
+## Never abbreviate
+
+.row[
+.column.w35[
+```cpp
+double reScore(Movie m1, Movie m2) {
+
+  const GW = 0.4;
+  const YW = 0.1;
+  const DW = 0.2;
+  const WW = 0.3;
+
+  double s = 0;
+  if (m1.gen == m2.gen) s += GW;
+  if (m1.yr  == m2.yr ) s += YW;
+  if (m1.dir == m2.dir) s += DW;
+
+  for (auto w: m1.ws) {
+    if (m2.ws.find(w) != -1) {
+      s += WW;
+      break;
+    }
+  }
+
+  return s;
+}
+```
+]
+.column.w65[
+```cpp
+double movieRelationScore(Movie movie1, Movie movie2) {
+
+  const GENRE_WEIGHT    = 0.4;
+  const YEAR_WEIGHT     = 0.1;
+  const DIRECTOR_WEIGHT = 0.2;
+  const WRITER_WEIGHT   = 0.3;
+
+  double score = 0;
+  if (movie1.genre    == movie2.genre   ) score += GENRE_WEIGHT;
+  if (movie1.year     == movie2.year    ) score += YEAR_WEIGHT;
+  if (movie1.director == movie2.director) score += DATE_WEIGHT;
+
+  for (auto writer: m1.writers) {
+    if (movie2.writers.find(writer) != -1) {
+      score += WRITER_WEIGHT;
+      break;
+    }
+  }
+
+  return score;
+}
+```
+]
+]
+
+--
+
+## Make renaming easy and rename often
+
+* vim: `vim.lsp.buf.rename()`
+* vscode: `F2`
 
 ---
 
@@ -274,43 +546,43 @@ class:top
 
 # `C++` files: organizing, naming, testing
 
-## One class = two files
+## 1 class = 1 interface **`.h`** + 1 implementation **`.cpp`**
 
-* Class `Solver` in files `solver.cpp` and `solver.h`
-* Class `Boat` in files `boat.cpp` and `boat.h`
+* Class `Solver`: `solver.cpp` and `solver.h`
+* Class `Boat`: `boat.cpp` and `boat.h`
 
 --
 
-## One namespace = two files
+## 1 namespace = 1 interface **`.h`** + 1 implementation **`.cpp`**
 
 * Namespace `Tools` in files `tools.cpp` and `tools.h`
 * Namespace `Global` in files `global.cpp` and `global.h`
 
 --
 
-## One static library [+ one main file]
+## 1 static library **`.a`** [+ 1 main file]
 
 * All classes and namespaces in `mylib.a`
 * If needed, main program in `main.cpp` (no `main.h` file)
 
 --
 
-## One library = one directory
+## 1 library = 1 directory
 
 * For multi-libraries projects, separate the libraries
 
 --
 
-## One static library = one set of bindings
+## 1 static library = 1 set of bindings
 
 * Generate bindings for some classes (maybe not all of them)
 * Generate bindings for some methods (maybe not all of them)
 
 --
 
-## One method = one unit test
+## 1 function = 1 unit test
 
-* Write a unit test for every single method
+* Write a unit test for every single function/method
 
 ---
 
@@ -328,7 +600,6 @@ class:top
 * use `#define` guards
 * separate public and private headers
 * default values belong to `%.h`
-* no argument names in `%.h` (except defaults)
 * **no forward-declarations** (if possible)
 ]
 .column.w40[
@@ -382,7 +653,6 @@ int MyClass::myFunc(double e)
 * use `#define` guards
 * separate public and private headers
 * default values belong to `%.h`
-* no argument names in `%.h` (except defaults)
 * **no forward-declarations** (if possible)
 ]
 .column.w40[
@@ -436,7 +706,6 @@ class MyClass
 * use `#define` guards
 * separate public and private headers
 * default values belong to `%.h`
-* no argument names in `%.h` (except defaults)
 * **no forward-declarations** (if possible)
 ]
 .column.w40[
@@ -490,7 +759,6 @@ int MyClass::myFunc(double e)
 * use `#define` guards
 * separate public and private headers
 * default values belong to `%.h`
-* no argument names in `%.h` (except defaults)
 * **no forward-declarations** (if possible)
 ]
 .column.w40[
@@ -544,7 +812,6 @@ int MyClass::myFunc(double e)
 * use `#define` guards
 * separate public and private headers
 * default values belong to `%.h`
-* no argument names in `%.h` (except defaults)
 * **no forward-declarations** (if possible)
 ]
 .column.w40[
@@ -598,7 +865,6 @@ int MyClass::myFunc(double e)
 * use `#define` guards :arrow_left:
 * separate public and private headers
 * default values belong to `%.h`
-* no argument names in `%.h` (except defaults)
 * **no forward-declarations** (if possible)
 ]
 .column.w40[
@@ -652,7 +918,6 @@ int MyClass::myFunc(double e)
 * use `#define` guards
 * separate public and private headers :arrow_left:
 * default values belong to `%.h`
-* no argument names in `%.h` (except defaults)
 * **no forward-declarations** (if possible)
 ]
 .column.w40[
@@ -706,7 +971,6 @@ int MyClass::myFunc(double e)
 * use `#define` guards
 * separate public and private headers
 * default values belong to `%.h` :arrow_left:
-* no argument names in `%.h` (except defaults)
 * **no forward-declarations** (if possible)
 ]
 .column.w40[
@@ -760,61 +1024,6 @@ int MyClass::myFunc(double e)
 * use `#define` guards
 * separate public and private headers
 * default values belong to `%.h`
-* no argument names in `%.h` (except defaults) :arrow_left:
-* **no forward-declarations** (if possible)
-]
-.column.w40[
-## .hcenter[`myclass.h`]
-```C++
-#ifndef MYCLASS_H
-#define MYCLASS_H
-
-#include <iostream>
-
-class MyClass
-{
-  public:
-* MyClass(int, int);
-
-* int myFunc(double e = -1.0);
-};
-
-#endif // MYCLASS_H
-```
-
-## .hcenter[`myclass.cpp`]
-```C++
-#include "myclass.h"
-
-MyClass::MyClass(int a, int b)
-{
-  ...
-}
-
-int MyClass::myFunc(double e)
-{
-  ...
-}
-```
-]
-]
-
----
-
-# `C++` headers: main rules
-
-.row[
-.column.w55.middle[
-## Rules
-
-* same methods in `%.h` and `%.cpp`
-* one class per `%.h` file
-* `%.h` **first included file** in `%.cpp`
-* no `everything.h` header
-* use `#define` guards
-* separate public and private headers
-* default values belong to `%.h`
-* no argument names in `%.h` (except defaults)
 * **no forward-declarations** (if possible) :arrow_left:
 ]
 .column.w40[
@@ -863,7 +1072,7 @@ int MyClass::myFunc(double e)
 * do some coding exercices,
 * know the main differences (`C++03`, `C++11`, `C++14`, `C++17`, `C++20`, etc...),
 .hcenter[
-## Yes, `C++` code can be beautiful :heart: (from `C++11` at least)
+## Yes, `C++` code can be beautiful :heart:
 ]
 
 ---

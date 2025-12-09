@@ -518,8 +518,11 @@ img {
 hr {
   width: 100%;
   border: 0;
-  height: 5px;
-  background-image: linear-gradient(to right, rgba(182, 38, 52, 0.5), rgba(182, 38, 52, 1), rgba(182, 38, 52, 0.5));
+  height: 0;
+  border-bottom: 1px solid black;
+
+  /* background-image: linear-gradient(to right, rgba(182, 38, 52, 0.5), rgba(182, 38, 52, 1), rgba(182, 38, 52, 0.5)); */
+  height: 0px;
   margin-top: 3px;
   margin-bottom: 3px;
 }
@@ -594,7 +597,7 @@ span.mermaid.shadow {
 }
 
 #terminal, .asciinema-player, code, .remark-code, table, .block, .alert, .cinescript, hr {
-  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7);
+  /* box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7); */
 }
 
 .shadow {

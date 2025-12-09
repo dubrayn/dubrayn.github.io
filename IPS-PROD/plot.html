@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IPS-PROD</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`IPS-PROD` - N. Dubray - ENSIIE - 2024 - [:book:](../index.html)
+]
+
+---
+
+# Matplotlib
+
+![](images/matplotlib.svg)
+
+* AUTHOR: John Hunter
+* LICENCE: BSD compatible (based on Python Software Foundation licence)
+
+```py
+import matplotlib.pyplot as plt
+```
+
+Key points:
+
+* publication quality plots
+* static, animated and interactive visualizations
+
+
+---
+
+# 2 ways to plot
+
+.row[
+.col.w45[
+## Imperative
+```py
+# create a figure
+plt.figure()
+
+# set labels
+plt.xlabel("time (s)")
+plt.ylabel("distance (m)")
+
+# plot
+plt.plot(time,distance,'bo-')
+```
+
+- Good for quick data exploration
+- Only one axis per figure
+
+]
+.col.w45[
+## Object oriented
+```py
+# create a figure (and axes)
+fig, ax1 = plt.subplots()
+
+# set labels
+ax1.set_xlabel("time (s)")
+ax1.set_ylabel("distance (m)")
+
+# plot
+ax1.plot(time, distance, "blue")
+```
+- More powerful
+- Multiple axes per figure
+]
+]
+
+.vspace[
+]
+
+---
+
+# Figure and Axes
+
+.row[
+.col.w45[
+```py
+import matplotlib.pyplot as plt
+import numpy as np
+
+fig, (axLeft, axRight) = plt.subplots(1, 2)
+
+xs = range(10)
+ys = np.pow(xs, 2)
+
+axLeft.scatter(xs, ys)
+axRight.plot(xs, ys)
+
+fig.savefig("plt0.png")
+
+```
+]
+.col.w45[
+![](images/plt0.png)
+]
+]
+
+---
+
+# Most useful functions
+
+.row[
+.col.w45[
+```py
+fig, ax = plt.subplots(2, 2)
+
+# ax and title
+ax[0,0].set_xlabel('xlabel')
+ax[0,0].set_ylabel('ylabel')
+ax[0,0].set_title('title')
+
+# limits and scale
+ax[0,0].set_xlim(0, 8)
+ax[0,0].set_ylim(0, 1)
+ax[0,1].set_xscale('log')
+ax[0,1].set_yscale('log')
+
+# plots
+r = np.random.rand
+ax[0,0].plot(   r(8,), label='legend')
+ax[0,1].scatter(r(8,), r(8,), s=r(8,)**2*100)
+ax[1,0].bar(    np.arange(8,), r(8,))
+im = ax[1,1].imshow(r(8,8))
+
+# lines
+ax[1,1].axhline(1, color='r')
+ax[1,1].axvline(2, color='b')
+
+# legend
+ax[0,0].legend()
+fig.colorbar(im, ax=ax[1,1])
+```
+]
+.col.w55[
+![](images/plt1.png)
+]
+]
+
+---
+
+# RULES for good scientific plots
+
+.row[
+.col.w30[
+
+- **Name your axes**
+- **Specify the [units]**
+- **Title/captions**
+]
+.col.w70[
+![](images/goodplt0.png)
+https://arxiv.org/pdf/2510.06701v1
+]
+]
+
+.vspace[
+]
+
+➡️ Titles/captions can be long and descriptive
+
+➡️ For an oral presentation, increase the font size so that it is **readable**
+
+---
+
+# Examples
+
+.row[
+.col.w45[
+https://arxiv.org/pdf/2506.10745
+![](images/goodplt1.png)
+]
+.col.w45[
+https://theses.hal.science/tel-04394860
+![](images/goodplt2.png)
+]
+]
+
+
+
+---
+
+# Sane defaults (Science)
+
+https://github.com/garrettj403/SciencePlots/blob/master/scienceplots/styles/science.mplstyle
+
+```
+# Set x axis
+xtick.direction : in
+xtick.major.size : 3
+xtick.major.width : 0.5
+xtick.minor.size : 1.5
+xtick.minor.width : 0.5
+xtick.minor.visible : True
+xtick.top : True
+
+# Set y axis
+ytick.direction : in
+ytick.major.size : 3
+ytick.major.width : 0.5
+ytick.minor.size : 1.5
+ytick.minor.width : 0.5
+ytick.minor.visible : True
+ytick.right : True
+
+# Set line widths
+axes.linewidth : 0.5
+grid.linewidth : 0.5
+lines.linewidth : 1.
+
+# Remove legend frame
+legend.frameon : False
+
+# Always save as 'tight'
+savefig.bbox : tight
+savefig.pad_inches : 0.05
+
+# Use serif fonts
+# font.serif : Times
+font.family : serif
+mathtext.fontset : dejavuserif
+```
+
+
+```py
+plt.style.use("science.mplstyle")
+```
+
+---
+
+# Result
+
+.w60.hcenter[
+![](images/science-template.jpg)
+]
+
+---
+
+# Alternatives
+
+## Bokeh : streaming data
+
+## gnuplot : command-line driven
+
+## Paraview : 3D data
+
+## Seaborn : statistical graphics
+
+
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/katex.min.js"></script>
+    <script src="core/javascript/auto-render.min.js"></script>
+    <script src="core/javascript/emojify.js"></script>
+    <script src="core/javascript/mermaid.js"></script>
+    <script src="core/javascript/term.js"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js"></script>
+    <script src="core/javascript/extend-jquery.js"></script>
+    <script src="core/javascript/cinescript.js"></script>
+    <script src="core/javascript/gitgraph.js"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "\\(", right: "\\)", display: false}], ignoredTags: [] });
+
+    </script>
+  </body>
+</html>
+
