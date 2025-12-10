@@ -62,6 +62,144 @@ class: animated fadeIn middle numbers
 ]
 ]
 
+
+---
+
+# How does git REALLY work 
+
+Git internals documentation
+
+https://git-scm.com/book/en/v2/Git-Internals-Git-Objects
+
+## The git database - git objects
+
+* Key-value store
+  * Key is always a **hash**
+  * Values can be: commits, trees, blobs, ...
+
+```sh
+# Print all git objects
+> find .git/objects -type f
+.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
+
+# Print the git object
+> git cat-file -p d670460b4b4aece5915caf5c68d12f560a9fe3e4
+test content
+```
+
+A git object is immutable (it would change the hash !)
+
+---
+
+# How does git REALLY work
+
+## What is a commit ?
+
+Each commit is refered to by its hash, ex: `b79fa6`
+
+<pre><code><font color="#12488B">~/code/nvim-biscuits</font> <font color="#6C6C6C">main</font><font color="#FFAFD7">*</font> <font color="#2AA1B3">⇣</font>
+<font color="#C01C28">❯</font> git diff --stat b79fa6
+ README.md                       | 13 <font color="#C01C28">-------------</font>
+ lua/nvim-biscuits/init.lua      | 55 <font color="#26A269">++++++++++++++++++++++++++++++++++</font><font color="#C01C28">---------------------</font>
+ lua/nvim-biscuits/languages.lua |  2 <font color="#26A269">++</font>
+ 3 files changed, 36 insertions(+), 34 deletions(-)
+</code></pre>
+
+
+```
+❯ git cat-file -p b79fa6d
+
+tree 41c395ca50b019548210a78cb96a242ee963d26f
+parent dae2323054b9ff3a1f6300847dee29c00cdabdde
+author Victor Huggo <126027768+huggo-42@users.noreply.github.com> 1759958163 -0300
+committer GitHub <noreply@github.com> 1759958163 -0700
+
+update(README): add Lazy config example (#59)
+```
+
+* Some data: author, committer, signature, message, ...
+* Each commit has a **parent**:
+  * This is the hash of the parent commit
+  * Enables a graph representation of the repository
+  * A commit with two (or more...) parents is a merge commit !
+* The hash of the **tree**: see next slide !
+
+---
+
+# How does git REALLY work
+
+## What is a tree ?
+
+```
+❯ git cat-file -p 41c395
+
+100644 blob faa18382a3c9eeeea55949156e562c33220f7148	.gitignore
+100644 blob 97141d6ca4369961f362fe3f4726779598b5da4d	LICENSE
+100644 blob 65600220ee6ba01f0cee9e0395b2dca83dcca096	README.md
+040000 tree 4600fc365fe5036e2b680582d139d5777f54afa4	assets
+040000 tree 486330d6da1b8b66c216b8d504ea59fcf910f374	lua
+040000 tree 5417f9ce367fb1f732d19b604af4060a3b01d164	plugin
+```
+
+* 3 **blobs** (leaves): represent **files**
+* 3 **trees**: represent other **directories**
+
+---
+
+# How does git REALLY work
+
+.hcenter.w70[
+![](./images/tree.png)
+]
+
+---
+
+# How does git REALLY work
+
+## What is a blob ?
+
+<pre><code><font color="#12488B">~/code/nvim-biscuits</font> <font color="#6C6C6C">main</font><font color="#FFAFD7">*</font> <font color="#2AA1B3">⇣</font>
+<font color="#A347BA">❯</font> git cat-file -p 656002 
+content of the README
+</code></pre>
+
+It is the content of the file.
+
+Any file is a blob and any new version of the file is also a blob.
+
+⚠️ Git does not store deltas/diffs, it stores the entire new file
+
+---
+
+# How does git REALLY work
+
+## What is a branch ?
+
+It is a **mutable pointer a commit**
+
+When you commit to a branch, you actually **move the branch pointer to the new commit**
+
+To view commits of a branch, you just start from the commit pointed to and follow the (first) parent
+
+⚠️ A branch does not store a list of all commits on the branch
+
+## What is a tag ?
+
+Same thing but **immutable**
+
+You usually want to tag versions of your program (since they do not change)
+
+## What is a-remote tracking branch
+
+Same thing, but **read-only**, git moves them for you 
+when you use
+
+```sh
+git fetch
+git pull
+git push
+```
+
 ---
 
 # Upstream branches / local branches
@@ -81,7 +219,6 @@ class: animated fadeIn middle numbers
 
 # Remotes
 
-## Unofficial definition of a remote
 **A remote is a nickname for an upstream repository.**  
 :arrow_right: The special remote `origin` is automatically created when cloning.
 
@@ -118,12 +255,46 @@ origin  /home/dubrayn/temp/git/main (push)
 
 ---
 
-# Local branches
+# Remote tracking branches
 
-## Unofficial definition of a branch
+## What does git pull actually do ?
 
-**A branch is a name for a commit and its ancestors.**  
-:arrow_right: Branches are light objects, do not refrain from using them.  
+```sh
+# update the remote tracking branch
+git fetch
+
+# merge remote tracking branch into local branch
+git merge
+```
+
+You can fetch all tracking branches using
+
+```
+git fetch --all
+```
+
+---
+
+# In practice: How to fork
+
+## 3 different repository
+
+* Your own repository
+  * This is where you work
+* Your fork: `origin` remote
+  * Automatically created
+* The upstream repository: `upstream` remote
+  * You must create this 
+
+```
+git remote add upstream https://github.com/ORIGINAL-OWNER/project.git
+```
+
+---
+
+# Branches
+
+:arrow_right: Branches are light objects, do not refrain from using them.
 
 ## Two types of local branches
 
@@ -218,7 +389,10 @@ Switched to a new branch 'otherbranch'
 
 # `fast-forward` - Automatic transparent merging
 
-:arrow_right: If you merge branch `blue` into branch `green` that has not been modified since the creation of branch `blue`, `git` uses a `fast-forward` method: it **does not create a commit** for the merge operation.
+:arrow_right: If you merge branch `blue` into branch `green` that has not been modified since the creation of branch `blue`, 
+`git` uses a `fast-forward` method:
+* it **does not create a commit** for the merge operation
+* instead, it **moves the branch pointer** of `green` to be the same as `blue`
 
 .row.hcenter.w80[
 .column.w30.middle[
@@ -615,11 +789,15 @@ Removing toto/
 
 ## Use a patch
 
+* `git diff > a.patch`: create the patch corresponding to the diff
+* `git apply < a.patch`: apply the patch
+* `git apply --stat  a.patch`: check the patch.
+* `git apply --check a.patch`: test the patch.
+
+## Use a formatted patch (for mailing lists)
+
 * `git format-patch master --stdout > my_super_patch.patch`: create a patch for the current branch (forked from master). 
-* `git apply --stat  my_super_patch.patch`: check the patch.
-* `git apply --check my_super_patch.patch`: test the patch.
-* `git am --signoff < my_super_patch.patch`: apply the patch (with signoff).
-* `git apply my_super_patch.patch`: apply the patch (no signoff).
+* `git am < my_super_patch.patch`: apply the patch
 
 ---
 
@@ -671,7 +849,7 @@ The following commands can **modify the history** of a project.
 
 * The remote history is a mess.
 
-:warning: **If the remote is public, and local versions of it exist, You can loose some commits**.
+:warning: **If the remote is public, and local versions of it exist, You can lose some commits**.
 
 :arrow_right: `Github` proposes **protected branches**: no `git push --force` allowed on them.
 
