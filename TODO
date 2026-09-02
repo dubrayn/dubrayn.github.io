@@ -5,8 +5,20 @@
 ################################################################################
 
 Project:
-* calculate and manipulate 1D-HO solutions (C++ / armadillo)
-* use git, doxygen, make, cxxtest, remark.js
+* calculate and plot the local density of a nuclear system (C++ / armadillo)
+* check the orthonormality of the solutions
+* calculate associated geometrical properties
+* optimize the local density calculation
+* use git, doxygen, make, cxxtest, remark.js, quadratures, mandatory unit tests
+* one mid-project presentation
+==> for the second part of the project, use gitlab PRs only (only one project member with rw) !
+
+1. prepare the project tree
+2. implement the basis truncation (mandatory tests)
+3. implement the basis functions calculation (mandatory tests)
+4. implement the local density calculation (mandatory tests)
+4. optimize the local density calculation (mandatory tests)
+5. implement the observables calculation (no mandatory tests)
 
 ---- WEEK0 ----
 
@@ -27,24 +39,24 @@ Project:
 
 * make
 * Armadillo
-* quadratures (-> slide 13)
+* Doxygen
 
 === TP2
 
 ---- WEEK3 ----
 
-* quadratures (end)
-* Doxygen
+* quadratures
+* observables TODO
 * CxxTest
 
 === TP3
 
 ---- WEEK4 ----
 
-* astyle
+# * astyle
 * latex
 * markdown
-* Python
+# * Python
 
 === TP4
 
@@ -52,151 +64,42 @@ Project:
 
 === project presentations
 
-################################################################################
-################################################################################
-################################### IPS-PROD ###################################
-################################################################################
-################################################################################
+---- WEEK6 ----
 
-Project:
-* calculate and plot the local density of a nuclear system (C++ / armadillo)
-* use git, doxygen, make, cxxtest, matplotlib, remark.js, povray
+==> for the rest of the project, use gitlab PRs only (only one project member with rw) !
 
----- WEEK0 ----
-
-* debrif projet IPS-DEV
-* project
+# * debrif projet IPS-DEV
+# * project
 * sum optimization
 
-=== TP0
+=== TP5
 
----- WEEK1 ----
+---- WEEK7 ----
 
 * POVray
 
-=== TP1
+=== TP6
 
----- WEEK2 ----
+---- WEEK8 ----
 
 * valgrind
 * gdb
 
-=== TP2
+=== TP7
 
----- WEEK3 ----
+---- WEEK9 ----
 
-* python (end)
-* numpy / python accelerators
+# * python (end)
+# * numpy / python accelerators
 
-=== TP3
+=== TP8
 
----- WEEK4 ----
+---- WEEK10 ----
 
-* advanced git
+# * advanced git
 
-=== TP4
+=== TP9
 
----- WEEK5 ----
+---- WEEK11 ----
 
 Project presentation
-
-################################################################################
-################################################################################
-###################################### PSA #####################################
-################################################################################
-################################################################################
-
-Project:
-* write a 2D-FD solver for the time-dependent Shrodinger equation (Python / C++ / armadillo)
-* visualize the time-evolution of a wave packet (paraview / custom VTK)
-* implement an automatic restart mechanism
-* store the results in a mongoDB database
-* check some special cases (diffraction, tunneling effect, HO solutions, etc...)
-* use git, doxygen, make, cxxtest, swig, remark.js, VTK
-
----- Session 0 ----
-
-* introduction
-* fdm
-* project
-* scheme derivations
-
----- Session 1 ----
-
-* python bindings - manual
-* python bindings - swig (start)
-
----- Session 2 ----
-
-* python bindings - swig (end)
-* mongoDB (start)
-
----- Session 3 ----
-
-* mongoDB (end)
-* VTK (start)
-
----- Session 4 ----
-
-* VTK (end)
-* paraview
- * data.csv
-  * plot
-  * change curve properties
- * cow.vtp
-  * generate normals
-  * plot with normal.y
-  * plot normal glyphs
-  * see all normals
-  * add axes
-  * change color map
-  * edit color map
- * wind.vtk
-  * volume visualization
-  * isosurfaces
-  * streamlines
-
----- Session 5 ----
-
-===> Mid-project presentation
-
----- Session 6 ----
-
-* paraview
- * foot.vtk
-  * volume
-  * isosurfaces
-  * clip
- * brain.vtk
-  * volume
-  * change color
-  * slice
- * pyevtk_anim_images.py / pyevtk_anim_grids.py
-  * warp by scalar
-  * plotSelectionOverTime
-  * save animation
-  * view animation
-* live monitoring
-
----- Session 7 ----
-
-* multiprocessing (start)
-
----- Session 8 ----
-
-* multiprocessing (end)
-* errors / exceptions (start)
-
----- Session 9 ----
-
-* errors / exceptions (end)
-* mpi4py
-
----- Session 10 ----
-
-* pip (TODO)
-
----- Session 11 ----
-
-===> Final project presentation
-
