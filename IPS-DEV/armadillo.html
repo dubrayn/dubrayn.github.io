@@ -58,17 +58,15 @@ class: animated fadeIn middle numbers
 * **`Armadillo`**: high-level, recent, **very fast**, small, **elegant**
 * 🎉 `C++26`: Basic linear algebra algorithms
 
-## Most known linear algebra python modules
-* `NumPy`: manipulate vectors and matrices, uses `LAPACK` and `BLAS`
+## Most known linear algebra `Python` modules
+* `NumPy`: manipulation of ND-arrays (vectors, matrices, etc...), uses `LAPACK` and `BLAS`
 * `SciPy`: includes `NumPy` and other **very useful modules**
 
 ---
 
-class: top
+# BLAS - Basic Linear Algebra Subroutines
 
-# BLAS - Basic Linear Algebra Subroutines 
-
-## Notation
+## Notations
 
 - scalar: `\( α \)`
 - vector: `\( \vec{x} \)`
@@ -76,18 +74,17 @@ class: top
 
 --
 
-## Level 1 - vector vector - `\(O(n)\)`
+## Level 1 - vector vs. vector - `\(O(n)\)`
 
 `$$
-\vec{y} = α \vec{x} + \vec{y}
+\vec{y} = α \vec{x} + \vec{y}\\
+d = \vec{x}.\vec{y}\\
+n = |\vec{x}|
 $$`
-
-* Dot products
-* Vectors norms
 
 --
 
-## Level 2 - vector matrix - `\(O(n^2)\)`
+## Level 2 - vector vs. matrix - `\(O(n^2)\)`
 
 `$$
 \vec{y} = α A \vec{x} + β \vec{y}
@@ -95,13 +92,11 @@ $$`
 
 --
 
-## Level 3 - matrix matrix - `\(O(n^3)\)`
+## Level 3 - matrix vs. matrix - `\(O(n^3)\)`
 
 `$$
 H = α A B + β C
 $$`
-
-➡️ gemm: general matrix multiplication
 
 ---
 
