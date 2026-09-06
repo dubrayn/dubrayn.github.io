@@ -503,18 +503,31 @@ $(SUBDIRS_TARGETS) :
 ]]
 ---
 
-# Bonus: Cmake
+# Bonus: `Makefile` generators
 
-## A makefile generator
+:arrow_right: For real (big) projects, maintaining `Makefiles` manually is tedious (but can be done).
 
-## Quick usage guide
+:arrow_right: For this reason, **`Makefile` generators** exist, like `autotools`, `cmake`, `qmake`, etc...
+
+:arrow_right: Other projects can use something else, like `meson` + `ninja`, or `Python` + `setuptools`, etc...
+
+## Minimal use of `autotools`
 
 ```sh
-mkdir build
-cd build
-cmake .. # this creates the makefile using cmake
-make     # this runs the makefile
+$ ./configure # this creates the Makefile
+$ make
+$ make install
 ```
+
+## Minimal use of `cmake`
+
+```sh
+$ mkdir build
+$ cd build
+$ cmake .. # this creates the Makefile
+$ make
+```
+
 
     </textarea>
 
