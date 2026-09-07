@@ -21,25 +21,25 @@ Project (C++ / armadillo):
 6. calculate and plot the local density
 7. optimize the local density calculation
 8. implement the observables calculation
+9. BONUS: implement the exact observables calculation (using HO representation of the operators)
 
 ---- WEEK0 ----
 
 * introduction
 * project
-* git (start)
+* git
 
 === TP0
 
 ---- WEEK1 ----
 
 * zen of C++
-* git (end)
+* make
 
 === TP1
 
 ---- WEEK2 ----
 
-* make
 * Armadillo
 * Doxygen
 
@@ -48,31 +48,28 @@ Project (C++ / armadillo):
 ---- WEEK3 ----
 
 * quadratures
-* observables TODO
 * CxxTest
 
 === TP3
 
 ---- WEEK4 ----
 
-# * astyle
 * latex
 * markdown
-# * Python
+* sum optimization
 
 === TP4
 
 ---- WEEK5 ----
 
-=== project presentations
+=== mid-project presentations
 
 ---- WEEK6 ----
 
 ==> for the rest of the project, use gitlab PRs only (only one project member with rw) !
 
-# * debrif projet IPS-DEV
-# * project
-* sum optimization
+* valgrind
+* gdb
 
 === TP5
 
@@ -84,21 +81,22 @@ Project (C++ / armadillo):
 
 ---- WEEK8 ----
 
-* valgrind
-* gdb
+* vtk
 
 === TP7
 
 ---- WEEK9 ----
 
-# * python (end)
-# * numpy / python accelerators
+* TODO
 
 === TP8
 
 ---- WEEK10 ----
 
-# * advanced git
+* Python
+* Venv/Pip
+* Python and C/C++
+* Swig
 
 === TP9
 
