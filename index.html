@@ -3,14 +3,14 @@
   <head>
     <title>IPS / PSA</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css">
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css">
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css">
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css">
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css">
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css">
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css">
+    <link rel="stylesheet" type="text/css" href="core/css/katex.css">
   </head>
   <body>
     <textarea id="source" readonly>
@@ -23,15 +23,22 @@ class: middle
 N. Dubray - ENSIIE - 2026 - [:arrow_right:](index.html#2)
 ]
 
-.hcenter[[:warning: Grab the presentation template :warning:](template/index.html)]
+
+
+.hcenter.row.w60[
+.column.w60[
+`$$\int_{-\infty}^\infty f(x)e^{-x^2} dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
+]
+.column.w35[
+![](IPS-DEV/images/wizard.png)
+]
+]
 
 .vspace[]
 
 .row[
 .w48[
-## IPS-DEV
-1. [Introduction](IPS-DEV/intro.html): license, author...
-1. [.redb[Project instructions]](IPS-DEV/project.html)
+## IPS-DEV - C++ - Contents
 1. [Git](IPS-DEV/git.html): version control system
 1. [Zen of `C++`](IPS-DEV/cppfiles.html): how to organize `C++` files
 1. [GNU Make](IPS-DEV/make.html): build system
@@ -47,14 +54,21 @@ N. Dubray - ENSIIE - 2026 - [:arrow_right:](index.html#2)
 ]
 
 .w48[
-## IPS-PROD
+## IPS-PROD - Python - Contents
 1. [`Python`](IPS-DEV/python.html): high-level programming language
-1. [Venv/Pip](PSA/pip.html): virtual environments (`Python`)
-1. [Numpy](IPS-PROD/numpy.html): scientific programming in `Python`
-1. [`Python` and `C/C++`](PSA/pythonandc.html): mix `C/C++` and `Python`
-1. [Swig](PSA/swig.html): generator for your `Python` bindings
+1. [Venv/Pip](PSA/pip.html): virtual environments
+1. [Numpy](IPS-PROD/numpy.html): linear algebra
+1. [`Python` and `C/C++`](PSA/pythonandc.html): mix them !
+1. [Swig](PSA/swig.html): generator for your bindings
 1. [Matplotlib](IPS-PROD/plot.html): scientific plots
 1. [Gaussian quadratures](IPS-DEV/quadratures.html): numerical integration
+
+## Misc
+:book: [.redb[Project instructions]](IPS-DEV/project.html)  
+:arrow_right: [Presentation template](template/index.html)  
+:bulb: [About these slides](IPS-DEV/intro.html)
+
+]
 ]
 
 ---
