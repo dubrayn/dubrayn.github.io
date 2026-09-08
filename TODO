@@ -4,102 +4,54 @@
 ################################################################################
 ################################################################################
 
-Project (C++ / armadillo):
-* calculate (2D) and plot (2D and 3D) the local density of a nuclear system
-* calculate (2D) some associated geometrical properties
-* optimize the local density calculation (2D)
+Project A (C++ / armadillo)
+===========================
 
-=> use git, doxygen, make, cxxtest, remark.js, quadratures, mandatory unit tests
-=> one mid-project presentation
-=> for the second part of the project, use gitlab PRs only (only one project member with rw) !
+* calculate the local density of a nuclear system
+
+-> use git, doxygen, make, cxxtest, remark.js, quadratures, mandatory unit tests
 
 1. prepare the project tree
 2. implement the basis truncation (mandatory tests)
 3. implement the basis functions calculation (mandatory tests)
-4. implement the basis overlap calculation (mandatory tests)
-5. implement the local density calculation (mandatory tests)
-6. calculate and plot the local density
-7. optimize the local density calculation
-8. implement the observables calculation
-9. BONUS: implement the exact observables calculation (using HO representation of the operators)
-
----- WEEK0 ----
+6. implement the local density calculation (mandatory tests)
+7. calculate and plot the local density (2D)
+8. optimize the local density calculation
+9. present your project
 
 * introduction
-* project
+* project presentation
 * git
-
-=== TP0
-
----- WEEK1 ----
-
 * zen of C++
 * make
-
-=== TP1
-
----- WEEK2 ----
-
 * Armadillo
 * Doxygen
-
-=== TP2
-
----- WEEK3 ----
-
-* quadratures
 * CxxTest
-
-=== TP3
-
----- WEEK4 ----
-
-* latex
-* markdown
 * sum optimization
-
-=== TP4
-
----- WEEK5 ----
-
-=== mid-project presentations
-
----- WEEK6 ----
-
-==> for the rest of the project, use gitlab PRs only (only one project member with rw) !
-
 * valgrind
 * gdb
-
-=== TP5
-
----- WEEK7 ----
-
 * POVray
+* latex
+* markdown
 
-=== TP6
+Project B (Swig / Python)
+=========================
 
----- WEEK8 ----
+* calculate some observables in Python
 
-* vtk
+-> use swig to generate Python bindings
+-> use project A from Python to calculate observables
+-> for the rest of the project, use gitlab PRs only (only one project member with rw) !
 
-=== TP7
+1. generate the Python bindings of the project A
+2. check the orthonormality of the basis states (basis overlap) using quadratures
+3. implement the observables calculation A, Z, <Q20t>...
+4. BONUS: implement the exact observables calculation (using HO representation of the operators)
 
----- WEEK9 ----
-
-* TODO
-
-=== TP8
-
----- WEEK10 ----
-
-* Python
-* Venv/Pip
-* Python and C/C++
-* Swig
-
-=== TP9
-
----- WEEK11 ----
-
-Project presentation
+* python
+* venv/pip
+* numpy
+* python and C++
+* swig
+* matplotlib
+* quadratures
