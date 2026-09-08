@@ -3,14 +3,14 @@
   <head>
     <title>IPS-DEV Project</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css">
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css">
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css">
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css">
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css">
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css">
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css">
+    <link rel="stylesheet" type="text/css" href="core/css/katex.css">
   </head>
   <body>
     <textarea id="source" readonly>
@@ -21,7 +21,7 @@ class: titlepage
 .subtitle[`IPS-DEV` - N. Dubray - ENSIIE - 2026]
 
 .row[
-`$$\int_{-\infty}^\infty f(x)e^{-x^2} dx \simeq \sum_{i=0}^{n-1}w_if(x_i)$$`
+`$$\rho(\mathbf{r}) \equiv \sum_a \sum_b \rho_{ab}\psi_a(\mathbf{r})\psi^*_b(\mathbf{r})$$`
 ]
 
 .footnote[
@@ -31,7 +31,7 @@ class: titlepage
 ---
 
 layout: true
-class: animated fadeIn numbers
+class: animated fadeIn numbers middle
 
 .footnote[
 `IPS-DEV` - N. Dubray - ENSIIE - 2026 - [:book:](../index.html)
@@ -41,7 +41,7 @@ class: animated fadeIn numbers
 
 class:middle
 
-# Too short introduction
+# IPS-DEV - Too short introduction
 
 ## The origins of quantum theory
 
@@ -66,7 +66,7 @@ class:middle
 
 class:middle
 
-# IPS-DEV - Weeks #2-#5 - Project description
+# IPS-DEV - 1D Harmonic Oscillator
 
 .hcenter.w70.col[
 ![](images/HO.png)
@@ -76,7 +76,7 @@ class:middle
 
 ---
 
-# IPS-DEV - Weeks #2-#5 - Project description
+# IPS-DEV - Project description
 
 .mermaid.shadow[
     graph LR
@@ -89,200 +89,207 @@ class:middle
 
 .column.middle.grow[
 ## Summary
-During this 6-week long project, solutions of the **1D quantum harmonic oscillator** will be calculated and some of their properties will be checked.
+During this 6-week-long project, the **local density** of a nuclear system will be calculated and plotted.
 
-## Quantum Harmonic Oscillator
-Schrödinger equation:
-`$$\hat{H}_{(z)}\psi_n(z) = E_n\psi_n(z)$$`
-with the 1D-Hamiltonian and 1D-momentum operators defined as
-`$$\hat{H}_{(z)}\equiv \frac{\hat{p}_{(z)}^2}{2m} + \frac{1}{2}m\omega^2\hat{z}^2, \hspace{5mm}\hat{p}_{(z)}\equiv -i\hbar\frac{\partial}{\partial z}.$$`
+.hcenter.shadow.w50[![](images/density.png)]
+
+:arrow_right: The nuclear local density represents the probability to find nuclear matter at a given location in space.
 ]
 
 ---
 
-# Quantum Harmonic Oscillator
+# IPS-DEV - Project description
 
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-]
+## Basis expansion
 
-.column.middle.grow[
-## Resulting 1D-HO Schrödinger equation
-`$$\left(\frac{\hat{p}_{(z)}^2}{2m} + \frac{1}{2}m\omega^2\hat{z}^2\right)\psi_n = E_n\psi_n.$$`
+The nuclear local density `\(\rho(\mathbf{r})\)`
+can be obtained from the complex **density matrix** `\(\{\rho_{ab}\}\)`
+using a set of complex **basis functions** `\(\{\psi_i(\mathbf{r})\}\)`:
+`$$
+\rho(\mathbf{r}) \equiv \sum_a \sum_b \rho_{ab}\psi_a(\mathbf{r})\psi^*_b(\mathbf{r}).
+$$`
+* The **non-negative integers** `\(a, b\)` are called the **basis indices**.
+* Each summation runs over the full set of basis functions.
+* Each basis function is defined by a **unique set** `\((m, n, n_z)\)` of non-negative integers called **quantum numbers**, so one can note
+`$$
+\psi_a = \psi_{m_a, n_a, n_{za}}
+$$`
+and one also has
+`$$
+\rho(\mathbf{r}) = \sum_{m_a}\sum_{n_a}\sum_{n_{za}}\sum_{m_b}\sum_{n_b}\sum_{n_{zb}} \rho_{m_a,n_a,n_{za},m_b,n_b,n_{zb}}\psi_{m_a, n_a, n_{za}}(\mathbf{r})\psi^*_{m_b,n_b,n_{zb}}(\mathbf{r}).
+$$`
 
-## :gift: Solutions:
-The analytic solutions take the form
-`$$\psi_n(z) = \frac{1}{\sqrt{2^n n!}}\left(\frac{m\omega}{\pi\hbar}\right)^{1/4}e^{-\frac{m\omega z^2}{2\hbar}}H_n\left(\sqrt{\frac{m\omega}{\hbar}} . z\right).$$`
+:warning: For `\(\rho(\mathbf{r})\)` and `\(\rho_{ab}\)` to contain the same information, the set of basis functions should be **infinite**.
 
-## Orthonormality
-For every couple of solutions, one has
-`$$\forall (m,n), \int \psi^*_m(z)\psi_n(z) dz = \delta_{mn}.$$`
-]
+:arrow_right: For practical reasons, a **finite** subset of basis functions will be used, using a **basis truncation**.
 
----
-
-# Hermite polynomials
-
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-]
-
-.column.middle.grow[
-## Definition (physicists' version)
-
-`$$\forall n\ge 0, H_n(z)\equiv (-1)^n e^{z^2} \frac{d^n}{dz^n}\left( e^{-z^2} \right).$$`
-
-## Recurrence relation
-
-One has
-`$$H_0(z) = 1$$`
-`$$H_1(z) = 2z$$`
-`$$\forall n\ge 1, H_{n+1}(z) = 2zH_n(z)-2nH_{n-1}(z).$$`
-]
 
 ---
 
-# Constants and units - easy
+# IPS-DEV - Project description
 
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-]
+## Basis functions
 
-## Easy mode :v:
+They are defined using cylindrical coordinates `\(\mathbf{r} \equiv (r_\perp, \theta, z) \)` as
+`$$
+\psi_{m,n,n_z}(r_\perp, \theta, z)
+        \equiv
+    Z(z, n_z)
+    .
+    R(r_\perp, m, n)
+    .
+         e^{im\theta}
+$$`
 
-* use `\(m = \hbar = \omega = 1\)`,
-* do not specify units.
+with
+
+`$$
+Z(z, n_z)
+\equiv
+         \frac{1}{\sqrt{b_z}}
+         \frac{1}{\sqrt{2^{n_z} \sqrt{\pi}n_z!}}
+         e^{-\frac{z^2}{2b_z^2}}H_{n_z}\left(\frac{z}{b_z}\right)
+$$`
+
+and
+`$$
+R(r_\perp, m, n)
+         \equiv
+         \frac{1}{b_{\perp}\sqrt{\pi}}
+         \sqrt{\frac{n!}{(n+|m|)!}}
+         e^{-\frac{r_{\perp}^2}{2b_{\perp}^2}}
+         \left(\frac{r_{\perp}}{b_{\perp}}\right)^{|m|}
+         L_n^{|m|}\left(\frac{r_{\perp}^2}{b_{\perp}^2}\right).
+$$`
+
+The parameters `\(b_\perp, b_z\)` are called the **basis deformation parameters**.
+
+:gift: Since one has `\(\rho_{ab} = \delta_{m_a, m_b}\rho_{ab}\)`, **`\(\rho(\mathbf{r})\)` does not depend on `\(\theta\)` and takes only real values**.  
+:arrow_right: The **cylindrical symmetry** is enforced !  
+:arrow_right: You must implement the calculation of the `\(Z, R\)` functions.
 
 ---
 
-# Constants and units - hard
+# IPS-DEV - Polynomials
 
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-]
+## Hermite polynomials (physicists' version)
 
-## Hard mode :moneybag: - use physical units:
+`$$
+\begin{aligned}
+H_0(\zeta)&=1\\
+H_1(\zeta)&=2\zeta\\
+\forall n \in \mathbb{N}, n > 1, H_{n}(\zeta)&=2\zeta H_{n-1}(\zeta)-2(n-1)H_{n-2}(\zeta)
+\end{aligned}
+$$`
+
+## Generalized Laguerre polynomials
+
+`$$
+\begin{aligned}
+L^{m}_0(\eta)&=1\\
+L^{m}_1(\eta)&=1+m-\eta\\
+\forall (m, n) \in \mathbb{N}^{2}, n > 1, L^{m}_{n}(\eta)&=\left(2+\frac{m-1-\eta}{n}\right)L^{m}_{n-1}(\eta)-\left(1+\frac{m-1}{n}\right)L^{m}_{n-2}(\eta)
+\end{aligned}
+$$`
+
+:arrow_right: You must implement the calculation of the `\(H, L\)` polynomials, using **efficient vectorization**.
+
+---
+
+# IPS-DEV - Ranges of quantum numbers
+
+## Basis truncation
+
+We define
+`$$
+\nu(i) \equiv (N+2).Q^\frac{2}{3}+\frac{1}{2}-i.Q
+$$`
+
+and
+`$$
+m^\textrm{max} \equiv \textrm{sup}\left\{i:\nu(i)\ge 1\right\}.
+$$`
+
+The possible values for each **quantum number** are given by
+
+`$$
+\begin{alignedat}{4}
+0 & \le &&m  & \lt & \textrm{ mMax} \equiv m^\textrm{max}\\
+0 & \le &&n  & \lt & \textrm{ nMax[m]} \equiv \frac{1}{2}(m^\textrm{max}-m-1) + 1\\
+0 & \le &&n_z& \lt & \textrm{ n\_zMax[m, n]} \equiv \nu(m+2n+1).
+\end{alignedat}
+$$`
+
+The parameters `\(N\in \mathbb{N}^+, Q\in \mathbb{R}^+\)` are called the **basis truncation parameters**.
+
+:arrow_right: You must implement this truncation scheme.
+
+---
+
+# IPS-DEV - Project summary
+
+## Work to be done
+
+* prepare the project tree (`Makefile`, documentation, unit tests, `README.md`...)
+* implement the calculation of Hermite and Generalized Laguerre polynomials
+* implement the calculation of the `\(R\)` and `\(Z\)` functions
+* implement the basis truncation
+* load the values of `\(\rho_{ab}\)`
+* calculate the nuclear local density with the **naive** algorithm
+* implement the **mandatory unit tests** :tada:
+* plot the nuclear local density in the `\((x, z)\)` plane (with Matplotlib, Plotly.js...)
+
+Once everything works:
+
+* calculate the nuclear local density with the **optimized** algorithm
+* **document** the process (speedup, perf, ...)
+
 
 .row[
-.w49.col[
-```
-# 2019 SI units
-h    := 6.62607015e-34[J.s]
-c    := 2.99792458e+08[m/s]
-e    := 1.602176634e-19[C]
+.column.w60[
+## Symmetries of the `\(\rho\)` matrix
 
-# Unit conversion examples
-1[J]  = 1[C] * 1[V]
-1[eV] = 1.602176634e-19[J]
-1     = 1.602176634e-19[J/eV]
-1     = 1e+06[eV/MeV]
-1     = 1e+15[fs/s]
-```
+* `\(\rho\)` is symmetric : `\(\rho_{ab} = \rho_{ba}\)`
+* `\(\rho\)` is `\(m-\)`diagonal : `\(\rho_{ab} = \delta_{m_a, m_b} \rho_{ab}\)`
 ]
-.w49.col[
-```
-# If we choose time in s, energy in J:
-hbar = h[J.s] / (2pi)
-     = 1.054571817646e-34[J.s]
+.column.w40[
+## Optimized algorithm
 
-# If we choose time in s, energy in eV:
-hbar = hbar[J.s] / 1.602176634e-19[J/eV]
-     = 6.582119569509067e-16 [eV.s]
-
-# If we choose time in fs, energy in MeV:
-hbar = hbar[eV.s] / 1e+06[eV/MeV] * 1e+15[fs/s]
-     = 6.582119569509067e-07 [MeV.fs]
-
-# If we choose to describe a neutron:
-m    = 939.56542052[MeV/c^2] (neutron mass)
-
-# If we choose to describe an electron:
-m    = 0.510998950[MeV/c^2] (electron mass)
-
-omega = ???[rad/s] (depends on the system)
-```
+* use partial sums
+* use pre-calculations
+* change loops order
+* ...
 ]
 ]
 
-1. Choose your **system** (neutron in a nuclear potential, electron in an atomic potential, etc...).
-2. Choose your **working units**. Example: time in `fs`, distance in `fm`, energy in `MeV`...
-3. Use your **working units** when you output some quantity (presentation, figure, table, etc...).
+:arrow_right: present your results using the [presentation template](../template/index.html)
 
 ---
 
-# Project instructions
+# IPS-DEV - Project rules
 
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-]
-
-.column.middle.grow[
-## Work to be done
- * implement the calculation of the 1D-HO solutions (along the `\(z\)`-axis, using the recurrence relation)
- * evaluate and plot the first 1D-HO solutions (using `xmgrace`, `matplotlib`...)
- * numerically check the energy `\(E_n\)` of the 1D-HO solutions (**estimate the derivatives**)
- * numerically check the orthonormality of the 1D-HO solutions (**use a quadrature**)
- * present your results using the [remark.js template](../template/index.html)
-]
-
----
-
-# Project rules
-
-.mermaid.shadow[
-    graph LR
-    A("Week #1<br/>Initialization") --> B
-    B("Week #2<br/>Project") --> C
-    C("Week #3<br/>Project") --> D
-    D("Week #4<br/>Project") --> E
-    E("Week #5<br/>Project") --> F("Week #6<br/>Presentation")
-]
-
-.column.middle.grow[
 ## Rules:
 * an "`AUTHORS`" file **must** be present and contain your name(s)
-* the source **must** be written in `C++11`
-* the source **must** be documented with `Doxygen`
+* the source **must** be written in `C++20`
 * the compilation chain **must** use `GNU Make`
 * the presentation **must** be at the location "`pres/index.html`"
 * using branches is OK but **only master will be checked**
-* the presentation **must** use `remark.js`
+* the presentation **must** use [the template](../template/index.html)
+* mandatory unit tests **must** pass
+* the source **must** be documented with `Doxygen`
+
+:warning: to store collections of numbers, **always** use Armadillo containers !
 
 ## :moneybag: Bonuses:
-* the project and the presentation use SI units
-* there is no warning at {compilation, bindings, tests, doc}
-* the project is implementing other methods
-* the source code is well written (comments, easy to read, etc...)
-* the commits are small and explicit
-* the unit tests pass
-]
+
+* no warning at {compilation, tests, doc} with `-Wall -Wextra`
+* source code is well written (comments, easy to read, etc...)
+* commits are small and explicit
+* other methods have been tried (be creative **only if the project is 100% finished**)
 
 ---
+
+class: top
 
 # IPS-DEV - Week #1 - Initialization
 
@@ -296,24 +303,30 @@ omega = ???[rad/s] (depends on the system)
     style A fill:#090 
 ]
 
-.column.middle.grow[
-## Start your project from scratch
- * create a **bare `git` project** on the remote server
- * clone this project locally
- * structure the project
- * create the file tree
- * prepare the compilation chain
- * prepare the documentation generation
- * prepare the unit tests
+## 1. Create the project **on the ENSIIE Gitlab**
 
-:arrow_right: write a dummy program which only parses the CLI flags.
+* grant permissions to the other members of the group
+* organize the files and directories
+* prepare the compilation chain
+* prepare the documentation
+* prepare `README.md`
+* create and compile a **simple Armadillo program** (you may look at [the examples](../examples/))
+* prepare the unit tests files
+* :warning: do not forget to push your local commits
 
-.hcenter[:warning: Do not forget to push your commits ! :warning:]
-]
+## 2. Use the **mandatory unit tests** as design constraints
+
+* design your code so that it can pass the mandatory unit tests :pencil:
+* use the right method names
+* define the right object hierarchy
+* use the right method arguments
+* :warning: do not modify the mandatory unit tests
 
 ---
 
-# Week #6 - Presentation
+class: top
+
+# IPS-DEV - Week #6 - Presentation
 
 .mermaid.shadow[
     graph LR
@@ -325,36 +338,302 @@ omega = ???[rad/s] (depends on the system)
     style F fill:#090
 ]
 
+## Directives
+
+* at the deadline, the branch `master` will be pulled
+* the slides **must be** in your repository (branch `master`, location `pres/index.html`)
+* do not bring your slides for the presentation, they will already be on the screen
+* be on time (5 min before the scheduled time)
+* presentation format: **12 min + 8 min for questions**
+
+
+.row[
+.column.w48[
+## :warning: Mandatory content :warning:
+
+* explain the problem you have solved
+* explain the associated physical content
+* describe your project
+* **show the 2D local density plot**
+* **show the optimized algorithm**
+* **show some acceleration benchmarks**
+* **show the mandatory unit tests**
+]
+.column.w48[
+## Possible content
+
+* show some code samples
+* show some of **your** unit tests
+* show some generated documentation
+* show some of your `git` history
+* show your `Makefile` organization
+]
+]
+
+
+---
+
+# IPS-DEV - Mandatory unit test `#00`
+
+```C++
+// Mandatory test #00 - Hermite and Laguerre polynomials
+
+Poly poly;
+
+arma::vec zVals, calcVals, targetVals;
+
+zVals = {-3.1, -2.3, -1.0, -0.3, 0.1, 4.3, 9.2, 13.7};
+poly.calcHermite(6, zVals); // compute Hermite polynomials for n in {0 ... 5}
+
+calcVals   = poly.hermite(4); // n = 4
+targetVals = {  1.02835360e+03,  2.05825600e+02, -2.00000000e+01,  7.80960000e+00,
+                1.15216000e+01,  4.59456160e+03,  1.10572154e+05,  5.54643458e+05};
+TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
+
+calcVals   = poly.hermite(5); // n = 5
+targetVals = { -4.76676832e+03, -3.88909760e+02,  8.00000000e+00, -3.17577600e+01,
+                1.18403200e+01,  3.48375818e+04,  1.98557479e+06,  1.50339793e+07};
+TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
+
+zVals = {0.1, 0.3, 1.2, 1.8, 2.0, 2.5, 7.1, 11.1};
+poly.calcLaguerre(6, 4, zVals); // compute generalized Laguerre polynomials for m in {0 ... 5} and n in {0 ... 3}
+
+calcVals   = poly.laguerre(4, 2); // m = 4, n = 2
+targetVals = {  14.405,  13.245,  8.52 ,  5.82 ,  5.,  3.125,  -2.395,  10.005};
+TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
+
+calcVals   = poly.laguerre(5, 3); // m = 5, n = 3
+targetVals = { 53.23983333,  47.95550000,  27.87200000,  17.5880,
+               14.66666667,   8.39583333,  -0.81183333,  10.1015};
+TS_ASSERT_DELTA(arma::norm(calcVals / targetVals - 1.0), 0.0, 1e-08);
+```
+
+---
+
+# IPS-DEV - Mandatory unit test `#01`
+
 .column.middle.grow[
-## Presentation format
- * length: ~10min
- * questions: ~10min
- * the presentation **must use** the [remark.js template](../template/index.html)
+```C++
+// Mandatory test #01 - Basis truncation
 
-## Presentation content
- * the structure of the project (choice of classes, files hierarchy, etc...)
- * the compilation chain (content of the Makefile)
- * the generated documentation
- * some code samples
- * some unit tests
- * the git history, and some commit messages
- * **the calculation results**
+//     br = 1.935801664793151, bz = 2.829683956491218, N = 14, Q = 1.3
+Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
 
+TS_ASSERT_EQUALS(basis.mMax, 14);
+
+arma::ivec nMax = {7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1};
+
+TS_ASSERT((basis.nMax - nMax).is_zero());
+
+arma::imat n_zMax = {{18, 15, 13, 10, 7, 5, 2}, 
+                     {16, 14, 11,  9, 6, 3, 1}, 
+                     {15, 13, 10,  7, 5, 2, 0}, 
+                     {14, 11,  9,  6, 3, 1, 0}, 
+                     {13, 10,  7,  5, 2, 0, 0}, 
+                     {11,  9,  6,  3, 1, 0, 0}, 
+                     {10,  7,  5,  2, 0, 0, 0}, 
+                     { 9,  6,  3,  1, 0, 0, 0}, 
+                     { 7,  5,  2,  0, 0, 0, 0}, 
+                     { 6,  3,  1,  0, 0, 0, 0}, 
+                     { 5,  2,  0,  0, 0, 0, 0}, 
+                     { 3,  1,  0,  0, 0, 0, 0}, 
+                     { 2,  0,  0,  0, 0, 0, 0}, 
+                     { 1,  0,  0,  0, 0, 0, 0}};
+
+// check if matrices are equal
+TS_ASSERT((basis.n_zMax - n_zMax).is_zero());
+```
 ]
 
 ---
 
-# IPS-DEV debriefing from last year
+# IPS-DEV - Mandatory unit test `#02`
 
-## How to make a **good** project ?
-:arrow_right: do not get stuck during the project sessions, **ask for help**  
-:arrow_right: **anticipate**, no commit frenzy during the last minutes  
-:arrow_right: test your whole project **before the deadline** (compilation, cleanup, documentation, tests, etc...)  
-:arrow_right: test your whole project **before every major commit** (branch merge ?)  
-:arrow_right: **test your slides** and talk length in the real presentation context (projector, slides, etc...)  
+.column.middle.grow[
+```C++
+// Mandatory test #02 - Basis r-functions
+
+//     br = 1.935801664793151, bz = 2.829683956491218, N = 14, Q = 1.3
+Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
+
+arma::vec r = {3.1, 2.3, 1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
+
+arma::vec res00 = { 8.08521235111303e-02,
+                    1.43887615825118e-01,
+                    2.55045100912706e-01,
+                    2.91450097294984e-01,
+                    2.91061479407116e-01,
+                    2.47240792330589e-02,
+                    3.63004153921473e-06,
+                    3.87659726026123e-12};
+
+TS_ASSERT_DELTA(arma::norm(basis.rPart(r, 0, 0) - res00), 0.0, 1e-15);
+
+arma::vec res82 = { 5.87858442372438e-02,
+                    1.35240488413384e-02,
+                    4.06810074575519e-05,
+                    0.00000000000000e+00,
+                    4.92817669085478e-13,
+                    8.52011998934850e-02,
+                    5.20525909328609e-02,
+                    1.44615166152252e-05};
+
+TS_ASSERT_DELTA(arma::norm(basis.rPart(r, 8, 2) - res82), 0.0, 1e-15);
+```
+]
 
 ---
 
+# IPS-DEV - Mandatory unit test `#03`
+
+.column.middle.grow[
+```C++
+// Mandatory test #03 - Basis z-functions
+
+//     br = 1.935801664793151, bz = 2.829683956491218, N = 14, Q = 1.3
+Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
+
+arma::vec z = {-10.1, -8.4, -1.0, 0.0, 0.1, 4.3, 9.2, 13.7};
+
+arma::vec res00 = { 7.64546544834383e-04,
+                    5.44886272162148e-03,
+                    4.19492564268520e-01,
+                    4.46522724110539e-01,
+                    4.46243982300708e-01,
+                    1.40736821086932e-01,
+                    2.26186220733178e-03,
+                    3.62929640195959e-06};
+
+TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 0) - res00), 0.0, 1e-15);
+
+arma::vec res15 = {-9.48674551049192e-02,
+                   -1.40338701953237e-03,
+                    1.85620628040096e-01,
+                   -0.00000000000000e+00,
+                   -3.93028470685214e-02,
+                   -1.79526868763440e-01,
+                    2.15604096600475e-01,
+                    2.44977220882127e-01};
+
+TS_ASSERT_DELTA(arma::norm(basis.zPart(z, 15) - res15), 0.0, 1e-15);
+```
+]
+
+---
+
+# IPS-DEV - Nuclear local density calculation
+
+`$$
+\rho(\mathbf{r})
+\equiv
+\sum_{a,b} \rho_{ab}\psi_a(\mathbf{r})\psi^*_b(\mathbf{r})
+=
+\sum_{{m_a, n_a, n_{za}} \atop {m_b,n_b,n_{zb}}}\rho_{m_a, n_a, n_{za}, m_b,n_b,n_{zb}}\psi_{m_a,n_a,n_{za}}(\mathbf{r})\psi^*_{m_b,n_b,n_{zb}}(\mathbf{r})
+$$`
+
+## Naive algorithm
+```C++
+arma::mat result = arma::zeros(nbR, nbZ); // number of points on r- and z- axes
+for (int m = 0; m < basis.mMax; m++)
+{
+  for (int n = 0; n < basis.nMax(m); n++)
+  {
+    for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
+    {
+      for (int mp = 0; mp < basis.mMax; mp++)
+      {
+        for (int np = 0; np < basis.nMax(mp); np++)
+        {
+          for (int n_zp = 0; n_zp < basis.n_zMax(mp, np); n_zp++)
+          {
+            arma::mat funcA = basis.basisFunc( m,  n,  n_z, zVals, rVals);
+            arma::mat funcB = basis.basisFunc(mp, np, n_zp, zVals, rVals);
+            result += funcA % funcB * rho(m, n, n_z, mp, np, n_zp); // mat += mat % mat * double
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+class: middle
+
+# IPS-DEV - Density matrix values
+
+The file containing the values of the `\(\rho\)` matrix can be found [here](files/rho.arma).
+To read it, use the method `load()` of the `arma::mat` class:
+
+```C++
+arma::mat rho;
+rho.load("rho.arma", arma::arma_ascii);
+```
+
+The corresponding basis has the following parameters:
+
+```C++
+//     br = 1.935801664793151, bz = 2.829683956491218, N = 14, Q = 1.3
+Basis basis(1.935801664793151,      2.829683956491218,     14,     1.3);
+```
+
+:arrow_right: check that this basis contains 374 vectors !
+
+The quantum numbers of the basis vector corresponding to the `\(i\)`-th row (or column) of the `\(\rho\)` matrix can be calculated with:
+
+```C++
+uint i = 0;
+for (int m = 0; m < basis.mMax; m++)
+for (int n = 0; n < basis.nMax(m); n++)
+for (int n_z = 0; n_z < basis.n_zMax(m, n); n_z++)
+{
+  std::cout << "Basis vector " << i << ": m=" << m << " n=" << n << " n_z=" << n_z << std::endl;
+  i++;
+}
+```
+
+---
+
+class: middle
+
+# IPS-DEV - Execution timing
+
+:arrow_right: Use `arma::wall_clock`:
+
+## .hcenter[`[examples/armadillo_timer/main.cpp]`]
+```C++
+#include <armadillo>
+
+int main(int, char**)
+{
+  arma::wall_clock wclock;
+
+  wclock.tic();
+
+  sleep(1); // do some stuff
+
+  double length = wclock.toc();
+
+  std::cout << "total time: " << length << " [s]" << std::endl;
+
+  return 0;
+}
+```
+
+## .hcenter[`[shell]`]
+```bash
+$ make && ./main
+g++ -Wall -O3 -std=c++14 main.cpp -c -o main.o
+g++  main.o -o main -larmadillo
+total time: 1.0005 [s]
+```
+
+
+---
+
+class: top
+
 # IPS-DEV debriefing from last year
 
 ## How to make a **good** project ?
@@ -363,6 +642,8 @@ omega = ???[rad/s] (depends on the system)
 :arrow_right: test your whole project **before the deadline** (compilation, cleanup, documentation, tests, etc...)  
 :arrow_right: test your whole project **before every major commit** (branch merge ?)  
 :arrow_right: **test your slides** and talk length in the real presentation context (projector, slides, etc...)  
+
+--
 
 .vspace[]
 
@@ -374,6 +655,8 @@ omega = ???[rad/s] (depends on the system)
 ]
 
 ---
+
+class: top
 
 # IPS-DEV debriefing from last year
 

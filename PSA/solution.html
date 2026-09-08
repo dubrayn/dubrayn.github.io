@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PSA</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
+    <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
+  </head>
+  <body>
+    <textarea id="source" readonly>
+
+layout: true
+class: animated fadeIn middle numbers
+
+.footnote[
+`PSA` - N. Dubray - ENSIIE - 2026 - [:book:](../index.html)
+]
+
+---
+
+# Named pipes - Introduction
+
+## Problem
+:arrow_right: We would like to use the output of one program as an input for another program.
+
+### First program
+```
+$ echo "toto 0\ntutu 1\n"
+```
+
+### Second program
+```
+$ grep tutu
+```
+
+---
+
+# Named pipes - Introduction
+
+## Solution using a temporary file
+```shell
+$ TEMP=$(mktemp)
+$ echo "toto 0\ntutu 1\n" > $TEMP
+$ grep tutu < $TEMP
+tutu 1
+$ ls -l $TEMP
+-rw-------. 1 dubrayn dubrayn 15  5 mai   10:55 /tmp/tmp.2DgRpGOUng
+```
+:warning: Some file has been used to store temporary data.  
+:warning: If `/tmp` is on a physical disk: latency, disk usage after use...
+
+:arrow_right: Can we avoid the temporary disk storage ?
+
+:gift: Why not use `/dev/shm` ?
+
+---
+
+# Named pipes - Introduction
+
+## Solution using an `anonymous pipe`
+:arrow_right: Definition of a pipe: A way to do IPC without temporary disk storage.  
+
+```shell
+$ echo "toto 0\ntutu 1\n" | grep "tutu"
+tutu 1
+```
+:arrow_right: "|" creates a pipe that "connects" the output of the command `echo` to the input of the command `grep`.
+
+:arrow_right: Can we do the same with processes not created simultaneously ?  
+:arrow_right: Can we interrupt and restore the connection ?
+
+---
+
+# Named pipes - Introduction
+
+## Solution using a `named pipe` or "FIFO"
+```shell
+$ FIFO=$(mktemp -u)
+$ mkfifo $FIFO
+$ grep "tutu" $FIFO &
+[1] 30090
+$ sleep 1
+$ echo "toto 0\ntutu 1\n" > $FIFO
+tutu 1
+[1]  + 30090 done       grep
+```
+:arrow_right: `mkfifo` creates a "named pipe" identified by a file that acts as a temporary file **without** writing its content to disk.
+
+
+:arrow_right: if nothing reads from a named pipe, writing is blocking.
+
+```shell
+$ FIFO=$(mktemp -u)
+$ mkfifo $FIFO
+$ echo "toto 0\ntutu 1\n" > $FIFO # waits forever...
+```
+
+:arrow_right: if nothing writes to a named pipe, reading is blocking.
+
+```shell
+$ FIFO=$(mktemp -u)
+$ mkfifo $FIFO
+$ cat $FIFO # waits forever...
+```
+
+---
+
+# Named pipes - Creation
+
+## In bash
+```shell
+$ mkfifo fifoName
+$ mkfifo  relative/path/to/fifoName
+$ mkfifo /absolute/path/to/fifoName
+```
+
+## In Python
+```python
+import os
+os.mkfifo("/tmp/tmp.fifo")
+```
+
+:arrow_right: Use `ls -l` to identify a named pipe.
+```shell
+$ ls -l /tmp/tmp.fifo
+prw-r--r--. 1 dubrayn dubrayn 0  5 mai   11:18 /tmp/tmp.fifo
+```
+
+## In `C/C++`
+```C++
+#include <sys/types.h>
+#include <sys/stat.h>
+
+int main(int, char**)
+{
+  mkfifo("/tmp/tmp2.fifo", S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+  return 0;
+}
+```
+:arrow_right: Set file permissions at creation.
+
+```shell
+$ gcc fifoExample.c -o fifoExample && ./fifoExample
+$ ls -l /tmp/tmp2.fifo
+prw-r--r--. 1 dubrayn dubrayn 0  5 mai   11:18 /tmp/tmp2.fifo
+```
+
+---
+
+# Named pipes - Optional local monitoring
+
+## Optional monitoring
+
+:arrow_right: A calculating program provides monitoring information on a named pipe.  
+:arrow_right: A monitoring program reads monitoring information on this named pipe.
+
+:gift: If `O_NONBLOCK` is used, the calculating program can check if the named pipe accepts writing.
+```C++
+INT fifo = open("/tmp/bokeh.fifo", O_WRONLY | O_NONBLOCK);
+if (fifo == -1) return; // no monitoring program connected => return
+
+// monitoring program connected => send monitoring data
+write(fifo, ...);
+```
+
+:arrow_right: This allows to activate the monitoring simply by connecting a monitoring program to the named pipe.  
+:arrow_right: No monitoring program connected, no overhead.
+
+---
+
+# Named pipes - To go further
+
+:warning: Named pipes only work for intra-node communications.  
+:arrow_right: For inter-node communications, use **network sockets**.  
+:arrow_right: Network sockets can be used in a similar way as named pipes, but are more powerful.
+
+
+:arrow_right: To launch a process from another process and provide an anonymous pipe to its ios, see `popen()`.
+
+
+
+    </textarea>
+
+    <script src="core/javascript/remark.js"></script>
+    <script src="core/javascript/katex.min.js"></script>
+    <script src="core/javascript/auto-render.min.js"></script>
+    <script src="core/javascript/emojify.js"></script>
+    <script src="core/javascript/mermaid.js"></script>
+    <script src="core/javascript/term.js"></script>
+    <script src="core/javascript/jquery-2.1.1.min.js"></script>
+    <script src="core/javascript/extend-jquery.js"></script>
+    <script src="core/javascript/cinescript.js"></script>
+    <script src="core/javascript/gitgraph.js"></script>
+    <script>
+
+    // === Remark.js initialization ===
+    var slideshow = remark.create({
+      highlightStyle: 'monokai',
+      countIncrementalSlides: false,
+      highlightLines: true
+    });
+
+    // === Mermaid.js initialization ===
+    mermaid.initialize({
+      startOnLoad: false,
+      cloneCssStyles: false,
+      flowchart:{
+        height: 50
+      },
+      sequenceDiagram:{
+        width: 110,
+        height: 30
+      }
+    });
+
+    function initMermaid(s) {
+      var diagrams = document.querySelectorAll('.mermaid');
+      var i;
+      for(i=0;i<diagrams.length;i++){
+        if(diagrams[i].offsetWidth>0){
+          mermaid.init(undefined, diagrams[i]);
+        }
+      }
+    }
+
+    slideshow.on('afterShowSlide', initMermaid);
+    initMermaid(slideshow.getSlides()[slideshow.getCurrentSlideIndex()]);
+
+    
+    // === Emojify.js initialization ===
+    emojify.run();
+
+    // === Cinescript initialization ===
+    $(document).ready(init_cinescripts);
+
+    renderMathInElement(document.body,{delimiters: [{left: "$$", right: "$$", display: true}, {left: "\\(", right: "\\)", display: false}], ignoredTags: [] });
+
+    </script>
+  </body>
+</html>
+
