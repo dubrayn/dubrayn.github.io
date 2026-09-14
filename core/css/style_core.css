@@ -5,7 +5,7 @@
 body {
   font-family: 'Arial';
   font-weight: normal;
-  font-size: 12px;
+  /* font-size: 120px; */
   text-align: justify;
   font-size-adjust: none;
   word-break: break-word;
@@ -58,7 +58,7 @@ body {
 }
 
 .remark-slide-content {
-  font-size: 18px;
+  font-size: 16px;
   background-size: 908px 681px;
   background-position: 50% 0px;
   background-image: url('images/background_cea.png');
