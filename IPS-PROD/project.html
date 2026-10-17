@@ -52,7 +52,8 @@ class: animated fadeIn numbers middle
 ]
 
 ## Summary
-During this 6-week-long project, the **local density** of a nuclear system will be calculated and plotted.
+During this 6-week-long project, **observables** associated with the local density of a nuclear system will be calculated and plotted.
+:warning: This projects follows the [IPS-DEV project](../IPS-DEV/project.html).
 
 .hcenter.shadow.w50[![](images/density.png)]
 
@@ -128,63 +129,71 @@ The parameters `\(b_\perp, b_z\)` are called the **basis deformation parameters*
 
 :gift: Since one has `\(\rho_{ab} = \delta_{m_a, m_b}\rho_{ab}\)`, **`\(\rho(\mathbf{r})\)` does not depend on `\(\theta\)` and takes only real values**.
 
-:arrow_right: You must implement the calculation of the `\(Z, R\)` functions.
+:arrow_right: The calculation of the `\(Z, R\)` functions has been done in the [IPS-DEV project](../IPS-DEV/project.html).
 
 ---
 
-# IPS-PROD - Polynomials
+# IPS-PROD - Observables 1/2
 
-## Hermite polynomials (physicists' version)
+## Operators
+
+One can introduce operators related to geometrical properties, like
+
+* identity operator: `\(\hat{1}\)`
+* position operator (`\(z\)`-axis): `\(\hat{z}\)`
+* position operator (`\(r_\perp\)`-axis): `\(\hat{r}_\perp\)`
+* quadrupole operator `\(\hat{Q}_{20}\equiv \frac{1}{4}\sqrt{\frac{5}{\pi}}\left(2 \hat{z}^2-\hat{r}_\perp^2\right)\)`
+
+## Expectation value
+
+The **expectation value** of an operator `\(\hat{X}\)` for a state `\(|\phi\rangle\)` with a given **local nuclear density** `\(\rho(\textbf{r})\)` is defined as
 
 `$$
-\begin{aligned}
-H_0(\zeta)&=1\\
-H_1(\zeta)&=2\zeta\\
-\forall n \in \mathbb{N}, n > 1, H_{n}(\zeta)&=2\zeta H_{n-1}(\zeta)-2(n-1)H_{n-2}(\zeta)
-\end{aligned}
+\langle \phi | \hat{X} | \phi \rangle \equiv \iiint \rho^*(\textbf{r}) X(\textbf{r}) \rho(\textbf{r}) d\textbf{r}^3.
 $$`
 
-## Generalized Laguerre polynomials
+## Observables
 
-`$$
-\begin{aligned}
-L^{m}_0(\eta)&=1\\
-L^{m}_1(\eta)&=1+m-\eta\\
-\forall (m, n) \in \mathbb{N}^{2}, n > 1, L^{m}_{n}(\eta)&=\left(2+\frac{m-1-\eta}{n}\right)L^{m}_{n-1}(\eta)-\left(1+\frac{m-1}{n}\right)L^{m}_{n-2}(\eta)
-\end{aligned}
-$$`
+The expectation values of the previous geometrical operators are called **observables**:
 
-:arrow_right: You must implement the calculation of the `\(H, L\)` polynomials, using **efficient vectorization**.
+* `\(\langle \phi | \hat{1} | \phi \rangle = \langle \phi | \phi \rangle\)`: **total number of particles** of the nuclear system.
+* `\(\langle \phi | \hat{z} | \phi \rangle\)`: **`\(z\)`-position of the center of mass** of the nuclear system.
+* `\(\langle \phi | \hat{r}_\perp | \phi \rangle\)`: **`\(r_\perp\)`-position of the center of mass** of the nuclear system.
+* `\(\langle \phi | \hat{Q}_{20} | \phi \rangle\)`: **quadrupole moment** of the nuclear system.
 
 ---
 
-# IPS-PROD - Project description
+# IPS-PROD - Observables 2/2
 
-## Basis truncation
+## Matrix representation
 
-We define
+Let us suppose take an orthonormal representation `\(\{|\psi_a\rangle\}\)`:
+
 `$$
-\nu(i) \equiv (N+2).Q^\frac{2}{3}+\frac{1}{2}-i.Q
+\boxed{
+\forall (a, b), \langle \psi_a | \psi_b \rangle \equiv \langle \psi_a | \hat{1} | \psi_b \rangle = \iiint \psi^*(\textbf{r}) \psi(\textbf{r}) d\textbf{r}^3 = \delta_{ab}.
+}
 $$`
-
+One can define the **matrix form** of an operator `\(\hat{X}\)` in the representation `\(\{|\psi_a\rangle\}\)` as
+`$$
+X_{ab} \equiv \langle \psi_a | \hat{X} | \psi_b \rangle.
+$$`
+If, for a state `\(|\phi\rangle\)` and its associated **density matrix** `\(\rho_{ab}\)`, one has
+`$$
+\boxed{
+\rho(\textbf{r}) \equiv \sum_a \sum_b \rho_{ab} \psi_a(\textbf{r}) \psi_b^*(\textbf{r}),
+}
+$$`
+one then has for an operator `\(\hat{X}\)`
+`$$
+X_{ab} \equiv \langle \psi_a | \hat{X} | \psi_b \rangle,
+$$`
 and
 `$$
-m^\textrm{max} \equiv \textrm{sup}\left\{i:\nu(i)\ge 1\right\}.
+\boxed{
+\langle \phi | \hat{X} | \phi \rangle = \textrm{Tr}(X_{ab}\rho_{ab}).
+}
 $$`
-
-The possible values for each **quantum number** are given by
-
-`$$
-\begin{alignedat}{4}
-0 & \le &&m  & \lt & \textrm{ mMax} \equiv m^\textrm{max}\\
-0 & \le &&n  & \lt & \textrm{ nMax[m]} \equiv \frac{1}{2}(m^\textrm{max}-m-1) + 1\\
-0 & \le &&n_z& \lt & \textrm{ n\_zMax[m, n]} \equiv \nu(m+2n+1).
-\end{alignedat}
-$$`
-
-The parameters `\(N\in \mathbb{N}^+, Q\in \mathbb{R}^+\)` are called the **basis truncation parameters**.
-
-:arrow_right: You must implement this truncation scheme.
 
 ---
 
