@@ -3,14 +3,14 @@
   <head>
     <title>PSA</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/animate.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/style_core.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css"> 
-    <link rel="stylesheet" type="text/css" href="core/css/katex.css"> 
+    <link rel="stylesheet" type="text/css" href="core/fonts/mono.css">
+    <link rel="stylesheet" type="text/css" href="core/css/animate.css">
+    <link rel="stylesheet" type="text/css" href="core/css/cinescript.css">
+    <link rel="stylesheet" type="text/css" href="core/css/style_core.css">
+    <link rel="stylesheet" type="text/css" href="core/css/mermaid.css">
+    <link rel="stylesheet" type="text/css" href="core/css/gitgraph.css">
+    <link rel="stylesheet" type="text/css" href="core/css/style_ensiie.css">
+    <link rel="stylesheet" type="text/css" href="core/css/katex.css">
   </head>
   <body>
     <textarea id="source" readonly>
@@ -49,33 +49,24 @@ class: animated fadeIn middle numbers
 
 ---
 
-# `Swig`: supported languages
+# `Swig`: main supported languages
 
 .hcenter[
 * `Tcl` >8.0 (swig-1.1)
 * **`Python` >1.5 (swig-1.1)**
 * `Perl` >5.003 (swig-1.1)
-* `Guile` >1.3.4 (swig-1.1)
 * `Java JDK` >1.1 (swig-1.3.6)
 * `Ruby` (swig-1.3.6)
 * `Mzscheme` (swig-1.3.6)
 * `PHP` (swig-1.3.11)
 * `Ocaml` (swig-1.3.14)
-* `Pike` (swig-1.3.14)
 * `C#` (swig-1.3.18)
 * `Chicken` scheme compiler (swig-1.3.18)
-* `Allegro CL` (swig-1.3.22)
-*  `Modula-3` (swig-1.3.22)
 * `Lua` (swig-1.3.26)
-* `CLISP` with UFFI (swig-1.3.26)
 * `Common Lisp` with UFFI (swig-1.3.26)
-* `Common Lisp` with CFFI (swig-1.3.28)
 * `R` (swig-1.3.30)
-* `Octave` (swig-1.3.35)
 * `Go` (swig-2.0.1)
-* `D` (swig-2.0.2)
 * `Javascript` (swig-3.0.1)
-* `Scilab` (swig-3.0.5)
 ]
 
 ---
@@ -687,6 +678,84 @@ mc._print(int(4.0)) # 4
 
 ---
 
+# Conclusions on `Swig`
+
+## `Swig` Usage
+:arrow_right: use `Swig` + `Setuptools` to generate your bindings.  
+:warning: do not read `Swig` generated files.  
+:arrow_right: if you need to tweak the way `Swig` generates wrapper functions, use the [reference](http://swig.org/Doc3.0/Contents.html#Contents).
+
+.noflex[
+## Other binding generators / tools
+
+.rightf.animated.fadeInRight.wait1s.w30[
+![](images/xkcd-1987-python_environment.png)
+.hcenter[[source: xkcd](https://xkcd.com/1987)]
+]
+
+
+* [Boost.Python](http://www.boost.org/doc/libs/1_58_0/libs/python/doc/)
+* [PyBind11](https://github.com/pybind/pybind11)
+* [ctypes](https://docs.python.org/3/library/ctypes.html)
+* [SIP](https://pypi.org/project/SIP/)
+* [pyfort](https://sourceforge.net/projects/pyfortran/) (for `Fortran`)
+* [Pyrex](http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/) (old)
+* etc...
+
+## Mandatory `xkcd` reference
+
+
+
+.w65[
+:arrow_right: [https://github.com/TC01/python-xkcd](https://github.com/TC01/python-xkcd)
+
+```Python
+import xkcd
+
+c = xkcd.getComic(1987)
+print(c.title) # Python Environment
+c.download() # u'/home/dubrayn/Downloads/xkcd-1987-python_environment.png'
+```
+]
+]
+
+---
+
+# `Swig` exercice #0
+
+* Language: `C`
+* Method name: `double euclid(double x, double y, double z)`
+* Goal: **calculate the euclidian norm `\(\sqrt{x^2 + y^2 + z^2}\)`**
+* `Python` module name: `exercice0`
+* Wrapper generator: `Swig`
+* Builder + installer: `Setuptools`
+
+---
+
+# `Swig` exercice #1
+
+* Language: `C`
+* Method name: `const char* concat(const char*, const char*)`
+* Goal: **concatenate two `C` strings**
+* `Python` module name: `exercice1`
+* Wrapper generator: `Swig`
+* Builder + installer: `Setuptools`
+
+---
+
+# `Swig` exercice #2
+
+* Language: `C++`
+* Class name: `myClass`
+* Method name: `double func0(int n)`
+* Goal: **calculate** `\(\left|\sum_i^1\frac{1}{i^2}, \ldots ,\sum_i^n\frac{1}{i^2} \right|\)`
+* External libraries: `armadillo`
+* `Python` module name: `exercice2`
+* Wrapper generator: `Swig`
+* Builder + installer: `Setuptools`
+
+---
+
 # `Swig` internals
 
 .alert.hcenter[
@@ -878,84 +947,6 @@ template<class T> T max(T a, T b);
 ]
 
 :arrow_right: to go further: [Reintroducing Swig](http://www.dabeaz.com/talks.html#reintroducing-swig) and [Swig master class](http://www.dabeaz.com/SwigMaster/SWIGMaster.pdf)
-
----
-
-# Conclusions on `Swig`
-
-## `Swig` Usage
-:arrow_right: use `Swig` + `Setuptools` to generate your bindings.  
-:warning: do not read `Swig` generated files.  
-:arrow_right: if you need to tweak the way `Swig` generates wrapper functions, use the [reference](http://swig.org/Doc3.0/Contents.html#Contents).
-
-.noflex[
-## Other binding generators / tools
-
-.rightf.animated.fadeInRight.wait1s.w30[
-![](images/xkcd-1987-python_environment.png)
-.hcenter[[source: xkcd](https://xkcd.com/1987)]
-]
-
-
-* [Boost.Python](http://www.boost.org/doc/libs/1_58_0/libs/python/doc/)
-* [PyBind11](https://github.com/pybind/pybind11)
-* [ctypes](https://docs.python.org/3/library/ctypes.html)
-* [SIP](https://pypi.org/project/SIP/)
-* [pyfort](https://sourceforge.net/projects/pyfortran/) (for `Fortran`)
-* [Pyrex](http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/) (old)
-* etc...
-
-## Mandatory `xkcd` reference
-
-
-
-.w65[
-:arrow_right: [https://github.com/TC01/python-xkcd](https://github.com/TC01/python-xkcd)
-
-```Python
-import xkcd
-
-c = xkcd.getComic(1987)
-print(c.title) # Python Environment
-c.download() # u'/home/dubrayn/Downloads/xkcd-1987-python_environment.png'
-```
-]
-]
-
----
-
-# `Swig` exercice #0
-
-* Language: `C`
-* Method name: `double euclid(double x, double y, double z)`
-* Goal: **calculate the euclidian norm `\(\sqrt{x^2 + y^2 + z^2}\)`**
-* `Python` module name: `exercice0`
-* Wrapper generator: `Swig`
-* Builder + installer: `Setuptools`
-
----
-
-# `Swig` exercice #1
-
-* Language: `C`
-* Method name: `const char* concat(const char*, const char*)`
-* Goal: **concatenate two `C` strings**
-* `Python` module name: `exercice1`
-* Wrapper generator: `Swig`
-* Builder + installer: `Setuptools`
-
----
-
-# `Swig` exercice #2
-
-* Language: `C++`
-* Class name: `myClass`
-* Method name: `double func0(int n)`
-* Goal: **calculate** `\(\left|\sum_i^1\frac{1}{i^2}, \ldots ,\sum_i^n\frac{1}{i^2} \right|\)`
-* External libraries: `armadillo`
-* `Python` module name: `exercice2`
-* Wrapper generator: `Swig`
-* Builder + installer: `Setuptools`
 
 
     </textarea>
