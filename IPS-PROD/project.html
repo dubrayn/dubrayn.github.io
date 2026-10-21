@@ -97,7 +97,7 @@ The expectation values of the previous geometrical operators are called **observ
 
 ## Matrix representation
 
-Let us suppose take an orthonormal representation `\(\{|\psi_a\rangle\}\)`:
+Let us take an orthonormal representation `\(\{|\psi_a\rangle\}\)`:
 
 `$$
 \boxed{
@@ -106,7 +106,7 @@ Let us suppose take an orthonormal representation `\(\{|\psi_a\rangle\}\)`:
 $$`
 One can define the **matrix form** of an operator `\(\hat{X}\)` in the representation `\(\{|\psi_a\rangle\}\)` as
 `$$
-X_{ab} \equiv \langle \psi_a | \hat{X} | \psi_b \rangle.
+\forall (a, b), X_{ab} \equiv \langle \psi_a | \hat{X} | \psi_b \rangle.
 $$`
 If, for a state `\(|\phi\rangle\)` and its associated **density matrix** `\(\rho_{ab}\)`, one has
 `$$
@@ -114,11 +114,7 @@ If, for a state `\(|\phi\rangle\)` and its associated **density matrix** `\(\rho
 \rho(\textbf{r}) \equiv \sum_a \sum_b \rho_{ab} \psi_a(\textbf{r}) \psi_b^*(\textbf{r}),
 }
 $$`
-then one has for an operator `\(\hat{X}\)`
-`$$
-\forall (a, b), X_{ab} \equiv \langle \psi_a | \hat{X} | \psi_b \rangle,
-$$`
-and
+then one has
 `$$
 \boxed{
 \langle \phi | \hat{X} | \phi \rangle = \textrm{Tr}(X\rho) = \sum_{ab}X_{ab}\rho_{ba} = \sum_{ab}X_{ab}\rho_{ab}.
